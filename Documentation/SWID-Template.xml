@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SoftwareIdentity
+	xmlns="http://standards.iso.org/iso/19770/-2/2014/schema.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:SHA256="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
+	name="#PACKAGENAME#"
+	uniqueId="#OSVERSION##PACKAGENAME##PACKAGEVERSION#"
+	version="#PACKAGEVERSION#"
+	versionScheme="alphanumeric">
+
+	<Entity
+		name="#PAGKAGENAME#"
+		regid="regid.????.????.????"
+		role="tagcreator ????" />
+
+	<!-- We don't need that
+	<Link
+		rel="requires"
+		href="swidpath:/SoftwareIdentity/Meta[@upgradeCode=EAB2F277-0920-4F8C-B466-6FE0CA7D59DF]"
+		ownership="shared" />
+    -->
+
+    <!-- do we need this -->
+	<Meta
+		product="#PACKAGENAME#"
+		edition=""
+		revision=""
+		version="#PACKAGEVERSION#"
+		summary="#PACKAGESUMMARY#"
+		description="#PACKAGEDESCRIPTION#"
+		channelType="????" />
+
+	<!-- do we need this -->
+	<Payload>
+		<File 
+			name="#FILENAME#" 
+			size="#number#" 
+			location="??????"
+			SHA256:hash="#FILEHASH#" />
+	</Payload>
+
+</SoftwareIdentity>

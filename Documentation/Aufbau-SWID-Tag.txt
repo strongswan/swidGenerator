@@ -1,0 +1,83 @@
+Aufbau SWID Tag für Linux Pakete
+===================================
+
+Nach ISO Standard CD 19770-2, Datei: N6078 - ISO CD 19770-2-5.pdf
+
+-------
+
+Das wir sind 'Tag creator' präziser 'Tag provider':
+
+Tag providers: entities that produce (“tag creator”) software identification tags. A tag provider may be
+part of the software publisher organization, or may be a 3rd party organization or the software
+consumer.
+
+Zusätzlich sind wir 'Tag tool provider': 
+
+Tag tool providers: entities that provide tools to create, modify or use software identification tags. For
+example tools within development environments that generate software identification tags, or
+installation tools that may create tags on behalf of the installation process, and/or desktop
+management tools that may create tags for installed software that did not originally have a software
+identification tag.
+
+(Seite 1. 1.2 Field of application, N6078 - ISO CD 19770-2-5.pdf (s. 12))
+
+-------
+
+Bei Linux Paketen handelt es sich entweder um ein 'software product' oder ein 'software delta'.
+Allerdings muss geprüft werden, ob wir 'software deltas' unterstüten wollen oder nur 'software products'.
+(Seite 5. 5.2 General software release model, N6078 - ISO CD 19770-2-5.pdf (s. 16))
+
+-------
+
+Das Tool wird Primary SWID Tags erstellen, da die Tags die Initialen Tags sind.
+(Seite 7. 5.3 Tag owenership, N6078 - ISO CD 19770-2-5.pdf (s. 18))
+
+-------
+
+--> Laut Standard muss der SWID Tag im gleichen oder in einem Unterverzeichnis wie die beschriebene Applikation liegen, das können wir wahrscheinlich nicht erfüllen. Allerdings werden unsere SWID Tags ja generiert.
+(Seite 10. 6.1.3 SWID data storage and transmission, N6078 - ISO CD 19770-2-5.pdf (s. 21))
+
+-------
+
+RegID:
+-------
+Vorschlag:
+regid.2004-03.org.strongswan
+
+(Seite 10/11. 6.1.4.2 Structure of regid, N6078 - ISO CD 19770-2-5.pdf (s. 21/22))
+
+-------
+
+Der SWID Tag brauch eine globally unique ID, die software_id, zusammengesetzt aus regid und uniqueid des software products. 
+Die uniqueid muss URI encoded sein, nach (http://www.ietf.org/rfc/rfc3986.txt).
+
+(Seite 13. 6.1.5 Unique identifiers, N6078 - ISO CD 19770-2-5.pdf (s. 24))
+
+-------
+
+Der Filename, falls wir den überhaupt benötigen, muss wie folgt aufgebaut sein:
+<tag_creator_regid>_<product_title>.swidtag
+
+(Seite 13. 6.1.6 Unique software identification tag file name - installed, N6078 - ISO CD 19770-2-5.pdf (s. 24))
+
+-------
+
+Falls wir Filehashes in die Tags integrieren wollen/sollen, kann einer der folgenden Algorhitmen gewählt werden:
+MD5
+SHA-1 (diesen)
+SHA-224
+SHA-256 (oder diesen denk ich...)
+SHA-384
+SHA-512
+RIPEMD-160
+
+(Seite 14. 6.1.10 File hash definitions, N6078 - ISO CD 19770-2-5.pdf (s. 25))
+
+-------
+
+
+
+
+SoftwareIdentity:
+------------------
+
