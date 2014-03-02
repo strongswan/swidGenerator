@@ -11,25 +11,8 @@
 
 	<Entity
 		name="#PAGKAGENAME#"
-		regid="regid.????.????.????"
-		role="tagcreator ????" />
-
-	<!-- We don't need that
-	<Link
-		rel="requires"
-		href="swidpath:/SoftwareIdentity/Meta[@upgradeCode=EAB2F277-0920-4F8C-B466-6FE0CA7D59DF]"
-		ownership="shared" />
-    -->
-
-    <!-- do we need this -->
-	<Meta
-		product="#PACKAGENAME#"
-		edition=""
-		revision=""
-		version="#PACKAGEVERSION#"
-		summary="#PACKAGESUMMARY#"
-		description="#PACKAGEDESCRIPTION#"
-		channelType="????" />
+		regid="regid.2004-03.org.strongswan"
+		role="tagcreator" />
 
 	<!-- do we need this -->
 	<Payload>

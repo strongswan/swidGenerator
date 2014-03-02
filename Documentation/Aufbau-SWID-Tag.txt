@@ -44,6 +44,12 @@ RegID:
 Vorschlag:
 regid.2004-03.org.strongswan
 
+Software identification tags may be created by different organizations and do not strictly require a centralized
+registration authority. Additionally, this part of ISO/IEC 19770 allows entities to create software identification
+tags for software configuration items they did not create (such as an organization creating software
+identification tags for their internal software discovery processes). To accommodate these requirements, this
+part of ISO/IEC 19770 uses a regid. The regid provides a unique naming authority reference.
+
 (Seite 10/11. 6.1.4.2 Structure of regid, N6078 - ISO CD 19770-2-5.pdf (s. 21/22))
 
 -------
@@ -76,8 +82,37 @@ RIPEMD-160
 -------
 
 
+TAGS
+======
 
-
-SoftwareIdentity:
+SoftwareIdentity: (Seite 19, 8.6 Primary data values,  N6078 - ISO CD 19770-2-5.pdf (s. 30))
 ------------------
+*name: Product name, also Applikationsname
+tagVersion: default ist 0, müssen wir wohl nicht anpassen
+uniqueId: Packagename 
+version: Packageversion
+versionScheme: aphanumeric -- vorallem für sortierung (Seite 28, 8.8.10 VersionScheme,  N6078 - ISO CD 19770-2-5.pdf (s. 39))
+
+	Entity: (Seite 20, 8.7.1 Entity,  N6078 - ISO CD 19770-2-5.pdf (s. 31))
+	-------
+	*name: StrongSwan (The name of the organization claiming a particular role in the SWID tag.)
+	regid: regid.2004-03.org.strongswan
+	*role: tagcreator (Seite 24, 8.8.1 EntityRole,  N6078 - ISO CD 19770-2-5.pdf (s. 36))
+
+	Meta:
+	------
+	--Wahrscheinlich unnötig für uns.
+
+	Evidence: (Seite 21, 8.7.2 Evidence,  N6078 - ISO CD 19770-2-5.pdf (s. 32))
+	----------
+	--Evtl. für Hashes?
+
+	Payload: (Seite 24, 8.7.5 Payload,  N6078 - ISO CD 19770-2-5.pdf (s. 35))
+	---------
+	-- Inhalt, Files die zur Installation dieser Software gehören
+		File: (Seite 25, 8.8.3 File,  N6078 - ISO CD 19770-2-5.pdf (s. 36))
+		------
+		*name: Filename
+		location: Pfad
+		HASHNAMESPACE:hash: Hash
 
