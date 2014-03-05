@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <SoftwareIdentity
 	xmlns="http://standards.iso.org/iso/19770/-2/2014/schema.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+	xmlns:ds="http://www.w3.org/2000//xmldsig#"
 	xmlns:SHA256="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
 	name="#PACKAGENAME#"
 	uniqueId="#OSVERSION##PACKAGENAME##PACKAGEVERSION#"
@@ -11,16 +11,15 @@
 
 	<Entity
 		name="#PAGKAGENAME#"
-		regid="regid.2004-03.org.strongswan"
+		regid="regid.2004-03.org.strongswan" 
 		role="tagcreator" />
 
-	<!-- do we need this -->
+	<!-- optional -->
 	<Payload>
 		<File 
 			name="#FILENAME#" 
 			size="#number#" 
-			location="??????"
-			SHA256:hash="#FILEHASH#" />
+			location="#FILEPATH"
 	</Payload>
 
 </SoftwareIdentity>
