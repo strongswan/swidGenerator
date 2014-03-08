@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from swidGeneratorParser import SwidGeneratorParser
+from swidGeneratorArgumentParser import SwidGeneratorArgumentParser
 
 if __name__ == '__main__':
-    parser = SwidGeneratorParser()
-    result = parser.parse()
+    parser = SwidGeneratorArgumentParser()
+    result = parser.parse()  # without any parameter it takes arguments passed by command line
+    # Access attributes with
     # result.tag_creator
     # result.full
