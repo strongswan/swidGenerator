@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from argparse import ArgumentParser, ArgumentTypeError
-from swidGenerator.settings import DEFAULT_TAG_CREATOR
+from swidGenerator.settings import DEFAULT_REGID
 import re
 
 
@@ -26,8 +26,8 @@ class SwidGeneratorArgumentParser(object):
         arg_parser = ArgumentParser('Generate SWID tags from dpkg packet manager')
         arg_parser.add_argument('--full', action="store_true", default=False,
                                 help='Dumps the full SWID tags including file tags for each package')
-        arg_parser.add_argument('--creator', dest='tag_creator', type=regid_string,
-                                default=regid_string(DEFAULT_TAG_CREATOR),
-                                help='Specify the tag_creator (used in the <Entity> tag for the regid attribute).'
-                                     'Should not contain any whitespace characters')
+        arg_parser.add_argument('--regid', dest='regid', type=regid_string,
+                                default=regid_string(DEFAULT_REGID),
+                                help='Specify the regid value (used in the <Entity> tag for the regid attribute).'
+                                     'Shall not contain any whitespace characters')
         return arg_parser.parse_args(arguments)

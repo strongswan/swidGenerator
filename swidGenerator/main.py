@@ -7,5 +7,5 @@ if __name__ == '__main__':
     parser = SwidGeneratorArgumentParser()
     result = parser.parse()  # without any parameter it takes arguments passed by command line
     # Access attributes with
-    # result.tag_creator
+    # result.regid
     # result.full
