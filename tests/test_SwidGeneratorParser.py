@@ -30,3 +30,9 @@ def test_full_argument():
 def test_invalid_regid_format():
     with pytest.raises(ArgumentTypeError):
         regid_string('09.strongswan.org*')
+
+
+def test_pretty_parameter():
+    parser = SwidGeneratorArgumentParser()
+    result = parser.parse('--pretty'.split())
+    assert result.pretty == True

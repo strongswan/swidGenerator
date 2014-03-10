@@ -24,8 +24,10 @@ class SwidGeneratorArgumentParser(object):
          returns an object with attributes: full, tag_creator
         """
         arg_parser = ArgumentParser('Generate SWID tags from dpkg packet manager')
-        arg_parser.add_argument('--full', action="store_true", default=False,
+        arg_parser.add_argument('--full', action='store_true', default=False,
                                 help='Dumps the full SWID tags including file tags for each package')
+        arg_parser.add_argument('--pretty', action='store_true', default=False,
+                                help='Generate pretty readable output')
         arg_parser.add_argument('--regid', dest='regid', type=regid_string,
                                 default=regid_string(DEFAULT_REGID),
                                 help='Specify the regid value (used in the <Entity> tag for the regid attribute).'

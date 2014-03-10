@@ -9,3 +9,4 @@ if __name__ == '__main__':
     # Access attributes with
     # result.regid
     # result.full
+    # result.pretty
