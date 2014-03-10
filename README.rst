@@ -9,15 +9,17 @@ Application which generates SWID-Tags from Linux installed packages, using tools
 
 Usage
 -----
+::
 
-usage: Generate SWID tags from dpkg packet manager [-h] [--full]
-                                                   [--creator TAG_CREATOR]
+   usage: Generate SWID tags from dpkg packet manager [-h] [--full] [--pretty] [--regid REGID]
+                                                   
 
-optional arguments:
-  -h, --help            show this help message and exit
-  --full                Dumps the full SWID tags including file tags for each
-                        package
-  --creator TAG_CREATOR
-                        Specify the tag_creator (used in the <Entity> tag for
-                        the regid attribute).Should not contain any whitespace
-                        characters
+   optional arguments:
+   -h, --help     show this help message and exit
+   
+   --full         Dumps the full SWID tags including file tags for each package
+   
+   --pretty       Generate pretty readable output
+   
+   --regid REGID  Specify the regid value (used in the <Entity> tag for the
+                  regid attribute).Shall not contain any whitespace characters
