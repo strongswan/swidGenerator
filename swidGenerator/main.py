@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from swidGeneratorArgumentParser import SwidGeneratorArgumentParser
+from swidgenerator_argumentparser import SwidGeneratorArgumentParser
 
 if __name__ == '__main__':
     parser = SwidGeneratorArgumentParser()

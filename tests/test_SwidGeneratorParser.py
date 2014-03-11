@@ -2,7 +2,7 @@
 
 import pytest
 
-from swidGenerator.swidGeneratorArgumentParser import SwidGeneratorArgumentParser, regid_string
+from swidGenerator.swidgenerator_argumentparser import SwidGeneratorArgumentParser, regid_string
 from swidGenerator.settings import DEFAULT_REGID
 from argparse import ArgumentTypeError
 
