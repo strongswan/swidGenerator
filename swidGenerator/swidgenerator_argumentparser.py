@@ -32,4 +32,6 @@ class SwidGeneratorArgumentParser(object):
                                 default=regid_string(DEFAULT_REGID),
                                 help='Specify the regid value (used in the <Entity> tag for the regid attribute).'
                                      'Shall not contain any whitespace characters')
+        arg_parser.add_argument('environment', choices=['dpkg', 'yum', 'test'],
+                                help='Specify the environment')
         return arg_parser.parse_args(arguments)
