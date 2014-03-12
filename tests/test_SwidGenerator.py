@@ -2,7 +2,7 @@ import pytest
 
 from xml.etree import cElementTree as ET
 from swidGenerator.swidgenerator import OutputGenerator, PackageInfo
-from swidGenerator.settings import DEFAULT_REGID
+from swidGenerator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 
 
 class TestEnvironment(object):
@@ -31,7 +31,7 @@ def packages():
 @pytest.fixture
 def generator(packages):
     env = TestEnvironment(packages)
-    return OutputGenerator(environment=env, regid=DEFAULT_REGID)
+    return OutputGenerator(environment=env, entity_name=DEFAULT_ENTITY_NAME, regid=DEFAULT_REGID)
 
 
 def test_non_pretty_output(generator, packages):

@@ -70,8 +70,9 @@ class OutputGenerator(object):
     version_scheme = "alphanumeric"
     xmlns = "http://standards.iso.org/iso/19770/-2/2014/schema.xsd"
 
-    def __init__(self, environment, regid):
+    def __init__(self, environment, entity_name, regid):
         self.environment = environment
+        self.entity_name = entity_name
         self.regid = regid
 
     def _get_list(self):
@@ -95,13 +96,13 @@ class OutputGenerator(object):
             software_identity.set('versionScheme', OutputGenerator.version_scheme)
 
             entity = ET.SubElement(software_identity, "Entity")
-            entity.set('name', pi.package)
+            entity.set('name', self.entity_name)
             entity.set('regid', self.regid)
             entity.set('role', OutputGenerator.role)
 
             swidtag_flat = ET.tostring(software_identity, 'UTF-8', method='xml').replace('\n', '')
 
-            if pretty == True:
+            if pretty:
                 swidtag_reparsed = minidom.parseString(swidtag_flat)
                 swidtags.append(swidtag_reparsed.toprettyxml(indent="\t", encoding='UTF-8'))
             else:

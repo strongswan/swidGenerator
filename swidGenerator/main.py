@@ -14,12 +14,7 @@ if __name__ == '__main__':
     elif options.environment == 'yum':
         env = YumEnvironment()
 
-    generator = OutputGenerator(env, options.regid)
+    generator = OutputGenerator(env, options.entity_name, options.regid)
 
-    print(generator.create_swid_tags(options.pretty))
+    print generator.create_swid_tags(options.pretty)
 
-
-    # Access attributes with
-    # result.regid
-    # result.full
-    # result.pretty

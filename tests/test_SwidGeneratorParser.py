@@ -2,7 +2,7 @@
 
 import pytest
 
-from swidGenerator.swidgenerator_argumentparser import SwidGeneratorArgumentParser, regid_string
+from swidGenerator.swidgenerator_argumentparser import SwidGeneratorArgumentParser, regid_entity_name_string
 from swidGenerator.settings import DEFAULT_REGID
 from argparse import ArgumentTypeError, ArgumentError
 
@@ -32,7 +32,7 @@ def test_full_argument(parser):
 
 def test_invalid_regid_format():
     with pytest.raises(ArgumentTypeError):
-        regid_string('09.strongswan.org*')
+        regid_entity_name_string('09.strongswan.org*')
 
 
 def test_pretty_parameter(parser):

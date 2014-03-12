@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from argparse import ArgumentParser, ArgumentTypeError
-from swidGenerator.settings import DEFAULT_REGID
+from swidGenerator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 import re
 
 
-def regid_string(string):
+def regid_entity_name_string(string):
     if string is None:
         return None
     try:
@@ -28,10 +28,14 @@ class SwidGeneratorArgumentParser(object):
                                 help='Dumps the full SWID tags including file tags for each package')
         arg_parser.add_argument('--pretty', action='store_true', default=False,
                                 help='Generate pretty readable output')
-        arg_parser.add_argument('--regid', dest='regid', type=regid_string,
-                                default=regid_string(DEFAULT_REGID),
+        arg_parser.add_argument('--regid', dest='regid', type=regid_entity_name_string,
+                                default=regid_entity_name_string(DEFAULT_REGID),
                                 help='Specify the regid value (used in the <Entity> tag for the regid attribute).'
                                      'Shall not contain any whitespace characters')
-        arg_parser.add_argument('environment', choices=['dpkg', 'yum', 'test'],
+        arg_parser.add_argument('--entity-name', dest='entity_name', type=regid_entity_name_string,
+                                default=regid_entity_name_string(DEFAULT_ENTITY_NAME),
+                                help='Specify the entity name (used in the <Entity> tag for the name attribute).'
+                                     'Shall not contain any whitespace characters')
+        arg_parser.add_argument('environment', choices=['dpkg', 'yum'],
                                 help='Specify the environment')
         return arg_parser.parse_args(arguments)
