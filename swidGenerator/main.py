@@ -9,13 +9,13 @@ from swidgenerator import DpkgEnvironment, YumEnvironment, OutputGenerator
 
 def autodetect_env():
     envs = {
-        'dpkg': '/usr/bin/dpkg-query',
-        'yum': '/usr/bin/yum'
+        DpkgEnvironment: '/usr/bin/dpkg-query',
+        YumEnvironment: '/usr/bin/yum'
     }
 
-    for environemt, path in envs.iteritems():
+    for environment_string, path in envs.iteritems():
         if os.path.isfile(path):
-            return environemt
+            return environment_string
 
     return None
 
@@ -23,7 +23,6 @@ def autodetect_env():
 if __name__ == '__main__':
     parser = SwidGeneratorArgumentParser()
     options = parser.parse()  # without any parameter it takes arguments passed by command line
-    print(os.environ['PYTHONPATH'])
     env = None
 
     if options.environment == 'dpkg':
@@ -38,6 +37,4 @@ if __name__ == '__main__':
             exit(1)
 
     generator = OutputGenerator(env, options.entity_name, options.regid)
-    print(os.environ['PYTHONPATH'])
     print generator.create_swid_tags(options.pretty)
-
