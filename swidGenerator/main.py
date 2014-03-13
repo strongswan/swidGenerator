@@ -1,23 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os.path
 from sys import exit
 from swidgenerator_argumentparser import SwidGeneratorArgumentParser
 from swidgenerator import DpkgEnvironment, YumEnvironment, OutputGenerator
-
-
-def autodetect_env():
-    envs = {
-        DpkgEnvironment: '/usr/bin/dpkg-query',
-        YumEnvironment: '/usr/bin/yum'
-    }
-
-    for environment_string, path in envs.iteritems():
-        if os.path.isfile(path):
-            return environment_string
-
-    return None
+from autodetection import autodetect_env
 
 
 if __name__ == '__main__':
@@ -32,7 +19,7 @@ if __name__ == '__main__':
     elif options.environment == 'auto':
         env = autodetect_env()
         if env is None:
-            print "Could not autodetect environment."
+            print "Error: Could not autodetect environment."
             parser.print_usage()
             exit(1)
 
