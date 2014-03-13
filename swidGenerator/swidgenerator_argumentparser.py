@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from argparse import ArgumentParser, ArgumentTypeError
-from swidGenerator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
+from settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 import re
 
 
