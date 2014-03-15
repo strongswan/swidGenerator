@@ -33,6 +33,8 @@ class SwidGeneratorArgumentParser(object):
          returns an object with attributes: full, tag_creator
         """
         arg_parser = ArgumentParser('Generate SWID tags from dpkg packet manager')
+        arg_parser.add_argument('--doc-separator', dest='document_separator', default='\n',
+                                help='Specify a separator string by which the SWID XML documents are separated')
         arg_parser.add_argument('--full', action='store_true', default=False,
                                 help='Dumps the full SWID tags including file tags for each package')
         arg_parser.add_argument('--pretty', action='store_true', default=False,

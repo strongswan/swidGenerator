@@ -70,7 +70,8 @@ class OutputGenerator(object):
     version_scheme = "alphanumeric"
     xmlns = "http://standards.iso.org/iso/19770/-2/2014/schema.xsd"
 
-    def __init__(self, environment, entity_name, regid):
+    def __init__(self, environment, entity_name, regid, document_separator):
+        self.document_separator = document_separator
         self.environment = environment
         self.entity_name = entity_name
         self.regid = regid
@@ -108,4 +109,4 @@ class OutputGenerator(object):
             else:
                 swidtags.append(swidtag_flat)
 
-        return '\n'.join(swidtags)
+        return self.document_separator.join(swidtags)
