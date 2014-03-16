@@ -7,9 +7,10 @@ import platform
 
 
 class PackageInfo(object):
-    def __init__(self, package='', version=''):
+    def __init__(self, package='', version='', status=''):
         self.package = package
         self.version = version
+        self.status = status
 
 
 class YumEnvironment(object):
@@ -37,9 +38,14 @@ class YumEnvironment(object):
         dist = platform.dist()
         return dist[0] + '_' + dist[1]
 
+    @staticmethod
+    def is_installed(status):
+        #TODO
+        return True
+
 
 class DpkgEnvironment(object):
-    command_args = ["dpkg-query", "-W", "-f=${Package}\\t${Version}\\n"]
+    command_args = ["dpkg-query", "-W", "-f=${Package}\\t${Version}\\t${Status}\\n"]
 
     @staticmethod
     def get_list():
@@ -54,6 +60,7 @@ class DpkgEnvironment(object):
                 info = PackageInfo()
                 info.package = split_line[0]
                 info.version = split_line[1]
+                info.status = split_line[2]
 
                 result.append(info)
 
@@ -63,6 +70,14 @@ class DpkgEnvironment(object):
     def get_os_string():
         dist = platform.dist()
         return dist[0] + '_' + dist[1]
+
+    @staticmethod
+    def is_installed(status):
+        if status == 'deinstall ok config-files':
+            return False
+        elif 'not-installed' in status:
+            return False
+        return True
 
 
 class OutputGenerator(object):
@@ -82,13 +97,15 @@ class OutputGenerator(object):
     def _get_os_string(self):
         return self.environment.get_os_string()
 
-    def create_swid_tags(self, pretty):
+    def create_swid_tags(self, pretty, installed_only=True):
         pkg_info = self._get_list()
         os_info = self._get_os_string()
 
         swidtags = []
 
         for pi in pkg_info:
+            if installed_only and not self.environment.is_installed(pi.status):
+                continue
             software_identity = ET.Element("SoftwareIdentity")
             software_identity.set('xmlns', OutputGenerator.xmlns)
             software_identity.set('name', pi.package)
