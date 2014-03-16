@@ -16,5 +16,3 @@ def autodetect_env():
     for environment_string, path in envs.iteritems():
         if find_executable(path):
             return environment_string
-
-    return None
