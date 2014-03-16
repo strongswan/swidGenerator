@@ -14,7 +14,7 @@ if __name__ == '__main__':
     elif options.environment == 'yum':
         env = YumEnvironment()
 
-    generator = OutputGenerator(env, options.entity_name, options.regid)
+    generator = OutputGenerator(env, options.entity_name, options.regid, options.document_separator)
 
     print generator.create_swid_tags(options.pretty)
 

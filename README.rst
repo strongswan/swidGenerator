@@ -21,6 +21,10 @@ Usage
 
     optional arguments:
       -h, --help            show this help message and exit
+
+      --doc-separator DOCUMENT_SEPARATOR
+                            Specify a separator string by which the SWID XML
+                            documents are separated. e.g for 1 newlines use $'\n'
       
       --full                Dumps the full SWID tags including file tags for each
                             package

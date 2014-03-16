@@ -31,7 +31,7 @@ def packages():
 @pytest.fixture
 def generator(packages):
     env = TestEnvironment(packages)
-    return OutputGenerator(environment=env, entity_name=DEFAULT_ENTITY_NAME, regid=DEFAULT_REGID)
+    return OutputGenerator(environment=env, entity_name=DEFAULT_ENTITY_NAME, regid=DEFAULT_REGID, '\n')
 
 
 def test_non_pretty_output(generator, packages):
