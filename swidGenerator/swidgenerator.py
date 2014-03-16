@@ -14,7 +14,7 @@ class PackageInfo(object):
 
 
 class YumEnvironment(object):
-    command_args = ['yum', 'list']
+    command_args = ['yum', 'list installed']
 
     @staticmethod
     def get_list():
