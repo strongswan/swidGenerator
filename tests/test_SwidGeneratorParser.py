@@ -12,14 +12,8 @@ def parser():
     return SwidGeneratorArgumentParser()
 
 
-def test_without_arguments(parser):
-    with pytest.raises(SystemExit):
-        result = parser.parse([])
-        assert result.full is False
-        assert result.regid == DEFAULT_REGID
-
-
 def test_tag_creator(parser):
+<<<<<<< HEAD
     test_creator = 'regid.2004-03.org.strongswan'
     result = parser.parse(('dpkg --regid=' + test_creator).split())
     assert result.regid == test_creator
@@ -27,6 +21,15 @@ def test_tag_creator(parser):
 
 def test_full_argument(parser):
     result = parser.parse('--full dpkg'.split())
+=======
+    test_regid = 'hsr.ch'
+    result = parser.parse(('--regid=' + test_regid).split())
+    assert result.regid == test_regid
+
+
+def test_full_argument(parser):
+    result = parser.parse('--full'.split())
+>>>>>>> autodetect-env
     assert result.full is True
 
 
@@ -41,5 +44,9 @@ def test_invalid_entity_name_format():
 
 
 def test_pretty_parameter(parser):
+<<<<<<< HEAD
     result = parser.parse('dpkg --pretty'.split())
+=======
+    result = parser.parse('--pretty'.split())
+>>>>>>> autodetect-env
     assert result.pretty == True
