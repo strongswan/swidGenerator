@@ -10,25 +10,27 @@ class TestEnvironment(object):
 
     def __init__(self, packages):
         self.packages = packages
+        self.installed_states = {
+            'install ok installed': True,
+            'deinstall ok config-files': False
+        }
 
     def get_list(self):
-        return self.packages
+        return filter(self.is_installed, self.packages)
 
     def get_os_string(self):
         return TestEnvironment.os_string
 
-    def is_installed(self, status):
-        if status == 'deinstall ok config-files':
-            return False
-        return True
+    def is_installed(self, package):
+        return self.installed_states.get(package.status, False)
 
 
 @pytest.fixture
 def packages():
     return [
         PackageInfo('cowsay', '1.0', 'install ok installed'),
-        PackageInfo('fortune', '2.0', 'deinstall ok config-files'),
-        PackageInfo('OpenSSH', '7000', 'unknown ok not installed')
+        PackageInfo('fortune', '2.0', 'install ok installed'),
+        PackageInfo('OpenSSH', '7000', 'deinstall ok config-files')
     ]
 
 
@@ -40,14 +42,13 @@ def generator(packages):
 
 
 def test_package_rc_state(generator):
-    output = generator.create_swid_tags(pretty=False, installed_only=True)
+    output = generator.create_swid_tags(pretty=False)
     document_strings = output.split('\n')
-    print "----------------- len is: {0}".format(len(document_strings))
-    assert len(document_strings) == 1
+    assert len(document_strings) == 2
 
 
 def test_non_pretty_output(generator, packages):
-    output = generator.create_swid_tags(pretty=False, installed_only=False)
+    output = generator.create_swid_tags(pretty=False)
     document_strings = output.split('\n')
     for (idx, document_string) in enumerate(document_strings):
         root = ET.fromstring(document_string)
