@@ -7,7 +7,7 @@
 	versionScheme="alphanumeric">
 
 	<Entity
-		name="#PAGKAGENAME#"
+		name="stronSwan"
 		regid="regid.2004-03.org.strongswan" 
 		role="tagcreator" />
 
