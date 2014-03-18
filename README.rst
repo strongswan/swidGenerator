@@ -1,5 +1,7 @@
 swidGenerator
 =============
+.. image:: https://travis-ci.org/tnc-ba/swidGenerator.png?branch=master
+    :target: https://travis-ci.org/tnc-ba/swidGenerator
 
 .. image:: https://landscape.io/github/tnc-ba/swidGenerator/master/landscape.png
 	:target: https://landscape.io/github/tnc-ba/swidGenerator/master
