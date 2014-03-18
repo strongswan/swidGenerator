@@ -22,7 +22,7 @@ class TestEnvironment(object):
         return TestEnvironment.os_string
 
     def is_installed(self, package):
-        return self.installed_states.get(package.status, False)
+        return self.installed_states.get(package.status, True)
 
 
 @pytest.fixture
