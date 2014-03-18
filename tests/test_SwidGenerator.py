@@ -6,32 +6,45 @@ from swidGenerator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 
 
 class TestEnvironment(object):
-
     os_string = 'SomeTestOS'
 
-    def __init__(self,packages):
+    def __init__(self, packages):
         self.packages = packages
+        self.installed_states = {
+            'install ok installed': True,
+            'deinstall ok config-files': False
+        }
 
     def get_list(self):
-        return self.packages
+        return filter(self.is_installed, self.packages)
 
     def get_os_string(self):
         return TestEnvironment.os_string
+
+    def is_installed(self, package):
+        return self.installed_states.get(package.status, True)
 
 
 @pytest.fixture
 def packages():
     return [
-        PackageInfo('cowsay', '1.0'),
-        PackageInfo('fortune', '2.0'),
-        PackageInfo('OpenSSH', '7000')
+        PackageInfo('cowsay', '1.0', 'install ok installed'),
+        PackageInfo('fortune', '2.0', 'install ok installed'),
+        PackageInfo('OpenSSH', '7000', 'deinstall ok config-files')
     ]
 
 
 @pytest.fixture
 def generator(packages):
     env = TestEnvironment(packages)
-    return OutputGenerator(environment=env, entity_name=DEFAULT_ENTITY_NAME, regid=DEFAULT_REGID, '\n')
+    return OutputGenerator(environment=env, entity_name=DEFAULT_ENTITY_NAME, regid=DEFAULT_REGID,
+                           document_separator='\n')
+
+
+def test_package_rc_state(generator):
+    output = generator.create_swid_tags(pretty=False)
+    document_strings = output.split('\n')
+    assert len(document_strings) == 2
 
 
 def test_non_pretty_output(generator, packages):

@@ -7,13 +7,14 @@ import platform
 
 
 class PackageInfo(object):
-    def __init__(self, package='', version=''):
+    def __init__(self, package='', version='', status=''):
         self.package = package
         self.version = version
+        self.status = status
 
 
 class YumEnvironment(object):
-    command_args = ['yum', 'list']
+    command_args = ['yum', 'list', 'installed']
 
     @staticmethod
     def get_list():
@@ -27,7 +28,6 @@ class YumEnvironment(object):
                 info = PackageInfo()
                 info.package = split_line[0]
                 info.version = split_line[1]
-
                 result.append(info)
 
         return result
@@ -39,7 +39,13 @@ class YumEnvironment(object):
 
 
 class DpkgEnvironment(object):
-    command_args = ["dpkg-query", "-W", "-f=${Package}\\t${Version}\\n"]
+    command_args = ['dpkg-query', '-W', '-f=${Package}\\t${Version}\\t${Status}\\n']
+
+    # http://man7.org/linux/man-pages/man1/dpkg-query.1.html
+    installed_states = {
+        'install ok installed': True,
+        'deinstall ok config-files': False
+    }
 
     @staticmethod
     def get_list():
@@ -47,22 +53,26 @@ class DpkgEnvironment(object):
         data = subprocess.check_output(DpkgEnvironment.command_args)
         line_list = data.split('\n')
         result = []
-
         for line in line_list:
             split_line = line.split('\t')
-            if len(split_line) == 2:
+            if len(split_line) == 3:
                 info = PackageInfo()
                 info.package = split_line[0]
                 info.version = split_line[1]
-
+                info.status = split_line[2]
                 result.append(info)
-
-        return result
+        return filter(DpkgEnvironment.is_installed, result)
 
     @staticmethod
     def get_os_string():
         dist = platform.dist()
         return dist[0] + '_' + dist[1]
+
+    @staticmethod
+    def is_installed(packet_info):
+        # if the installed state cannot be determined with certainty
+        # we assume its installed
+        return DpkgEnvironment.installed_states.get(packet_info.status, True)
 
 
 class OutputGenerator(object):
