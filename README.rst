@@ -41,16 +41,24 @@ Usage
                             
                             
 Installation
-==============
+============
 
 Install dependencies
----------------------
-- For a yum managed environment yum-utils have to be installed and the yum cache should be updated for speedup:: 
+------------
+- **YUM**
 
+  For a yum managed environment the yum-utils package has to be installed: :: 
+    
     $ sudo yum install yum-utils
+    
+  As soon as you intend to use the --full output option, the yum cache should be created/updated to avoid delays 
+  caused by incrementally downloading metadata: ::
+  
     $ yum makecache
 
-- For an aptitude managed environment no additional steps are required
+- **Aptitude**
+  
+  For an aptitude managed environment no additional steps are required
 
 Get Code
 --------
@@ -59,7 +67,7 @@ Get Code
     $ git clone https://github.com/tnc-ba/swidGenerator
     
 Invoke application 
--------------------
+------------------
 ::
 
     $ cd swidGenerator/swidGenerator
