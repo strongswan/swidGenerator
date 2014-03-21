@@ -56,7 +56,7 @@ Install dependencies
   
     $ yum makecache
 
-- **Aptitude**
+- **DPKG**
   
   For an aptitude managed environment no additional steps are required
 
