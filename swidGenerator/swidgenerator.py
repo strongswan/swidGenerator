@@ -1,16 +1,23 @@
 # -*- coding: utf-8 -*-
+import os
 
 from xml.etree import cElementTree as ET
 from xml.dom import minidom
+
 import subprocess
 import platform
 
 
+class FileInfo(object):
+    def __init__(self, path):
+        self.location, self.name = os.path.split(path)
+
 class PackageInfo(object):
-    def __init__(self, package='', version='', status=''):
+    def __init__(self, package='', version='', status='', files=[]):
         self.package = package
         self.version = version
         self.status = status
+        self.files = files
 
 
 class CommonEnvironment(object):
@@ -55,7 +62,24 @@ class DpkgEnvironment(CommonEnvironment):
     }
 
     @staticmethod
-    def get_list():
+    def is_file(line):
+        # if line contains whitespaces its a message not a file:
+        # known cases:
+        # - 'package diverts to others'
+        # - 'Package XY does not contain any files(!)
+        return not os.path.isdir(line)
+
+
+    @staticmethod
+    def get_files_for_package(package_name):
+        command_args = ['dpkg-query', '-L', package_name]
+        data = subprocess.check_output(command_args)
+        lines = data.rstrip().split('\n')
+        files = filter(DpkgEnvironment.is_file, lines)
+        return [FileInfo(path) for path in files]
+
+    @staticmethod
+    def get_list(include_files=False):
 
         data = subprocess.check_output(DpkgEnvironment.command_args)
         line_list = data.split('\n')
@@ -67,6 +91,9 @@ class DpkgEnvironment(CommonEnvironment):
                 info.package = split_line[0]
                 info.version = split_line[1]
                 info.status = split_line[2]
+                # TODO check if installed here, before adding to list
+                if include_files:
+                    info.files = DpkgEnvironment.get_files_for_package(info.package)
                 result.append(info)
         return filter(DpkgEnvironment.is_installed, result)
 
@@ -88,12 +115,27 @@ class OutputGenerator(object):
         self.entity_name = entity_name
         self.regid = regid
 
-    def _get_list(self):
-        return self.environment.get_list()
+    def _get_list(self, include_files=False):
+        return self.environment.get_list(include_files=include_files)
 
-    def create_swid_tags(self, pretty):
-        pkg_info = self._get_list()
-        os_info = self.environment.get_os_string()
+    def _get_os_string(self):
+        return self.environment.get_os_string()
+
+    def _create_payload_tag(self, package_info):
+        payload = ET.Element('Payload')
+        for file_info in package_info.files:
+            file_element = ET.SubElement(payload, 'File')
+
+            # There are files with special names not in ascii range(128),
+            # e.g ca-certificates: EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt
+            file_element.set('name', unicode(file_info.name, 'utf-8'))
+            file_element.set('location', file_info.location)
+
+        return payload
+
+    def create_swid_tags(self, pretty, full):
+        pkg_info = self._get_list(include_files=full)
+        os_info = self._get_os_string()
 
         swidtags = []
 
@@ -115,6 +157,10 @@ class OutputGenerator(object):
             entity.set('regid', self.regid)
             entity.set('role', OutputGenerator.role)
 
+            if full:
+                payload_tag = self._create_payload_tag(pi)
+                software_identity.append(payload_tag)
+
             swidtag_flat = ET.tostring(software_identity, 'UTF-8', method='xml').replace('\n', '')
 
             if pretty:
@@ -123,4 +169,5 @@ class OutputGenerator(object):
             else:
                 swidtags.append(swidtag_flat)
 
+        # TODO what about printing xml documents directly in the for loop? instead of collecting in memory...
         return self.document_separator.join(swidtags)

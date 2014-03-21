@@ -24,4 +24,4 @@ if __name__ == '__main__':
             exit(1)
 
     generator = OutputGenerator(env, options.entity_name, options.regid, options.document_separator)
-    print generator.create_swid_tags(options.pretty)
+    print generator.create_swid_tags(options.pretty, options.full)

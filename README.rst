@@ -40,8 +40,6 @@ Usage
                             Specify the environment
                             
               
-*Please note, that the --full option isn't implemented yet*
-                            
 Installation
 ============
 
@@ -72,5 +70,4 @@ Invoke application
 ------------------
 ::
 
-    $ cd swidGenerator/swidGenerator
-    $ python main.py
+    $ python -m swid_generator.main
