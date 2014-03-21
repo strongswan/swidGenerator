@@ -58,7 +58,7 @@ Install dependencies
 
 - **DPKG**
   
-  For an aptitude managed environment no additional steps are required
+  For an dpkg managed environment no additional steps are required
 
 Get Code
 --------
