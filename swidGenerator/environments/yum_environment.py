@@ -5,7 +5,6 @@ import os.path
 from swidGenerator.package_info import PackageInfo, FileInfo
 from .common import CommonEnvironment
 
-
 class YumEnvironment(CommonEnvironment):
     command_args = ['yum', 'list', 'installed']
 

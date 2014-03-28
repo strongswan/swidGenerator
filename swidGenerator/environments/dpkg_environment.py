@@ -6,6 +6,7 @@ from swidGenerator.package_info import PackageInfo, FileInfo
 from .common import CommonEnvironment
 
 
+
 class DpkgEnvironment(CommonEnvironment):
     command_args = ['dpkg-query', '-W', '-f=${Package}\\t${Version}\\t${Status}\\n']
 
