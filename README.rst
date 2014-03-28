@@ -1,5 +1,5 @@
 swidGenerator
-##############
+#############
 
 .. image:: https://travis-ci.org/tnc-ba/swidGenerator.png?branch=master
     :target: https://travis-ci.org/tnc-ba/swidGenerator
@@ -11,7 +11,7 @@ swidGenerator
     Application which generates SWID-Tags from Linux installed packages, using tools as dpgk or yum.
 
 Usage
-======
+=====
 ::
 
     usage: Generate SWID tags from dpkg packet manager [-h]
@@ -44,7 +44,8 @@ Installation
 ============
 
 Install dependencies
-------------
+--------------------
+
 - **YUM**
 
   For a yum managed environment the yum-utils package has to be installed: :: 
@@ -68,6 +69,7 @@ Get Code
     
 Invoke application 
 ------------------
-::
+
+Invoke the application: ::
 
     $ python -m swid_generator.main
