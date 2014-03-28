@@ -2,9 +2,10 @@ import pytest
 import platform
 
 from xml.etree import cElementTree as ET
-from swidGenerator.swidgenerator import OutputGenerator, PackageInfo
+from swidGenerator.swidgenerator import OutputGenerator
+from swidGenerator.package_info import PackageInfo
 from swidGenerator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
-from swidGenerator.swidgenerator import CommonEnvironment
+from swidGenerator.environments.common import CommonEnvironment
 
 
 class FileInfoMock(object):

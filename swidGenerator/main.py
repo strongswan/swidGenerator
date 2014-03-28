@@ -2,9 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from sys import exit
+
 from swidgenerator_argumentparser import SwidGeneratorArgumentParser
-from swidgenerator import DpkgEnvironment, YumEnvironment, OutputGenerator
-from autodetection import autodetect_env
+from environments.autodetection import autodetect_env
+from environments.dpkg_environment import DpkgEnvironment
+from environments.yum_environment import YumEnvironment
+from swidgenerator import OutputGenerator
 
 
 if __name__ == '__main__':
