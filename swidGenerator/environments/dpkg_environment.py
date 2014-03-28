@@ -24,7 +24,6 @@ class DpkgEnvironment(CommonEnvironment):
         # - 'Package XY does not contain any files(!)
         return not os.path.isdir(line)
 
-
     @staticmethod
     def get_files_for_package(package_name):
         command_args = ['dpkg-query', '-L', package_name]

@@ -12,18 +12,6 @@ def parser():
     return SwidGeneratorArgumentParser()
 
 
-def test_full_argument(parser):
-    result = parser.parse('--full dpkg'.split())
-    test_regid = 'hsr.ch'
-    result = parser.parse(('--regid=' + test_regid).split())
-    assert result.regid == test_regid
-
-
-def test_full_argument(parser):
-    result = parser.parse('--full'.split())
-    assert result.full is True
-
-
 def test_invalid_regid_format():
     with pytest.raises(ArgumentTypeError):
         regid_string('09.strongswan.org*')
