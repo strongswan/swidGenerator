@@ -11,21 +11,6 @@ import platform
 class FileInfo(object):
     def __init__(self, path):
         self.location, self.name = os.path.split(path)
-        #print "full {2} location: {0} name: {1}".format(self.location, self.name, path)
-
-        # TODO handle non existent or inaccessible files
-        # there are several broken file links.
-        # e.g package openssl:
-        # creates a link /usr/share/doc/openssl/changelog.gz that points to the
-        # not existing file /usr/share/doc/libssl1.0.0/changelog.gz
-        # which in turn causes an OSError because the file size can not be read.
-        # Maybe we can ignore links at all?
-
-        try:
-            self.size = os.path.getsize(path)
-        except OSError:
-            self.size = 0
-
 
 class PackageInfo(object):
     def __init__(self, package='', version='', status='', files=[]):
@@ -82,7 +67,7 @@ class DpkgEnvironment(CommonEnvironment):
         # known cases:
         # - 'package diverts to others'
         # - 'Package XY does not contain any files(!)
-        return not os.path.isdir(line) and not ' ' in line
+        return not os.path.isdir(line)
 
 
     @staticmethod
@@ -144,7 +129,6 @@ class OutputGenerator(object):
             # There are files with special names not in ascii range(128),
             # e.g ca-certificates: EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt
             file_element.set('name', unicode(file_info.name, 'utf-8'))
-            file_element.set('size', str(file_info.size))
             file_element.set('location', file_info.location)
 
         return payload
