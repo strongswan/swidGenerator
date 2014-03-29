@@ -41,6 +41,12 @@ class TestEnvironment(CommonEnvironment):
     def architecture():
         return platform.machine()
 
+    def get_files_for_package(self, package_name):
+        for pi in self.packages:
+            if pi.package == package_name:
+                return pi.files
+
+
 
 @pytest.fixture
 def packages():
