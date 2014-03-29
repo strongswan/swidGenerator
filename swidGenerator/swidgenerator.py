@@ -13,6 +13,13 @@ class PackageInfo(object):
         self.status = status
 
 
+class CommonEnvironment(object):
+    @staticmethod
+    def get_architecture():
+        #returns '64bit' or '32bit'
+        return platform.architecture()[0]
+
+
 class YumEnvironment(object):
     command_args = ['yum', 'list', 'installed']
 
@@ -102,7 +109,12 @@ class OutputGenerator(object):
             software_identity = ET.Element("SoftwareIdentity")
             software_identity.set('xmlns', OutputGenerator.xmlns)
             software_identity.set('name', pi.package)
-            software_identity.set('uniqueId', '{os_info}-{pi.package}-{pi.version}'.format(os_info=os_info, pi=pi))
+            software_identity.set('uniqueId',
+                                  '{os_info}-{architecture}-{pi.package}-{pi.version}'
+                                  .format(os_info=os_info,
+                                          pi=pi,
+                                          architecture=CommonEnvironment.get_architecture()))
+
             software_identity.set('version', pi.version)
             software_identity.set('versionScheme', OutputGenerator.version_scheme)
 
