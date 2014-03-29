@@ -13,12 +13,6 @@ def parser():
 
 
 def test_full_argument(parser):
-    test_regid = 'hsr.ch'
-    result = parser.parse(('swid --regid=' + test_regid).split())
-    assert result.regid == test_regid
-
-
-def test_full_argument(parser):
     result = parser.parse('swid --full'.split())
     assert result.full is True
 
@@ -35,4 +29,4 @@ def test_invalid_entity_name_format():
 
 def test_pretty_parameter(parser):
     result = parser.parse('swid --pretty'.split())
-    assert result.pretty == True
+    assert result.pretty is True
