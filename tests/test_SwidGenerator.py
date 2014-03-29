@@ -1,4 +1,5 @@
 import pytest
+import platform
 
 from xml.etree import cElementTree as ET
 from swidGenerator.swidgenerator import OutputGenerator, PackageInfo
@@ -23,6 +24,10 @@ class TestEnvironment(object):
 
     def is_installed(self, package):
         return self.installed_states.get(package.status, True)
+
+    @staticmethod
+    def architecture():
+        return platform.architecture()[0]
 
 
 @pytest.fixture
@@ -59,8 +64,9 @@ def test_non_pretty_output(generator, packages):
         #Test SoftwareIdentity tag attributes
         assert root.attrib['version'] == packages[idx].version
         assert root.attrib['name'] == packages[idx].package
-        assert root.attrib['uniqueId'] == '{os_info}-{pi.package}-{pi.version}'.format(
+        assert root.attrib['uniqueId'] == '{os_info}-{architecture}-{pi.package}-{pi.version}'.format(
             os_info=TestEnvironment.os_string,
+            architecture=TestEnvironment.architecture(),
             pi=packages[idx])
 
 
