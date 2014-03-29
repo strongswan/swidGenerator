@@ -22,9 +22,17 @@ if __name__ == '__main__':
     elif options.environment == 'auto':
         env = autodetect_env()
         if env is None:
-            print "Error: Could not autodetect environment."
+            print 'Error: Could not autodetect environment.'
             parser.print_usage()
             sys.exit(1)
 
-    generator = OutputGenerator(env, options.entity_name, options.regid, options.document_separator)
-    print generator.create_swid_tags(options.pretty, options.full)
+    if options.command == 'swid':
+        generator = OutputGenerator(env, options.entity_name, options.regid, options.document_separator)
+        print generator.create_swid_tags(options.pretty, options.full)
+    elif options.command == 'tagid':
+        generator = OutputGenerator(env, '', options.regid, options.document_separator)
+        print generator.create_tag_ids()
+    else:
+        print 'Error: Please choose a subcommand. swid for swid output, tagid for tagid output'
+        parser.print_usage()
+        exit(1)
