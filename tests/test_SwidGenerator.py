@@ -4,9 +4,10 @@ import platform
 from xml.etree import cElementTree as ET
 from swidGenerator.swidgenerator import OutputGenerator, PackageInfo
 from swidGenerator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
+from swidGenerator.swidgenerator import CommonEnvironment
 
 
-class TestEnvironment(object):
+class TestEnvironment(CommonEnvironment):
     os_string = 'SomeTestOS'
 
     def __init__(self, packages):
@@ -19,7 +20,8 @@ class TestEnvironment(object):
     def get_list(self):
         return filter(self.is_installed, self.packages)
 
-    def get_os_string(self):
+    @staticmethod
+    def get_os_string():
         return TestEnvironment.os_string
 
     def is_installed(self, package):
