@@ -74,4 +74,4 @@ Invoke application
 
 Invoke the application: ::
 
-    $ python -m swidGenerator.main
+    $ python -m swid_generator.main
