@@ -3,11 +3,11 @@
 
 from sys import exit
 
-from swidgenerator_argumentparser import SwidGeneratorArgumentParser
-from environments.autodetection import autodetect_env
-from environments.dpkg_environment import DpkgEnvironment
-from environments.yum_environment import YumEnvironment
-from swidgenerator import OutputGenerator
+from .swidgenerator_argumentparser import SwidGeneratorArgumentParser
+from .environments.autodetection import autodetect_env
+from .environments.dpkg_environment import DpkgEnvironment
+from .environments.yum_environment import YumEnvironment
+from .swidgenerator import OutputGenerator
 
 
 if __name__ == '__main__':
