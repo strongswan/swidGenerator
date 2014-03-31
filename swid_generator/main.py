@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from sys import exit
+import sys
 
 from .swidgenerator_argumentparser import SwidGeneratorArgumentParser
 from .environments.autodetection import autodetect_env
@@ -24,7 +24,7 @@ if __name__ == '__main__':
         if env is None:
             print "Error: Could not autodetect environment."
             parser.print_usage()
-            exit(1)
+            sys.exit(1)
 
     generator = OutputGenerator(env, options.entity_name, options.regid, options.document_separator)
     print generator.create_swid_tags(options.pretty, options.full)
