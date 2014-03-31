@@ -2,19 +2,17 @@ import subprocess
 import platform
 import os.path
 
-<<<<<<< HEAD:swidGenerator/environments/yum_environment.py
-from swidGenerator.package_info import PackageInfo, FileInfo
 from .common import CommonEnvironment
-=======
 from swid_generator.package_info import PackageInfo, FileInfo
->>>>>>> Removed author tag, Changed autodetection to use relative imports, Changed module name swidGenerator to swid_generator:swid_generator/environments/yum_environment.py
+
+from ..package_info import PackageInfo, FileInfo
+
 
 class YumEnvironment(CommonEnvironment):
-    command_args = ['yum', 'list', 'installed']
-
     @staticmethod
     def get_list(include_files=False):
-        data = subprocess.check_output(YumEnvironment.command_args)
+        command_args = ['yum', 'list', 'installed']
+        data = subprocess.check_output(command_args)
         line_list = data.split('\n')
         result = []
 

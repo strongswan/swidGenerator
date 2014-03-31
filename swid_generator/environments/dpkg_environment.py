@@ -2,18 +2,11 @@ import subprocess
 import platform
 import os.path
 
-<<<<<<< HEAD:swidGenerator/environments/dpkg_environment.py
-from swidGenerator.package_info import PackageInfo, FileInfo
 from .common import CommonEnvironment
-=======
 from swid_generator.package_info import PackageInfo, FileInfo
->>>>>>> Removed author tag, Changed autodetection to use relative imports, Changed module name swidGenerator to swid_generator:swid_generator/environments/dpkg_environment.py
-
 
 
 class DpkgEnvironment(CommonEnvironment):
-    command_args = ['dpkg-query', '-W', '-f=${Package}\\t${Version}\\t${Status}\\n']
-
     # http://man7.org/linux/man-pages/man1/dpkg-query.1.html
     installed_states = {
         'install ok installed': True,
@@ -38,8 +31,8 @@ class DpkgEnvironment(CommonEnvironment):
 
     @staticmethod
     def get_list(include_files=False):
-
-        data = subprocess.check_output(DpkgEnvironment.command_args)
+        command_args = ['dpkg-query', '-W', '-f=${Package}\\t${Version}\\t${Status}\\n']
+        data = subprocess.check_output(command_args)
         line_list = data.split('\n')
         result = []
         for line in line_list:
