@@ -3,7 +3,7 @@
 from xml.etree import cElementTree as ET
 from xml.dom import minidom
 
-from swidGenerator.environments.common import CommonEnvironment
+from swid_generator.environments.common import CommonEnvironment
 
 
 class OutputGenerator(object):

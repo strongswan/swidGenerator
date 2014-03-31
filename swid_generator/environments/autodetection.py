@@ -1,5 +1,5 @@
-from dpkg_environment import DpkgEnvironment
-from yum_environment import YumEnvironment
+from .dpkg_environment import DpkgEnvironment
+from .yum_environment import YumEnvironment
 from distutils.spawn import find_executable
 
 
