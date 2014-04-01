@@ -13,7 +13,19 @@ class PackageInfo(object):
         self.status = status
 
 
-class YumEnvironment(object):
+class CommonEnvironment(object):
+    @staticmethod
+    def get_architecture():
+        #returns '64bit' or '32bit'
+        return platform.architecture()[0]
+
+    @staticmethod
+    def get_os_string(self):
+        dist = platform.dist()
+        return dist[0] + '_' + dist[1]
+
+
+class YumEnvironment(CommonEnvironment):
     command_args = ['yum', 'list', 'installed']
 
     @staticmethod
@@ -32,13 +44,8 @@ class YumEnvironment(object):
 
         return result
 
-    @staticmethod
-    def get_os_string():
-        dist = platform.dist()
-        return dist[0] + '_' + dist[1]
 
-
-class DpkgEnvironment(object):
+class DpkgEnvironment(CommonEnvironment):
     command_args = ['dpkg-query', '-W', '-f=${Package}\\t${Version}\\t${Status}\\n']
 
     # http://man7.org/linux/man-pages/man1/dpkg-query.1.html
@@ -64,11 +71,6 @@ class DpkgEnvironment(object):
         return filter(DpkgEnvironment.is_installed, result)
 
     @staticmethod
-    def get_os_string():
-        dist = platform.dist()
-        return dist[0] + '_' + dist[1]
-
-    @staticmethod
     def is_installed(packet_info):
         # if the installed state cannot be determined with certainty
         # we assume its installed
@@ -89,12 +91,9 @@ class OutputGenerator(object):
     def _get_list(self):
         return self.environment.get_list()
 
-    def _get_os_string(self):
-        return self.environment.get_os_string()
-
     def create_swid_tags(self, pretty):
         pkg_info = self._get_list()
-        os_info = self._get_os_string()
+        os_info = self.environment.get_os_string()
 
         swidtags = []
 
@@ -102,7 +101,12 @@ class OutputGenerator(object):
             software_identity = ET.Element("SoftwareIdentity")
             software_identity.set('xmlns', OutputGenerator.xmlns)
             software_identity.set('name', pi.package)
-            software_identity.set('uniqueId', '{os_info}-{pi.package}-{pi.version}'.format(os_info=os_info, pi=pi))
+            software_identity.set('uniqueId',
+                                  '{os_info}-{architecture}-{pi.package}-{pi.version}'
+                                  .format(os_info=os_info,
+                                          pi=pi,
+                                          architecture=CommonEnvironment.get_architecture()))
+
             software_identity.set('version', pi.version)
             software_identity.set('versionScheme', OutputGenerator.version_scheme)
 
