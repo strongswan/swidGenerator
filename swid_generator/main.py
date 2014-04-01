@@ -11,7 +11,7 @@ from swid_generator.generators.swid_generator import OutputGenerator
 from .generators.softwareid_generator import create_software_ids
 
 
-if __name__ == '__main__':
+def main():
     parser = SwidGeneratorArgumentParser()
     options = parser.parse()  # without any parameter it takes arguments passed by command line
     env = None
@@ -33,6 +33,11 @@ if __name__ == '__main__':
     elif options.command == 'software-id':
         print create_software_ids(env, options.regid, options.document_separator)
     else:
-        print 'Error: Please choose a subcommand. swid for swid output, software-id for software id output'
+        print 'Error: Please choose a subcommand: ' \
+              'swid for swid output, software-id for software id output'
         parser.print_usage()
         exit(1)
+
+
+if __name__ == '__main__':
+    main()
