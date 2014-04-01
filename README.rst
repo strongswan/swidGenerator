@@ -86,13 +86,35 @@ Install dependencies
 
 Get Code
 --------
+
 ::
 
     $ git clone https://github.com/tnc-ba/swidGenerator
     
+Install
+-------
+
+To copy the files to your system-wide Python directory, use
+
+::
+
+    $ sudo python setup.py install
+
+To make invocation easier during development, use pip's editable installation
+feature instead, which means that changes in the code are immediately
+reflected::
+
+    $ pip install -e .
+
 Invoke application 
 ------------------
 
-Invoke the application: ::
+If you have installed the application, you can run the generator via the
+``swid_generator`` binary::
+
+    $ swid_generator
+
+You can also invoke the generator directly from the source directory, without
+any prior installation::
 
     $ python -m swid_generator.main
