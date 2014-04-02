@@ -1,6 +1,8 @@
 import subprocess
 import platform
+import os
 import os.path
+import stat
 
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
@@ -28,7 +30,18 @@ class YumEnvironment(CommonEnvironment):
 
     @staticmethod
     def is_file(path):
-        return not os.path.isdir(path)
+        if path[0] != '/':
+            return False
+
+        try:
+            mode = os.stat(path).st_mode
+        except OSError:
+            return False
+
+        if stat.S_ISDIR(mode):
+            return False
+
+        return True
 
     @staticmethod
     def get_files_for_package(package_name):
