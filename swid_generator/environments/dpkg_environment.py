@@ -17,10 +17,22 @@ class DpkgEnvironment(CommonEnvironment):
 
     @staticmethod
     def is_file(path):
-        # if path doesnt start with a /, its not a file.
-        # known cases:
-        # - 'package diverts to others'
-        # - 'Package XY does not contain any files(!)
+        """
+        Determine if the path is a file. Need because Packagemanager not only lists regular files.
+        Also directories (which could be non existent), symbolic links (which could point to non existent files)
+        and even Messages.
+        Known messages for dpkg:
+         - 'package diverts to others'
+         - 'Package XY does not contain any files(!)
+
+         Args:
+            path (str)
+                The path to check
+
+        Returns:
+            Boolean
+
+         """
         if path[0] != '/':
             return False
 
