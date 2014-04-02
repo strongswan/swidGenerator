@@ -3,8 +3,6 @@ import platform
 import os.path
 
 from .common import CommonEnvironment
-from swid_generator.package_info import PackageInfo, FileInfo
-
 from ..package_info import PackageInfo, FileInfo
 
 
@@ -30,8 +28,7 @@ class YumEnvironment(CommonEnvironment):
 
     @staticmethod
     def is_file(path):
-        #TODO there are some not existent directories, what to do with them?
-        return os.path.isfile(path) or (os.path.islink(path) and not os.path.isdir(path))
+        return not os.path.isdir(path)
 
     @staticmethod
     def get_files_for_package(package_name):
