@@ -40,8 +40,6 @@ Usage
                             Specify the environment
                             
               
-*Please note, that the --full option isn't implemented yet*
-                            
 Installation
 ============
 
