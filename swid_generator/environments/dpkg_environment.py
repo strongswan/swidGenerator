@@ -1,9 +1,11 @@
 import subprocess
 import platform
+import os
 import os.path
+import stat
 
 from .common import CommonEnvironment
-from swid_generator.package_info import PackageInfo, FileInfo
+from ..package_info import PackageInfo, FileInfo
 
 
 class DpkgEnvironment(CommonEnvironment):
@@ -14,12 +16,35 @@ class DpkgEnvironment(CommonEnvironment):
     }
 
     @staticmethod
-    def is_file(line):
-        # if line contains whitespaces its a message not a file:
-        # known cases:
-        # - 'package diverts to others'
-        # - 'Package XY does not contain any files(!)
-        return not os.path.isdir(line)
+    def is_file(path):
+        """
+        Determine if the path is a file. Need because Packagemanager not only lists regular files.
+        Also directories (which could be non existent), symbolic links (which could point to non existent files)
+        and even Messages.
+        Known messages for dpkg:
+         - 'package diverts to others'
+         - 'Package XY does not contain any files(!)
+
+         Args:
+            path (str)
+                The path to check
+
+        Returns:
+            Boolean
+
+         """
+        if path[0] != '/':
+            return False
+
+        try:
+            mode = os.stat(path).st_mode
+        except OSError:
+            return False
+
+        if stat.S_ISDIR(mode):
+            return False
+
+        return True
 
     @staticmethod
     def get_files_for_package(package_name):
