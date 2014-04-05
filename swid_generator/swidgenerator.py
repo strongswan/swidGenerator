@@ -35,18 +35,6 @@ class OutputGenerator(object):
 
         return payload
 
-    def create_tag_ids(self):
-        pkg_info = self._get_list()
-        os_info = self._get_os_string()
-
-        tag_ids = []
-
-        for pi in pkg_info:
-            tag_id = '{regid}_{os_info}-{pi.package}-{pi.version}'.format(regid=self.regid, os_info=os_info, pi=pi)
-            tag_ids.append(tag_id)
-
-        return self.document_separator.join(tag_ids)
-
     def create_swid_tags(self, pretty, full):
         pkg_info = self._get_list(include_files=full)
         os_info = self._get_os_string()
