@@ -8,7 +8,7 @@ from .environments.autodetection import autodetect_env
 from .environments.dpkg_environment import DpkgEnvironment
 from .environments.yum_environment import YumEnvironment
 from .swidgenerator import OutputGenerator
-from .generators.software_id import create_tag_ids
+from .generators.software_id import create_software_ids
 
 
 if __name__ == '__main__':
@@ -30,11 +30,9 @@ if __name__ == '__main__':
     if options.command == 'swid':
         generator = OutputGenerator(env, options.entity_name, options.regid, options.document_separator)
         print generator.create_swid_tags(options.pretty, options.full)
-    elif options.command == 'tagid':
-        print create_tag_ids(env, options.regid, options.document_separator)
-        #generator = OutputGenerator(env, '', options.regid, options.document_separator)
-        #print generator.create_tag_ids()
+    elif options.command == 'software-id':
+        print create_software_ids(env, options.regid, options.document_separator)
     else:
-        print 'Error: Please choose a subcommand. swid for swid output, tagid for tagid output'
+        print 'Error: Please choose a subcommand. swid for swid output, software-id for software id output'
         parser.print_usage()
         exit(1)
