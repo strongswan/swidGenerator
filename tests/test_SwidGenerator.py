@@ -101,3 +101,13 @@ def test_full_output(generator, packages):
         files = filter(lambda p: p.package == package_name, packages)[0].files
         for file_tag in payload:
             assert file_tag.attrib['name'] in [f.name for f in files]
+
+
+def test_targeted_request(generator, packages):
+    target = '{regid}_{os_info}-{pi.package}-{pi.version}'.format(regid=DEFAULT_REGID,
+                                                                  os_info=TestEnvironment.os_string,
+                                                                  pi=packages[0])
+    output = generator.create_swid_tags(pretty=False, full=False, target=target)
+    documents = output.split('\n')
+    assert len(documents) == 1
+    assert 'cowsay' in documents[0]
