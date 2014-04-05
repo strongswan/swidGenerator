@@ -55,7 +55,7 @@ class SwidGeneratorArgumentParser(object):
                                  help='Specify the entity name (used in the <Entity> tag for the name attribute).'
                                       'Shall not contain any whitespace characters')
 
-        subparsers.add_parser('tagid', help='tagid output')
+        subparsers.add_parser('software-id', help='software id output')
 
     def parse(self, arguments=None):
         return self.arg_parser.parse_args(arguments)
