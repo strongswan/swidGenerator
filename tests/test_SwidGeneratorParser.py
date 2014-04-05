@@ -3,12 +3,24 @@
 import pytest
 
 from swid_generator.swidgenerator_argumentparser import SwidGeneratorArgumentParser, regid_string, entity_name_string
+
 from argparse import ArgumentTypeError
 
 
 @pytest.fixture
 def parser():
     return SwidGeneratorArgumentParser()
+
+
+def test_full_argument(parser):
+    test_regid = 'hsr.ch'
+    result = parser.parse(('swid --regid=' + test_regid).split())
+    assert result.regid == test_regid
+
+
+def test_full_argument(parser):
+    result = parser.parse('swid --full'.split())
+    assert result.full is True
 
 
 def test_invalid_regid_format():
@@ -22,5 +34,5 @@ def test_invalid_entity_name_format():
 
 
 def test_pretty_parameter(parser):
-    result = parser.parse('--pretty'.split())
+    result = parser.parse('swid --pretty'.split())
     assert result.pretty == True

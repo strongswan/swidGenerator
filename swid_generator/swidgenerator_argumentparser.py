@@ -30,26 +30,44 @@ class SwidGeneratorArgumentParser(object):
 
     def __init__(self):
         """
-         returns an object with attributes: full, tag_creator
+         returns an object with attributes
         """
-        self.arg_parser = ArgumentParser('Generate SWID tags from dpkg packet manager')
-        self.arg_parser.add_argument('--doc-separator', dest='document_separator', default='\n\n',
-                                     help='Specify a separator string by which the SWID XML documents are separated. '
-                                          'e.g for 1 newline use $\'\\n\'')
-        self.arg_parser.add_argument('--full', action='store_true', default=False,
-                                     help='Dumps the full SWID tags including file tags for each package')
-        self.arg_parser.add_argument('--pretty', action='store_true', default=False,
-                                     help='Generate pretty readable output')
-        self.arg_parser.add_argument('--regid', dest='regid', type=regid_string,
-                                     default=regid_string(DEFAULT_REGID),
-                                     help='Specify the regid value (used in the <Entity> tag for the regid attribute).'
-                                          'Shall not contain any whitespace characters')
-        self.arg_parser.add_argument('--entity-name', dest='entity_name', type=entity_name_string,
-                                     default=entity_name_string(DEFAULT_ENTITY_NAME),
-                                     help='Specify the entity name (used in the <Entity> tag for the name attribute).'
-                                          'Shall not contain any whitespace characters')
-        self.arg_parser.add_argument('--environment', choices=['dpkg', 'yum', 'auto'], default='auto',
-                                     help='Specify the environment')
+        self.arg_parser = ArgumentParser('python -m swid_generator.main',
+                                         description='Generate SWID tags and Software IDs'
+                                                     'from dpkg or rpm packet manager')
+        # Parent parser for common options
+        parent_parser = ArgumentParser(add_help=False)
+
+        parent_parser.add_argument('--doc-separator', dest='document_separator', default='\n\n',
+                                   help='Specify a separator string'
+                                        'by which the SWID XML documents are separated. '
+                                        'e.g for 1 newline use $\'\\n\'')
+        parent_parser.add_argument('--regid', dest='regid', type=regid_string,
+                                   default=regid_string(DEFAULT_REGID),
+                                   help='Specify the regid value for the regid attribute).'
+                                        'Shall not contain any whitespace characters')
+        parent_parser.add_argument('--environment', choices=['dpkg', 'yum', 'auto'], default='auto',
+                                   help='Specify the environment')
+
+        subparsers = self.arg_parser.add_subparsers(help='Commands: ', dest='command')
+
+        # Subparser for swid command
+        swid_parser = subparsers.add_parser('swid', help='SWID tag output', parents=[parent_parser],
+                                            description='Generate SWID tags')
+
+        swid_parser.add_argument('--full', action='store_true', default=False,
+                                 help='Dumps the full SWID tags including file tags for each package')
+        swid_parser.add_argument('--pretty', action='store_true', default=False,
+                                 help='Generate pretty readable output')
+        swid_parser.add_argument('--entity-name', dest='entity_name', type=entity_name_string,
+                                 default=entity_name_string(DEFAULT_ENTITY_NAME),
+                                 help='Specify the entity name (used in the <Entity> tag)'
+                                      'for the name attribute).'
+                                      'Shall not contain any whitespace characters')
+
+        # Subparser for software-id command
+        subparsers.add_parser('software-id', help='Software id output', parents=[parent_parser],
+                              description='Generate Software IDs')
 
     def parse(self, arguments=None):
         return self.arg_parser.parse_args(arguments)
