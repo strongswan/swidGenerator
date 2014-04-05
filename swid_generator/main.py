@@ -7,8 +7,8 @@ from .swidgenerator_argumentparser import SwidGeneratorArgumentParser
 from .environments.autodetection import autodetect_env
 from .environments.dpkg_environment import DpkgEnvironment
 from .environments.yum_environment import YumEnvironment
-from .swidgenerator import OutputGenerator
-from .generators.software_id import create_software_ids
+from swid_generator.generators.swid_generator import OutputGenerator
+from .generators.softwareid_generator import create_software_ids
 
 
 if __name__ == '__main__':

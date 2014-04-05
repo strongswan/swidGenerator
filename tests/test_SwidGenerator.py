@@ -1,8 +1,9 @@
-import pytest
 import platform
-
 from xml.etree import cElementTree as ET
-from swid_generator.swidgenerator import OutputGenerator
+
+import pytest
+
+from swid_generator.generators.swid_generator import OutputGenerator
 from swid_generator.package_info import PackageInfo
 from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 
