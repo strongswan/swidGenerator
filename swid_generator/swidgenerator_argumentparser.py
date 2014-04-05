@@ -32,7 +32,7 @@ class SwidGeneratorArgumentParser(object):
         """
          returns an object with attributes
         """
-        self.arg_parser = ArgumentParser('Generate SWID tags from dpkg packet manager')
+        self.arg_parser = ArgumentParser('Generate SWID tags and Software IDs from dpkg or rpm packet manager')
         self.arg_parser.add_argument('--doc-separator', dest='document_separator', default='\n\n',
                                      help='Specify a separator string by which the SWID XML documents are separated. '
                                           'e.g for 1 newline use $\'\\n\'')
@@ -45,7 +45,7 @@ class SwidGeneratorArgumentParser(object):
 
         subparsers = self.arg_parser.add_subparsers(help='Commands: ', dest='command')
 
-        swid_parser = subparsers.add_parser('swid', help='swid tag output')
+        swid_parser = subparsers.add_parser('swid', help='SWID tag output')
         swid_parser.add_argument('--full', action='store_true', default=False,
                                  help='Dumps the full SWID tags including file tags for each package')
         swid_parser.add_argument('--pretty', action='store_true', default=False,
@@ -55,7 +55,7 @@ class SwidGeneratorArgumentParser(object):
                                  help='Specify the entity name (used in the <Entity> tag for the name attribute).'
                                       'Shall not contain any whitespace characters')
 
-        subparsers.add_parser('software-id', help='software id output')
+        subparsers.add_parser('software-id', help='Software id output')
 
     def parse(self, arguments=None):
         return self.arg_parser.parse_args(arguments)
