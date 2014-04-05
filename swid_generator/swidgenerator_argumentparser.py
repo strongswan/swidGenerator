@@ -47,13 +47,13 @@ class SwidGeneratorArgumentParser(object):
 
         swid_parser = subparsers.add_parser('swid', help='swid tag output')
         swid_parser.add_argument('--full', action='store_true', default=False,
-                                     help='Dumps the full SWID tags including file tags for each package')
+                                 help='Dumps the full SWID tags including file tags for each package')
         swid_parser.add_argument('--pretty', action='store_true', default=False,
-                                     help='Generate pretty readable output')
+                                 help='Generate pretty readable output')
         swid_parser.add_argument('--entity-name', dest='entity_name', type=entity_name_string,
-                                     default=entity_name_string(DEFAULT_ENTITY_NAME),
-                                     help='Specify the entity name (used in the <Entity> tag for the name attribute).'
-                                          'Shall not contain any whitespace characters')
+                                 default=entity_name_string(DEFAULT_ENTITY_NAME),
+                                 help='Specify the entity name (used in the <Entity> tag for the name attribute).'
+                                      'Shall not contain any whitespace characters')
 
         subparsers.add_parser('tagid', help='tagid output')
 
