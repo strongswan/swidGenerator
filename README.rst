@@ -12,33 +12,52 @@ swidGenerator
 
 Usage
 =====
+The tool provides 2 subcommands to generate SWID tags or Software IDs
+
+Generate SWID tags:
 ::
 
-    usage: Generate SWID tags from dpkg packet manager [-h]
-                                                       [--doc-separator DOCUMENT_SEPARATOR]
-                                                       [--full] [--pretty]
-                                                       [--regid REGID]
-                                                       [--entity-name ENTITY_NAME]
-                                                       [--environment {dpkg,yum,auto}]
+    usage: main.py swid [-h] [--doc-separator DOCUMENT_SEPARATOR] [--regid REGID]
+                        [--environment {dpkg,yum,auto}] [--full] [--pretty]
+                        [--entity-name ENTITY_NAME]
+
+    Generate SWID tags
 
     optional arguments:
       -h, --help            show this help message and exit
       --doc-separator DOCUMENT_SEPARATOR
                             Specify a separator string by which the SWID XML
                             documents are separated. e.g for 1 newline use $'\n'
-      --full                Dumps the full SWID tags including file tags for each
-                            package
-      --pretty              Generate pretty readable output
       --regid REGID         Specify the regid value (used in the <Entity> tag for
                             the regid attribute).Shall not contain any whitespace
                             characters
+      --environment {dpkg,yum,auto}
+                            Specify the environment
+      --full                Dumps the full SWID tags including file tags for each
+                            package
+      --pretty              Generate pretty readable output
       --entity-name ENTITY_NAME
                             Specify the entity name (used in the <Entity> tag for
                             the name attribute).Shall not contain any whitespace
                             characters
+
+Generate Software IDs:
+::
+    usage: main.py software-id [-h] [--doc-separator DOCUMENT_SEPARATOR]
+                               [--regid REGID] [--environment {dpkg,yum,auto}]
+
+    Generate Software IDs
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --doc-separator DOCUMENT_SEPARATOR
+                            Specify a separator string by which the SWID XML
+                            documents are separated. e.g for 1 newline use $'\n'
+      --regid REGID         Specify the regid value (used in the <Entity> tag for
+                            the regid attribute).Shall not contain any whitespace
+                            characters
       --environment {dpkg,yum,auto}
                             Specify the environment
-                            
               
 Installation
 ============
