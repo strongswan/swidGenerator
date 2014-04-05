@@ -35,29 +35,32 @@ class OutputGenerator(object):
 
         return payload
 
+    def _create_unique_id(self, package_info):
+        unique_id_format = '{os_info}-{architecture}-{pi.package}-{pi.version}'
+        return unique_id_format.format(os_info=self._get_os_string(),
+                                       pi=package_info,
+                                       architecture=CommonEnvironment.get_architecture())
+
+    def _create_software_id(self, package_info):
+        return '{regid}_{uniqueID}'.format(
+            regid=self.regid,
+            uniqueID=self._create_unique_id(package_info))
+
     def create_swid_tags(self, pretty, full, target=None):
         pkg_info = self._get_list(include_files=full)
-        os_info = self._get_os_string()
 
         swidtags = []
 
         for pi in pkg_info:
 
-            # Check if the software id of the current package matches the targeted request
-            if target:
-                tag_id = '{regid}_{os_info}-{pi.package}-{pi.version}'.format(regid=self.regid,
-                                                                              os_info=os_info, pi=pi)
-                if tag_id != target:
-                    continue
+            # Check if the software-id of the current package matches the targeted request
+            if target and self._create_software_id(pi) != target:
+                continue
 
             software_identity = ET.Element("SoftwareIdentity")
             software_identity.set('xmlns', OutputGenerator.xmlns)
             software_identity.set('name', pi.package)
-            software_identity.set('uniqueId',
-                                  '{os_info}-{architecture}-{pi.package}-{pi.version}'
-                                  .format(os_info=os_info,
-                                          pi=pi,
-                                          architecture=CommonEnvironment.get_architecture()))
+            software_identity.set('uniqueId', self._create_unique_id(pi))
 
             software_identity.set('version', pi.version)
             software_identity.set('versionScheme', OutputGenerator.version_scheme)
