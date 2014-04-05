@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     if options.command == 'swid':
         generator = OutputGenerator(env, options.entity_name, options.regid, options.document_separator)
-        print generator.create_swid_tags(options.pretty, options.full)
+        print generator.create_swid_tags(options.pretty, options.full, options.match_software_id)
     elif options.command == 'software-id':
         print create_software_ids(env, options.regid, options.document_separator)
     else:

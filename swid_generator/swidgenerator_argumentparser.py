@@ -64,6 +64,11 @@ class SwidGeneratorArgumentParser(object):
                                  help='Specify the entity name (used in the <Entity> tag)'
                                       'for the name attribute).'
                                       'Shall not contain any whitespace characters')
+        swid_parser.add_argument('--match', dest='match_software_id', metavar='SOFTWARE-ID',
+                                 default=None,
+                                 help='Do a targeted request for the specified Software-ID. '
+                                      'If specified, output only contains SWID tags matching '
+                                      'the given Software-ID')
 
         # Subparser for software-id command
         subparsers.add_parser('software-id', help='Software id output', parents=[parent_parser],
