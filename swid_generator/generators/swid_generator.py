@@ -35,13 +35,21 @@ class OutputGenerator(object):
 
         return payload
 
-    def create_swid_tags(self, pretty, full):
+    def create_swid_tags(self, pretty, full, target=None):
         pkg_info = self._get_list(include_files=full)
         os_info = self._get_os_string()
 
         swidtags = []
 
         for pi in pkg_info:
+
+            # Check if the software id of the current package matches the targeted request
+            if target:
+                tag_id = '{regid}_{os_info}-{pi.package}-{pi.version}'.format(regid=self.regid,
+                                                                              os_info=os_info, pi=pi)
+                if tag_id != target:
+                    continue
+
             software_identity = ET.Element("SoftwareIdentity")
             software_identity.set('xmlns', OutputGenerator.xmlns)
             software_identity.set('name', pi.package)

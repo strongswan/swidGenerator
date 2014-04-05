@@ -40,9 +40,13 @@ Generate SWID tags:
                             Specify the entity name (used in the <Entity> tag for
                             the name attribute).Shall not contain any whitespace
                             characters
+      --match SOFTWARE-ID   Do a targeted request for the specified Software-ID.
+                            If specified, output only contains SWID tags matching
+                            the given Software-ID
 
 Generate Software IDs:
 ::
+
     usage: main.py software-id [-h] [--doc-separator DOCUMENT_SEPARATOR]
                                [--regid REGID] [--environment {dpkg,yum,auto}]
 
