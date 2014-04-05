@@ -6,6 +6,7 @@ import pytest
 from swid_generator.generators.swid_generator import OutputGenerator
 from swid_generator.package_info import PackageInfo
 from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
+from swid_generator.environments.common import CommonEnvironment
 
 
 class FileInfoMock(object):
@@ -15,7 +16,7 @@ class FileInfoMock(object):
         self.size = size
 
 
-class TestEnvironment(object):
+class TestEnvironment(CommonEnvironment):
     os_string = 'SomeTestOS'
 
     def __init__(self, packages):
@@ -104,10 +105,13 @@ def test_full_output(generator, packages):
 
 
 def test_targeted_request(generator, packages):
-    target = '{regid}_{os_info}-{pi.package}-{pi.version}'.format(regid=DEFAULT_REGID,
-                                                                  os_info=TestEnvironment.os_string,
-                                                                  pi=packages[0])
+    target = '{regid}_{os_info}-{architecture}-{pi.package}-{pi.version}' \
+        .format(regid=DEFAULT_REGID,
+                os_info=TestEnvironment.os_string,
+                pi=packages[0],
+                architecture=TestEnvironment.architecture())
     output = generator.create_swid_tags(pretty=False, full=False, target=target)
     documents = output.split('\n')
+    print documents[0]
     assert len(documents) == 1
     assert 'cowsay' in documents[0]
