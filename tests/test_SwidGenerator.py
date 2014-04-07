@@ -38,7 +38,7 @@ class TestEnvironment(CommonEnvironment):
 
     @staticmethod
     def architecture():
-        return platform.architecture()[0]
+        return platform.machine()
 
 
 @pytest.fixture
