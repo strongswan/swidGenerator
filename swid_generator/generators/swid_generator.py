@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from xml.etree import cElementTree as ET
-from xml.dom import minidom
 
 from ..environments.common import CommonEnvironment
 
@@ -11,8 +10,7 @@ class OutputGenerator(object):
     version_scheme = "alphanumeric"
     xmlns = "http://standards.iso.org/iso/19770/-2/2014/schema.xsd"
 
-    def __init__(self, environment, entity_name, regid, document_separator):
-        self.document_separator = document_separator
+    def __init__(self, environment, entity_name, regid):
         self.environment = environment
         self.entity_name = entity_name
         self.regid = regid
@@ -46,10 +44,8 @@ class OutputGenerator(object):
             regid=self.regid,
             uniqueID=self._create_unique_id(package_info))
 
-    def create_swid_tags(self, pretty, full, target=None):
+    def create_swid_tags(self, visitor, full=False, target=None):
         pkg_info = self._get_list(include_files=full)
-
-        swidtags = []
 
         for pi in pkg_info:
 
@@ -76,12 +72,4 @@ class OutputGenerator(object):
                 software_identity.append(payload_tag)
 
             swidtag_flat = ET.tostring(software_identity, 'UTF-8', method='xml').replace('\n', '')
-
-            if pretty:
-                swidtag_reparsed = minidom.parseString(swidtag_flat)
-                swidtags.append(swidtag_reparsed.toprettyxml(indent="\t", encoding='UTF-8'))
-            else:
-                swidtags.append(swidtag_flat)
-
-        # TODO what about printing xml documents directly in the for loop? instead of collecting in memory...
-        return self.document_separator.join(swidtags)
+            visitor(swidtag_flat)
