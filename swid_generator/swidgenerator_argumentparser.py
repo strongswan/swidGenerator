@@ -38,7 +38,7 @@ class SwidGeneratorArgumentParser(object):
         # Parent parser for common options
         parent_parser = ArgumentParser(add_help=False)
 
-        parent_parser.add_argument('--doc-separator', dest='document_separator', default='\n\n',
+        parent_parser.add_argument('--doc-separator', dest='document_separator', default='\n',
                                    help='Specify a separator string'
                                         'by which the SWID XML documents are separated. '
                                         'e.g for 1 newline use $\'\\n\'')
