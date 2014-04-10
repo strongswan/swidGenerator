@@ -12,7 +12,7 @@ class SWIDPrintVisitor(object):
     def visit(self, swidtag_flat):
         if self.pretty:
             swidtag_reparsed = minidom.parseString(swidtag_flat)
-            print(swidtag_reparsed.toprettyxml(indent="\t", encoding='UTF-8'), end=self.separator)
+            print(swidtag_reparsed.toprettyxml(indent='  ', encoding='UTF-8'), end=self.separator)
         else:
             print(swidtag_flat, end=self.separator)
 
