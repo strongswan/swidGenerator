@@ -66,23 +66,13 @@ Generate Software IDs:
 Installation
 ============
 
-Install dependencies
---------------------
+The swidGenerator currently supports dpkg and rpm managed environments. 
+It depends on the command line utilities dpkg-query and rpm for querying the package managers.
+The follwing Linux distributions have been tested so far
 
-- **YUM**
-
-  For a yum managed environment the yum-utils package has to be installed: :: 
-    
-    $ sudo yum install yum-utils
-    
-  As soon as you intend to use the --full output option, the yum cache should be created/updated to avoid delays 
-  caused by incrementally downloading metadata: ::
-  
-    $ yum makecache
-
-- **DPKG**
-  
-  For an dpkg managed environment no additional steps are required
+- Fedora 19 i686
+- Ubuntu 12.04 i686
+- OpenSuse 12.3 i686
 
 Get Code
 --------
