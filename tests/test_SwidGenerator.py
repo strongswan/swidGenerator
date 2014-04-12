@@ -9,15 +9,6 @@ from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 from swid_generator.environments.common import CommonEnvironment
 
 
-class TestVisitor(object):
-    def __init__(self, separator):
-        self.tags = []
-        self.separator = separator
-
-    def visit(self, tag):
-        self.tags.append(tag)
-
-
 class FileInfoMock(object):
     def __init__(self, name, location, size):
         self.name = name
@@ -51,11 +42,6 @@ class TestEnvironment(CommonEnvironment):
 
 
 @pytest.fixture
-def visitor():
-    return TestVisitor('\n')
-
-
-@pytest.fixture
 def packages():
     cowsay_file1 = FileInfoMock('/usr/games', 'cowsay', 4421)
     cowsay_file2 = FileInfoMock('/usr/share/cowsay/cows', 'pony-smaller.cow', 305)
@@ -76,20 +62,17 @@ def packages():
 @pytest.fixture
 def generator(packages):
     env = TestEnvironment(packages)
-    return OutputGenerator(environment=env, entity_name=DEFAULT_ENTITY_NAME, regid=DEFAULT_REGID,
-    )
+    return OutputGenerator(environment=env, entity_name=DEFAULT_ENTITY_NAME, regid=DEFAULT_REGID)
 
 
-def test_package_rc_state(generator, visitor):
-    output = generator.create_swid_tags(full=False, visitor=visitor.visit)
-    document_strings = visitor.tags
-    assert len(document_strings) == 2
+def test_package_rc_state(generator):
+    output = generator.create_swid_tags(full=False)
+    assert len(list(output)) == 2
 
 
-def test_non_pretty_output(generator, packages, visitor):
-    output = generator.create_swid_tags(full=False, visitor=visitor.visit)
-    document_strings = visitor.tags
-    for (idx, document_string) in enumerate(document_strings):
+def test_non_pretty_output(generator, packages):
+    output = generator.create_swid_tags(full=False)
+    for idx, document_string in enumerate(output):
         root = ET.fromstring(document_string)
 
         #Test Entity tag
@@ -104,10 +87,9 @@ def test_non_pretty_output(generator, packages, visitor):
             pi=packages[idx])
 
 
-def test_full_output(generator, packages, visitor):
-    output = generator.create_swid_tags(full=True, visitor=visitor.visit)
-    documents = visitor.tags
-    for document in documents:
+def test_full_output(generator, packages):
+    output = generator.create_swid_tags(full=True)
+    for document in output:
         root = ET.fromstring(document)
         package_name = root.attrib['name']
         payload = root[1]
@@ -118,14 +100,13 @@ def test_full_output(generator, packages, visitor):
             assert file_tag.attrib['name'] in [f.name for f in files]
 
 
-def test_targeted_request(generator, packages, visitor):
+def test_targeted_request(generator, packages):
     target = '{regid}_{os_info}-{architecture}-{pi.package}-{pi.version}' \
         .format(regid=DEFAULT_REGID,
                 os_info=TestEnvironment.os_string,
                 pi=packages[0],
                 architecture=TestEnvironment.architecture())
-    output = generator.create_swid_tags(full=False, target=target, visitor=visitor.visit)
-    documents = visitor.tags
-    print documents[0]
-    assert len(documents) == 1
-    assert 'cowsay' in documents[0]
+    output = list(generator.create_swid_tags(full=False, target=target))
+    print output[0]
+    assert len(output) == 1
+    assert 'cowsay' in output[0]
