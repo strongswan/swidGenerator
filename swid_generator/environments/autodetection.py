@@ -1,5 +1,5 @@
 from .dpkg_environment import DpkgEnvironment
-from .yum_environment import YumEnvironment
+from .rpm_environment import RPMEnvironment
 from distutils.spawn import find_executable
 
 
@@ -10,7 +10,7 @@ def autodetect_env():
     """
     envs = {
         DpkgEnvironment: 'dpkg-query',
-        YumEnvironment: 'yum'
+        RPMEnvironment: 'rpm'
     }
 
     for environment_string, path in envs.iteritems():

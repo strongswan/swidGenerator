@@ -8,22 +8,22 @@ from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
 
-class YumEnvironment(CommonEnvironment):
+class RPMEnvironment(CommonEnvironment):
     @staticmethod
     def get_list(include_files=False):
-        command_args = ['yum', 'list', 'installed']
+        command_args = ['rpm', '-qa', '--queryformat', '%{name}\t%{version}-%{release}\n']
         data = subprocess.check_output(command_args)
         line_list = data.split('\n')
         result = []
 
         for line in line_list:
             split_line = filter(len, line.split())
-            if len(split_line) == 3:
+            if len(split_line) == 2:
                 info = PackageInfo()
                 info.package = split_line[0]
                 info.version = split_line[1]
                 if include_files:
-                    info.files = YumEnvironment.get_files_for_package(info.package)
+                    info.files = RPMEnvironment.get_files_for_package(info.package)
                 result.append(info)
 
         return result
@@ -48,7 +48,7 @@ class YumEnvironment(CommonEnvironment):
         command_args = ['rpm', '-ql', package_name]
         data = subprocess.check_output(command_args)
         lines = data.rstrip().split('\n')
-        files = filter(YumEnvironment.is_file, lines)
+        files = filter(RPMEnvironment.is_file, lines)
         return [FileInfo(path) for path in files]
 
     @staticmethod

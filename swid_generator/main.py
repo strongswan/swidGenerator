@@ -6,7 +6,7 @@ import sys
 from .swidgenerator_argumentparser import SwidGeneratorArgumentParser
 from .environments.autodetection import autodetect_env
 from .environments.dpkg_environment import DpkgEnvironment
-from .environments.yum_environment import YumEnvironment
+from .environments.rpm_environment import RPMEnvironment
 from swid_generator.generators.swid_generator import OutputGenerator
 from .generators.softwareid_generator import create_software_ids
 
@@ -18,8 +18,8 @@ def main():
 
     if options.environment == 'dpkg':
         env = DpkgEnvironment()
-    elif options.environment == 'yum':
-        env = YumEnvironment()
+    elif options.environment == 'rpm':
+        env = RPMEnvironment()
     elif options.environment == 'auto':
         env = autodetect_env()
         if env is None:
