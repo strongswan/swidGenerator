@@ -44,11 +44,22 @@ class OutputGenerator(object):
             regid=self.regid,
             uniqueID=self._create_unique_id(package_info))
 
-    def create_swid_tags(self, visitor, full=False, target=None):
+    def create_swid_tags(self, full=False, target=None):
+        """
+        Return SWID tags as xml strings for all available packages.
+
+        Args:
+            full (bool):
+                Whether to include file payload. Default is False.
+            target (str):
+                Return only SWID tags whose software-id fully matches the given target. Default is False.
+
+        Returns:
+            A generator object for all available SWID XML strings.
+        """
         pkg_info = self._get_list(include_files=full)
 
         for pi in pkg_info:
-
             # Check if the software-id of the current package matches the targeted request
             if target and self._create_software_id(pi) != target:
                 continue
@@ -72,4 +83,4 @@ class OutputGenerator(object):
                 software_identity.append(payload_tag)
 
             swidtag_flat = ET.tostring(software_identity, 'UTF-8', method='xml').replace('\n', '')
-            visitor(swidtag_flat)
+            yield swidtag_flat

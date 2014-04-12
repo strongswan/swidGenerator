@@ -7,9 +7,9 @@ from .swidgenerator_argumentparser import SwidGeneratorArgumentParser
 from .environments.autodetection import autodetect_env
 from .environments.dpkg_environment import DpkgEnvironment
 from .environments.rpm_environment import RPMEnvironment
-from swid_generator.generators.swid_generator import OutputGenerator
+from .generators.swid_generator import OutputGenerator
 from .generators.softwareid_generator import create_software_ids
-from print_visitor import SWIDPrintVisitor, SoftwareIDPrintVisitor
+from .print_functions import print_swid_tags, print_software_ids
 
 
 def main():
@@ -30,13 +30,14 @@ def main():
 
     if options.command == 'swid':
         generator = OutputGenerator(env, options.entity_name, options.regid)
-        visitor = SWIDPrintVisitor(pretty=options.pretty, separator=options.document_separator)
-        generator.create_swid_tags(visitor=visitor.visit, full=options.full, target=options.match_software_id)
+        swid_tags = generator.create_swid_tags(full=options.full,
+                                               target=options.match_software_id)
+        print_swid_tags(swid_tags, separator=options.document_separator, pretty=options.pretty)
     elif options.command == 'software-id':
-        visitor = SoftwareIDPrintVisitor(separator=options.document_separator)
-        create_software_ids(env=env, regid=options.regid, visitor=visitor.visit)
+        software_ids = create_software_ids(env=env, regid=options.regid)
+        print_software_ids(software_ids, separator=options.document_separator)
     else:
-        print('Error: Please choose a subcommand: ' \
+        print('Error: Please choose a subcommand: '
               'swid for swid output, software-id for software id output')
         parser.print_usage()
         exit(1)
