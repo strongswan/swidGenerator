@@ -2,14 +2,14 @@
 
 import pytest
 
-from swid_generator.swidgenerator_argumentparser import SwidGeneratorArgumentParser, regid_string, entity_name_string
+from swid_generator.argparser import MainArgumentParser, regid_string, entity_name_string
 
 from argparse import ArgumentTypeError
 
 
 @pytest.fixture
 def parser():
-    return SwidGeneratorArgumentParser()
+    return MainArgumentParser()
 
 
 def test_full_argument(parser):

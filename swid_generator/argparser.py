@@ -23,7 +23,7 @@ def entity_name_string(string):
         raise ArgumentTypeError('String \'{0}\' does not match required format'.format(string))
 
 
-class SwidGeneratorArgumentParser(object):
+class MainArgumentParser(object):
     """
     Parses arguments
     """
