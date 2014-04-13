@@ -62,20 +62,17 @@ def packages():
 @pytest.fixture
 def generator(packages):
     env = TestEnvironment(packages)
-    return OutputGenerator(environment=env, entity_name=DEFAULT_ENTITY_NAME, regid=DEFAULT_REGID,
-                           document_separator='\n')
+    return OutputGenerator(environment=env, entity_name=DEFAULT_ENTITY_NAME, regid=DEFAULT_REGID)
 
 
 def test_package_rc_state(generator):
-    output = generator.create_swid_tags(pretty=False, full=False)
-    document_strings = output.split('\n')
-    assert len(document_strings) == 2
+    output = generator.create_swid_tags(full=False)
+    assert len(list(output)) == 2
 
 
 def test_non_pretty_output(generator, packages):
-    output = generator.create_swid_tags(pretty=False, full=False)
-    document_strings = output.split('\n')
-    for (idx, document_string) in enumerate(document_strings):
+    output = generator.create_swid_tags(full=False)
+    for idx, document_string in enumerate(output):
         root = ET.fromstring(document_string)
 
         #Test Entity tag
@@ -91,9 +88,8 @@ def test_non_pretty_output(generator, packages):
 
 
 def test_full_output(generator, packages):
-    output = generator.create_swid_tags(pretty=False, full=True)
-    documents = output.split('\n')
-    for document in documents:
+    output = generator.create_swid_tags(full=True)
+    for document in output:
         root = ET.fromstring(document)
         package_name = root.attrib['name']
         payload = root[1]
@@ -110,8 +106,7 @@ def test_targeted_request(generator, packages):
                 os_info=TestEnvironment.os_string,
                 pi=packages[0],
                 architecture=TestEnvironment.architecture())
-    output = generator.create_swid_tags(pretty=False, full=False, target=target)
-    documents = output.split('\n')
-    print documents[0]
-    assert len(documents) == 1
-    assert 'cowsay' in documents[0]
+    output = list(generator.create_swid_tags(full=False, target=target))
+    print output[0]
+    assert len(output) == 1
+    assert 'cowsay' in output[0]
