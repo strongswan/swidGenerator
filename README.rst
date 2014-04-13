@@ -8,7 +8,7 @@ swidGenerator
 	:target: https://landscape.io/github/tnc-ba/swidGenerator/master
 	:alt: Code Health
 
-Application which generates SWID-Tags from Linux installed packages, using tools as dpgk or yum.
+Application which generates SWID-Tags from Linux installed packages, using tools as dpkg and rpm.
 
 Usage
 =====
@@ -18,7 +18,7 @@ Generate SWID tags:
 ::
 
     usage: main.py swid [-h] [--doc-separator DOCUMENT_SEPARATOR] [--regid REGID]
-                        [--environment {dpkg,yum,auto}] [--full] [--pretty]
+                        [--environment {dpkg,rpm,auto}] [--full] [--pretty]
                         [--entity-name ENTITY_NAME]
 
     Generate SWID tags
@@ -31,7 +31,7 @@ Generate SWID tags:
       --regid REGID         Specify the regid value (used in the <Entity> tag for
                             the regid attribute).Shall not contain any whitespace
                             characters
-      --environment {dpkg,yum,auto}
+      --environment {dpkg,rpm,auto}
                             Specify the environment
       --full                Dumps the full SWID tags including file tags for each
                             package
@@ -48,7 +48,7 @@ Generate Software IDs:
 ::
 
     usage: main.py software-id [-h] [--doc-separator DOCUMENT_SEPARATOR]
-                               [--regid REGID] [--environment {dpkg,yum,auto}]
+                               [--regid REGID] [--environment {dpkg,rpm,auto}]
 
     Generate Software IDs
 
@@ -60,7 +60,7 @@ Generate Software IDs:
       --regid REGID         Specify the regid value (used in the <Entity> tag for
                             the regid attribute).Shall not contain any whitespace
                             characters
-      --environment {dpkg,yum,auto}
+      --environment {dpkg,rpm,auto}
                             Specify the environment
               
 Installation
