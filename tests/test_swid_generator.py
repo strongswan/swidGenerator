@@ -38,14 +38,12 @@ class TestEnvironment(CommonEnvironment):
         return self.installed_states.get(package.status, True)
 
     @staticmethod
-    def architecture():
+    def get_architecture():
         return 'i686'
 
     def get_files_for_package(self, package_name):
-        for pi in self.packages:
-            if pi.package == package_name:
-                return pi.files
-
+        package_info = [p for p in self.packages if p.package == package_name]
+        return package_info[0].files
 
 
 @pytest.fixture
@@ -95,7 +93,7 @@ def test_non_pretty_output(swid_tag_generator, packages):
         assert root.attrib['name'] == packages[idx].package
         assert root.attrib['uniqueId'] == '{os_info}-{architecture}-{pi.package}-{pi.version}'.format(
             os_info=TestEnvironment.os_string,
-            architecture=TestEnvironment.architecture(),
+            architecture=TestEnvironment.get_architecture(),
             pi=packages[idx])
 
 
@@ -117,8 +115,7 @@ def test_targeted_request(swid_tag_generator, packages):
         .format(regid=DEFAULT_REGID,
                 os_info=TestEnvironment.os_string,
                 pi=packages[0],
-                architecture=TestEnvironment.architecture())
+                architecture=TestEnvironment.get_architecture())
     output = list(swid_tag_generator(full=False, target=target))
-    print output[0]
     assert len(output) == 1
     assert 'cowsay' in output[0]

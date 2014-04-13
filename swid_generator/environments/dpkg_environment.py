@@ -3,6 +3,8 @@ import platform
 import os
 import os.path
 import stat
+from distutils.spawn import find_executable
+
 
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
@@ -14,6 +16,8 @@ class DpkgEnvironment(CommonEnvironment):
         'install ok installed': True,
         'deinstall ok config-files': False
     }
+
+    executable = 'dpkg-query'
 
     @staticmethod
     def is_file(path):
@@ -68,7 +72,7 @@ class DpkgEnvironment(CommonEnvironment):
                 info.version = split_line[1]
                 info.status = split_line[2]
                 result.append(info)
-        return filter(DpkgEnvironment.is_installed, result)
+        return filter(DpkgEnvironment.package_installed, result)
 
     @staticmethod
     def get_os_string():
@@ -76,7 +80,11 @@ class DpkgEnvironment(CommonEnvironment):
         return dist[0] + '_' + dist[1]
 
     @staticmethod
-    def is_installed(packet_info):
+    def package_installed(packet_info):
         # if the installed state cannot be determined with certainty
         # we assume its installed
         return DpkgEnvironment.installed_states.get(packet_info.status, True)
+
+    @staticmethod
+    def is_installed():
+        return find_executable(DpkgEnvironment.executable)
