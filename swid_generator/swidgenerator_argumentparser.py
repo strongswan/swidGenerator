@@ -32,7 +32,7 @@ class SwidGeneratorArgumentParser(object):
         """
          returns an object with attributes
         """
-        self.arg_parser = ArgumentParser('python -m swid_generator.main',
+        self.arg_parser = ArgumentParser('swid_generator',
                                          description='Generate SWID tags and Software IDs'
                                                      'from dpkg or rpm packet manager')
         # Parent parser for common options
