@@ -18,7 +18,7 @@ def main():
 
     if options.environment == 'dpkg':
         env = DpkgEnvironment()
-    elif options.environment == 'yum':
+    elif options.environment == 'rpm':
         env = RPMEnvironment()
     elif options.environment == 'auto':
         env = autodetect_env()
