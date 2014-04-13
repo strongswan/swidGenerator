@@ -32,7 +32,9 @@ Generate SWID tags:
                             the regid attribute).Shall not contain any whitespace
                             characters
       --environment {dpkg,rpm,auto}
-                            Specify the environment
+                            Specify the environment to be used. Defaults to
+                            auto. If the environment can not be autodetected the
+                            exit code is set to 3.
       --full                Dumps the full SWID tags including file tags for each
                             package
       --pretty              Generate pretty readable output
@@ -42,7 +44,9 @@ Generate SWID tags:
                             characters
       --match SOFTWARE-ID   Do a targeted request for the specified Software-ID.
                             If specified, output only contains SWID tags matching
-                            the given Software-ID
+                            the given Software-ID. If no matching package is
+                            found, the output is empty and the exit code is set to
+                            1.
 
 Generate Software IDs:
 ::
@@ -61,8 +65,24 @@ Generate Software IDs:
                             the regid attribute).Shall not contain any whitespace
                             characters
       --environment {dpkg,rpm,auto}
-                            Specify the environment
-              
+                            Specify the environment to be used. Defaults to
+                            auto. If the environment can not be autodetected the
+                            exit code is set to 3.
+
+Possible Return Codes
+---------------------
+
+| If the application fails somehow, an exit code is set appropriately:
+| **Exit Code 1**: A targeted request did not return any results.
+| **Exit Code 2**: Invalid arguments passed.
+| **Exit Code 3**: Either the given environment is not installed or the environment  
+                   could not be autodetected.
+                   
+The exit code can be shown with::
+
+    $ echo $?
+    
+
 Installation
 ============
 

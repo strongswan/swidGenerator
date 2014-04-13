@@ -22,16 +22,16 @@ def _create_payload_tag(package_info):
     return payload
 
 
-def _create_unique_id(os_info, package_info):
+def _create_unique_id(os_info, package_info, architecture):
     unique_id_format = '{os_info}-{architecture}-{pi.package}-{pi.version}'
     return unique_id_format.format(os_info=os_info,
                                    pi=package_info,
-                                   architecture=CommonEnvironment.get_architecture())
+                                   architecture=architecture)
 
 
-def _create_software_id(os_info, package_info, regid):
+def _create_software_id(os_info, package_info, regid, architecture):
     return '{regid}_{uniqueID}'.format(
-        regid=regid, uniqueID=_create_unique_id(os_info, package_info))
+        regid=regid, uniqueID=_create_unique_id(os_info, package_info, architecture))
 
 
 def create_swid_tags(environment, entity_name, regid, full=False, target=None):
@@ -59,13 +59,13 @@ def create_swid_tags(environment, entity_name, regid, full=False, target=None):
 
     for pi in pkg_info:
         # Check if the software-id of the current package matches the targeted request
-        if target and _create_software_id(os_info, pi, regid) != target:
+        if target and _create_software_id(os_info, pi, regid, environment.get_architecture()) != target:
             continue
 
         software_identity = ET.Element('SoftwareIdentity')
         software_identity.set('xmlns', XMLNS)
         software_identity.set('name', pi.package)
-        software_identity.set('uniqueId', _create_unique_id(os_info, pi))
+        software_identity.set('uniqueId', _create_unique_id(os_info, pi, environment.get_architecture()))
 
         software_identity.set('version', pi.version)
         software_identity.set('versionScheme', VERSION_SCHEME)
