@@ -25,7 +25,7 @@ from __future__ import print_function
 
 import sys
 
-from .swidgenerator_argumentparser import SwidGeneratorArgumentParser
+from .argparser import MainArgumentParser
 from .environments.autodetection import autodetect_env
 from .environments.dpkg_environment import DpkgEnvironment
 from .environments.rpm_environment import RPMEnvironment
@@ -35,7 +35,7 @@ from .print_functions import print_swid_tags, print_software_ids
 
 
 def main():
-    parser = SwidGeneratorArgumentParser()
+    parser = MainArgumentParser()
     options = parser.parse()  # without any parameter it takes arguments passed by command line
     env = None
 
