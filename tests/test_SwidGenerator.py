@@ -1,9 +1,10 @@
 import platform
+from functools import partial
 from xml.etree import cElementTree as ET
 
 import pytest
 
-from swid_generator.generators.swid_generator import OutputGenerator
+from swid_generator.generators import swid_generator
 from swid_generator.package_info import PackageInfo
 from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 from swid_generator.environments.common import CommonEnvironment
@@ -60,18 +61,23 @@ def packages():
 
 
 @pytest.fixture
-def generator(packages):
+def swid_tag_generator(packages):
     env = TestEnvironment(packages)
-    return OutputGenerator(environment=env, entity_name=DEFAULT_ENTITY_NAME, regid=DEFAULT_REGID)
+    kwargs = {
+        'environment': env,
+        'entity_name': DEFAULT_ENTITY_NAME,
+        'regid': DEFAULT_REGID,
+    }
+    return partial(swid_generator.create_swid_tags, **kwargs)
 
 
-def test_package_rc_state(generator):
-    output = generator.create_swid_tags(full=False)
+def test_package_rc_state(swid_tag_generator):
+    output = swid_tag_generator(full=False)
     assert len(list(output)) == 2
 
 
-def test_non_pretty_output(generator, packages):
-    output = generator.create_swid_tags(full=False)
+def test_non_pretty_output(swid_tag_generator, packages):
+    output = swid_tag_generator(full=False)
     for idx, document_string in enumerate(output):
         root = ET.fromstring(document_string)
 
@@ -87,8 +93,8 @@ def test_non_pretty_output(generator, packages):
             pi=packages[idx])
 
 
-def test_full_output(generator, packages):
-    output = generator.create_swid_tags(full=True)
+def test_full_output(swid_tag_generator, packages):
+    output = swid_tag_generator(full=True)
     for document in output:
         root = ET.fromstring(document)
         package_name = root.attrib['name']
@@ -100,13 +106,13 @@ def test_full_output(generator, packages):
             assert file_tag.attrib['name'] in [f.name for f in files]
 
 
-def test_targeted_request(generator, packages):
+def test_targeted_request(swid_tag_generator, packages):
     target = '{regid}_{os_info}-{architecture}-{pi.package}-{pi.version}' \
         .format(regid=DEFAULT_REGID,
                 os_info=TestEnvironment.os_string,
                 pi=packages[0],
                 architecture=TestEnvironment.architecture())
-    output = list(generator.create_swid_tags(full=False, target=target))
+    output = list(swid_tag_generator(full=False, target=target))
     print output[0]
     assert len(output) == 1
     assert 'cowsay' in output[0]
