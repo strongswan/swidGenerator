@@ -4,7 +4,7 @@ from ..environments.common import CommonEnvironment
 
 
 def create_software_ids(env, regid):
-    pkg_info = env.get_list(include_files=False)
+    pkg_info = env.get_list()
     os_info = env.get_os_string()
 
     for pi in pkg_info:

@@ -55,7 +55,7 @@ def create_swid_tags(environment, entity_name, regid, full=False, target=None):
 
     """
     os_info = environment.get_os_string()
-    pkg_info = environment.get_list(include_files=full)
+    pkg_info = environment.get_list()
 
     for pi in pkg_info:
         # Check if the software-id of the current package matches the targeted request
@@ -76,6 +76,7 @@ def create_swid_tags(environment, entity_name, regid, full=False, target=None):
         entity.set('role', ROLE)
 
         if full:
+            pi.files = environment.get_files_for_package(pi.package)
             payload_tag = _create_payload_tag(pi)
             software_identity.append(payload_tag)
 

@@ -55,7 +55,7 @@ class DpkgEnvironment(CommonEnvironment):
         return [FileInfo(path) for path in files]
 
     @staticmethod
-    def get_list(include_files=False):
+    def get_list():
         command_args = ['dpkg-query', '-W', '-f=${Package}\\t${Version}\\t${Status}\\n']
         data = subprocess.check_output(command_args)
         line_list = data.split('\n')
@@ -67,9 +67,6 @@ class DpkgEnvironment(CommonEnvironment):
                 info.package = split_line[0]
                 info.version = split_line[1]
                 info.status = split_line[2]
-                # TODO check if installed here, before adding to list
-                if include_files:
-                    info.files = DpkgEnvironment.get_files_for_package(info.package)
                 result.append(info)
         return filter(DpkgEnvironment.is_installed, result)
 
