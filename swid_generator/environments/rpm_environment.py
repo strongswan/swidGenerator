@@ -10,7 +10,7 @@ from ..package_info import PackageInfo, FileInfo
 
 class RPMEnvironment(CommonEnvironment):
     @staticmethod
-    def get_list(include_files=False):
+    def get_list():
         command_args = ['rpm', '-qa', '--queryformat', '%{name}\t%{version}-%{release}\n']
         data = subprocess.check_output(command_args)
         line_list = data.split('\n')
@@ -22,8 +22,6 @@ class RPMEnvironment(CommonEnvironment):
                 info = PackageInfo()
                 info.package = split_line[0]
                 info.version = split_line[1]
-                if include_files:
-                    info.files = RPMEnvironment.get_files_for_package(info.package)
                 result.append(info)
 
         return result

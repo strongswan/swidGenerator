@@ -25,17 +25,17 @@ from __future__ import print_function
 
 import sys
 
-from .swidgenerator_argumentparser import SwidGeneratorArgumentParser
+from .argparser import MainArgumentParser
 from .environments.autodetection import autodetect_env
 from .environments.dpkg_environment import DpkgEnvironment
 from .environments.rpm_environment import RPMEnvironment
-from .generators.swid_generator import OutputGenerator
+from .generators import swid_generator
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
 
 
 def main():
-    parser = SwidGeneratorArgumentParser()
+    parser = MainArgumentParser()
     options = parser.parse()  # without any parameter it takes arguments passed by command line
     env = None
 
@@ -51,9 +51,14 @@ def main():
             sys.exit(1)
 
     if options.command == 'swid':
-        generator = OutputGenerator(env, options.entity_name, options.regid)
-        swid_tags = generator.create_swid_tags(full=options.full,
-                                               target=options.match_software_id)
+        swid_args = {
+            'environment': env,
+            'entity_name': options.entity_name,
+            'regid': options.regid,
+            'full': options.full,
+            'target': options.match_software_id,
+        }
+        swid_tags = swid_generator.create_swid_tags(**swid_args)
         print_swid_tags(swid_tags, separator=options.document_separator, pretty=options.pretty)
     elif options.command == 'software-id':
         software_ids = create_software_ids(env=env, regid=options.regid)
