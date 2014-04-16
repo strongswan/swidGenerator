@@ -47,18 +47,15 @@ def print_swid_tags(swid_tags, separator, pretty):
             Whether or not to use pretty printing.
 
     """
+
     def action(tag):
         if pretty:
             swidtag_reparsed = minidom.parseString(tag)
-            # Special case, 2 newline default
-            # TODO: How can we differentiate between '\n' as default value and
-            # '\n' as explicitly set separator? The current solution makes
-            # single newlines impossible in combination with pretty printing.
-            end = '\n' if separator == '\n' else ''
             # [:-1] strips away the last newline, automatically inserted by minidoms toprettyxml
-            print(swidtag_reparsed.toprettyxml(indent='  ', encoding='UTF-8')[:-1], end=end)
+            print(swidtag_reparsed.toprettyxml(indent='  ', encoding='UTF-8')[:-1], end='')
         else:
             print(tag, end='')
+
     iterate(swid_tags, action, separator, end='')
 
 
@@ -73,6 +70,8 @@ def print_software_ids(software_ids, separator):
             The separator string to be printed between two SWID Tags.
 
     """
+
     def action(swid):
         print(swid, end='')
+
     iterate(software_ids, action, separator, end='')
