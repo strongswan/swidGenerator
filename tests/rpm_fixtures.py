@@ -26,7 +26,6 @@ def rpm_environment(common_environment):
     RPMEnvironment.get_os_string = Mock('RPMEnvironment.get_os_string')
     RPMEnvironment.get_os_string.mock_returns = 'fedora_19'
 
-
     return RPMEnvironment
 
 
@@ -42,7 +41,7 @@ def rpm_document_strings(rpm_environment):
 @pytest.fixture
 def rpm_networkmanager_template():
     with open('tests/dumps/rpm-networkmanager-normal-template.xml') as template_file:
-         return ET.fromstring(template_file.read())
+        return ET.fromstring(template_file.read())
 
 
 @pytest.fixture
