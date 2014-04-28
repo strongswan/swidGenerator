@@ -11,9 +11,9 @@ def regid_string(string):
     if string is None:
         return None
     try:
-        return re.match('^regid\.\d{4}-\d{2}\.[^ /|:<>*?&\\\]*$', string).group(0)
+        return re.match(r'^regid\.\d{4}-\d{2}\.[^ /|:<>*?&\\]*$', string).group(0)
     except:
-        raise ArgumentTypeError('String \'{0}\' does not match required format'.format(string))
+        raise ArgumentTypeError("String '{0}' does not match required format".format(string))
 
 
 def entity_name_string(string):
@@ -22,22 +22,16 @@ def entity_name_string(string):
     try:
         return re.match('^[^<&"]*$', string).group(0)
     except:
-        raise ArgumentTypeError('String \'{0}\' does not match required format'.format(string))
+        raise ArgumentTypeError("String '{0}' does not match required format".format(string))
 
 
 class MainArgumentParser(object):
-    """
-    Parses arguments
-    """
 
     def __init__(self, environment_registry):
-        """
-         returns an object with attributes
-        """
         self.environments = environment_registry
         self.arg_parser = ArgumentParser('swid_generator',
                                          description='Generate SWID tags and Software IDs'
-                                                     'from dpkg or rpm packet manager')
+                                                     'from dpkg or rpm package manager')
         # Parent parser for common options
         parent_parser = ArgumentParser(add_help=False)
 
