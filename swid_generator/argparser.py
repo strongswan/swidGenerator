@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import, unicode_literals
 
-from argparse import ArgumentParser, ArgumentTypeError
-from settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 import re
+from argparse import ArgumentParser, ArgumentTypeError
+
+from . import settings
 
 
 def regid_string(string):
@@ -44,9 +46,9 @@ class MainArgumentParser(object):
                                         'by which the SWID XML documents are separated. '
                                         'e.g for 1 newline use $\'\\n\'.')
         parent_parser.add_argument('--regid', dest='regid', type=regid_string,
-                                   default=regid_string(DEFAULT_REGID),
-                                   help='Specify the regid value for the regid attribute).'
-                                        'Shall not contain any whitespace characters')
+                                   default=regid_string(settings.DEFAULT_REGID),
+                                   help='Specify the regid value for the regid attribute). '
+                                        'Shall not contain any whitespace characters.')
         parent_parser.add_argument('--environment', choices=environment_registry.get_environment_strings(),
                                    default='auto',
                                    help='Specify the environment to be used. Defaults to auto. '
@@ -64,7 +66,7 @@ class MainArgumentParser(object):
         swid_parser.add_argument('--pretty', action='store_true', default=False,
                                  help='Generate pretty readable output.')
         swid_parser.add_argument('--entity-name', dest='entity_name', type=entity_name_string,
-                                 default=entity_name_string(DEFAULT_ENTITY_NAME),
+                                 default=entity_name_string(settings.DEFAULT_ENTITY_NAME),
                                  help='Specify the entity name (used in the <Entity> tag)'
                                       'for the name attribute). '
                                       'Shall not contain any whitespace characters.')
