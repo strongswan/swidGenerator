@@ -18,6 +18,7 @@ class FileInfoMock(object):
 
 
 class TestEnvironment(CommonEnvironment):
+    executable = 'asdfasdfa_env'
     os_string = 'SomeTestOS'
 
     def __init__(self, packages):
@@ -28,14 +29,14 @@ class TestEnvironment(CommonEnvironment):
         }
 
     def get_list(self, include_files=False):
-        return filter(self.is_installed, self.packages)
+        return filter(self.package_installed, self.packages)
+
+    def package_installed(self, package):
+        return self.installed_states.get(package.status, True)
 
     @staticmethod
     def get_os_string():
         return TestEnvironment.os_string
-
-    def is_installed(self, package):
-        return self.installed_states.get(package.status, True)
 
     @staticmethod
     def get_architecture():
