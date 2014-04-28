@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from xml.etree import cElementTree as ET
 
-from ..environments.common import CommonEnvironment
-
 
 ROLE = 'tagcreator'
 VERSION_SCHEME = 'alphanumeric'
