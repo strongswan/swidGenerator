@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
+import sys
 import platform
 
+import pytest
 from minimock import Mock
 
 from swid_generator.environments.common import CommonEnvironment
@@ -14,6 +16,7 @@ def test_os_string():
     assert CommonEnvironment.get_os_string() == 'debian_7.4'
 
 
+@pytest.mark.skipif(sys.platform == 'win32', reason='requires windows')
 def test_is_file(tmpdir):
     isfile = CommonEnvironment.is_file
 

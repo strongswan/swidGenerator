@@ -1,9 +1,25 @@
 language:  python
-python:
-   - "2.7"
+env:
+  - TOXENV=py26
+  - TOXENV=py27
+  - TOXENV=py32
+  - TOXENV=py33
+  - TOXENV=py34
+  - TOXENV=pypy
+  - TOXENV=cov
+matrix:
+  allow_failures:
+    - env: TOXENV=cov
+    - env: TOXENV=py26
+    - env: TOXENV=py32
+    - env: TOXENV=py33
+    - env: TOXENV=py34
 install: 
-   - pip install -r requirements-tests.txt
-before_script:
-   - chmod +x ./runtests.py
+   - pip install --quiet --use-mirrors tox
 script:
-   - ./runtests.py
+   - tox
+after_script:
+  - if [ $TOXENV == "cov" ]; then
+    pip install --quiet --use-mirrors coveralls;
+    coveralls;
+    fi

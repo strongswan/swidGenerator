@@ -4,11 +4,15 @@ swidGenerator
 .. image:: https://travis-ci.org/tnc-ba/swidGenerator.png?branch=master
     :target: https://travis-ci.org/tnc-ba/swidGenerator
 
+.. image:: https://coveralls.io/repos/tnc-ba/swidGenerator/badge.png
+    :target: https://coveralls.io/r/tnc-ba/swidGenerator
+
 .. image:: https://landscape.io/github/tnc-ba/swidGenerator/master/landscape.png
 	:target: https://landscape.io/github/tnc-ba/swidGenerator/master
 	:alt: Code Health
 
 Application which generates SWID-Tags from Linux installed packages, using tools as dpkg and rpm.
+
 
 Usage
 =====
@@ -86,13 +90,18 @@ The exit code can be shown with::
 Installation
 ============
 
-The swidGenerator currently supports dpkg and rpm managed environments. 
-It depends on the command line utilities dpkg-query and rpm for querying the package managers.
-The follwing Linux distributions have been tested so far
+The swidGenerator currently supports dpkg and rpm managed environments. It
+depends on the command line utilities ``dpkg-query`` and ``rpm`` for querying
+the package managers. The follwing Linux distributions have been tested so far
 
 - Fedora 19 i686
 - Ubuntu 12.04 i686
 - OpenSuse 12.3 i686
+
+The following Python versions are supported:
+
+- Python 2.7
+- PyPy
 
 Get Code
 --------
@@ -128,6 +137,51 @@ You can also invoke the generator directly from the source directory, without
 any prior installation::
 
     $ python -m swid_generator.main
+
+
+Testing
+=======
+
+**Setup**
+
+Testing for swidGenerator is set up using `Tox <http://tox.readthedocs.org/>`_
+and `pytest <http://pytest.org/>`_. Violations of the coding guidelines (PEP8
+with a few small tweaks) are counted as test fails.
+
+The only requirement to run the tests is tox::
+
+    $ pip install tox
+
+**Running tests**
+
+To test only a single Python version, use the ``-e`` parameter::
+
+    $ tox -e py27
+
+To see the coverage, use the ``cov`` testenv (which uses Python 2.7 by
+default)::
+
+    $ tox -e cov
+
+You can also combine multiple testenvs, just make sure that you have the
+corresponding Python versions installed::
+
+    $ tox -e py27,pypy,cov
+
+**CI**
+
+We use different continuous integration / quality assurance services:
+
+- Travis CI (testing): https://travis-ci.org/tnc-ba/swidGenerator
+- Coveralls (test coverage): https://coveralls.io/r/tnc-ba/swidGenerator
+- Landscape (code quality): https://landscape.io/github/tnc-ba/swidGenerator/
+
+
+Coding Guidelines
+=================
+
+Use PEP8 with ``--max-line-length=109`` and the following error codes ignored:
+``E126 E127 E128``.
 
 
 License
