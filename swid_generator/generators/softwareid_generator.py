@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import, unicode_literals
+
 
 def create_software_ids(env, regid):
     pkg_info = env.get_list()
