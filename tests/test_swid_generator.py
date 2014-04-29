@@ -39,7 +39,7 @@ class TestEnvironment(CommonEnvironment):
 
     @staticmethod
     def architecture():
-        return platform.machine()
+        return 'i686'
 
     def get_files_for_package(self, package_name):
         for pi in self.packages:

@@ -1,6 +1,0 @@
-/usr/lib/libz.so.1
-/usr/lib/libz.so.1.2.7
-/usr/share/doc/zlib-1.2.7
-/usr/share/doc/zlib-1.2.7/ChangeLog
-/usr/share/doc/zlib-1.2.7/FAQ
-/usr/share/doc/zlib-1.2.7/README

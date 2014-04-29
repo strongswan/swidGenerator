@@ -1,7 +1,7 @@
-from rpm_fixtures import rpm_documents_as_xml, rpm_document_strings, rpm_environment, \
-    rpm_networkmanager_generated, \
-    rpm_networkmanager_template, get_swid_by_name, common_environment
 from xml.etree import cElementTree as ET
+
+from tests.fixtures.rpm_environment import get_swid_by_name, rpm_document_strings, \
+    rpm_networkmanager_generated, rpm_networkmanager_template, rpm_environment, common_environment
 
 
 def test_yum_num_of_packages(rpm_document_strings):
