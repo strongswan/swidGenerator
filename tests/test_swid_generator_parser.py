@@ -1,15 +1,21 @@
 # -*- coding: utf-8 -*-
 
+from argparse import ArgumentTypeError
+
 import pytest
 
 from swid_generator.argparser import MainArgumentParser, regid_string, entity_name_string
-
-from argparse import ArgumentTypeError
+from swid_generator.environments.environment_registry import EnvironmentRegistry
 
 
 @pytest.fixture
-def parser():
-    return MainArgumentParser()
+def env_registry():
+    return EnvironmentRegistry()
+
+
+@pytest.fixture
+def parser(env_registry):
+    return MainArgumentParser(env_registry)
 
 
 def test_full_argument(parser):

@@ -7,7 +7,7 @@ try:
 except ImportError:
     from xml.etree import ElementTree as ET
 
-from swid_generator.environments.rpm_environment import RPMEnvironment
+from swid_generator.environments.rpm_environment import RpmEnvironment
 from swid_generator.generators.swid_generator import create_swid_tags
 from swid_generator.settings import DEFAULT_ENTITY_NAME, DEFAULT_REGID
 from .common_environment import common_environment
@@ -21,10 +21,10 @@ def rpm_environment(common_environment):
         data = yum_dump.read()
     subprocess.check_output.mock_returns = data
 
-    RPMEnvironment.get_os_string = Mock('RPMEnvironment.get_os_string')
-    RPMEnvironment.get_os_string.mock_returns = 'fedora_19'
+    RpmEnvironment.get_os_string = Mock('RpmEnvironment.get_os_string')
+    RpmEnvironment.get_os_string.mock_returns = 'fedora_19'
 
-    return RPMEnvironment
+    return RpmEnvironment
 
 
 @pytest.fixture

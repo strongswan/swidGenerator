@@ -3,12 +3,15 @@ import platform
 import os
 import os.path
 import stat
+from distutils.spawn import find_executable
 
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
 
-class RPMEnvironment(CommonEnvironment):
+class RpmEnvironment(CommonEnvironment):
+    executable = 'rpm'
+
     @staticmethod
     def get_list():
         command_args = ['rpm', '-qa', '--queryformat', '%{name}\t%{version}-%{release}\n']
@@ -46,10 +49,14 @@ class RPMEnvironment(CommonEnvironment):
         command_args = ['rpm', '-ql', package_name]
         data = subprocess.check_output(command_args)
         lines = data.rstrip().split('\n')
-        files = filter(RPMEnvironment.is_file, lines)
+        files = filter(RpmEnvironment.is_file, lines)
         return [FileInfo(path) for path in files]
 
     @staticmethod
     def get_os_string():
         dist = platform.dist()
         return dist[0] + '_' + dist[1]
+
+    @staticmethod
+    def is_installed():
+        return find_executable(RpmEnvironment.executable)

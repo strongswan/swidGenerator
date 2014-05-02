@@ -26,29 +26,32 @@ from __future__ import print_function
 import sys
 
 from .argparser import MainArgumentParser
-from .environments.autodetection import autodetect_env
+from .environments.environment_registry import EnvironmentRegistry, AutodetectionError, \
+    EnvironmentNotInstalledError
 from .environments.dpkg_environment import DpkgEnvironment
-from .environments.rpm_environment import RPMEnvironment
+from .environments.rpm_environment import RpmEnvironment
 from .generators import swid_generator
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
 
 
 def main():
-    parser = MainArgumentParser()
-    options = parser.parse()  # without any parameter it takes arguments passed by command line
-    env = None
+    environment_registry = EnvironmentRegistry()
+    environment_registry.register('rpm', RpmEnvironment)
+    environment_registry.register('dpkg', DpkgEnvironment)
 
-    if options.environment == 'dpkg':
-        env = DpkgEnvironment()
-    elif options.environment == 'rpm':
-        env = RPMEnvironment()
-    elif options.environment == 'auto':
-        env = autodetect_env()
-        if env is None:
-            print('Error: Could not autodetect environment.')
-            parser.print_usage()
-            sys.exit(1)
+    parser = MainArgumentParser(environment_registry)
+    options = parser.parse()  # without any parameter it takes arguments passed by command line
+
+    try:
+        env = environment_registry.get_environment(options.environment)
+    except EnvironmentNotInstalledError:
+        print('Error: the given environment is not installed')
+        sys.exit(3)
+    except AutodetectionError:
+        print('Error: Could not autodetect environment.')
+        parser.print_usage()
+        sys.exit(3)
 
     if options.command == 'swid':
         swid_args = {
@@ -59,7 +62,13 @@ def main():
             'target': options.match_software_id,
         }
         swid_tags = swid_generator.create_swid_tags(**swid_args)
-        print_swid_tags(swid_tags, separator=options.document_separator, pretty=options.pretty)
+        try:
+            print_swid_tags(swid_tags, separator=options.document_separator, pretty=options.pretty)
+
+        # if --match was used no matching packages were found
+        except StopIteration:
+            sys.exit(1)
+
     elif options.command == 'software-id':
         software_ids = create_software_ids(env=env, regid=options.regid)
         print_software_ids(software_ids, separator=options.document_separator)
@@ -67,7 +76,7 @@ def main():
         print('Error: Please choose a subcommand: '
               'swid for swid output, software-id for software id output')
         parser.print_usage()
-        exit(1)
+        sys.exit(1)
 
 
 if __name__ == '__main__':

@@ -28,10 +28,11 @@ class MainArgumentParser(object):
     Parses arguments
     """
 
-    def __init__(self):
+    def __init__(self, environment_registry):
         """
          returns an object with attributes
         """
+        self.environments = environment_registry
         self.arg_parser = ArgumentParser('swid_generator',
                                          description='Generate SWID tags and Software IDs'
                                                      'from dpkg or rpm packet manager')
@@ -46,8 +47,11 @@ class MainArgumentParser(object):
                                    default=regid_string(DEFAULT_REGID),
                                    help='Specify the regid value for the regid attribute).'
                                         'Shall not contain any whitespace characters')
-        parent_parser.add_argument('--environment', choices=['dpkg', 'rpm', 'auto'], default='auto',
-                                   help='Specify the environment')
+        parent_parser.add_argument('--environment', choices=environment_registry.get_environment_strings(),
+                                   default='auto',
+                                   help='Specify the environment to be used. Defaults to auto. '
+                                        'If the environment can not be autodetected '
+                                        'the exit code is set to 3')
 
         subparsers = self.arg_parser.add_subparsers(help='Commands: ', dest='command')
 
@@ -62,13 +66,14 @@ class MainArgumentParser(object):
         swid_parser.add_argument('--entity-name', dest='entity_name', type=entity_name_string,
                                  default=entity_name_string(DEFAULT_ENTITY_NAME),
                                  help='Specify the entity name (used in the <Entity> tag)'
-                                      'for the name attribute).'
+                                      'for the name attribute). '
                                       'Shall not contain any whitespace characters')
         swid_parser.add_argument('--match', dest='match_software_id', metavar='SOFTWARE-ID',
                                  default=None,
                                  help='Do a targeted request for the specified Software-ID. '
                                       'If specified, output only contains SWID tags matching '
-                                      'the given Software-ID')
+                                      'the given Software-ID. If no matching package is found, '
+                                      'the output is empty and the exit code is set to 1.')
 
         # Subparser for software-id command
         subparsers.add_parser('software-id', help='Software id output', parents=[parent_parser],
