@@ -5,6 +5,7 @@ import subprocess
 
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
+from ..settings import DEFAULT_ENCODING
 
 
 class RpmEnvironment(CommonEnvironment):
@@ -28,7 +29,7 @@ class RpmEnvironment(CommonEnvironment):
 
         """
         command_args = [cls.executable, '-qa', '--queryformat', '%{name}\t%{version}-%{release}\n']
-        data = subprocess.check_output(command_args)
+        data = subprocess.check_output(command_args).decode(DEFAULT_ENCODING)
         line_list = data.split('\n')
         result = []
 
@@ -45,7 +46,7 @@ class RpmEnvironment(CommonEnvironment):
     @classmethod
     def get_files_for_package(cls, package_name):
         command_args = [cls.executable, '-ql', package_name]
-        data = subprocess.check_output(command_args)
+        data = subprocess.check_output(command_args).decode(DEFAULT_ENCODING)
         lines = data.rstrip().split('\n')
         files = filter(cls.is_file, lines)
         return [FileInfo(path) for path in files]
