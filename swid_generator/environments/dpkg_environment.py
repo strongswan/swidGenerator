@@ -5,6 +5,7 @@ import subprocess
 
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
+from ..settings import DEFAULT_ENCODING
 
 
 class DpkgEnvironment(CommonEnvironment):
@@ -33,7 +34,7 @@ class DpkgEnvironment(CommonEnvironment):
 
         """
         command_args = [cls.executable, '-W', '-f=${Package}\\t${Version}\\t${Status}\\n']
-        data = subprocess.check_output(command_args)
+        data = subprocess.check_output(command_args).decode(DEFAULT_ENCODING)
         line_list = data.split('\n')
         result = []
         for line in line_list:
@@ -60,7 +61,7 @@ class DpkgEnvironment(CommonEnvironment):
 
         """
         command_args = [cls.executable, '-L', package_name]
-        data = subprocess.check_output(command_args)
+        data = subprocess.check_output(command_args).decode(DEFAULT_ENCODING)
         lines = data.rstrip().split('\n')
         files = filter(cls.is_file, lines)
         return [FileInfo(path) for path in files]
