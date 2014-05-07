@@ -2,9 +2,19 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import re
-from argparse import ArgumentParser, ArgumentTypeError
+from functools import partial
+from argparse import ArgumentParser, ArgumentTypeError, Action
 
 from . import settings
+from .generators.swid_generator import software_id_matcher, package_name_matcher, all_matcher
+
+
+class TargetAction(Action):
+    def __call__(self, parser, namespace, value, option_string=None):
+        if option_string == '--software-id':
+            setattr(namespace, "matcher", partial(software_id_matcher, value=value))
+        elif option_string == '--package':
+            setattr(namespace, "matcher", partial(package_name_matcher, value=value))
 
 
 def regid_string(string):
@@ -26,7 +36,6 @@ def entity_name_string(string):
 
 
 class MainArgumentParser(object):
-
     def __init__(self, environment_registry):
         self.environments = environment_registry
         self.arg_parser = ArgumentParser('swid_generator',
@@ -64,12 +73,31 @@ class MainArgumentParser(object):
                                  help='Specify the entity name (used in the <Entity> tag)'
                                       'for the name attribute). '
                                       'Shall not contain any whitespace characters.')
-        swid_parser.add_argument('--match', dest='match_software_id', metavar='SOFTWARE-ID',
-                                 default=None,
-                                 help='Do a targeted request for the specified Software-ID. '
-                                      'If specified, output only contains SWID tags matching '
-                                      'the given Software-ID. If no matching package is found, '
-                                      'the output is empty and the exit code is set to 1.')
+        swid_parser.set_defaults(matcher=all_matcher)
+        targeted_group = swid_parser.add_argument_group(
+            title='targeted requests',
+            description='Do a targeted request against either a Software-ID or a Package name.'
+                        'The output only contains a SWID tag fully matching the given target. '
+                        'If no matching SWID tag is found, the output is empty and the '
+                        'exit code is set to 1. '
+                        'These options are mutually exclusive.')
+
+        # mutually exclusive arguments --package/--software-id
+        mutually_group = targeted_group.add_mutually_exclusive_group()
+        mutually_group.add_argument('--software-id', dest='match_software_id', metavar='SOFTWARE-ID',
+                            action=TargetAction,
+                            help='Do a targeted request for the specified Software-ID. '
+                                 'A Software-ID is made up as follows: '
+                                 '{regid}_{os_info}-{architecture}-{package_name}-{package_version}'
+                                 'e.g regid.2004-03.org.strongswan_Ubuntu_12.04-i686-strongswan-4.5.2-1.2')
+        mutually_group.add_argument('--package', dest='package_name', metavar='PACKAGE',
+                                    action=TargetAction,
+                                    help='Do a targeted request for the specified package name. '
+                                         'The package name corresponds to a package name returned by the '
+                                         'environment\'s package manager, e.g glibc-headers on a '
+                                         'dpkg managed environment. '
+                                         'If no matching package is found, the output is empty and the '
+                                         'exit code is set to 1.')
 
         # Subparser for software-id command
         subparsers.add_parser('software-id', help='Software id output', parents=[parent_parser],

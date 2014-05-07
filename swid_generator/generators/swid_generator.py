@@ -31,7 +31,25 @@ def _create_software_id(os_info, package_info, regid, architecture):
         regid=regid, uniqueID=_create_unique_id(os_info, package_info, architecture))
 
 
-def create_swid_tags(environment, entity_name, regid, full=False, target=None):
+def all_matcher(ctx):
+    return True
+
+
+def package_name_matcher(ctx, value):
+    return ctx['package_info'].package == value
+
+
+def software_id_matcher(ctx, value):
+    software_id = _create_software_id(
+        ctx['environment'].get_os_string(),
+        ctx['package_info'],
+        ctx['regid'],
+        ctx['environment'].get_architecture())
+
+    return software_id == value
+
+
+def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_matcher):
     """
     Return SWID tags as xml strings for all available packages.
 
@@ -55,8 +73,15 @@ def create_swid_tags(environment, entity_name, regid, full=False, target=None):
     pkg_info = environment.get_list()
 
     for pi in pkg_info:
+
+        ctx = {
+            'regid': regid,
+            'environment': environment,
+            'package_info': pi
+        }
+
         # Check if the software-id of the current package matches the targeted request
-        if target and _create_software_id(os_info, pi, regid, environment.get_architecture()) != target:
+        if not matcher(ctx):
             continue
 
         software_identity = ET.Element('SoftwareIdentity')
