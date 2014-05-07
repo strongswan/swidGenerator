@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import, unicode_literals
+
 import os.path
 
 
@@ -7,7 +10,9 @@ class FileInfo(object):
 
 
 class PackageInfo(object):
-    def __init__(self, package='', version='', status='', files=[]):
+    def __init__(self, package='', version='', status='', files=None):
+        if files is None:
+            files = []
         self.package = package
         self.version = version
         self.status = status

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
+from __future__ import print_function, division, absolute_import, unicode_literals
 
 from xml.dom import minidom
+
+from .settings import DEFAULT_ENCODING
 
 
 def iterate(generator, action_func, separator, end):
@@ -28,9 +30,9 @@ def iterate(generator, action_func, separator, end):
         action_func(item)
         try:
             item = generator.next()
-            print(separator, end='')
+            print(separator.encode(DEFAULT_ENCODING), end='')
         except StopIteration:
-            print(end)
+            print(end.encode(DEFAULT_ENCODING))
             break
 
 
@@ -52,9 +54,9 @@ def print_swid_tags(swid_tags, separator, pretty):
         if pretty:
             swidtag_reparsed = minidom.parseString(tag)
             # [:-1] strips away the last newline, automatically inserted by minidoms toprettyxml
-            print(swidtag_reparsed.toprettyxml(indent='  ', encoding='UTF-8')[:-1], end='')
+            print(swidtag_reparsed.toprettyxml(indent='  ', encoding=DEFAULT_ENCODING)[:-1], end='')
         else:
-            print(tag, end='')
+            print(tag.encode(DEFAULT_ENCODING), end='')
 
     iterate(swid_tags, action, separator, end='')
 
@@ -72,6 +74,6 @@ def print_software_ids(software_ids, separator):
     """
 
     def action(swid):
-        print(swid, end='')
+        print(swid.encode(DEFAULT_ENCODING), end='')
 
     iterate(software_ids, action, separator, end='')

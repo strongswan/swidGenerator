@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from xml.etree import cElementTree as ET
+from __future__ import print_function, division, absolute_import, unicode_literals
 
-from ..environments.common import CommonEnvironment
+from xml.etree import cElementTree as ET
 
 
 ROLE = 'tagcreator'
@@ -13,10 +13,7 @@ def _create_payload_tag(package_info):
     payload = ET.Element('Payload')
     for file_info in package_info.files:
         file_element = ET.SubElement(payload, 'File')
-
-        # There are files with special names not in ascii range(128),
-        # e.g ca-certificates: EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt
-        file_element.set('name', unicode(file_info.name, 'utf-8'))
+        file_element.set('name', file_info.name)
         file_element.set('location', file_info.location)
 
     return payload
@@ -80,5 +77,5 @@ def create_swid_tags(environment, entity_name, regid, full=False, target=None):
             payload_tag = _create_payload_tag(pi)
             software_identity.append(payload_tag)
 
-        swidtag_flat = ET.tostring(software_identity, 'UTF-8', method='xml').replace('\n', '')
+        swidtag_flat = ET.tostring(software_identity, method='xml').replace('\n', '')
         yield swidtag_flat

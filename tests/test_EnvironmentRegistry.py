@@ -6,8 +6,8 @@ from swid_generator.environments.common import CommonEnvironment
 
 
 class TestEnvironment(CommonEnvironment):
-    @staticmethod
-    def is_installed():
+    @classmethod
+    def is_installed(cls):
         return False
 
 

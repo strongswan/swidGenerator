@@ -13,18 +13,17 @@ class EnvironmentRegistry(object):
 
     def _autodetect_env(self):
         """
-        Detect the used packetmanager by searching for a given executable in the path.
-        Return a static class representing the packetmanager environment or None if autodetection fails.
-
+        Detect the used package manager by searching for a given executable in
+        the path. Return a class representing the package manager environment
+        or ``None`` if autodetection fails.
         """
-
-        for environment_string, environment_class in self.environments.items():
+        for _, environment_class in self.environments.items():
             if environment_class.is_installed():
                 return environment_class
 
     def get_environment_strings(self):
         """
-        Return the registered environments
+        Return the registered environments.
 
         Returns:
             String describing environment (e.g 'rpm', 'dpkg')
@@ -47,8 +46,7 @@ class EnvironmentRegistry(object):
                 The evnironment to lookup. If 'auto' is used, try to autodetect the environment
 
         Returns:
-            Class representing the packetmanager environment or
-            None if the environment is not found or not installed.
+            Class representing the package manager environment.
 
         Raises:
             AutodetectionError:

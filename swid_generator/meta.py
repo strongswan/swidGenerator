@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-"""This module contains metadata about the project."""
+"""
+This module contains metadata about the project.
+"""
+from __future__ import unicode_literals
 
 title = 'swid_generator'
 version = '0.0.1'
