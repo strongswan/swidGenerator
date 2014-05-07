@@ -8,6 +8,7 @@ from swid_generator.generators import swid_generator
 from swid_generator.package_info import PackageInfo
 from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 from swid_generator.environments.common import CommonEnvironment
+from swid_generator.generators.swid_generator import software_id_matcher, package_name_matcher
 
 
 class FileInfoMock(object):
@@ -111,12 +112,29 @@ def test_full_output(swid_tag_generator, packages):
             assert file_tag.attrib['name'] in [f.name for f in files]
 
 
-def test_targeted_request(swid_tag_generator, packages):
-    target = '{regid}_{os_info}-{architecture}-{pi.package}-{pi.version}' \
+@pytest.mark.parametrize('package_name,package_version,expected_count', [
+    ('cowsay', 1234, 0),
+    ('cowsay', '1.0', 1),
+    ('non-existent-software-id', 1337, 0)
+])
+def test_targeted_software_id_test(swid_tag_generator, package_name, package_version, expected_count):
+    software_id = '{regid}_{os_info}-{architecture}-{package_name}-{package_version}' \
         .format(regid=DEFAULT_REGID,
+                package_name=package_name,
+                package_version=package_version,
                 os_info=TestEnvironment.os_string,
-                pi=packages[0],
                 architecture=TestEnvironment.get_architecture())
-    output = list(swid_tag_generator(full=False, target=target))
-    assert len(output) == 1
-    assert 'cowsay' in output[0]
+
+    matcher = partial(software_id_matcher, value=software_id)
+    output = list(swid_tag_generator(full=False, matcher=matcher))
+    assert len(output) == expected_count
+
+
+@pytest.mark.parametrize('package_name,expected', [
+    ('cowsay', 1),
+    ('whiptail', 0)
+])
+def test_targeted_package_name_test(swid_tag_generator, package_name, expected):
+    matcher = partial(package_name_matcher, value=package_name)
+    output = list(swid_tag_generator(full=False, matcher=matcher))
+    assert len(output) == expected

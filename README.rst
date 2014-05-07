@@ -28,29 +28,42 @@ Generate SWID tags:
     Generate SWID tags
 
     optional arguments:
-      -h, --help            show this help message and exit
+      -h, --help            show this help message and exit.
       --doc-separator DOCUMENT_SEPARATOR
                             Specify a separator string by which the SWID XML
-                            documents are separated. e.g for 1 newline use $'\n'
+                            documents are separated. e.g for 1 newline use $'\n'.
       --regid REGID         Specify the regid value (used in the <Entity> tag for
                             the regid attribute).Shall not contain any whitespace
-                            characters
+                            characters.
       --environment {dpkg,rpm,auto}
                             Specify the environment to be used. Defaults to
                             auto. If the environment can not be autodetected the
                             exit code is set to 3.
       --full                Dumps the full SWID tags including file tags for each
-                            package
-      --pretty              Generate pretty readable output
+                            package.
+      --pretty              Generate pretty readable output.
       --entity-name ENTITY_NAME
                             Specify the entity name (used in the <Entity> tag for
-                            the name attribute).Shall not contain any whitespace
-                            characters
-      --match SOFTWARE-ID   Do a targeted request for the specified Software-ID.
-                            If specified, output only contains SWID tags matching
-                            the given Software-ID. If no matching package is
-                            found, the output is empty and the exit code is set to
-                            1.
+                            the name attribute). Shall not contain any whitespace
+                            characters.
+                            
+    targeted requests:
+      Do a targeted request against either a Software-ID or a Package name. The
+      output only contains a SWID tag fully matching the given target. If no
+      matching SWID tag is found, the output is empty and the exit code is set
+      to 1. These options are mutually exclusive.
+      
+        --software-id SOFTWARE-ID   Do a targeted request for the specified Software-ID. A
+                                    Software-ID is made up as follows:
+                                    {regid}_{os_info}-{architecture}-{package_name}-{package_version}
+                                    e.g regid.2004-03.org.strongswan_Ubuntu_12.04-i686-strongswan-4.5.2-1.2
+        --package PACKAGE           Do a targeted request for the specified package name.
+                                    The package name corresponds to a package name
+                                    returned by the environment's package manager, e.g
+                                    glibc-headers on a dpkg managed environment. If no
+                                    matching package is found, the output is empty and the
+                                    exit code is set to 1.
+    
 
 Generate Software IDs:
 ::
@@ -61,13 +74,13 @@ Generate Software IDs:
     Generate Software IDs
 
     optional arguments:
-      -h, --help            show this help message and exit
+      -h, --help            show this help message and exit.
       --doc-separator DOCUMENT_SEPARATOR
                             Specify a separator string by which the SWID XML
-                            documents are separated. e.g for 1 newline use $'\n'
+                            documents are separated. e.g for 1 newline use $'\n'.
       --regid REGID         Specify the regid value (used in the <Entity> tag for
-                            the regid attribute).Shall not contain any whitespace
-                            characters
+                            the regid attribute). Shall not contain any whitespace
+                            characters.
       --environment {dpkg,rpm,auto}
                             Specify the environment to be used. Defaults to
                             auto. If the environment can not be autodetected the
