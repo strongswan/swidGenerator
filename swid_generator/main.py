@@ -59,8 +59,9 @@ def main():
             'entity_name': options.entity_name,
             'regid': options.regid,
             'full': options.full,
-            'target': options.match_software_id,
+            'matcher': options.matcher
         }
+
         swid_tags = swid_generator.create_swid_tags(**swid_args)
         try:
             print_swid_tags(swid_tags, separator=options.document_separator, pretty=options.pretty)
