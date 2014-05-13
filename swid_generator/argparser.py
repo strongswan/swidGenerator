@@ -44,6 +44,11 @@ class MainArgumentParser(object):
         # Parent parser for common options
         parent_parser = ArgumentParser(add_help=False)
 
+        parent_parser.add_argument('--env', choices=environment_registry.get_environment_strings(),
+                                   default='auto',
+                                   help='Specify the environment to be used. Defaults to auto. '
+                                        'If the environment can not be autodetected '
+                                        'the exit code is set to 3.')
         parent_parser.add_argument('--doc-separator', dest='document_separator', default='\n',
                                    help='Specify a separator string'
                                         'by which the SWID XML documents are separated. '
@@ -52,11 +57,6 @@ class MainArgumentParser(object):
                                    default=regid_string(settings.DEFAULT_REGID),
                                    help='Specify the regid value for the regid attribute). '
                                         'Shall not contain any whitespace characters.')
-        parent_parser.add_argument('--environment', choices=environment_registry.get_environment_strings(),
-                                   default='auto',
-                                   help='Specify the environment to be used. Defaults to auto. '
-                                        'If the environment can not be autodetected '
-                                        'the exit code is set to 3.')
 
         subparsers = self.arg_parser.add_subparsers(help='Commands: ', dest='command')
 
