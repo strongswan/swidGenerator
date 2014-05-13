@@ -6,8 +6,6 @@ import stat
 import platform
 from distutils.spawn import find_executable
 
-from ..settings import DEFAULT_ENCODING
-
 
 class CommonEnvironment(object):
     """
@@ -57,7 +55,7 @@ class CommonEnvironment(object):
             return False
 
         try:
-            mode = os.stat(path.encode(DEFAULT_ENCODING)).st_mode
+            mode = os.stat(path.encode('utf-8')).st_mode
         except OSError:
             return False
 

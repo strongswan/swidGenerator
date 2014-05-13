@@ -51,7 +51,8 @@ def software_id_matcher(ctx, value):
 
 def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_matcher):
     """
-    Return SWID tags as xml strings for all available packages.
+    Return SWID tags as utf8-encoded xml bytestrings for all available
+    packages.
 
     Args:
         environment (swid_generator.environment.CommonEnvironment):
@@ -62,11 +63,13 @@ def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_ma
             The SWID tag regid.
         full (bool):
             Whether to include file payload. Default is False.
-        target (str):
-            Return only SWID tags whose software-id fully matches the given target. Default is False.
+        matcher (function):
+            A function that defines whether to return a tag or not. Default is
+            a function that returns ``True`` for all tags.
 
     Returns:
-        A generator object for all available SWID XML strings.
+        A generator object for all available SWID XML strings. The XML strings
+        are all bytestrings, using UTF-8 encoding.
 
     """
     os_info = environment.get_os_string()
@@ -102,5 +105,5 @@ def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_ma
             payload_tag = _create_payload_tag(pi)
             software_identity.append(payload_tag)
 
-        swidtag_flat = ET.tostring(software_identity, method='xml').replace('\n', '')
+        swidtag_flat = ET.tostring(software_identity, encoding='utf-8', method='xml').replace(b'\n', b'')
         yield swidtag_flat

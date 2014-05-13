@@ -11,7 +11,8 @@ swidGenerator
 	:target: https://landscape.io/github/tnc-ba/swidGenerator/master
 	:alt: Code Health
 
-Application which generates SWID-Tags from Linux installed packages, using tools as dpkg and rpm.
+Application which generates SWID-Tags from Linux installed packages, using tools
+as dpkg and rpm.
 
 
 Usage
