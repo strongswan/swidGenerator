@@ -15,7 +15,7 @@ setup(name='swid_generator',
       zip_safe=False,
       include_package_data=True,
       license=meta.license,
-      keywords='swid dpkg yum tnc',
+      keywords='swid dpkg rpm tnc',
       long_description=readme,
       entry_points={
           'console_scripts': [
@@ -23,13 +23,16 @@ setup(name='swid_generator',
           ]
       },
       classifiers=[
-          'Development Status :: 3 - Alpha',
+          'Development Status :: 4 - Beta',
           'Environment :: Console',
           'Intended Audience :: Information Technology',
           'Intended Audience :: System Administrators',
           'License :: OSI Approved :: MIT License',
-          'Natural Language :: English',
           'Operating System :: POSIX :: Linux',
+          'Programming Language :: Python :: 2',
           'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3',
+          'Programming Language :: Python :: 3.3',
+          'Programming Language :: Python :: 3.4',
       ],
 )
