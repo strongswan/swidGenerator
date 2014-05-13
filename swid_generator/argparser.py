@@ -52,7 +52,7 @@ class MainArgumentParser(object):
         parent_parser.add_argument('--doc-separator', dest='document_separator', default='\n',
                                    help='The separator string by which the SWID XML '
                                         'documents are separated. Example: For '
-                                        '1 newline, use $\'\\n\'.')
+                                        'one newline, use $\'\\n\'.')
         parent_parser.add_argument('--regid', dest='regid', type=regid_string,
                                    default=regid_string(settings.DEFAULT_REGID),
                                    help='The regid to use in the generated output. '
@@ -88,8 +88,7 @@ class MainArgumentParser(object):
         mutually_group.add_argument('--software-id', dest='match_software_id', metavar='SOFTWARE-ID',
                             action=TargetAction,
                             help='Do a targeted request for the specified Software-ID. '
-                                 'A Software-ID is made up as follows: '
-                                 '"{regid}_{os_info}-{architecture}-{package_name}-{package_version}". '
+                                 'A Software-ID is made up as follows: "{regid}_{unique-id}". '
                                  'Example: '
                                  '"regid.2004-03.org.strongswan_Ubuntu_12.04-i686-strongswan-4.5.2-1.2". '
                                  'If no matching package is found, the output is empty and the '
