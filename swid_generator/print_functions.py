@@ -23,11 +23,11 @@ def iterate(generator, action_func, separator, end):
             The string that is printed at the very end of the output.
 
     """
-    item = generator.next()
+    item = next(generator)
     while item:
         action_func(item)
         try:
-            item = generator.next()
+            item = next(generator)
             print(separator.encode('utf-8'), end='')
         except StopIteration:
             print(end.encode('utf-8'))
