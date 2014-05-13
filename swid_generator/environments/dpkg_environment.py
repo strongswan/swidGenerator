@@ -46,7 +46,7 @@ class DpkgEnvironment(CommonEnvironment):
                 info.version = split_line[1]
                 info.status = split_line[2]
                 result.append(info)
-        return filter(cls.package_installed, result)
+        return [r for r in result if cls.package_installed(r)]
 
     @classmethod
     def get_files_for_package(cls, package_name):

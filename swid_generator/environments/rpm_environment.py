@@ -35,7 +35,7 @@ class RpmEnvironment(CommonEnvironment):
         result = []
 
         for line in line_list:
-            split_line = filter(len, line.split())
+            split_line = list(filter(len, line.split()))
             if len(split_line) == 2:
                 info = PackageInfo()
                 info.package = split_line[0]
