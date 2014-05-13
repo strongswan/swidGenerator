@@ -58,5 +58,5 @@ def rpm_networkmanager_template():
 def get_swid_by_name(rpm_document_strings, name):
     ET.register_namespace('', 'http://standards.iso.org/iso/19770/-2/2014/schema.xsd')
     for document in rpm_document_strings:
-        if name in document:
+        if name in document.decode('utf8'):
             return ET.fromstring(document)

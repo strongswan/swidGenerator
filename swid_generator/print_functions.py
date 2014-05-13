@@ -3,8 +3,6 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 from xml.dom import minidom
 
-from .settings import DEFAULT_ENCODING
-
 
 def iterate(generator, action_func, separator, end):
     """
@@ -25,14 +23,14 @@ def iterate(generator, action_func, separator, end):
             The string that is printed at the very end of the output.
 
     """
-    item = generator.next()
+    item = next(generator)
     while item:
         action_func(item)
         try:
-            item = generator.next()
-            print(separator.encode(DEFAULT_ENCODING), end='')
+            item = next(generator)
+            print(separator.encode('utf-8'), end='')
         except StopIteration:
-            print(end.encode(DEFAULT_ENCODING))
+            print(end.encode('utf-8'))
             break
 
 
@@ -42,7 +40,7 @@ def print_swid_tags(swid_tags, separator, pretty):
 
     Args:
         swid_tags:
-            A generator yielding SWID Tags as strings.
+            A generator yielding SWID Tags as bytestrings.
         separator (str or unicode):
             The separator string to be printed between two SWID Tags.
         pretty (bool):
@@ -54,9 +52,9 @@ def print_swid_tags(swid_tags, separator, pretty):
         if pretty:
             swidtag_reparsed = minidom.parseString(tag)
             # [:-1] strips away the last newline, automatically inserted by minidoms toprettyxml
-            print(swidtag_reparsed.toprettyxml(indent='  ', encoding=DEFAULT_ENCODING)[:-1], end='')
+            print(swidtag_reparsed.toprettyxml(indent='  ', encoding='utf-8')[:-1], end='')
         else:
-            print(tag.encode(DEFAULT_ENCODING), end='')
+            print(tag, end='')
 
     iterate(swid_tags, action, separator, end='')
 
@@ -74,6 +72,6 @@ def print_software_ids(software_ids, separator):
     """
 
     def action(swid):
-        print(swid.encode(DEFAULT_ENCODING), end='')
+        print(swid.encode('utf-8'), end='')
 
     iterate(software_ids, action, separator, end='')

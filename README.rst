@@ -11,7 +11,8 @@ swidGenerator
 	:target: https://landscape.io/github/tnc-ba/swidGenerator/master
 	:alt: Code Health
 
-Application which generates SWID-Tags from Linux installed packages, using tools as dpkg and rpm.
+A small application for Python 2 and 3 which generates SWID-Tags from Linux
+installed packages, using tools like dpkg and rpm.
 
 
 Usage
@@ -114,6 +115,7 @@ the package managers. The follwing Linux distributions have been tested so far
 The following Python versions are supported:
 
 - Python 2.7
+- Python 3.3+
 - PyPy
 
 Get Code

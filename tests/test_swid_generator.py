@@ -107,7 +107,7 @@ def test_full_output(swid_tag_generator, packages):
         payload = root[1]
         assert len(payload) == 2
 
-        files = filter(lambda p: p.package == package_name, packages)[0].files
+        files = next(p for p in packages if p.package == package_name).files
         for file_tag in payload:
             assert file_tag.attrib['name'] in [f.name for f in files]
 
