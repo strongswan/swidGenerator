@@ -44,7 +44,7 @@ def main():
     options = parser.parse()  # without any parameter it takes arguments passed by command line
 
     try:
-        env = environment_registry.get_environment(options.environment)
+        env = environment_registry.get_environment(options.env)
     except EnvironmentNotInstalledError:
         print('Error: the given environment is not installed')
         sys.exit(3)

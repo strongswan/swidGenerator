@@ -44,64 +44,67 @@ class MainArgumentParser(object):
         # Parent parser for common options
         parent_parser = ArgumentParser(add_help=False)
 
+        parent_parser.add_argument('--env', choices=environment_registry.get_environment_strings(),
+                                   default='auto',
+                                   help='The package manager environment to be used. Defaults to "auto". '
+                                        'If the environment can not be autodetected, '
+                                        'the exit code is set to 3.')
         parent_parser.add_argument('--doc-separator', dest='document_separator', default='\n',
-                                   help='Specify a separator string'
-                                        'by which the SWID XML documents are separated. '
-                                        'e.g for 1 newline use $\'\\n\'.')
+                                   help='The separator string by which the SWID XML '
+                                        'documents are separated. Example: For '
+                                        'one newline, use $\'\\n\'.')
         parent_parser.add_argument('--regid', dest='regid', type=regid_string,
                                    default=regid_string(settings.DEFAULT_REGID),
-                                   help='Specify the regid value for the regid attribute). '
-                                        'Shall not contain any whitespace characters.')
-        parent_parser.add_argument('--environment', choices=environment_registry.get_environment_strings(),
-                                   default='auto',
-                                   help='Specify the environment to be used. Defaults to auto. '
-                                        'If the environment can not be autodetected '
-                                        'the exit code is set to 3.')
+                                   help='The regid to use in the generated output. '
+                                        'May not contain any whitespace '
+                                        'characters. Default is "%s".' % settings.DEFAULT_REGID)
 
         subparsers = self.arg_parser.add_subparsers(help='Commands: ', dest='command')
 
         # Subparser for swid command
         swid_parser = subparsers.add_parser('swid', help='SWID tag output', parents=[parent_parser],
-                                            description='Generate SWID tags')
+                                            description='Generate SWID tags.')
 
-        swid_parser.add_argument('--full', action='store_true', default=False,
-                                 help='Dumps the full SWID tags including file tags for each package.')
-        swid_parser.add_argument('--pretty', action='store_true', default=False,
-                                 help='Generate pretty readable output.')
         swid_parser.add_argument('--entity-name', dest='entity_name', type=entity_name_string,
                                  default=entity_name_string(settings.DEFAULT_ENTITY_NAME),
-                                 help='Specify the entity name (used in the <Entity> tag)'
-                                      'for the name attribute). '
-                                      'Shall not contain any whitespace characters.')
+                                 help='The entity name used in the <Entity> XML tag. '
+                                      'May not contain any whitespace characters. '
+                                      'Default is "%s".' % settings.DEFAULT_ENTITY_NAME)
+        swid_parser.add_argument('--full', action='store_true', default=False,
+                                 help='Dump the full SWID tags including file tags for each package.')
+        swid_parser.add_argument('--pretty', action='store_true', default=False,
+                                 help='Indent the XML output.')
         swid_parser.set_defaults(matcher=all_matcher)
+
         targeted_group = swid_parser.add_argument_group(
             title='targeted requests',
-            description='Do a targeted request against either a Software-ID or a Package name.'
-                        'The output only contains a SWID tag fully matching the given target. '
-                        'If no matching SWID tag is found, the output is empty and the '
-                        'exit code is set to 1. '
-                        'These options are mutually exclusive.')
+            description='You may do a targeted request against either a Software-ID or a package name. '
+                        'The output only contains a SWID tag if the argument fully matches '
+                        'the given target. If no matching SWID tag is found, the output is empty '
+                        'and the exit code is set to 1. ')
 
         # mutually exclusive arguments --package/--software-id
         mutually_group = targeted_group.add_mutually_exclusive_group()
         mutually_group.add_argument('--software-id', dest='match_software_id', metavar='SOFTWARE-ID',
                             action=TargetAction,
                             help='Do a targeted request for the specified Software-ID. '
-                                 'A Software-ID is made up as follows: '
-                                 '{regid}_{os_info}-{architecture}-{package_name}-{package_version}'
-                                 'e.g regid.2004-03.org.strongswan_Ubuntu_12.04-i686-strongswan-4.5.2-1.2')
+                                 'A Software-ID is made up as follows: "{regid}_{unique-id}". '
+                                 'Example: '
+                                 '"regid.2004-03.org.strongswan_Ubuntu_12.04-i686-strongswan-4.5.2-1.2". '
+                                 'If no matching package is found, the output is empty and the '
+                                 'exit code is set to 1.')
         mutually_group.add_argument('--package', dest='package_name', metavar='PACKAGE',
                                     action=TargetAction,
                                     help='Do a targeted request for the specified package name. '
                                          'The package name corresponds to a package name returned by the '
-                                         'environment\'s package manager, e.g glibc-headers on a '
+                                         'environment\'s package manager, e.g "glibc-headers" on a '
                                          'dpkg managed environment. '
                                          'If no matching package is found, the output is empty and the '
                                          'exit code is set to 1.')
 
         # Subparser for software-id command
         subparsers.add_parser('software-id', help='Software id output', parents=[parent_parser],
-                              description='Generate Software IDs')
+                              description='Generate Software-IDs.')
 
     def parse(self, arguments=None):
         return self.arg_parser.parse_args(arguments)

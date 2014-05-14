@@ -1,6 +1,10 @@
 swidGenerator
 #############
 
+.. image:: https://pypip.in/version/swid_generator/badge.png
+    :target: https://pypi.python.org/pypi/swid_generator/
+    :alt: Latest Version
+
 .. image:: https://travis-ci.org/tnc-ba/swidGenerator.png?branch=master
     :target: https://travis-ci.org/tnc-ba/swidGenerator
 
@@ -10,6 +14,10 @@ swidGenerator
 .. image:: https://landscape.io/github/tnc-ba/swidGenerator/master/landscape.png
 	:target: https://landscape.io/github/tnc-ba/swidGenerator/master
 	:alt: Code Health
+
+.. image:: https://pypip.in/download/swid_generator/badge.png?period=month
+    :target: https://pypi.python.org/pypi/swid_generator/
+    :alt: PyPI Downloads
 
 A small application for Python 2 and 3 which generates SWID-Tags from Linux
 installed packages, using tools like dpkg and rpm.
@@ -22,79 +30,79 @@ The tool provides 2 subcommands to generate SWID tags or Software IDs
 Generate SWID tags:
 ::
 
-    usage: main.py swid [-h] [--doc-separator DOCUMENT_SEPARATOR] [--regid REGID]
-                        [--environment {dpkg,rpm,auto}] [--full] [--pretty]
-                        [--entity-name ENTITY_NAME]
+    usage: swid_generator swid [-h] [--env {auto,rpm,dpkg}]
+                               [--doc-separator DOCUMENT_SEPARATOR] [--regid REGID]
+                               [--entity-name ENTITY_NAME] [--full] [--pretty]
+                               [--software-id SOFTWARE-ID | --package PACKAGE]
 
-    Generate SWID tags
+    Generate SWID tags.
 
     optional arguments:
-      -h, --help            show this help message and exit.
+      -h, --help            Show this help message and exit.
+      --env {auto,rpm,dpkg}
+                            The package manager environment to be used. Defaults to "auto".
+                            If the environment can not be autodetected, the exit code is set
+                            to 3.
       --doc-separator DOCUMENT_SEPARATOR
-                            Specify a separator string by which the SWID XML
-                            documents are separated. e.g for 1 newline use $'\n'.
-      --regid REGID         Specify the regid value (used in the <Entity> tag for
-                            the regid attribute).Shall not contain any whitespace
-                            characters.
-      --environment {dpkg,rpm,auto}
-                            Specify the environment to be used. Defaults to
-                            auto. If the environment can not be autodetected the
-                            exit code is set to 3.
-      --full                Dumps the full SWID tags including file tags for each
-                            package.
-      --pretty              Generate pretty readable output.
+                            The separator string by which the SWID XML documents are
+                            separated. Example: For one newline, use $'\n'.
+      --regid REGID         The regid to use in the generated output. May not contain any
+                            whitespace characters. Default is
+                            "regid.2004-03.org.strongswan".
       --entity-name ENTITY_NAME
-                            Specify the entity name (used in the <Entity> tag for
-                            the name attribute). Shall not contain any whitespace
-                            characters.
-                            
+                            The entity name used in the <Entity> XML tag. May not contain
+                            any whitespace characters. Default is "strongSwan".
+      --full                Dump the full SWID tags including file tags for each package.
+      --pretty              Indent the XML output.
+
     targeted requests:
-      Do a targeted request against either a Software-ID or a Package name. The
-      output only contains a SWID tag fully matching the given target. If no
-      matching SWID tag is found, the output is empty and the exit code is set
-      to 1. These options are mutually exclusive.
-      
-        --software-id SOFTWARE-ID   Do a targeted request for the specified Software-ID. A
-                                    Software-ID is made up as follows:
-                                    {regid}_{os_info}-{architecture}-{package_name}-{package_version}
-                                    e.g regid.2004-03.org.strongswan_Ubuntu_12.04-i686-strongswan-4.5.2-1.2
-        --package PACKAGE           Do a targeted request for the specified package name.
-                                    The package name corresponds to a package name
-                                    returned by the environment's package manager, e.g
-                                    glibc-headers on a dpkg managed environment. If no
-                                    matching package is found, the output is empty and the
-                                    exit code is set to 1.
-    
+      You may do a targeted request against either a Software-ID or a package name. The
+      output only contains a SWID tag if the argument fully matches the given target. If
+      no matching SWID tag is found, the output is empty and the exit code is set to 1.
+
+      --software-id SOFTWARE-ID
+                            Do a targeted request for the specified Software-ID. A Software-
+                            ID is made up as follows: "{regid}_{unique-id}". Example: "regid
+                            .2004-03.org.strongswan_Ubuntu_12.04-i686-strongswan-4.5.2-1.2".
+                            If no matching package is found, the output is empty and the
+                            exit code is set to 1.
+      --package PACKAGE     Do a targeted request for the specified package name. The
+                            package name corresponds to a package name returned by the
+                            environment's package manager, e.g "glibc-headers" on a dpkg
+                            managed environment. If no matching package is found, the output
+                            is empty and the exit code is set to 1.
 
 Generate Software IDs:
 ::
 
-    usage: main.py software-id [-h] [--doc-separator DOCUMENT_SEPARATOR]
-                               [--regid REGID] [--environment {dpkg,rpm,auto}]
+    usage: swid_generator software-id [-h] [--env {auto,rpm,dpkg}]
+                                      [--doc-separator DOCUMENT_SEPARATOR] [--regid REGID]
 
-    Generate Software IDs
+    Generate Software-IDs.
 
     optional arguments:
-      -h, --help            show this help message and exit.
+      -h, --help            Show this help message and exit.
+      --env {auto,rpm,dpkg}
+                            The package manager environment to be used. Defaults to "auto".
+                            If the environment can not be autodetected, the exit code is set
+                            to 3.
       --doc-separator DOCUMENT_SEPARATOR
-                            Specify a separator string by which the SWID XML
-                            documents are separated. e.g for 1 newline use $'\n'.
-      --regid REGID         Specify the regid value (used in the <Entity> tag for
-                            the regid attribute). Shall not contain any whitespace
-                            characters.
-      --environment {dpkg,rpm,auto}
-                            Specify the environment to be used. Defaults to
-                            auto. If the environment can not be autodetected the
-                            exit code is set to 3.
+                            The separator string by which the SWID XML documents are
+                            separated. Example: For one newline, use $'\n'.
+      --regid REGID         The regid to use in the generated output. May not contain any
+                            whitespace characters. Default is
+                            "regid.2004-03.org.strongswan".
+
 
 Possible Return Codes
 ---------------------
 
-| If the application fails somehow, an exit code is set appropriately:
-| **Exit Code 1**: A targeted request did not return any results.
-| **Exit Code 2**: Invalid arguments passed.
-| **Exit Code 3**: Either the given environment is not installed or the environment  
-                   could not be autodetected.
+If the application fails somehow, an exit code is set appropriately:
+
+- 1: A targeted request did not return any results.
+- 2: Invalid arguments passed.
+- 3: Either the given environment is not installed or the environment  
+  could not be autodetected.
                    
 The exit code can be shown with::
 
@@ -106,7 +114,7 @@ Installation
 
 The swidGenerator currently supports dpkg and rpm managed environments. It
 depends on the command line utilities ``dpkg-query`` and ``rpm`` for querying
-the package managers. The follwing Linux distributions have been tested so far
+the package managers. The follwing Linux distributions have been tested so far:
 
 - Fedora 19 i686
 - Ubuntu 12.04 i686
@@ -118,21 +126,31 @@ The following Python versions are supported:
 - Python 3.3+
 - PyPy
 
-Get Code
---------
+Install with pip
+----------------
+
+The recommended way to install swidGenerator is using `pip <http://pip.readthedocs.org/en/latest/>`_:
 
 ::
+
+    $ sudo pip install -U swid_generator
+
+This will automatically install the latest version from the `Python Package
+Index <https://pypi.python.org/pypi/swid_generator/>`__.
+
+Manual Installation
+-------------------
+
+Get code::
 
     $ git clone https://github.com/tnc-ba/swidGenerator
-    
-Install
--------
 
-To copy the files to your system-wide Python directory, use
-
-::
+Install::
 
     $ sudo python setup.py install
+
+Development Installation
+------------------------
 
 To make invocation easier during development, use pip's editable installation
 feature instead, which means that changes in the code are immediately
@@ -181,7 +199,7 @@ default)::
 You can also combine multiple testenvs, just make sure that you have the
 corresponding Python versions installed::
 
-    $ tox -e py27,pypy,cov
+    $ tox -e py27,py34,cov
 
 **CI**
 
