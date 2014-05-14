@@ -25,7 +25,9 @@ class CommonEnvironment(object):
         """
         Return distribution string, e.g. 'debian_7.4'.
         """
-        return '{dist[0]}_{dist[1]}'.format(dist=platform.dist())
+        dist = '_'.join(filter(None, platform.dist()[:2]))
+        system = platform.system().lower()
+        return dist or system or platform.os.name or 'unknown'
 
     @staticmethod
     def is_file(path):
