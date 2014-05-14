@@ -32,16 +32,11 @@ class CommonEnvironment(object):
         """
         Determine whether the specified path is an existing file.
 
-        This is needed because the package manager does not list only regular
+        This is needed because some package managers don't list only regular
         files, but also directories and message strings.
 
         It's also possible that the file/directory/symlink entries returned by
-        DPKG don't exist in the filesystem.
-
-        Known messages for dpkg:
-
-        - 'package diverts to others'
-        - 'Package XY does not contain any files(!)
+        the package manager don't actually exist in the filesystem.
 
         Args:
             path (str):

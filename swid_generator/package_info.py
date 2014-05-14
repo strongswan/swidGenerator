@@ -10,10 +10,9 @@ class FileInfo(object):
 
 
 class PackageInfo(object):
-    def __init__(self, package='', version='', status='', files=None):
+    def __init__(self, package='', version='', files=None):
         if files is None:
             files = []
         self.package = package
         self.version = version
-        self.status = status
         self.files = files

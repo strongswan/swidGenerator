@@ -29,10 +29,7 @@ class EnvironmentRegistry(object):
             String describing environment (e.g 'rpm', 'dpkg')
 
         """
-        strings = ['auto']
-        for env in self.environments.keys():
-            strings.append(env)
-        return strings
+        return ['auto'] + sorted(self.environments.keys())
 
     def register(self, environment_name, environment_class):
         self.environments[environment_name] = environment_class

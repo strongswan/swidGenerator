@@ -30,6 +30,7 @@ from .environments.environment_registry import EnvironmentRegistry, Autodetectio
     EnvironmentNotInstalledError
 from .environments.dpkg_environment import DpkgEnvironment
 from .environments.rpm_environment import RpmEnvironment
+from .environments.pacman_environment import PacmanEnvironment
 from .generators import swid_generator
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
@@ -39,6 +40,7 @@ def main():
     environment_registry = EnvironmentRegistry()
     environment_registry.register('rpm', RpmEnvironment)
     environment_registry.register('dpkg', DpkgEnvironment)
+    environment_registry.register('pacman', PacmanEnvironment)
 
     parser = MainArgumentParser(environment_registry)
     options = parser.parse()  # without any parameter it takes arguments passed by command line
