@@ -217,6 +217,18 @@ Use PEP8 with ``--max-line-length=109`` and the following error codes ignored:
 ``E126 E127 E128``.
 
 
+Upload to PyPI
+==============
+
+To upload a new version to PyPI, configure your ``.pypirc`` and execute the
+following commands::
+
+    $ pip install wheel
+    $ python setup.py register
+    $ python setup.py sdist upload
+    $ python setup.py bdist_wheel upload
+
+
 License
 =======
 
