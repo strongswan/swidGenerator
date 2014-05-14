@@ -15,7 +15,7 @@ setup(name='swid_generator',
       zip_safe=False,
       include_package_data=True,
       license=meta.license,
-      keywords='swid dpkg rpm tnc',
+      keywords='swid dpkg rpm pacman tnc',
       long_description=readme,
       entry_points={
           'console_scripts': [

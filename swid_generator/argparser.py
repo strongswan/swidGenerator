@@ -40,7 +40,7 @@ class MainArgumentParser(object):
         self.environments = environment_registry
         self.arg_parser = ArgumentParser('swid_generator',
                                          description='Generate SWID tags and Software IDs'
-                                                     'from dpkg or rpm package manager')
+                                                     'from dpkg, pacman or rpm package manager')
         # Parent parser for common options
         parent_parser = ArgumentParser(add_help=False)
 

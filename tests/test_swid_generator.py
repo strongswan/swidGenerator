@@ -59,11 +59,17 @@ def packages():
     openssh_file1 = FileInfoMock('/etc/init/', 'ssh.conf', 555)
     openssh_file2 = FileInfoMock('/usr/sbin/', 'sshd', 89484)
 
-    return [
-        PackageInfo('cowsay', '1.0', 'install ok installed', [cowsay_file1, cowsay_file2]),
-        PackageInfo('fortune', '2.0', 'install ok installed', [fortune_file1, fortune_file2]),
-        PackageInfo('openssh-server', '7000', 'deinstall ok config-files', [openssh_file1, openssh_file2])
+    infos = [
+        PackageInfo('cowsay', '1.0', [cowsay_file1, cowsay_file2]),
+        PackageInfo('fortune', '2.0', [fortune_file1, fortune_file2]),
+        PackageInfo('openssh-server', '7000', [openssh_file1, openssh_file2])
     ]
+
+    infos[0].status = 'install ok installed'
+    infos[1].status = 'install ok installed'
+    infos[2].status = 'deinstall ok config-files'
+
+    return infos
 
 
 @pytest.fixture
