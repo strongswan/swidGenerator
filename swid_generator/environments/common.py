@@ -25,23 +25,20 @@ class CommonEnvironment(object):
         """
         Return distribution string, e.g. 'debian_7.4'.
         """
-        return '{dist[0]}_{dist[1]}'.format(dist=platform.dist())
+        dist = '_'.join(filter(None, platform.dist()[:2]))
+        system = platform.system().lower()
+        return dist or system or platform.os.name or 'unknown'
 
     @staticmethod
     def is_file(path):
         """
         Determine whether the specified path is an existing file.
 
-        This is needed because the package manager does not list only regular
+        This is needed because some package managers don't list only regular
         files, but also directories and message strings.
 
         It's also possible that the file/directory/symlink entries returned by
-        DPKG don't exist in the filesystem.
-
-        Known messages for dpkg:
-
-        - 'package diverts to others'
-        - 'Package XY does not contain any files(!)
+        the package manager don't actually exist in the filesystem.
 
         Args:
             path (str):

@@ -10,10 +10,23 @@ from minimock import Mock
 from swid_generator.environments.common import CommonEnvironment
 
 
-def test_os_string():
+@pytest.mark.parametrize('dist, system, os_name, output', [
+    (('debian', '7.4', ''), 'Linux', 'posix', 'debian_7.4'),
+    (('fedora', '19', 'Schrödinger\'s Cat'), 'Linux', 'posix', 'fedora_19'),
+    (('arch', '', ''), 'Linux', 'posix', 'arch'),
+    (('', '', ''), 'Linux', 'posix', 'linux'),
+    (('', '', ''), '', 'posix', 'posix'),
+    (('', '', ''), '', '', 'unknown'),
+])
+def test_os_string(dist, system, os_name, output):
     platform.dist = Mock('platform.dist')
-    platform.dist.mock_returns = ('debian', '7.4', '')
-    assert CommonEnvironment.get_os_string() == 'debian_7.4'
+    platform.dist.mock_returns = dist
+    platform.system = Mock('platform.system')
+    platform.system.mock_returns = system
+    platform.os.name = Mock('platform.os.name')
+    platform.os.name = os_name
+    os_string = CommonEnvironment.get_os_string()
+    assert os_string == output
 
 
 @pytest.mark.skipif(sys.platform == 'win32', reason='requires windows')

@@ -30,7 +30,7 @@ The tool provides 2 subcommands to generate SWID tags or Software IDs
 Generate SWID tags:
 ::
 
-    usage: swid_generator swid [-h] [--env {auto,rpm,dpkg}]
+    usage: swid_generator swid [-h] [--env {auto,dpkg,pacman,rpm}]
                                [--doc-separator DOCUMENT_SEPARATOR] [--regid REGID]
                                [--entity-name ENTITY_NAME] [--full] [--pretty]
                                [--software-id SOFTWARE-ID | --package PACKAGE]
@@ -39,7 +39,7 @@ Generate SWID tags:
 
     optional arguments:
       -h, --help            Show this help message and exit.
-      --env {auto,rpm,dpkg}
+      --env {auto,dpkg,pacman,rpm}
                             The package manager environment to be used. Defaults to "auto".
                             If the environment can not be autodetected, the exit code is set
                             to 3.
@@ -75,14 +75,14 @@ Generate SWID tags:
 Generate Software IDs:
 ::
 
-    usage: swid_generator software-id [-h] [--env {auto,rpm,dpkg}]
+    usage: swid_generator software-id [-h] [--env {auto,dpkg,pacman,rpm}]
                                       [--doc-separator DOCUMENT_SEPARATOR] [--regid REGID]
 
     Generate Software-IDs.
 
     optional arguments:
       -h, --help            Show this help message and exit.
-      --env {auto,rpm,dpkg}
+      --env {auto,dpkg,pacman,rpm}
                             The package manager environment to be used. Defaults to "auto".
                             If the environment can not be autodetected, the exit code is set
                             to 3.
@@ -112,13 +112,11 @@ The exit code can be shown with::
 Installation
 ============
 
-The swidGenerator currently supports dpkg and rpm managed environments. It
-depends on the command line utilities ``dpkg-query`` and ``rpm`` for querying
-the package managers. The follwing Linux distributions have been tested so far:
+The following package managers are supported:
 
-- Fedora 19 i686
-- Ubuntu 12.04 i686
-- OpenSuse 12.3 i686
+- dpkg (Debian, Ubuntu, Linux Mint, ...)
+- pacman (Arch Linux, Manjaro, ...)
+- rpm (Fedora, Red Hat, OpenSUSE, ...)
 
 The following Python versions are supported:
 
