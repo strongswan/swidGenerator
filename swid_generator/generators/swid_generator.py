@@ -7,6 +7,7 @@ from xml.etree import cElementTree as ET
 ROLE = 'tagcreator'
 VERSION_SCHEME = 'alphanumeric'
 XMLNS = 'http://standards.iso.org/iso/19770/-2/2014/schema.xsd'
+XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 
 
 def _create_payload_tag(package_info):
@@ -106,4 +107,4 @@ def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_ma
             software_identity.append(payload_tag)
 
         swidtag_flat = ET.tostring(software_identity, encoding='utf-8', method='xml').replace(b'\n', b'')
-        yield swidtag_flat
+        yield XML_DECLARATION.encode('utf-8') + swidtag_flat
