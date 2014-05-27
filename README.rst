@@ -50,8 +50,8 @@ Generate SWID tags:
                             whitespace characters. Default is
                             "regid.2004-03.org.strongswan".
       --entity-name ENTITY_NAME
-                            The entity name used in the <Entity> XML tag. May not contain
-                            any whitespace characters. Default is "strongSwan".
+                            The entity name used in the <Entity> XML tag. Default is
+                            "strongSwan Project".
       --full                Dump the full SWID tags including file tags for each package.
       --pretty              Indent the XML output.
 

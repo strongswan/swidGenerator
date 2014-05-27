@@ -2,5 +2,5 @@
 <SoftwareIdentity name="NetworkManager" uniqueId="fedora_19-i686-NetworkManager-0.9.8.2-2.fc19"
                   version="0.9.8.2-2.fc19" versionScheme="alphanumeric"
                   xmlns="http://standards.iso.org/iso/19770/-2/2014/schema.xsd">
-    <Entity name="strongSwan" regid="regid.2004-03.org.strongswan" role="tagcreator"/>
+    <Entity name="strongSwan Project" regid="regid.2004-03.org.strongswan" role="tagcreator"/>
 </SoftwareIdentity>

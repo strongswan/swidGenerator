@@ -68,7 +68,6 @@ class MainArgumentParser(object):
         swid_parser.add_argument('--entity-name', dest='entity_name', type=entity_name_string,
                                  default=entity_name_string(settings.DEFAULT_ENTITY_NAME),
                                  help='The entity name used in the <Entity> XML tag. '
-                                      'May not contain any whitespace characters. '
                                       'Default is "%s".' % settings.DEFAULT_ENTITY_NAME)
         swid_parser.add_argument('--full', action='store_true', default=False,
                                  help='Dump the full SWID tags including file tags for each package.')
