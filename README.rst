@@ -19,8 +19,9 @@ swidGenerator
     :target: https://pypi.python.org/pypi/swid_generator/
     :alt: PyPI Downloads
 
-A small application for Python 2 and 3 which generates SWID-Tags from Linux
-installed packages, using tools like dpkg and rpm.
+A small application for Python 2 and 3 which generates `SWID tags
+<http://tagvault.org/swid-tags/>` from Linux package managers like dpkg, rpm or
+pacman.
 
 
 Usage
