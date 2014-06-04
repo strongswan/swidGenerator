@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-class AutodetectionError(RuntimeError):
-    pass
+from __future__ import print_function, division, absolute_import, unicode_literals
 
-
-class EnvironmentNotInstalledError(RuntimeError):
-    pass
+from ..exceptions import AutodetectionError, EnvironmentNotInstalledError
 
 
 class EnvironmentRegistry(object):

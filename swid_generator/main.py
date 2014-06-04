@@ -26,14 +26,14 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import sys
 
 from .argparser import MainArgumentParser
-from .environments.environment_registry import EnvironmentRegistry, AutodetectionError, \
-    EnvironmentNotInstalledError
+from .environments.environment_registry import EnvironmentRegistry
 from .environments.dpkg_environment import DpkgEnvironment
 from .environments.rpm_environment import RpmEnvironment
 from .environments.pacman_environment import PacmanEnvironment
 from .generators.swid_generator import create_swid_tags
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
+from .exceptions import AutodetectionError, EnvironmentNotInstalledError
 
 
 def main():
