@@ -31,7 +31,7 @@ from .environments.environment_registry import EnvironmentRegistry, Autodetectio
 from .environments.dpkg_environment import DpkgEnvironment
 from .environments.rpm_environment import RpmEnvironment
 from .environments.pacman_environment import PacmanEnvironment
-from .generators import swid_generator
+from .generators.swid_generator import create_swid_tags
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
 
@@ -64,7 +64,7 @@ def main():
             'matcher': options.matcher
         }
 
-        swid_tags = swid_generator.create_swid_tags(**swid_args)
+        swid_tags = create_swid_tags(**swid_args)
         try:
             print_swid_tags(swid_tags, separator=options.document_separator, pretty=options.pretty)
 
