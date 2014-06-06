@@ -29,7 +29,7 @@ class EnvironmentRegistry(object):
         return ['auto'] + sorted(self.environments.keys())
 
     def register(self, environment_name, environment_class):
-        self.environments[environment_name] = environment_class
+        self.environments[environment_name] = environment_class()
 
     def get_environment(self, environment_string):
         """
