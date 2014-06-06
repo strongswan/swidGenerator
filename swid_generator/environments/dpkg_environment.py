@@ -46,7 +46,7 @@ class DpkgEnvironment(CommonEnvironment):
                 info.version = split_line[1]
                 info.status = split_line[2]
                 result.append(info)
-        return [r for r in result if cls.package_installed(r)]
+        return [r for r in result if cls._package_installed(r)]
 
     @classmethod
     def get_files_for_package(cls, package_name):
@@ -66,11 +66,11 @@ class DpkgEnvironment(CommonEnvironment):
         if isinstance(data, bytes):
             data = data.decode('utf-8')
         lines = data.rstrip().split('\n')
-        files = filter(cls.is_file, lines)
+        files = filter(cls._is_file, lines)
         return [FileInfo(path) for path in files]
 
     @classmethod
-    def package_installed(cls, package_info):
+    def _package_installed(cls, package_info):
         """
         Try to find out whether the specified package is installed or not.
 

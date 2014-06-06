@@ -51,5 +51,5 @@ class RpmEnvironment(CommonEnvironment):
         if isinstance(data, bytes):  # convert to unicode
             data = data.decode('utf-8')
         lines = data.rstrip().split('\n')
-        files = filter(cls.is_file, lines)
+        files = filter(cls._is_file, lines)
         return [FileInfo(path) for path in files]

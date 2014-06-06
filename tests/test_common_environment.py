@@ -31,7 +31,7 @@ def test_os_string(dist, system, os_name, output):
 
 @pytest.mark.skipif(sys.platform == 'win32', reason='requires windows')
 def test_is_file(tmpdir):
-    isfile = CommonEnvironment.is_file
+    isfile = CommonEnvironment._is_file
 
     real_dir = tmpdir.mkdir('sub1')
     assert isfile(real_dir.strpath) is False, 'A directory is not a file.'

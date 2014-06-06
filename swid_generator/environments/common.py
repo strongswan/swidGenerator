@@ -30,7 +30,7 @@ class CommonEnvironment(object):
         return dist or system or platform.os.name or 'unknown'
 
     @staticmethod
-    def is_file(path):
+    def _is_file(path):
         """
         Determine whether the specified path is an existing file.
 

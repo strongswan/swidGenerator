@@ -64,6 +64,6 @@ class PacmanEnvironment(CommonEnvironment):
             split_line = line.split(' ', 1)
             assert len(split_line) == 2, repr(split_line)
             filepath = split_line[1]
-            if cls.is_file(filepath):
+            if cls._is_file(filepath):
                 result.append(filepath)
         return [FileInfo(path) for path in result]
