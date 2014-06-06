@@ -29,7 +29,7 @@ class TestEnvironment(CommonEnvironment):
             'deinstall ok config-files': False
         }
 
-    def get_list(self, include_files=False):
+    def get_package_list(self, include_files=False):
         return filter(self.package_installed, self.packages)
 
     def package_installed(self, package):

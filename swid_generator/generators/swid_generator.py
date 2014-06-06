@@ -74,7 +74,7 @@ def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_ma
 
     """
     os_info = environment.get_os_string()
-    pkg_info = environment.get_list()
+    pkg_info = environment.get_package_list()
 
     for pi in pkg_info:
 

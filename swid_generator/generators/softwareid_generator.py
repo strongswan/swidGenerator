@@ -3,7 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 
 def create_software_ids(env, regid):
-    pkg_info = env.get_list()
+    pkg_info = env.get_package_list()
     os_info = env.get_os_string()
 
     for pi in pkg_info:

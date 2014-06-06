@@ -19,7 +19,7 @@ class RpmEnvironment(CommonEnvironment):
     executable = 'rpm'
 
     @classmethod
-    def get_list(cls):
+    def get_package_list(cls):
         """
         Get list of installed packages.
 

@@ -24,7 +24,7 @@ class DpkgEnvironment(CommonEnvironment):
     }
 
     @classmethod
-    def get_list(cls):
+    def get_package_list(cls):
         """
         Get list of installed packages.
 
