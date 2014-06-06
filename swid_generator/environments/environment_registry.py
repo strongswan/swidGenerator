@@ -29,6 +29,18 @@ class EnvironmentRegistry(object):
         return ['auto'] + sorted(self.environments.keys())
 
     def register(self, environment_name, environment_class):
+        """
+        Register an environment class.
+
+        Args:
+            environment_name:
+                The name to be assigned to this environment. This should be
+                short and all-lowercase, e.g. ``dpkg`` or ``rpm``.
+            environment_class:
+                The environment class to register. This should be a reference
+                to a class, not to an instance.
+
+        """
         self.environments[environment_name] = environment_class()
 
     def get_environment(self, environment_string):
@@ -37,7 +49,8 @@ class EnvironmentRegistry(object):
 
         Args:
             environment_string (str):
-                The evnironment to lookup. If 'auto' is used, try to autodetect the environment
+                The environment to return. If ``auto`` is specified, try to
+                autodetect the environment.
 
         Returns:
             Class representing the package manager environment.
@@ -47,6 +60,9 @@ class EnvironmentRegistry(object):
                 Raised if autodetection fails.
             EnvironmentNotInstalledError:
                 Raised if the given environment is not installed.
+            KeyError:
+                Raised if an invalid environment string is specified.
+
         """
 
         if environment_string == 'auto':
@@ -55,7 +71,6 @@ class EnvironmentRegistry(object):
                 raise AutodetectionError('Could not autodetect environment.')
             return detected_env
 
-        # if an explicit environment is provided
         env = self.environments[environment_string]
         if env.is_installed():
             return env
