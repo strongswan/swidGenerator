@@ -5,7 +5,7 @@ import re
 from functools import partial
 from argparse import ArgumentParser, ArgumentTypeError, Action
 
-from . import settings
+from . import settings, meta
 from .generators.swid_generator import software_id_matcher, package_name_matcher, all_matcher
 
 
@@ -41,6 +41,9 @@ class MainArgumentParser(object):
         self.arg_parser = ArgumentParser('swid_generator',
                                          description='Generate SWID tags and Software IDs'
                                                      'from dpkg, pacman or rpm package manager')
+        self.arg_parser.add_argument('-v', '--version', action='version',
+                                     version='%(prog)s ' + meta.version)
+
         # Parent parser for common options
         parent_parser = ArgumentParser(add_help=False)
 
