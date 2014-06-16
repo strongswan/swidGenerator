@@ -5,14 +5,14 @@ swidGenerator
     :target: https://pypi.python.org/pypi/swid_generator/
     :alt: Latest Version
 
-.. image:: https://travis-ci.org/tnc-ba/swidGenerator.png?branch=master
-    :target: https://travis-ci.org/tnc-ba/swidGenerator
+.. image:: https://travis-ci.org/strongswan/swidGenerator.png?branch=master
+    :target: https://travis-ci.org/strongswan/swidGenerator
 
-.. image:: https://coveralls.io/repos/tnc-ba/swidGenerator/badge.png
-    :target: https://coveralls.io/r/tnc-ba/swidGenerator
+.. image:: https://coveralls.io/repos/strongswan/swidGenerator/badge.png
+    :target: https://coveralls.io/r/strongswan/swidGenerator
 
-.. image:: https://landscape.io/github/tnc-ba/swidGenerator/master/landscape.png
-	:target: https://landscape.io/github/tnc-ba/swidGenerator/master
+.. image:: https://landscape.io/github/strongswan/swidGenerator/master/landscape.png
+	:target: https://landscape.io/github/strongswan/swidGenerator/master
 	:alt: Code Health
 
 .. image:: https://pypip.in/download/swid_generator/badge.png?period=month
@@ -142,7 +142,7 @@ Manual Installation
 
 Get code::
 
-    $ git clone https://github.com/tnc-ba/swidGenerator
+    $ git clone https://github.com/strongswan/swidGenerator
 
 Install::
 
@@ -204,9 +204,9 @@ corresponding Python versions installed::
 
 We use different continuous integration / quality assurance services:
 
-- Travis CI (testing): https://travis-ci.org/tnc-ba/swidGenerator
-- Coveralls (test coverage): https://coveralls.io/r/tnc-ba/swidGenerator
-- Landscape (code quality): https://landscape.io/github/tnc-ba/swidGenerator/
+- Travis CI (testing): https://travis-ci.org/strongswan/swidGenerator
+- Coveralls (test coverage): https://coveralls.io/r/strongswan/swidGenerator
+- Landscape (code quality): https://landscape.io/github/strongswan/swidGenerator/
 
 
 Coding Guidelines
