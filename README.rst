@@ -26,10 +26,10 @@ pacman.
 
 Usage
 =====
-The tool provides 2 subcommands to generate SWID tags or Software IDs
 
-Generate SWID tags:
-::
+The tool provides 2 subcommands to generate SWID tags or Software IDs.
+
+Generate SWID tags::
 
     usage: swid_generator swid [-h] [--env {auto,dpkg,pacman,rpm}]
                                [--doc-separator DOCUMENT_SEPARATOR] [--regid REGID]
@@ -73,8 +73,7 @@ Generate SWID tags:
                             managed environment. If no matching package is found, the output
                             is empty and the exit code is set to 1.
 
-Generate Software IDs:
-::
+Generate Software IDs::
 
     usage: swid_generator software-id [-h] [--env {auto,dpkg,pacman,rpm}]
                                       [--doc-separator DOCUMENT_SEPARATOR] [--regid REGID]
@@ -108,7 +107,14 @@ If the application fails somehow, an exit code is set appropriately:
 The exit code can be shown with::
 
     $ echo $?
-    
+
+
+Reserved Characters
+-------------------
+
+URI reserved characters (``:/?#[]@!$&'()*+,;=``) in a package version or name
+are replaced with a tilde (``~``) sign.
+
 
 Installation
 ============

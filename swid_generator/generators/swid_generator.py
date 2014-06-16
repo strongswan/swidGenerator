@@ -3,6 +3,8 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 from xml.etree import cElementTree as ET
 
+from .utils import create_unique_id, create_software_id
+
 
 ROLE = 'tagcreator'
 VERSION_SCHEME = 'alphanumeric'
@@ -20,18 +22,6 @@ def _create_payload_tag(package_info):
     return payload
 
 
-def _create_unique_id(os_info, package_info, architecture):
-    unique_id_format = '{os_info}-{architecture}-{pi.package}-{pi.version}'
-    return unique_id_format.format(os_info=os_info,
-                                   pi=package_info,
-                                   architecture=architecture)
-
-
-def _create_software_id(os_info, package_info, regid, architecture):
-    return '{regid}_{uniqueID}'.format(
-        regid=regid, uniqueID=_create_unique_id(os_info, package_info, architecture))
-
-
 def all_matcher(ctx):
     return True
 
@@ -41,12 +31,11 @@ def package_name_matcher(ctx, value):
 
 
 def software_id_matcher(ctx, value):
-    software_id = _create_software_id(
-        ctx['environment'].get_os_string(),
-        ctx['package_info'],
-        ctx['regid'],
-        ctx['environment'].get_architecture())
-
+    env = ctx['environment']
+    os_string = env.get_os_string()
+    architecture = env.get_architecture()
+    unique_id = create_unique_id(ctx['package_info'], os_string, architecture)
+    software_id = create_software_id(ctx['regid'], unique_id)
     return software_id == value
 
 
@@ -73,8 +62,9 @@ def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_ma
         are all bytestrings, using UTF-8 encoding.
 
     """
-    os_info = environment.get_os_string()
+    os_string = environment.get_os_string()
     pkg_info = environment.get_package_list()
+    architecture = environment.get_architecture()
 
     for pi in pkg_info:
 
@@ -91,7 +81,7 @@ def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_ma
         software_identity = ET.Element('SoftwareIdentity')
         software_identity.set('xmlns', XMLNS)
         software_identity.set('name', pi.package)
-        software_identity.set('uniqueId', _create_unique_id(os_info, pi, environment.get_architecture()))
+        software_identity.set('uniqueId', create_unique_id(pi, os_string, architecture))
 
         software_identity.set('version', pi.version)
         software_identity.set('versionScheme', VERSION_SCHEME)
