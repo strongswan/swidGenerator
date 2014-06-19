@@ -20,7 +20,7 @@ swidGenerator
     :alt: PyPI Downloads
 
 A small application for Python 2 and 3 which generates `SWID tags
-<http://tagvault.org/swid-tags/>` from Linux package managers like dpkg, rpm or
+<http://tagvault.org/swid-tags/>`_ from Linux package managers like dpkg, rpm or
 pacman.
 
 
@@ -112,8 +112,8 @@ The exit code can be shown with::
 Reserved Characters
 -------------------
 
-URI reserved characters (``:/?#[]@!$&'()*+,;=``) in a package version or name
-are replaced with a tilde (``~``) sign.
+URI reserved characters (``:/?#[]@!$&'()*+,;=``) in the package name / version
+section of the Unique-ID are replaced with a tilde (``~``) sign.
 
 
 Installation
@@ -222,8 +222,11 @@ Use PEP8 with ``--max-line-length=109`` and the following error codes ignored:
 ``E126 E127 E128``.
 
 
+Packaging
+=========
+
 Upload to PyPI
-==============
+--------------
 
 To upload a new version to PyPI, configure your ``.pypirc`` and execute the
 following commands::
@@ -235,7 +238,7 @@ following commands::
 
 
 Building .deb Package
-=====================
+---------------------
 
 You can create an unsigned .deb package using the ``package.sh`` script::
 
@@ -246,6 +249,15 @@ You can create an unsigned .deb package using the ``package.sh`` script::
 
 Note that this only works on a debian based system. Take a look at the comments
 in the script for more information.
+
+Building the Manpage
+--------------------
+
+You can build a manpage using `Sphinx <http://sphinx-doc.org/>`_::
+
+    $ cd docs
+    $ make man
+    $ man ./_build/man/swid_generator.1
 
 
 License

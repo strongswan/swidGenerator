@@ -1,2 +1,2 @@
-include README.rst LICENSE.txt CONTRIBUTORS.md
+include README.rst LICENSE.txt CONTRIBUTORS.rst CHANGELOG.rst
 prune tests
