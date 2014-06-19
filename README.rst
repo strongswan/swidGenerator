@@ -234,6 +234,20 @@ following commands::
     $ python setup.py bdist_wheel upload
 
 
+Building .deb Package
+=====================
+
+You can create an unsigned .deb package using the ``package.sh`` script::
+
+    $ ./package.sh
+    ...
+    $ ls dist/
+    swid-generator_0.1.1-1_all.deb
+
+Note that this only works on a debian based system. Take a look at the comments
+in the script for more information.
+
+
 License
 =======
 
