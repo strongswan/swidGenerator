@@ -3,6 +3,7 @@ source =
     swid_generator
 omit =
     */tests/*
+    */docs/*
 
 [report]
 # Regexes for lines to exclude from consideration
