@@ -9,7 +9,6 @@ env:
 matrix:
   allow_failures:
     - env: TOXENV=cov
-    - env: TOXENV=py26
 install: 
    - pip install --quiet --use-mirrors tox
 script:

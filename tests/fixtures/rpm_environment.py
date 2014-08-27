@@ -37,13 +37,11 @@ def rpm_document_strings(rpm_environment):
 
 @pytest.fixture
 def rpm_networkmanager_generated(rpm_document_strings):
-    ET.register_namespace('', 'http://standards.iso.org/iso/19770/-2/2014/schema.xsd')
     return get_swid_by_name(rpm_document_strings, 'NetworkManager')
 
 
 @pytest.fixture
 def rpm_documents_as_xml(rpm_document_strings):
-    ET.register_namespace('', 'http://standards.iso.org/iso/19770/-2/2014/schema.xsd')
     return [ET.fromstring(document) for document in rpm_document_strings]
 
 
@@ -56,7 +54,6 @@ def rpm_networkmanager_template():
 
 ### Helper Functions ###
 def get_swid_by_name(rpm_document_strings, name):
-    ET.register_namespace('', 'http://standards.iso.org/iso/19770/-2/2014/schema.xsd')
     for document in rpm_document_strings:
         if name in document.decode('utf8'):
             return ET.fromstring(document)

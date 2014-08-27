@@ -96,5 +96,5 @@ def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_ma
             payload_tag = _create_payload_tag(pi)
             software_identity.append(payload_tag)
 
-        swidtag_flat = ET.tostring(software_identity, encoding='utf-8', method='xml').replace(b'\n', b'')
+        swidtag_flat = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')
         yield XML_DECLARATION.encode('utf-8') + swidtag_flat

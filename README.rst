@@ -125,11 +125,14 @@ The following package managers are supported:
 - pacman (Arch Linux, Manjaro, ...)
 - rpm (Fedora, Red Hat, OpenSUSE, ...)
 
-The following Python versions are supported:
+The following Python versions are fully supported:
 
 - Python 2.7
 - Python 3.3+
 - PyPy
+
+Python 2.6 should also work, but you need to manually install argparse from the
+`Python Package Index <https://pypi.python.org/pypi/swid_generator/>`__.
 
 Install with pip
 ----------------
