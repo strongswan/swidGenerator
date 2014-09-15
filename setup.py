@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import io
 from setuptools import setup, find_packages
 from swid_generator import meta
 
-readme = open('README.rst').read()
+readme = io.open('README.rst', mode='r', encoding='utf8').read()
 
 setup(name='swid_generator',
       version=meta.version,

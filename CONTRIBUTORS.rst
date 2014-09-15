@@ -11,4 +11,4 @@ HSR University of Applied Sciences Rapperswil (http://www.hsr.ch/) in spring 201
 Other Contributions
 -------------------
 
-- ...
+- Šimon Lukašík (@isimluk)
