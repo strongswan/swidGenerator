@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 from swid_generator import meta
 
-readme = open('README.rst').read()
+readme = open('README.rst', encoding='utf-8').read()
 
 setup(name='swid_generator',
       version=meta.version,
