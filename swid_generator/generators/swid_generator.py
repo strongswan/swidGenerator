@@ -10,8 +10,9 @@ from itertools import groupby
 
 ROLE = 'tagcreator'
 VERSION_SCHEME = 'alphanumeric'
-XMLNS = 'http://standards.iso.org/iso/19770/-2/2014/schema.xsd'
+XMLNS = 'http://standards.iso.org/iso/19770/-2/2015/schema.xsd'
 XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
+N8060 = 'http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd'
 
 
 def _create_payload_tag(package_info):
@@ -107,14 +108,16 @@ def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_ma
         if not matcher(ctx):
             continue
 
+        # Header SoftwareIdentity
         software_identity = ET.Element('SoftwareIdentity')
         software_identity.set('xmlns', XMLNS)
+        software_identity.set('n8060', N8060)
         software_identity.set('name', pi.package)
         software_identity.set('uniqueId', create_unique_id(pi, os_string, architecture))
-
         software_identity.set('version', pi.version)
         software_identity.set('versionScheme', VERSION_SCHEME)
 
+        # SubElement Entity
         entity = ET.SubElement(software_identity, 'Entity')
         entity.set('name', entity_name)
         entity.set('regid', regid)
