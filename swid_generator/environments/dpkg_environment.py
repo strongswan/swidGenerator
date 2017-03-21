@@ -32,20 +32,35 @@ class DpkgEnvironment(CommonEnvironment):
             List of ``PackageInfo`` instances.
 
         """
-        command_args = [cls.executable, '-W', '-f=${Package}\\t${Version}\\t${Status}\\n']
+        command_args = [cls.executable, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
         data = subprocess.check_output(command_args)
+        result = []
+
         if isinstance(data, bytes):
             data = data.decode('utf-8')
-        line_list = data.split('\n')
-        result = []
+        line_list = data.split('\t')
+
         for line in line_list:
-            split_line = line.split('\t')
-            if len(split_line) == 3:
-                info = PackageInfo()
-                info.package = split_line[0]
-                info.version = split_line[1]
-                info.status = split_line[2]
-                result.append(info)
+            split_line = line.split('\n')
+
+            if len(split_line) >= 4:
+                package_info = PackageInfo()
+                package_info.package = split_line[0]
+                package_info.version = split_line[1]
+                package_info.status = split_line[2]
+
+                # if Config-Files exists
+                if split_line[3] != '':
+                    config_files = []
+                    for file_path in split_line[3:len(split_line)]:
+                        file_info = FileInfo(file_path)
+                        file_info.mutable = True
+                        config_files.append(file_info)
+
+                    package_info.files.extend(config_files)
+
+            result.append(package_info)
+
         return [r for r in result if cls._package_installed(r)]
 
     @classmethod
