@@ -5,6 +5,8 @@ from xml.etree import cElementTree as ET
 
 from .utils import create_unique_id, create_software_id
 
+from itertools import groupby
+
 
 ROLE = 'tagcreator'
 VERSION_SCHEME = 'alphanumeric'
@@ -14,10 +16,37 @@ XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 
 def _create_payload_tag(package_info):
     payload = ET.Element('Payload')
-    for file_info in package_info.files:
-        file_element = ET.SubElement(payload, 'File')
-        file_element.set('name', file_info.name)
-        file_element.set('location', file_info.location)
+
+    def _file_hierarchy(filelist, payload_tag=None, last_tag=None):
+        filelist.sort(key=_keyfunc)
+
+        for head, tail_of_file_iterator in groupby(filelist, _keyfunc):
+            if payload_tag is not None:
+                current_tag = ET.SubElement(payload_tag, 'Directory')
+                current_tag.set('root', head)
+                last_tag = payload_tag
+            else:
+                current_tag = ET.SubElement(last_tag, 'Directory')
+                current_tag.set('name', head)
+            sub_files = list()
+            for file_info in tail_of_file_iterator:
+
+                if len(file_info.fullpathname_splitted) == 2:
+                    file_tag = ET.SubElement(current_tag, 'File')
+                    file_tag.set('name', file_info.fullpathname_splitted[1])
+                    if file_info.mutable:
+                        file_tag.set('mutable', "True")
+                    del file_info
+                else:
+                    del file_info.fullpathname_splitted[0]
+                    sub_files.append(file_info)
+            if len(sub_files) > 0:
+                _file_hierarchy(sub_files, last_tag=current_tag)
+
+    def _keyfunc(obj):
+        return obj.fullpathname_splitted[0]
+
+    _file_hierarchy(package_info.files, payload_tag=payload)
 
     return payload
 
