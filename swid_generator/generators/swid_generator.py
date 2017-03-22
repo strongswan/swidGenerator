@@ -8,7 +8,7 @@ from .utils import create_unique_id, create_software_id
 from itertools import groupby
 
 
-ROLE = 'tagcreator'
+ROLE = 'tagCreator'
 VERSION_SCHEME = 'alphanumeric'
 XMLNS = 'http://standards.iso.org/iso/19770/-2/2015/schema.xsd'
 XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
