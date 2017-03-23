@@ -5,7 +5,7 @@ from xml.etree import cElementTree as ET
 
 from .utils import create_unique_id, create_software_id
 from .utils import create_sha256_hash, create_sha384_hash, create_sha512_hash
-
+import os
 
 ROLE = 'tagcreator'
 VERSION_SCHEME = 'alphanumeric'
@@ -21,6 +21,9 @@ def _create_payload_tag(package_info, hash_algorithms):
         file_element.set('location', file_info.location)
 
         full_path = file_info.location + '/' + file_info.name
+
+        file_element.set('size', str(os.path.getsize(full_path)))
+
         if 'sha256' in hash_algorithms:
             file_element.set('SHA256:hash', create_sha256_hash(full_path))
         if 'sha384' in hash_algorithms:
