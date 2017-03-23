@@ -22,7 +22,7 @@ def _create_payload_tag(package_info):
 
     for file_info in package_info.files:
 
-        head, file_name = ntpath.split(file_info.fullpathname)
+        head, file_name = ntpath.split(file_info.full_pathname)
         root, folder_name = ntpath.split(head)
 
         full_pathname = root + folder_name

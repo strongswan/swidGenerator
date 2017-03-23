@@ -85,7 +85,7 @@ class DpkgEnvironment(CommonEnvironment):
         files = filter(cls._is_file, lines)
 
         for path in files:
-            if not any(file_info.fullpathname.strip() == path for file_info in package.files):
+            if not any(file_info.full_pathname.strip() == path for file_info in package.files):
                 package.append_file(FileInfo(path))
 
 
