@@ -63,6 +63,8 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms, full=Fals
             The SWID tag entity name.
         regid (str):
             The SWID tag regid.
+        hash_algorithms(str):
+            Comma separated list of the hash algorithms to include in the SWID tag,
         full (bool):
             Whether to include file payload. Default is False.
         matcher (function):
