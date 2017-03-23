@@ -3,7 +3,8 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 from xml.etree import cElementTree as ET
 
-from .utils import create_unique_id, create_software_id, create_sha256_hash, create_sha384_hash, create_sha512_hash
+from .utils import create_unique_id, create_software_id
+from .utils import create_sha256_hash, create_sha384_hash, create_sha512_hash
 
 
 ROLE = 'tagcreator'
@@ -88,9 +89,12 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms, full=Fals
 
         software_identity = ET.Element('SoftwareIdentity')
         software_identity.set('xmlns', XMLNS)
-        software_identity.set('xmlns:SHA256', "http://www.w3.org/2001/04/xmlenc#sha256")
-        software_identity.set('xmlns:SHA384', "http://www.w3.org/2001/04/xmlenc#sha384")
-        software_identity.set('xmlns:SHA512', "http://www.w3.org/2001/04/xmlenc#sha512")
+        if 'sha256' in hash_algorithms:
+            software_identity.set('xmlns:SHA256', "http://www.w3.org/2001/04/xmlenc#sha256")
+        if 'sha384' in hash_algorithms:
+            software_identity.set('xmlns:SHA384', "http://www.w3.org/2001/04/xmlenc#sha384")
+        if 'sha512' in hash_algorithms:
+            software_identity.set('xmlns:SHA512', "http://www.w3.org/2001/04/xmlenc#sha512")
 
         software_identity.set('name', pi.package)
         software_identity.set('uniqueId', create_unique_id(pi, os_string, architecture))

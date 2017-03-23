@@ -86,10 +86,10 @@ class MainArgumentParser(object):
         swid_parser.add_argument('--pretty', action='store_true', default=False,
                                  help='Indent the XML output.')
         swid_parser.add_argument('--hash', dest='hash_algorithms', type=hash_string,
-                                 default=hash_string(settings.DEFAULT_HASH_ALGORITHM),
-                                 help='Define the algorithm for the file hashes ("sha256", "sha384", "sha512"). '
-                                      'Multiple hashes can be added with comma separated. ("sha256,sha384") '
-                                      'Default is "%s"' % settings.DEFAULT_HASH_ALGORITHM)
+                            default=hash_string(settings.DEFAULT_HASH_ALGORITHM),
+                            help='Define the algorithm for the file hashes ("sha256", "sha384", "sha512"). '
+                                 'Multiple hashes can be added with comma separated. ("sha256,sha384") '
+                                 'Default is "%s"' % settings.DEFAULT_HASH_ALGORITHM)
 
         swid_parser.set_defaults(matcher=all_matcher)
 
