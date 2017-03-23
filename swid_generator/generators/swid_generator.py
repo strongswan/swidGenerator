@@ -3,7 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 from xml.etree import cElementTree as ET
 
-from .utils import create_unique_id, create_software_id
+from .utils import create_unique_id, create_software_id, create_sha256_hash, create_sha384_hash, create_sha512_hash
 
 
 ROLE = 'tagcreator'
@@ -12,12 +12,20 @@ XMLNS = 'http://standards.iso.org/iso/19770/-2/2014/schema.xsd'
 XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 
 
-def _create_payload_tag(package_info):
+def _create_payload_tag(package_info, hash_algorithms):
     payload = ET.Element('Payload')
     for file_info in package_info.files:
         file_element = ET.SubElement(payload, 'File')
         file_element.set('name', file_info.name)
         file_element.set('location', file_info.location)
+
+        full_path = file_info.location + '/' + file_info.name
+        if 'sha256' in hash_algorithms:
+            file_element.set('SHA256:hash', create_sha256_hash(full_path))
+        if 'sha384' in hash_algorithms:
+            file_element.set('SHA384:hash', create_sha384_hash(full_path))
+        if 'sha512' in hash_algorithms:
+            file_element.set('SHA512:hash', create_sha512_hash(full_path))
 
     return payload
 
@@ -39,7 +47,7 @@ def software_id_matcher(ctx, value):
     return software_id == value
 
 
-def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_matcher):
+def create_swid_tags(environment, entity_name, regid, hash_algorithms, full=False, matcher=all_matcher):
     """
     Return SWID tags as utf8-encoded xml bytestrings for all available
     packages.
@@ -80,6 +88,10 @@ def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_ma
 
         software_identity = ET.Element('SoftwareIdentity')
         software_identity.set('xmlns', XMLNS)
+        software_identity.set('xmlns:SHA256', "http://www.w3.org/2001/04/xmlenc#sha256")
+        software_identity.set('xmlns:SHA384', "http://www.w3.org/2001/04/xmlenc#sha384")
+        software_identity.set('xmlns:SHA512', "http://www.w3.org/2001/04/xmlenc#sha512")
+
         software_identity.set('name', pi.package)
         software_identity.set('uniqueId', create_unique_id(pi, os_string, architecture))
 
@@ -93,7 +105,7 @@ def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_ma
 
         if full:
             pi.files = environment.get_files_for_package(pi.package)
-            payload_tag = _create_payload_tag(pi)
+            payload_tag = _create_payload_tag(pi, hash_algorithms)
             software_identity.append(payload_tag)
 
         swidtag_flat = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')

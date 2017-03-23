@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
+import hashlib
 import re
 
 
@@ -46,3 +47,26 @@ def create_software_id(regid, unique_id):
 
     """
     return '{regid}_{unique_id}'.format(regid=regid, unique_id=unique_id)
+
+
+def create_sha256_hash(filepath):
+    return _create_hash(filepath, hashlib.sha256())
+
+
+def create_sha384_hash(filepath):
+    return _create_hash(filepath, hashlib.sha384())
+
+
+def create_sha512_hash(filepath):
+    return _create_hash(filepath, hashlib.sha512())
+
+
+def _create_hash(file_path, hash_algorithm):
+    blocksize = 65536
+    with open(file_path, 'rb') as afile:
+        buf = afile.read(blocksize)
+        while len(buf) > 0:
+            hash_algorithm.update(buf)
+            buf = afile.read(blocksize)
+
+    return hash_algorithm.hexdigest()
