@@ -55,9 +55,10 @@ class DpkgEnvironment(CommonEnvironment):
                     for file_path in split_line[3:len(split_line)]:
                         file_info = FileInfo(file_path)
                         file_info.mutable = True
-                        config_files.append(file_info)
+                        package_info.append_file(file_info)
+                        # config_files.append(file_info)
 
-                    package_info.files.extend(config_files)
+                    # package_info.files.extend(config_files)
 
             result.append(package_info)
 
@@ -83,13 +84,10 @@ class DpkgEnvironment(CommonEnvironment):
         lines = data.rstrip().split('\n')
         files = filter(cls._is_file, lines)
 
-        result = []
-
         for path in files:
             if not any(file_info.fullpathname.strip() == path for file_info in package.files):
-                result.append(FileInfo(path))
+                package.append_file(FileInfo(path))
 
-        return result
 
     @classmethod
     def _package_installed(cls, package_info):

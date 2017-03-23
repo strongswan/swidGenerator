@@ -6,6 +6,8 @@ from xml.etree import cElementTree as ET
 from .utils import create_unique_id, create_software_id
 
 from itertools import groupby
+from operator import itemgetter
+import os
 
 
 ROLE = 'tagCreator'
@@ -17,37 +19,38 @@ N8060 = 'http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1
 
 def _create_payload_tag(package_info):
     payload = ET.Element('Payload')
+    last_full_pathname = ""
+    last_directory_tag = ""
+    file_mutable = False
 
-    def _file_hierarchy(filelist, payload_tag=None, last_tag=None):
-        filelist.sort(key=_keyfunc)
+    for file_info in package_info.files:
+        path_name_splitted = file_info.fullpathname_splitted
+        root = '/'+'/'.join(path_name_splitted[0:len(path_name_splitted)-2])
+        folder_name = '/'.join(path_name_splitted[len(path_name_splitted)-2: len(path_name_splitted)-1])
+        file_name = path_name_splitted[len(path_name_splitted)-1]
 
-        for head, tail_of_file_iterator in groupby(filelist, _keyfunc):
-            if payload_tag is not None:
-                current_tag = ET.SubElement(payload_tag, 'Directory')
-                current_tag.set('root', head)
-                last_tag = payload_tag
-            else:
-                current_tag = ET.SubElement(last_tag, 'Directory')
-                current_tag.set('name', head)
-            sub_files = list()
-            for file_info in tail_of_file_iterator:
+        full_pathname = root + folder_name
 
-                if len(file_info.fullpathname_splitted) == 2:
-                    file_tag = ET.SubElement(current_tag, 'File')
-                    file_tag.set('name', file_info.fullpathname_splitted[1])
-                    if file_info.mutable:
-                        file_tag.set('mutable', "True")
-                    del file_info
-                else:
-                    del file_info.fullpathname_splitted[0]
-                    sub_files.append(file_info)
-            if len(sub_files) > 0:
-                _file_hierarchy(sub_files, last_tag=current_tag)
+        if file_info.mutable:
+            file_mutable = True
 
-    def _keyfunc(obj):
-        return obj.fullpathname_splitted[0]
-
-    _file_hierarchy(package_info.files, payload_tag=payload)
+        if last_full_pathname == full_pathname:
+            file_tag = ET.SubElement(last_directory_tag, 'File')
+            file_tag.set('name', file_name)
+            if file_mutable:
+                file_tag.set('mutable', "True")
+                file_mutable = False
+        else:
+            directory_tag = ET.SubElement(payload, 'Directory')
+            directory_tag.set('root', root)
+            directory_tag.set('name', folder_name)
+            file_tag = ET.SubElement(directory_tag, 'File')
+            file_tag.set('name', file_name)
+            if file_mutable:
+                file_tag.set('mutable', "True")
+                file_mutable = False
+            last_full_pathname = root + folder_name
+            last_directory_tag = directory_tag
 
     return payload
 
@@ -124,7 +127,8 @@ def create_swid_tags(environment, entity_name, regid, full=False, matcher=all_ma
         entity.set('role', ROLE)
 
         if full:
-            pi.files.extend(environment.get_files_for_package(pi))
+            environment.get_files_for_package(pi)
+            # pi.files.extend(environment.get_files_for_package(pi))
             payload_tag = _create_payload_tag(pi)
             software_identity.append(payload_tag)
 
