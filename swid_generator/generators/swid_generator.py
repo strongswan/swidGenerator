@@ -5,9 +5,7 @@ from xml.etree import cElementTree as ET
 
 from .utils import create_unique_id, create_software_id
 
-from itertools import groupby
-from operator import itemgetter
-import os
+import ntpath
 
 
 ROLE = 'tagCreator'
@@ -21,36 +19,28 @@ def _create_payload_tag(package_info):
     payload = ET.Element('Payload')
     last_full_pathname = ""
     last_directory_tag = ""
-    file_mutable = False
 
     for file_info in package_info.files:
-        path_name_splitted = file_info.fullpathname_splitted
-        root = '/'+'/'.join(path_name_splitted[0:len(path_name_splitted)-2])
-        folder_name = '/'.join(path_name_splitted[len(path_name_splitted)-2: len(path_name_splitted)-1])
-        file_name = path_name_splitted[len(path_name_splitted)-1]
+
+        head, file_name = ntpath.split(file_info.fullpathname)
+        root, folder_name = ntpath.split(head)
 
         full_pathname = root + folder_name
-
-        if file_info.mutable:
-            file_mutable = True
 
         if last_full_pathname == full_pathname:
             file_tag = ET.SubElement(last_directory_tag, 'File')
             file_tag.set('name', file_name)
-            if file_mutable:
-                file_tag.set('mutable', "True")
-                file_mutable = False
         else:
             directory_tag = ET.SubElement(payload, 'Directory')
             directory_tag.set('root', root)
             directory_tag.set('name', folder_name)
             file_tag = ET.SubElement(directory_tag, 'File')
             file_tag.set('name', file_name)
-            if file_mutable:
-                file_tag.set('mutable', "True")
-                file_mutable = False
-            last_full_pathname = root + folder_name
+            last_full_pathname = full_pathname
             last_directory_tag = directory_tag
+
+        if file_info.mutable:
+            file_tag.set('mutable', "True")
 
     return payload
 

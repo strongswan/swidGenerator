@@ -9,12 +9,7 @@ class FileInfo(object):
         self.name = (os.path.split(path)[1]).split(' ')[0]
         self.location = os.path.split(path)[0]
         self.mutable = False
-        self.fullpathname = self.location + "/" + self.name
-
-        splitted_location = self.location.split('/')
-        splitted_location.append(self.name)
-
-        self.fullpathname_splitted = splitted_location[1:len(splitted_location)]
+        self.fullpathname = (self.location + "/" + self.name).strip()
 
 
 class PackageInfo(object):
@@ -29,4 +24,3 @@ class PackageInfo(object):
 
     def append_file(self, file_info):
         self.files.append(file_info)
-        self.files_structured.append(file_info.fullpathname_splitted)
