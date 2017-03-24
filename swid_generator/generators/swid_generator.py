@@ -44,16 +44,14 @@ def _create_payload_tag(package_info, hash_algorithms):
         if file_info.mutable:
             file_tag.set('mutable', "True")
 
-        full_path = file_info.location + '/' + file_info.name
-
-        file_element.set('size', str(os.path.getsize(full_path)))
+        file_tag.set('size', str(os.path.getsize(file_info.full_pathname)))
 
         if 'sha256' in hash_algorithms:
-            file_element.set('SHA256:hash', create_sha256_hash(full_path))
+            file_tag.set('SHA256:hash', create_sha256_hash(file_info.full_pathname))
         if 'sha384' in hash_algorithms:
-            file_element.set('SHA384:hash', create_sha384_hash(full_path))
+            file_tag.set('SHA384:hash', create_sha384_hash(file_info.full_pathname))
         if 'sha512' in hash_algorithms:
-            file_element.set('SHA512:hash', create_sha512_hash(full_path))
+            file_tag.set('SHA512:hash', create_sha512_hash(file_info.full_pathname))
 
     return payload
 
