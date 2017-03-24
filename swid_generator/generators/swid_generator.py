@@ -136,7 +136,7 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms, full=Fals
         entity.set('role', ROLE)
 
         if full:
-            environment.get_files_for_package(pi)
+            pi.files.extend(environment.get_files_for_package(pi))
             payload_tag = _create_payload_tag(pi, hash_algorithms)
             software_identity.append(payload_tag)
 

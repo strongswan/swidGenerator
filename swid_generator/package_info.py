@@ -22,6 +22,3 @@ class PackageInfo(object):
         self.files = files
         self.status = status
         self.files_structured = []
-
-    def append_file(self, file_info):
-        self.files.append(file_info)
