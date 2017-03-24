@@ -95,7 +95,8 @@ def main():
             'entity_name': options.entity_name,
             'regid': options.regid,
             'full': options.full,
-            'matcher': options.matcher
+            'matcher': options.matcher,
+            'hash_algorithms': options.hash_algorithms
         }
 
         swid_tags = create_swid_tags(**swid_args)
