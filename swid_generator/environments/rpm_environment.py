@@ -27,20 +27,42 @@ class RpmEnvironment(CommonEnvironment):
             List of ``PackageInfo`` instances.
 
         """
-        command_args = [cls.executable, '-qa', '--queryformat', '%{name}\t%{version}-%{release}\n -c']
+        """
+        command_args = [cls.executable, '-qa', '--queryformat', '%{name}\n%{version}-%{release}\t -c']
         data = subprocess.check_output(command_args)
         if isinstance(data, bytes):  # convert to unicode
             data = data.decode('utf-8')
+
+
         line_list = data.split('\n')
         result = []
+        """
+        result = []
+
+        with open('rpm-output3.txt', 'r') as content_file:
+            content = content_file.read()
+
+        line_list = content.split('\t')
 
         for line in line_list:
-            split_line = list(filter(len, line.split()))
-            if len(split_line) == 2:
-                info = PackageInfo()
-                info.package = split_line[0]
-                info.version = split_line[1]
-                result.append(info)
+            split_line = line.replace('\n', " ").split()
+
+            if len(split_line) >= 4:
+                package_info = PackageInfo()
+                package_info.package = split_line[0]
+                package_info.version = split_line[1]
+
+                # if Config-Files exists
+                if len(split_line) >= 3:
+                    config_files = []
+                    for file_path in split_line[2:len(split_line)]:
+                        file_info = FileInfo(file_path)
+                        file_info.mutable = True
+                        config_files.append(file_info)
+
+                package_info.files.extend(config_files)
+
+                result.append(package_info)
 
         return result
 
