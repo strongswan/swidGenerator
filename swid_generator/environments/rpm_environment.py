@@ -27,7 +27,7 @@ class RpmEnvironment(CommonEnvironment):
             List of ``PackageInfo`` instances.
 
         """
-        command_args = [cls.executable, '-qa', '--queryformat', '%{name}\t%{version}-%{release}\n']
+        command_args = [cls.executable, '-qa', '--queryformat', '%{name}\t%{version}-%{release}\n -c']
         data = subprocess.check_output(command_args)
         if isinstance(data, bytes):  # convert to unicode
             data = data.decode('utf-8')
