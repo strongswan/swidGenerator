@@ -12,10 +12,12 @@ from swid_generator.generators.swid_generator import software_id_matcher, packag
 
 
 class FileInfoMock(object):
-    def __init__(self, name, location, size):
+    def __init__(self, name, location, size, mutable, full_pathname):
         self.name = name
         self.location = location
         self.size = size
+        self.mutable = mutable
+        self.full_pathname = full_pathname
 
 
 class TestEnvironment(CommonEnvironment):
@@ -43,31 +45,27 @@ class TestEnvironment(CommonEnvironment):
     def get_architecture():
         return 'i686'
 
-    def get_files_for_package(self, package_name):
-        package_info = [p for p in self.packages if p.package == package_name]
+    def get_files_for_package(self, package):
+        package_info = [p for p in self.packages if p.package == package.package]
         return package_info[0].files
 
 
 @pytest.fixture
 def packages():
-    cowsay_file1 = FileInfoMock('/usr/games', 'cowsay', 4421)
-    cowsay_file2 = FileInfoMock('/usr/share/cowsay/cows', 'pony-smaller.cow', 305)
+    cowsay_file1 = FileInfoMock('/usr/games', 'cowsay', 4421, False, '/usr/games/cowsay')
+    cowsay_file2 = FileInfoMock('/usr/share/cowsay/cows', 'pony-smaller.cow', 305, True, '/usr/share/cowsay/cows/pony-smaller.cow')
 
-    fortune_file1 = FileInfoMock('/usr/games', 'fortune', 1234)
-    fortune_file2 = FileInfoMock('/usr/share/doc/fortune-mod', 'copyright', 3333)
+    fortune_file1 = FileInfoMock('/usr/games', 'fortune', 1234, False, '/usr/games/fortune')
+    fortune_file2 = FileInfoMock('/usr/share/doc/fortune-mod', 'copyright', 3333, False, '/usr/share/doc/fortune-mod/copyright')
 
-    openssh_file1 = FileInfoMock('/etc/init/', 'ssh.conf', 555)
-    openssh_file2 = FileInfoMock('/usr/sbin/', 'sshd', 89484)
+    openssh_file1 = FileInfoMock('/etc/init/', 'ssh.conf', 555, True, '/etc/init/ssh.conf')
+    openssh_file2 = FileInfoMock('/usr/sbin/', 'sshd', 89484, False, '/usr/sbin/sshd')
 
     infos = [
-        PackageInfo('cowsay', '1.0', [cowsay_file1, cowsay_file2]),
-        PackageInfo('fortune', '2.0', [fortune_file1, fortune_file2]),
-        PackageInfo('openssh-server', '7000', [openssh_file1, openssh_file2])
+        PackageInfo('cowsay', '1.0', [cowsay_file1, cowsay_file2], 'install ok installed'),
+        PackageInfo('fortune', '2.0', [fortune_file1, fortune_file2], 'install ok installed'),
+        PackageInfo('openssh-server', '7000', [openssh_file1, openssh_file2], 'deinstall ok config-files')
     ]
-
-    infos[0].status = 'install ok installed'
-    infos[1].status = 'install ok installed'
-    infos[2].status = 'deinstall ok config-files'
 
     return infos
 
