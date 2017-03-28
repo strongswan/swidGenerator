@@ -27,27 +27,18 @@ class RpmEnvironment(CommonEnvironment):
             List of ``PackageInfo`` instances.
 
         """
-        """
-        command_args = [cls.executable, '-qa', '--queryformat', '%{name}\n%{version}-%{release}\t -c']
+
+        command_args = [cls.executable, '-qa', '--queryformat', '\t%{name} %{version}-%{release}', '-c']
         data = subprocess.check_output(command_args)
         if isinstance(data, bytes):  # convert to unicode
             data = data.decode('utf-8')
 
-
-        line_list = data.split('\n')
+        line_list = data.split('\t')
         result = []
-        """
-        result = []
-
-        with open('rpm-output3.txt', 'r') as content_file:
-            content = content_file.read()
-
-        line_list = content.split('\t')
 
         for line in line_list:
             split_line = line.replace('\n', " ").split()
-
-            if len(split_line) >= 4:
+            if len(split_line) >= 2:
                 package_info = PackageInfo()
                 package_info.package = split_line[0]
                 package_info.version = split_line[1]
@@ -60,7 +51,7 @@ class RpmEnvironment(CommonEnvironment):
                         file_info.mutable = True
                         config_files.append(file_info)
 
-                package_info.files.extend(config_files)
+                    package_info.files.extend(config_files)
 
                 result.append(package_info)
 
