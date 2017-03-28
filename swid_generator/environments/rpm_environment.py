@@ -58,11 +58,18 @@ class RpmEnvironment(CommonEnvironment):
         return result
 
     @classmethod
-    def get_files_for_package(cls, package_name):
-        command_args = [cls.executable, '-ql', package_name]
+    def get_files_for_package(cls, package_info):
+        command_args = [cls.executable, '-ql', package_info.package]
         data = subprocess.check_output(command_args)
         if isinstance(data, bytes):  # convert to unicode
             data = data.decode('utf-8')
         lines = data.rstrip().split('\n')
         files = filter(cls._is_file, lines)
-        return [FileInfo(path) for path in files]
+
+        result_list = []
+
+        for path in files:
+            if not any(file_info.full_pathname.strip() == path for file_info in package_info.files):
+                result_list.append(FileInfo(path))
+
+        return result_list
