@@ -47,9 +47,10 @@ class RpmEnvironment(CommonEnvironment):
                 if len(split_line) >= 3:
                     config_files = []
                     for file_path in split_line[2:len(split_line)]:
-                        file_info = FileInfo(file_path)
-                        file_info.mutable = True
-                        config_files.append(file_info)
+                        if cls._is_file(file_path):
+                            file_info = FileInfo(file_path)
+                            file_info.mutable = True
+                            config_files.append(file_info)
 
                     package_info.files.extend(config_files)
 
