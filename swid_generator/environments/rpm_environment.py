@@ -27,29 +27,49 @@ class RpmEnvironment(CommonEnvironment):
             List of ``PackageInfo`` instances.
 
         """
-        command_args = [cls.executable, '-qa', '--queryformat', '%{name}\t%{version}-%{release}\n']
+
+        command_args = [cls.executable, '-qa', '--queryformat', '\t%{name} %{version}-%{release}', '-c']
         data = subprocess.check_output(command_args)
         if isinstance(data, bytes):  # convert to unicode
             data = data.decode('utf-8')
-        line_list = data.split('\n')
+
+        line_list = data.split('\t')
         result = []
 
         for line in line_list:
-            split_line = list(filter(len, line.split()))
-            if len(split_line) == 2:
-                info = PackageInfo()
-                info.package = split_line[0]
-                info.version = split_line[1]
-                result.append(info)
+            split_line = line.replace('\n', " ").split()
+            if len(split_line) >= 2:
+                package_info = PackageInfo()
+                package_info.package = split_line[0]
+                package_info.version = split_line[1]
+
+                # if Config-Files exists
+                if len(split_line) >= 3:
+                    config_files = []
+                    for file_path in split_line[2:len(split_line)]:
+                        file_info = FileInfo(file_path)
+                        file_info.mutable = True
+                        config_files.append(file_info)
+
+                    package_info.files.extend(config_files)
+
+                result.append(package_info)
 
         return result
 
     @classmethod
-    def get_files_for_package(cls, package_name):
-        command_args = [cls.executable, '-ql', package_name]
+    def get_files_for_package(cls, package_info):
+        command_args = [cls.executable, '-ql', package_info.package]
         data = subprocess.check_output(command_args)
         if isinstance(data, bytes):  # convert to unicode
             data = data.decode('utf-8')
         lines = data.rstrip().split('\n')
         files = filter(cls._is_file, lines)
-        return [FileInfo(path) for path in files]
+
+        result_list = []
+
+        for path in files:
+            if not any(file_info.full_pathname.strip() == path for file_info in package_info.files):
+                result_list.append(FileInfo(path))
+
+        return result_list
