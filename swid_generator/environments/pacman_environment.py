@@ -41,7 +41,7 @@ class PacmanEnvironment(CommonEnvironment):
         return result
 
     @classmethod
-    def get_files_for_package(cls, package_name):
+    def get_files_for_package(cls, package_info):
         """
         Get list of files related to the specified package.
 
@@ -55,7 +55,7 @@ class PacmanEnvironment(CommonEnvironment):
             List of ``FileInfo`` instances.
 
         """
-        command_args = [cls.executable, '-Ql', package_name]
+        command_args = [cls.executable, '-Ql', package_info.package]
         data = subprocess.check_output(command_args)
         if isinstance(data, bytes):
             data = data.decode('utf-8')
