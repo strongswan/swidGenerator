@@ -5,6 +5,7 @@ import subprocess
 
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
+import os
 
 
 class DpkgEnvironment(CommonEnvironment):
@@ -53,9 +54,11 @@ class DpkgEnvironment(CommonEnvironment):
                 if split_line[3] != '':
                     config_files = []
                     for file_path in split_line[3:len(split_line)]:
-                        file_info = FileInfo(file_path)
-                        file_info.mutable = True
-                        config_files.append(file_info)
+                        file_path_without_md5 = (os.path.split(file_path)[1]).split(' ')[0]
+                        if cls._is_file(file_path_without_md5):
+                            file_info = FileInfo(file_path_without_md5)
+                            file_info.mutable = True
+                            config_files.append(file_info)
 
                     package_info.files.extend(config_files)
 
@@ -82,13 +85,11 @@ class DpkgEnvironment(CommonEnvironment):
             data = data.decode('utf-8')
         lines = data.rstrip().split('\n')
         files = filter(cls._is_file, lines)
-
         result_list = []
 
         for path in files:
             if not any(file_info.full_pathname.strip() == path for file_info in package_info.files):
                 result_list.append(FileInfo(path))
-
         return result_list
 
     @classmethod

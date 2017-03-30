@@ -6,8 +6,7 @@ import os.path
 
 class FileInfo(object):
     def __init__(self, path):
-        # Split is because of md5 Hash after file-name Information.
-        self.name = (os.path.split(path)[1]).split(' ')[0]
+        self.name = (os.path.split(path)[1]).strip()
         self.location = (os.path.split(path)[0]).strip()
         self.mutable = False
         self.full_pathname = '/'.join((self.location, self.name))
