@@ -1,0 +1,85 @@
+Update: August 6, 2004:
+----------------------
+
+Upstream and Debian packaging is now maintained by
+
+        Pascal Hakim <pasc@debian.org>
+        Joshua Kwan <joshk@triplehelix.org>
+
+You can download the original source from:
+http://www.redellipse.net/code/downloads/fortune-mod-1.99.1.tar.gz
+
+Newer versions can be found in arch archives around the world, namely
+	http://metis.redellipse.net/fortune/fortune-dev@metis.redellipse.net/
+as module fortune--main.
+
+Some past history is present at http://alioth.debian.org/projects/fortune/
+
+------------------------------------------------------------------------------
+Notes for the Debian GNU/Linux port of BSD fortune(6)
+------------------------------------------------------------------------------
+
+The original author is Ken Arnold.
+The Linux port of the fortune package (from NetBSD-current in April 1995)
+was done by Florian LaRoche <florian@jurix.jura.uni-sb.de>
+Amy A. Lewis <alewis@email.unc.edu> modified the sources (and the fortune
+files) heavily, fixing bugs and adding new functionality in Oct 1995
+The data file "cookie" is from Karl Lehenbauer's postings to alt.sources.
+The Debian packaging was done by Helmut Geyer
+ <Helmut.Geyer@iwr.uni-heidelberg.de>, and later maintained by Brian Bassett
+ <brian@butterfly.ml.org>, then by Mark Ng <ng@debian.org>, based on
+ the Debian fortune package done by David H. Silber <dhs@firefly.com>
+ from sources obtained from
+ ftp://sunsite.unc.edu/pub/Linux/games/amusements/fortune-mod-9708.tar.gz
+
+------------------------------------------------------------------------------
+	Legal information
+------------------------------------------------------------------------------
+
+This program falls under the BSD copyright:
+
+
+Copyright (c) 1991 The Regents of the University of California.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. [ Deleted.  see :-
+	ftp://ftp.cs.berkeley.edu/pub/4bsd/README.Impt.License.Change
+   ]
+4. Neither the name of the University nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+------------------------------------------------------------------------------
+Atheism cookie file copyright information
+------------------------------------------------------------------------------
+*** ATHEISM/FREETHOUGHT fortune cookie file
+***
+***  Version: 3.9 - Part 1 of 2
+***     Date: October 7, 2001 CE
+***
+***  Send updates/additions to:
+***        Wayne Aiken <slack@ncsu.edu>
+***        http://www4.ncsu.edu/~aiken/
+***
+

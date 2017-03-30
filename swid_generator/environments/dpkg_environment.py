@@ -2,7 +2,7 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import subprocess
-
+import ntpath
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
@@ -34,6 +34,7 @@ class DpkgEnvironment(CommonEnvironment):
         """
         command_args = [cls.executable, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
         data = subprocess.check_output(command_args)
+        print (data)
         result = []
 
         if isinstance(data, bytes):
@@ -53,9 +54,13 @@ class DpkgEnvironment(CommonEnvironment):
                 if split_line[3] != '':
                     config_files = []
                     for file_path in split_line[3:len(split_line)]:
-                        file_info = FileInfo(file_path)
-                        file_info.mutable = True
-                        config_files.append(file_info)
+                        file_info = FileInfo("")
+                        header, file_name = ntpath.split(file_path)
+                        file_info.full_pathname = file_path
+                        file_info.name = file_name
+                        if cls._is_file(file_info.full_pathname):
+                            file_info.mutable = True
+                            config_files.append(file_info)
 
                     package_info.files.extend(config_files)
 
@@ -87,7 +92,8 @@ class DpkgEnvironment(CommonEnvironment):
 
         for path in files:
             if not any(file_info.full_pathname.strip() == path for file_info in package.files):
-                result_files.append(FileInfo(path))
+                if cls._is_file(path):
+                    result_files.append(FileInfo(path))
 
         return result_files
 
