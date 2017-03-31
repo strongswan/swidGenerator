@@ -34,7 +34,6 @@ class DpkgEnvironment(CommonEnvironment):
         """
         command_args = [cls.executable, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
         data = subprocess.check_output(command_args)
-        print (data)
         result = []
 
         if isinstance(data, bytes):

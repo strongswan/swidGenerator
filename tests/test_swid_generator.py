@@ -107,7 +107,6 @@ def test_non_pretty_output(swid_tag_generator, packages):
 def test_full_output(swid_tag_generator, packages):
     output = swid_tag_generator(full=True)
     for document in output:
-        print(document)
         root = ET.fromstring(document)
         package_name = root.attrib['name']
         payload = root[1]
