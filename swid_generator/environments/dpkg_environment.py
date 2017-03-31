@@ -2,7 +2,6 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import subprocess
-
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 import os

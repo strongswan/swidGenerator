@@ -7,7 +7,6 @@ from .utils import create_unique_id, create_software_id
 from .utils import create_sha256_hash, create_sha384_hash, create_sha512_hash
 
 import ntpath
-import os
 
 
 ROLE = 'tagCreator'
@@ -42,9 +41,9 @@ def _create_payload_tag(package_info, hash_algorithms):
             last_directory_tag = directory_tag
 
         if file_info.mutable:
-            file_tag.set('mutable', "True")
+            file_tag.set('n8060:mutable', "True")
 
-        file_tag.set('size', str(os.path.getsize(file_info.full_pathname)))
+        file_tag.set('size', file_info.size)
 
         if 'sha256' in hash_algorithms:
             file_tag.set('SHA256:hash', create_sha256_hash(file_info.full_pathname))
@@ -73,7 +72,8 @@ def software_id_matcher(ctx, value):
     return software_id == value
 
 
-def create_swid_tags(environment, entity_name, regid, hash_algorithms, full=False, matcher=all_matcher):
+def create_swid_tags(environment, entity_name, regid,
+                     hash_algorithms='sha256', full=False, matcher=all_matcher):
     """
     Return SWID tags as utf8-encoded xml bytestrings for all available
     packages.
@@ -117,17 +117,18 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms, full=Fals
         # Header SoftwareIdentity
         software_identity = ET.Element('SoftwareIdentity')
         software_identity.set('xmlns', XMLNS)
-        software_identity.set('n8060', N8060)
+        software_identity.set('xmlns:n8060', N8060)
         software_identity.set('name', pi.package)
         software_identity.set('uniqueId', create_unique_id(pi, os_string, architecture))
         software_identity.set('version', pi.version)
         software_identity.set('versionScheme', VERSION_SCHEME)
-        if 'sha256' in hash_algorithms:
-            software_identity.set('xmlns:SHA256', "http://www.w3.org/2001/04/xmlenc#sha256")
-        if 'sha384' in hash_algorithms:
-            software_identity.set('xmlns:SHA384', "http://www.w3.org/2001/04/xmlenc#sha384")
-        if 'sha512' in hash_algorithms:
-            software_identity.set('xmlns:SHA512', "http://www.w3.org/2001/04/xmlenc#sha512")
+        if full:
+            if 'sha256' in hash_algorithms:
+                software_identity.set('xmlns:SHA256', "http://www.w3.org/2001/04/xmlenc#sha256")
+            if 'sha384' in hash_algorithms:
+                software_identity.set('xmlns:SHA384', "http://www.w3.org/2001/04/xmlenc#sha384")
+            if 'sha512' in hash_algorithms:
+                software_identity.set('xmlns:SHA512', "http://www.w3.org/2001/04/xmlenc#sha512")
 
         # SubElement Entity
         entity = ET.SubElement(software_identity, 'Entity')

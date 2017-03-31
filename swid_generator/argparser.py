@@ -21,7 +21,8 @@ def regid_string(string):
     if string is None:
         return None
     try:
-        return re.match(r'^regid\.\d{4}-\d{2}\.[^ /|:<>*?&\\]*$', string).group(0)
+        # TODO: Replace with new Regid Regex
+        return re.match(r'strongswan.org', string).group(0)
     except:
         raise ArgumentTypeError("String '{0}' does not match required format".format(string))
 

@@ -10,6 +10,7 @@ class FileInfo(object):
         self.location = (os.path.split(path)[0]).strip()
         self.mutable = False
         self.full_pathname = '/'.join((self.location, self.name))
+        self.size = str(os.path.getsize(self.full_pathname))
 
 
 class PackageInfo(object):
@@ -20,4 +21,3 @@ class PackageInfo(object):
         self.version = version
         self.files = files
         self.status = status
-        self.files_structured = []
