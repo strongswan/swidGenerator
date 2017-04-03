@@ -3,7 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 from xml.etree import cElementTree as ET
 
-from .utils import create_unique_id, create_software_id
+from .utils import create_unique_id, create_software_id, create_system_id
 from .utils import create_sha256_hash, create_sha384_hash, create_sha512_hash
 
 import ntpath
@@ -135,6 +135,9 @@ def create_swid_tags(environment, entity_name, regid,
         entity.set('name', entity_name)
         entity.set('regid', regid)
         entity.set('role', ROLE)
+
+        product_meta = ET.SubElement(software_identity, 'Meta')
+        product_meta.set('product', create_system_id(os_string, architecture))
 
         if full:
             pi.files.extend(environment.get_files_for_package(pi))
