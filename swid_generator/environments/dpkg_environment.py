@@ -61,7 +61,7 @@ class DpkgEnvironment(CommonEnvironment):
 
                     package_info.files.extend(config_files)
 
-            result.append(package_info)
+                result.append(package_info)
 
         return [r for r in result if cls._package_installed(r)]
 

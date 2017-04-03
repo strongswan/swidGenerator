@@ -32,6 +32,26 @@ def create_unique_id(package_info, os_string, architecture):
     return uri_reserved_chars_re.sub('~', unique_id)
 
 
+def create_system_id(os_string, architecture):
+    """
+    Create a system-ID by joining the OS-String and the architecture with a hyphen.
+
+    Args:
+        os_string (str):
+            The Operating system string.
+        architecture (str):
+            The Architecture string.
+
+    Returns:
+        The System-ID string.
+
+    """
+    system_id_format = '{os_string}-{architecture}'
+    system_id = system_id_format.format(os_string=os_string,
+                                        architecture=architecture)
+    return uri_reserved_chars_re.sub('~', system_id)
+
+
 def create_software_id(regid, unique_id):
     """
     Create a Software-ID by joining the Regid and the Unique-ID with an underscore.
