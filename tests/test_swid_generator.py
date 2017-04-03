@@ -109,15 +109,28 @@ def test_full_output(swid_tag_generator, packages):
     for document in output:
         root = ET.fromstring(document)
         package_name = root.attrib['name']
-        payload = root[1]
+        meta_tag = root[1]
+        payload = root[2]
+
+        assert meta_tag.attrib['product'] == '{os_info}-{architecture}'.format(
+            os_info=TestEnvironment.os_string,architecture=TestEnvironment.get_architecture())
+
         assert len(payload) == 2
 
         files = next(p for p in packages if p.package == package_name).files
         for directory_tag in payload:
+            directory_fullpath = directory_tag.attrib['root'] + "/" + directory_tag.attrib['name']
             for file_tag in directory_tag:
-                assert file_tag.attrib['name'] in [f.name for f in files]
-                assert file_tag.attrib['size'] in [f.size for f in files]
-                assert directory_tag.attrib['root'] + '/' + directory_tag.attrib['name'] in [f.location for f in files]
+                test = [f for f in files if f.name == file_tag.attrib['name']
+                        and f.location == directory_fullpath]
+
+                assert len(test) == 1
+                if test[0].mutable == 'True':
+                    assert file_tag.attrib['mutable'] == 'True'
+                else:
+                    with pytest.raises(KeyError):
+                        file_tag.attrib['mutable']
+                assert file_tag.attrib['size'] == test[0].size
 
 
 @pytest.mark.parametrize('package_name,package_version,expected_count', [
