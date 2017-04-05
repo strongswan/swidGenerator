@@ -5,12 +5,20 @@ import os.path
 
 
 class FileInfo(object):
-    def __init__(self, path):
+    def __init__(self, path, actual_path=True):
         self.name = (os.path.split(path)[1]).strip()
         self.location = (os.path.split(path)[0]).strip()
         self.mutable = False
         self.full_pathname = '/'.join((self.location, self.name))
-        self.size = str(os.path.getsize(self.full_pathname))
+        if actual_path:
+            self.actual_full_pathname = self.full_pathname
+            self.size = str(os.path.getsize(self.actual_full_pathname))
+        else:
+            self.actual_full_pathname = ""
+
+    def set_actual_path(self, file_path):
+        self.actual_full_pathname = file_path
+        self.size = str(os.path.getsize(self.actual_full_pathname))
 
 
 class PackageInfo(object):

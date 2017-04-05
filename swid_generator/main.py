@@ -88,7 +88,6 @@ def main():
         sys.exit(3)
 
     # Handle commands
-
     if options.command == 'swid':
         swid_args = {
             'environment': env,
@@ -96,7 +95,8 @@ def main():
             'regid': options.regid,
             'full': options.full,
             'matcher': options.matcher,
-            'hash_algorithms': options.hash_algorithms
+            'hash_algorithms': options.hash_algorithms,
+            'file_path': options.file_path
         }
 
         swid_tags = create_swid_tags(**swid_args)

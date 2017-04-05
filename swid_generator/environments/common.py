@@ -5,6 +5,7 @@ import os
 import stat
 import platform
 from distutils.spawn import find_executable
+import random, string
 
 
 class CommonEnvironment(object):
@@ -12,6 +13,9 @@ class CommonEnvironment(object):
     The common base for all environment classes.
     """
     executable = None
+    TEMP_FOLDER_NAME = '/tmp'
+    FOLDER_PREFIX = 'swid_'
+    CONFFILE_FILE_NAME = None
 
     @staticmethod
     def get_architecture():
@@ -60,6 +64,32 @@ class CommonEnvironment(object):
             return False
 
         return True
+
+    @classmethod
+    def _create_temp_folder(cls, package_pathname):
+        """
+        It creates a folder in the directory /tmp of the client/server.
+        This folder has the prefix "swid_". To this prefix a random generated String is appended, this to
+        prevent collisions of foldernames.
+
+        :param package_pathname: Path to the package
+        :return: A dictionary with the save options of the temporary folder.
+        """
+
+        random_string = ''.join(random.choice(string.lowercase) for _ in range(5))
+
+        absolute_package_path = '/'.join((os.getcwd(), package_pathname))
+        save_location_pathname = '/'.join((cls.TEMP_FOLDER_NAME, cls.FOLDER_PREFIX + random_string))
+
+        if not os.path.exists(save_location_pathname):
+            os.makedirs(save_location_pathname)
+
+        folder_information = {
+            'absolute_package_path': absolute_package_path,
+            'save_location': save_location_pathname
+        }
+
+        return folder_information
 
     @classmethod
     def is_installed(cls):
