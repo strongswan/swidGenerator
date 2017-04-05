@@ -98,7 +98,7 @@ def test_non_pretty_output(swid_tag_generator, packages):
         #Test SoftwareIdentity tag attributes
         assert root.attrib['version'] == packages[idx].version
         assert root.attrib['name'] == packages[idx].package
-        assert root.attrib['uniqueId'] == '{os_info}-{architecture}-{pi.package}-{pi.version}'.format(
+        assert root.attrib['tagId'] == '{os_info}-{architecture}-{pi.package}-{pi.version}'.format(
             os_info=TestEnvironment.os_string,
             architecture=TestEnvironment.get_architecture(),
             pi=packages[idx])
@@ -112,7 +112,7 @@ def test_full_output(swid_tag_generator, packages):
         meta_tag = root[1]
         payload = root[2]
 
-        assert meta_tag.attrib['product'] == '{os_info}-{architecture}'.format(
+        assert meta_tag.attrib['product'] == '{os_info} {architecture}'.format(
             os_info=TestEnvironment.os_string,architecture=TestEnvironment.get_architecture())
 
         assert len(payload) == 2

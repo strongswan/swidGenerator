@@ -46,10 +46,9 @@ def create_system_id(os_string, architecture):
         The System-ID string.
 
     """
-    system_id_format = '{os_string}-{architecture}'
-    system_id = system_id_format.format(os_string=os_string,
-                                        architecture=architecture)
-    return uri_reserved_chars_re.sub('~', system_id)
+    system_id_format = '{os_string} {architecture}'
+    return system_id_format.format(os_string=os_string.replace('_', ' '),
+                                   architecture=architecture)
 
 
 def create_software_id(regid, unique_id):

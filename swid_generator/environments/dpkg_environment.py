@@ -4,7 +4,6 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import subprocess
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
-import os
 
 
 class DpkgEnvironment(CommonEnvironment):
