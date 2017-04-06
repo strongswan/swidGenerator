@@ -12,10 +12,12 @@ from swid_generator.generators.swid_generator import software_id_matcher, packag
 
 
 class FileInfoMock(object):
-    def __init__(self, name, location, size):
+    def __init__(self, name, location, size, mutable, full_pathname):
         self.name = name
         self.location = location
         self.size = size
+        self.mutable = mutable
+        self.full_pathname = full_pathname
 
 
 class TestEnvironment(CommonEnvironment):
@@ -43,31 +45,28 @@ class TestEnvironment(CommonEnvironment):
     def get_architecture():
         return 'i686'
 
-    def get_files_for_package(self, package_name):
-        package_info = [p for p in self.packages if p.package == package_name]
-        return package_info[0].files
+    def get_files_for_package(self, package):
+        return []
 
 
 @pytest.fixture
 def packages():
-    cowsay_file1 = FileInfoMock('/usr/games', 'cowsay', 4421)
-    cowsay_file2 = FileInfoMock('/usr/share/cowsay/cows', 'pony-smaller.cow', 305)
+    cowsay_file1 = FileInfoMock('cowsay', 'tests/dumps/package_files/cowsay','4421', False, 'tests/dumps/package_files/cowsay/cowsay')
+    cowsay_file2 = FileInfoMock('pony-smaller.cow', 'tests/dumps/package_files/cowsay', '305', True, 'tests/dumps/package_files/cowsay/pony-smaller.cow')
+    cowsay_file3 = FileInfoMock('copyright.txt', 'tests/dumps/package_files/cowsay/etc', '12854', True, 'tests/dumps/package_files/cowsay/etc/copyright.txt')
 
-    fortune_file1 = FileInfoMock('/usr/games', 'fortune', 1234)
-    fortune_file2 = FileInfoMock('/usr/share/doc/fortune-mod', 'copyright', 3333)
+    fortune_file1 = FileInfoMock('fortune', 'tests/dumps/package_files/fortune', '1234', False, 'tests/dumps/package_files/fortune/fortune')
+    fortune_file2 = FileInfoMock('copyright', 'tests/dumps/package_files/fortune', '3333', False, 'tests/dumps/package_files/fortune/copyright')
+    fortune_file3 = FileInfoMock('config.txt', 'tests/dumps/package_files/fortune/usr', '45986', True, 'tests/dumps/package_files/fortune/usr/config.txt')
 
-    openssh_file1 = FileInfoMock('/etc/init/', 'ssh.conf', 555)
-    openssh_file2 = FileInfoMock('/usr/sbin/', 'sshd', 89484)
+    openssh_file1 = FileInfoMock('ssh.conf', '/etc/init/', '555', True, '/etc/init/ssh.conf')
+    openssh_file2 = FileInfoMock('sshd', '/usr/sbin/', '89484', False, '/usr/sbin/sshd')
 
     infos = [
-        PackageInfo('cowsay', '1.0', [cowsay_file1, cowsay_file2]),
-        PackageInfo('fortune', '2.0', [fortune_file1, fortune_file2]),
-        PackageInfo('openssh-server', '7000', [openssh_file1, openssh_file2])
+        PackageInfo('cowsay', '1.0', [cowsay_file1, cowsay_file2, cowsay_file3], 'install ok installed'),
+        PackageInfo('fortune', '2.0', [fortune_file1, fortune_file2, fortune_file3], 'install ok installed'),
+        PackageInfo('openssh-server', '7000', [openssh_file1, openssh_file2], 'deinstall ok config-files')
     ]
-
-    infos[0].status = 'install ok installed'
-    infos[1].status = 'install ok installed'
-    infos[2].status = 'deinstall ok config-files'
 
     return infos
 
@@ -99,7 +98,7 @@ def test_non_pretty_output(swid_tag_generator, packages):
         #Test SoftwareIdentity tag attributes
         assert root.attrib['version'] == packages[idx].version
         assert root.attrib['name'] == packages[idx].package
-        assert root.attrib['uniqueId'] == '{os_info}-{architecture}-{pi.package}-{pi.version}'.format(
+        assert root.attrib['tagId'] == '{os_info}-{architecture}-{pi.package}-{pi.version}'.format(
             os_info=TestEnvironment.os_string,
             architecture=TestEnvironment.get_architecture(),
             pi=packages[idx])
@@ -110,12 +109,28 @@ def test_full_output(swid_tag_generator, packages):
     for document in output:
         root = ET.fromstring(document)
         package_name = root.attrib['name']
-        payload = root[1]
+        meta_tag = root[1]
+        payload = root[2]
+
+        assert meta_tag.attrib['product'] == '{os_info} {architecture}'.format(
+            os_info=TestEnvironment.os_string,architecture=TestEnvironment.get_architecture())
+
         assert len(payload) == 2
 
         files = next(p for p in packages if p.package == package_name).files
-        for file_tag in payload:
-            assert file_tag.attrib['name'] in [f.name for f in files]
+        for directory_tag in payload:
+            directory_fullpath = directory_tag.attrib['root'] + "/" + directory_tag.attrib['name']
+            for file_tag in directory_tag:
+                test = [f for f in files if f.name == file_tag.attrib['name']
+                        and f.location == directory_fullpath]
+
+                assert len(test) == 1
+                if test[0].mutable == 'True':
+                    assert file_tag.attrib['mutable'] == 'True'
+                else:
+                    with pytest.raises(KeyError):
+                        file_tag.attrib['mutable']
+                assert file_tag.attrib['size'] == test[0].size
 
 
 @pytest.mark.parametrize('package_name,package_version,expected_count', [

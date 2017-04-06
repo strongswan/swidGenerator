@@ -1,293 +1,173 @@
-avahi-libs	0.6.31-11.fc19
-filesystem	3.2-10.fc19
-avahi-autoipd	0.6.31-11.fc19
-linux-firmware	20130418-0.1.gitb584174.fc19
-quota	4.01-6.fc19
-quota-nls	4.01-6.fc19
-nfs-utils	1.2.8-2.0.fc19
-hwdata	0.247-1.fc19
-sendmail	8.14.7-1.fc19
-bind-license	9.9.3-3.P1.fc19
-kernel-PAE	3.9.5-301.fc19
-kernel-headers	3.9.5-301.fc19
-authconfig	6.2.6-3.fc19.1
-rootfiles	8.1-10.fc19
-lvm2	2.02.98-9.fc19
-nss-softokn-freebl	3.14.3-1.fc19
-openssh-clients	6.2p2-3.fc19
-libstdc++	4.8.1-1.fc19
-audit	2.3.1-2.fc19
-bash	4.2.45-1.fc19
-parted	3.1-12.fc19
-libattr	2.4.46-10.fc19
-sudo	1.8.6p7-1.fc19
-pcre	8.32-7.fc19
-man-db	2.6.3-6.fc19
-zlib	1.2.7-10.fc19
-bzip2	1.0.6-8.fc19
-libcom_err	1.42.7-2.fc19
-gpg-pubkey	fb4b18e6-50b96bfd
-libdb	5.3.21-11.fc19
-python-pip	1.3.1-4.fc19
-popt	1.13-14.fc19
-perl-TermReadKey	2.30-18.fc19
-xz-libs	5.1.2-4alpha.fc19
-libgnome-keyring	3.8.0-1.fc19
-sed	4.2.2-2.fc19
-perl-Git	1.8.3.1-1.fc19
-libuuid	2.23.1-3.fc19
-python-kitchen	1.1.1-4.fc19
-grep	2.14-3.fc19
-tcp_wrappers-libs	7.6-73.fc19
-gmp	5.1.1-2.fc19
-libgcrypt	1.5.2-1.fc19
-expat	2.1.0-5.fc19
-gawk	4.0.2-2.fc19
-sqlite	3.7.17-1.fc19
-libxml2	2.9.1-1.fc19
-pkgconfig	0.27.1-1.fc19
-shared-mime-info	1.1-4.fc19
-dbus-glib	0.100-4.fc19
-cyrus-sasl-lib	2.1.26-8.fc19
-cpio	2.11-20.fc19
-iptables	1.4.18-1.fc19
-libestr	0.1.5-1.fc19
-perl-Encode	2.51-1.fc19
-perl-libs	5.16.3-264.fc19
-perl-threads	1.87-1.fc19
-perl-threads-shared	1.43-2.fc19
-perl-Carp	1.26-243.fc19
-perl-Filter	1.49-1.fc19
-perl	5.16.3-264.fc19
-p11-kit	0.18.3-1.fc19
-file	5.11-9.fc19
-libcroco	0.6.8-2.fc19
-groff-base	1.22.2-2.fc19
-kmod	13-2.fc19
-which	2.20-5.fc19
-libverto	0.2.5-2.fc19
-libtirpc	0.2.3-2.fc19
-hostname	3.12-4.fc19
-slang	2.2.4-8.fc19
-ncurses-devel	5.9-11.20130511.fc19
-zlib-devel	1.2.7-10.fc19
-libselinux-devel	2.1.13-15.fc19
-glibc-headers	2.17-4.fc19
-krb5-devel	1.11.3-1.fc19
-gettext-libs	0.18.2.1-1.fc19
-cpp	4.8.1-1.fc19
-p11-kit-trust	0.18.3-1.fc19
-openssl-libs	1.0.1e-4.fc19
-libevent	2.0.18-3.fc19
-fipscheck-lib	1.3.1-3.fc19
-gobject-introspection	1.36.0-1.fc19
-hesiod	3.2.1-1.fc19
-keyutils	1.5.5-4.fc19
-gnutls	3.1.11-1.fc19
-tcp_wrappers	7.6-73.fc19
-xz	5.1.2-4alpha.fc19
-acl	2.2.51-9.fc19
-libdb-utils	5.3.21-11.fc19
-libatomic	4.8.1-1.fc19
-libasan	4.8.1-1.fc19
-libselinux-utils	2.1.13-15.fc19
-procps-ng	3.3.7-3.fc19
-pth	2.0.7-19.fc19
-linux-atm-libs	2.5.1-7.fc19
-libpciaccess	0.13.1-3.fc19
-qrencode-libs	3.4.1-1.fc19
-hardlink	1.0-17.fc19
-python-libs	2.7.5-1.fc19
-nss-tools	3.14.3-13.0.fc19
-curl	7.29.0-6.fc19
-gzip	1.5-4.fc19
-cracklib-dicts	2.8.22-3.fc19
-rpm-libs	4.11.0.1-2.fc19
-cryptsetup-libs	1.6.1-1.fc19
-libmount	2.23.1-3.fc19
-libuser	0.59-1.fc19
-nss	3.14.3-13.0.fc19
-pam	1.1.6-11.fc19.1
-libblkid	2.23.1-3.fc19
-libsemanage	2.1.10-4.fc19
-libutempter	1.1.6-2.fc19
-dbus	1.6.8-5.fc19
-policycoreutils	2.1.14-45.fc19
-fedora-logos	19.0.4-2.fc19
-python-decorator	3.4.0-2.fc19
-cronie-anacron	1.4.10-5.fc19
-crontabs	1.11-5.20121102git.fc19
-os-prober	1.58-1.fc19
-polkit-pkla-compat	0.1-2.fc19
-openssh	6.2p2-3.fc19
-dbus-python	1.1.1-5.fc19
-dhcp-common	4.2.5-12.fc19
-pygpgme	0.3-6.fc19
-rpm-python	4.11.0.1-2.fc19
-device-mapper-event	1.02.77-9.fc19
-dnsmasq	2.66-7.fc19
-libdrm	2.4.45-1.fc19
-grubby	8.26-2.fc19
-logrotate	3.8.4-1.fc19
-kpartx	0.4.9-51.fc19
-libnfsidmap	0.25-5.fc19
-python-urlgrabber	3.9.1-27.fc19
-newt-python	0.52.15-1.fc19
-pyliblzma	0.5.3-8.fc19
-libselinux-python	2.1.13-15.fc19
-python-slip-dbus	0.4.0-1.fc19
-ppp	2.4.5-29.fc19
-sysvinit-tools	2.88-10.dsf.fc19
-openssl-devel	1.0.1e-4.fc19
-kernel-devel	3.9.5-301.fc19
-initscripts	9.47-1.fc19
-plymouth-scripts	0.8.9-0.2013.03.26.0.fc19
-cyrus-sasl	2.1.26-8.fc19
-setup	2.8.71-1.fc19
-avahi	0.6.31-11.fc19
-basesystem	10.0-8.fc19
-ebtables	2.0.10-8.fc19
-tzdata	2013c-1.fc19
-firewalld	0.3.3-2.fc19
-kbd-misc	1.15.5-6.fc19
-NetworkManager	0.9.8.2-2.fc19
-fedora-release	19-2
-kbd	1.15.5-6.fc19
-ncurses-base	5.9-11.20130511.fc19
-rsyslog	7.2.6-1.fc19
-libgcc	4.8.1-1.fc19
-gcc	4.8.1-1.fc19
-glibc-common	2.17-4.fc19
-openssh-server	6.2p2-3.fc19
-glibc	2.17-4.fc19
-biosdevname	0.4.1-4.fc19
-ncurses-libs	5.9-11.20130511.fc19
-net-tools	2.0-0.6.20130109git.fc19
-libsepol	2.1.9-1.fc19
-e2fsprogs	1.42.7-2.fc19
-libcap	2.22-6.fc19
-passwd	0.78.99-4.fc19
-libselinux	2.1.13-15.fc19
-wget	1.14-5.fc19
-info	5.1-1.fc19
-tar	1.26-24.fc19
-audit-libs	2.3.1-2.fc19
-python-setuptools	0.6.49-1.fc19
-libacl	2.2.51-9.fc19
-perl-Error	0.17020-1.fc19
-chkconfig	1.3.60-3.fc19
-rsync	3.0.9-12.fc19
-dbus-libs	1.6.8-5.fc19
-git	1.8.3.1-1.fc19
-nspr	4.9.6-1.fc19
-python-chardet	2.0.1-6.fc19
-nss-util	3.14.3-1.fc19
-yum-utils	1.1.31-18.fc19
-bzip2-libs	1.0.6-8.fc19
-readline	6.2-6.fc19
-libgpg-error	1.11-1.fc19
-keyutils-libs	1.5.5-4.fc19
-findutils	4.5.11-1.fc19
-libidn	1.26-2.fc19
-lua	5.1.4-12.fc19
-libffi	3.0.13-4.fc19
-glib2	2.36.3-2.fc19
-elfutils-libelf	0.155-5.fc19
-mpfr	3.1.1-2.fc19
-libgomp	4.8.1-1.fc19
-file-libs	5.11-9.fc19
-libcap-ng	0.7.3-3.fc19
-gdbm	1.10-6.fc19
-perl-Pod-Escapes	1.04-264.fc19
-perl-macros	5.16.3-264.fc19
-perl-Scalar-List-Utils	1.27-246.fc19
-perl-PathTools	3.40-1.fc19
-perl-Socket	2.009-2.fc19
-perl-Pod-Simple	3.20-264.fc19
-libtasn1	3.3-1.fc19
-libee	0.4.1-4.fc19
-libmpc	1.0.1-1.fc19
-libassuan	2.0.3-5.fc19
-kmod-libs	13-2.fc19
-e2fsprogs-libs	1.42.7-2.fc19
-libunistring	0.9.3-7.fc19
-krb5-libs	1.11.3-1.fc19
-libdaemon	0.14-5.fc19
-libnl3	3.2.21-1.fc19
-libverto-devel	0.2.5-2.fc19
-libcom_err-devel	1.42.7-2.fc19
-libsepol-devel	2.1.9-1.fc19
-keyutils-libs-devel	1.5.5-4.fc19
-glibc-devel	2.17-4.fc19
-newt	0.52.15-1.fc19
-less	458-3.fc19
-liblognorm	0.3.5-1.fc19
-ca-certificates	2012.87-10.2.fc19
-libssh2	1.4.3-4.fc19
-bind-libs-lite	9.9.3-3.P1.fc19
-fipscheck	1.3.1-3.fc19
-nss-softokn	3.14.3-1.fc19
-device-mapper-persistent-data	0.1.4-3.fc19
-nettle	2.6-2.fc19
-libmicrohttpd	0.9.27-1.fc19
-mozjs17	17.0.0-7.fc19
-pinentry	0.8.1-10.fc19
-vim-minimal	7.3.944-1.fc19
-libss	1.42.7-2.fc19
-diffutils	3.3-1.fc19
-make	3.82-15.fc19
-procmail	3.22-32.fc19
-ncurses	5.9-11.20130511.fc19
-libedit	3.0-10.20121213cvs.fc19
-plymouth-core-libs	0.8.9-0.2013.03.26.0.fc19
-iproute	3.9.0-1.fc19
-pciutils-libs	3.2.0-2.fc19
-libpipeline	1.2.3-1.fc19
-ustr	1.0.4-14.fc19
-python	2.7.5-1.fc19
-libcurl	7.29.0-6.fc19
-device-mapper	1.02.77-9.fc19
-cracklib	2.8.22-3.fc19
-openldap	2.4.35-4.fc19
-device-mapper-libs	1.02.77-9.fc19
-libpwquality	1.2.1-2.fc19
-systemd-sysv	204-8.fc19
-rpm	4.11.0.1-2.fc19
-coreutils	8.21-11.fc19
-systemd-libs	204-8.fc19
-nss-sysinit	3.14.3-13.0.fc19
-shadow-utils	4.1.5.1-5.fc19
-util-linux	2.23.1-3.fc19
-systemd	204-8.fc19
-selinux-policy	3.12.1-54.fc19
-dhcp-libs	4.2.5-12.fc19
-device-mapper-event-libs	1.02.77-9.fc19
-cronie	1.4.10-5.fc19
-iputils	20121221-2.fc19
-polkit	0.111-2.fc19
-libgudev1	204-8.fc19
-gnupg2	2.0.19-8.fc19
-gettext	0.18.2.1-1.fc19
-python-iniparse	0.4-7.fc19
-gpgme	1.3.2-3.fc19
-rpm-build-libs	4.11.0.1-2.fc19
-NetworkManager-glib	0.9.8.2-2.fc19
-lvm2-libs	2.02.98-9.fc19
-rpcbind	0.2.0-21.fc19
-wpa_supplicant	2.0-3.fc19
-binutils	2.23.52.0.1-8.fc19
-openssl	1.0.1e-4.fc19
-dracut	029-1.fc19
-python-pycurl	7.19.0-15.1.fc19
-pyxattr	0.5.1-3.fc19
-yum-metadata-parser	1.1.4-8.fc19
-pygobject3-base	3.8.2-2.fc19
-python-slip	0.4.0-1.fc19
-libpcap	1.4.0-1.fc19
-json-c	0.11-1.fc19
-yum	3.4.3-99.fc19
-selinux-policy-targeted	3.12.1-54.fc19
-readline-devel	6.2-6.fc19
-kernel-PAE-devel	3.9.5-301.fc19
-dhclient	4.2.5-12.fc19
-plymouth	0.8.9-0.2013.03.26.0.fc19
+	fedora-repos 23-1/etc/yum.repos.d/fedora-updates-testing.repo
+/etc/yum.repos.d/fedora-updates.repo
+/etc/yum.repos.d/fedora.repo
+	setup 2.9.8-2.fc23/etc/aliases
+/etc/bashrc
+/etc/csh.cshrc
+/etc/csh.login
+/etc/environment
+/etc/exports
+/etc/filesystems
+/etc/fstab
+/etc/group
+/etc/gshadow
+/etc/host.conf
+/etc/hosts
+/etc/hosts.allow
+/etc/hosts.deny
+/etc/inputrc
+/etc/motd
+/etc/passwd
+/etc/printcap
+/etc/profile
+/etc/protocols
+/etc/services
+/etc/shadow
+/etc/shells
+	basesystem 11-1.fc23(contains no files)
+	xkeyboard-config 2.16-2.fc23	libreport-filesystem 2.6.4-1.fc23	tzdata 2016a-1.fc23	glibc-common 2.22-9.fc23/etc/default/nss
+/usr/lib/locale/locale-archive
+	libstdc++ 5.3.1-2.fc23	bash 4.3.42-3.fc23/etc/skel/.bash_logout
+/etc/skel/.bash_profile
+/etc/skel/.bashrc
+	pcre 8.38-5.fc23	zlib 1.2.8-9.fc23	bzip2-libs 1.0.6-19.fc23	libgpg-error 1.21-1.fc23	expat 2.1.0-12.fc23	nss-util 3.22.0-1.0.fc23	libcom_err 1.42.13-3.fc23	libattr 2.4.47-14.fc23/etc/xattr.conf
+	libcap 2.24-8.fc23	libuuid 2.27.1-2.fc23	libgcrypt 1.6.4-1.fc23	lua 5.3.2-2.fc23	libxml2 2.9.3-2.fc23	p11-kit 0.23.2-1.fc23	libassuan 2.4.2-1.fc23	gmp 6.0.0-12.fc23	nss-softokn 3.22.0-1.0.fc23	kmod-libs 22-2.fc23	libcap-ng 0.7.7-2.fc23	libtasn1 4.5-2.fc23	kmod 22-2.fc23	nettle 3.2-1.fc23	libcomps 0.1.7-1.fc23	e2fsprogs-libs 1.42.13-3.fc23	libmetalink 0.1.2-8.fc23	cyrus-sasl-lib 2.1.26-25.2.fc23	gawk 4.1.3-2.fc23	file-libs 5.22-6.fc23	elfutils-libs 0.165-2.fc23	libsss_idmap 1.13.3-3.fc23	keyutils-libs 1.5.9-7.fc23	krb5-libs 1.14-7.fc23/etc/krb5.conf
+/etc/krb5.conf.d/crypto-policies
+	coreutils 8.24-6.fc23/etc/DIR_COLORS
+/etc/DIR_COLORS.256color
+/etc/DIR_COLORS.lightbgcolor
+/etc/profile.d/colorls.csh
+/etc/profile.d/colorls.sh
+	ca-certificates 2015.2.6-1.0.fc23/etc/pki/ca-trust/ca-legacy.conf
+	libmount 2.27.1-2.fc23	gnutls 3.4.8-1.fc23	cracklib 2.9.1-6.fc23	pam 1.2.1-2.fc23/etc/pam.d/config-util
+/etc/pam.d/fingerprint-auth
+/etc/pam.d/other
+/etc/pam.d/password-auth
+/etc/pam.d/postlogin
+/etc/pam.d/smartcard-auth
+/etc/pam.d/system-auth
+/etc/security/access.conf
+/etc/security/chroot.conf
+/etc/security/console.handlers
+/etc/security/console.perms
+/etc/security/group.conf
+/etc/security/limits.conf
+/etc/security/namespace.conf
+/etc/security/namespace.init
+/etc/security/opasswd
+/etc/security/pam_env.conf
+/etc/security/sepermit.conf
+/etc/security/time.conf
+	systemd-libs 222-14.fc23	nss 3.22.0-1.0.fc23/etc/pki/nssdb/cert8.db
+/etc/pki/nssdb/cert9.db
+/etc/pki/nssdb/key3.db
+/etc/pki/nssdb/key4.db
+/etc/pki/nssdb/pkcs11.txt
+/etc/pki/nssdb/secmod.db
+	nss-tools 3.22.0-1.0.fc23	glib2 2.46.2-1.fc23	libuser 0.62-1.fc23/etc/libuser.conf
+	gdbm 1.11-6.fc23	python3-setuptools 18.0.1-2.fc23	python3-libs 3.4.3-5.fc23	python3-libcomps 0.1.7-1.fc23	python3-iniparse 0.4-16.fc23	qrencode-libs 3.4.2-5.fc23	libcurl 7.43.0-5.fc23	lzo 2.08-5.fc23	rpm-plugin-selinux 4.13.0-0.rc1.11.fc23	rpm 4.13.0-0.rc1.11.fc23/var/lib/rpm/Basenames
+/var/lib/rpm/Conflictname
+/var/lib/rpm/Dirnames
+/var/lib/rpm/Group
+/var/lib/rpm/Installtid
+/var/lib/rpm/Name
+/var/lib/rpm/Obsoletename
+/var/lib/rpm/Packages
+/var/lib/rpm/Providename
+/var/lib/rpm/Requirename
+/var/lib/rpm/Sha1header
+/var/lib/rpm/Sigmd5
+/var/lib/rpm/Triggername
+/var/lib/rpm/__db.001
+/var/lib/rpm/__db.002
+/var/lib/rpm/__db.003
+/var/lib/rpm/__db.004
+/var/lib/rpm/__db.005
+/var/lib/rpm/__db.006
+/var/lib/rpm/__db.007
+/var/lib/rpm/__db.008
+/var/lib/rpm/__db.009
+	rpm-plugin-systemd-inhibit 4.13.0-0.rc1.11.fc23	gnupg2 2.1.9-1.fc23/etc/gnupg/gpgconf.conf
+	python3-pygpgme 0.3-13.fc23	python3-librepo 1.7.16-2.fc23	rpm-python3 4.13.0-0.rc1.11.fc23	ustr 1.0.4-18.fc22	shadow-utils 4.2.1-3.fc23/etc/default/useradd
+/etc/login.defs
+	libsmartcols 2.27.1-2.fc23	libmnl 1.0.3-10.fc23	iptables 1.4.21-15.fc23/etc/sysconfig/ip6tables-config
+/etc/sysconfig/iptables-config
+	device-mapper-libs 1.02.109-2.fc23	systemd 222-14.fc23/etc/X11/xorg.conf.d/00-keyboard.conf
+/etc/crypttab
+/etc/dbus-1/system.d/org.freedesktop.hostname1.conf
+/etc/dbus-1/system.d/org.freedesktop.import1.conf
+/etc/dbus-1/system.d/org.freedesktop.locale1.conf
+/etc/dbus-1/system.d/org.freedesktop.login1.conf
+/etc/dbus-1/system.d/org.freedesktop.machine1.conf
+/etc/dbus-1/system.d/org.freedesktop.network1.conf
+/etc/dbus-1/system.d/org.freedesktop.resolve1.conf
+/etc/dbus-1/system.d/org.freedesktop.systemd1.conf
+/etc/dbus-1/system.d/org.freedesktop.timedate1.conf
+/etc/hostname
+/etc/locale.conf
+/etc/localtime
+/etc/machine-id
+/etc/machine-info
+/etc/pam.d/systemd-user
+/etc/sysctl.conf
+/etc/systemd/bootchart.conf
+/etc/systemd/coredump.conf
+/etc/systemd/journald.conf
+/etc/systemd/logind.conf
+/etc/systemd/resolved.conf
+/etc/systemd/system.conf
+/etc/systemd/timesyncd.conf
+/etc/systemd/user.conf
+/etc/udev/udev.conf
+/etc/vconsole.conf
+/etc/yum/protected.d/systemd.conf
+	dnf 1.1.6-2.fc23	sssd-client 1.13.3-3.fc23	vim-minimal 7.4.827-1.fc23/etc/virc
+	gpg-pubkey 34ec9cba-54e38751(contains no files)
+	pinentry 0.9.6-4.fc23	python-setuptools 18.0.1-2.fc23	python-pip 7.1.0-1.fc23	libgcc 5.3.1-2.fc23	fedora-release 23-1/etc/fedora-release
+/etc/issue
+/etc/issue.net
+/etc/system-release-cpe
+/usr/lib/issue.net
+/usr/lib/os.release.d/issue-fedora
+/usr/lib/os.release.d/os-release-fedora
+	filesystem 3.2-35.fc23	emacs-filesystem 24.5-7.fc23	ncurses-base 5.9-21.20150214.fc23	dnf-conf 1.1.6-2.fc23/etc/dnf/dnf.conf
+/etc/dnf/protected.d/dnf.conf
+/etc/logrotate.d/dnf
+	nss-softokn-freebl 3.22.0-1.0.fc23	glibc 2.22-9.fc23/etc/gai.conf
+/etc/ld.so.cache
+/etc/ld.so.conf
+/etc/nsswitch.conf
+/etc/rpc
+/usr/lib64/gconv/gconv-modules
+/var/cache/ldconfig/aux-cache
+	ncurses-libs 5.9-21.20150214.fc23	libsepol 2.4-1.fc23	libselinux 2.4-4.fc23	xz-libs 5.2.1-3.fc23	info 6.0-2.fc23/usr/share/info/dir
+	libdb 5.3.28-13.fc23	nspr 4.11.0-1.fc23	elfutils-libelf 0.165-2.fc23	popt 1.16-6.fc23	libacl 2.2.52-10.fc23	audit-libs 2.4.5-1.fc23/etc/libaudit.conf
+	chkconfig 1.7-1.fc23	readline 6.3-6.fc23	libidn 1.32-1.fc23	libffi 3.1-8.fc23	sed 4.2.2-11.fc23	grep 2.22-6.fc23/etc/GREP_COLORS
+/etc/profile.d/colorgrep.csh
+/etc/profile.d/colorgrep.sh
+	sqlite 3.10.2-1.fc23	libsolv 0.6.14-7.fc23	libseccomp 2.2.3-0.fc23	libnfnetlink 1.0.1-7.fc23	p11-kit-trust 0.23.2-1.fc23	hawkey 0.6.2-3.fc23	acl 2.2.52-10.fc23	libss 1.42.13-3.fc23	libdb-utils 5.3.28-13.fc23	libksba 1.3.3-2.fc23	diffutils 3.3-12.fc23	elfutils-default-yama-scope 0.165-2.fc23/usr/lib/sysctl.d/10-default-yama-scope.conf
+	ncurses 5.9-21.20150214.fc23	libsss_nss_idmap 1.13.3-3.fc23	libverto 0.2.6-5.fc23	openssl-libs 1.0.2f-1.fc23/etc/pki/tls/openssl.cnf
+	crypto-policies 20151104-1.gitf1cba5f.fc23/etc/crypto-policies/config
+	libblkid 2.27.1-2.fc23	libfdisk 2.27.1-2.fc23	gzip 1.6-9.fc23	cracklib-dicts 2.9.1-6.fc23	libpwquality 1.3.0-2.fc23/etc/security/pwquality.conf
+	dbus-libs 1.10.6-1.fc23	nss-sysinit 3.22.0-1.0.fc23	openldap 2.4.40-14.fc23/etc/openldap/ldap.conf
+	shared-mime-info 1.5-2.fc23	libssh2 1.6.0-3.fc23	python3-pip 7.1.0-1.fc23	python3 3.4.3-5.fc23	python3-hawkey 0.6.2-3.fc23	python3-six 1.9.0-3.fc23	libxkbcommon 0.5.0-2.fc23	libnghttp2 1.7.1-1.fc23	curl 7.43.0-5.fc23	libarchive 3.1.2-14.fc23	rpm-libs 4.13.0-0.rc1.11.fc23	deltarpm 3.6-13.fc23	npth 1.2-2.fc23	gpgme 1.4.3-6.fc23	librepo 1.7.16-2.fc23	rpm-build-libs 4.13.0-0.rc1.11.fc23	python3-dnf 1.1.6-2.fc23	libsemanage 2.4-4.fc23/etc/selinux/semanage.conf
+	libutempter 1.1.6-7.fc23	util-linux 2.27.1-2.fc23/etc/mtab
+/etc/pam.d/chfn
+/etc/pam.d/chsh
+/etc/pam.d/login
+/etc/pam.d/remote
+/etc/pam.d/runuser
+/etc/pam.d/runuser-l
+/etc/pam.d/su
+/etc/pam.d/su-l
+/usr/lib/udev/rules.d/60-raw.rules
+	libnetfilter_conntrack 1.0.4-5.fc23	device-mapper 1.02.109-2.fc23	cryptsetup-libs 1.6.8-2.fc23	dbus 1.10.6-1.fc23/etc/dbus-1/session.conf
+/etc/dbus-1/system.conf
+	dnf-yum 1.1.6-2.fc23	e2fsprogs 1.42.13-3.fc23/etc/e2fsck.conf
+/etc/mke2fs.conf
+	rootfiles 8.1-18.fc23/root/.bash_logout
+/root/.bash_profile
+/root/.bashrc
+/root/.cshrc
+/root/.tcshrc
+	libsecret 0.18.3-1.fc23	python-libs 2.7.10-8.fc23	python 2.7.10-8.fc23	NetworkManager 0.9.8.2-2.fc19

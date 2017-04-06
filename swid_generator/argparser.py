@@ -21,7 +21,22 @@ def regid_string(string):
     if string is None:
         return None
     try:
-        return re.match(r'^regid\.\d{4}-\d{2}\.[^ /|:<>*?&\\]*$', string).group(0)
+        regex = re.compile(
+            r'^(?:(?:http|ftp)s?://)?'
+            r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'
+            r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
+            r'(?::\d+)?'
+            r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+        return re.match(regex, string).group(0)
+    except:
+        raise ArgumentTypeError("String '{0}' does not match required format".format(string))
+
+
+def hash_string(string):
+    if string is None:
+        return None
+    try:
+        return re.match(r'((^|,)(sha256|sha384|sha512))+$', string).group(0)
     except:
         raise ArgumentTypeError("String '{0}' does not match required format".format(string))
 
@@ -76,6 +91,12 @@ class MainArgumentParser(object):
                                  help='Dump the full SWID tags including file tags for each package.')
         swid_parser.add_argument('--pretty', action='store_true', default=False,
                                  help='Indent the XML output.')
+        swid_parser.add_argument('--hash', dest='hash_algorithms', type=hash_string,
+                            default=hash_string(settings.DEFAULT_HASH_ALGORITHM),
+                            help='Define the algorithm for the file hashes ("sha256", "sha384", "sha512"). '
+                                 'Multiple hashes can be added with comma separated. ("sha256,sha384") '
+                                 'Default is "%s"' % settings.DEFAULT_HASH_ALGORITHM)
+
         swid_parser.set_defaults(matcher=all_matcher)
 
         targeted_group = swid_parser.add_argument_group(

@@ -24,6 +24,7 @@ class PacmanEnvironment(CommonEnvironment):
             List of ``PackageInfo`` instances.
 
         """
+
         command_args = [cls.executable, '-Q', '--color', 'never']
         data = subprocess.check_output(command_args)
         if isinstance(data, bytes):
@@ -40,7 +41,7 @@ class PacmanEnvironment(CommonEnvironment):
         return result
 
     @classmethod
-    def get_files_for_package(cls, package_name):
+    def get_files_for_package(cls, package_info):
         """
         Get list of files related to the specified package.
 
@@ -54,7 +55,7 @@ class PacmanEnvironment(CommonEnvironment):
             List of ``FileInfo`` instances.
 
         """
-        command_args = [cls.executable, '-Ql', package_name]
+        command_args = [cls.executable, '-Ql', package_info.package]
         data = subprocess.check_output(command_args)
         if isinstance(data, bytes):
             data = data.decode('utf-8')
@@ -63,7 +64,11 @@ class PacmanEnvironment(CommonEnvironment):
         for line in lines:
             split_line = line.split(' ', 1)
             assert len(split_line) == 2, repr(split_line)
-            filepath = split_line[1]
-            if cls._is_file(filepath):
-                result.append(filepath)
-        return [FileInfo(path) for path in result]
+            file_path = split_line[1]
+            if cls._is_file(file_path):
+                file_info = FileInfo(file_path)
+                # With the assumption that files in the '/etc'-Folders are mostly Configuration-Files
+                if "/etc" in file_path:
+                    file_info.mutable = True
+                result.append(file_info)
+        return result

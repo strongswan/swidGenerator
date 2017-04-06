@@ -8,7 +8,7 @@ from tests.fixtures.rpm_environment import get_swid_by_name, rpm_document_string
 
 
 def test_yum_num_of_packages(rpm_document_strings):
-    assert len(list(rpm_document_strings)) == 293
+    assert len(list(rpm_document_strings)) == 162
 
 
 def test_networkmanager_softwareidentity_tag(rpm_networkmanager_generated, rpm_networkmanager_template):

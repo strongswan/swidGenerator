@@ -25,7 +25,7 @@ def test_reserved_unique_id():
 
 
 def test_software_id():
-    regid = 'regid.2004-03.org.strongswan'
+    regid = 'strongswan.org'
     unique_id = 'debian_7.4-x86_64-swid_generator-0.1.2'
     software_id = utils.create_software_id(regid, unique_id)
-    assert software_id == 'regid.2004-03.org.strongswan_debian_7.4-x86_64-swid_generator-0.1.2'
+    assert software_id == 'strongswan.org_debian_7.4-x86_64-swid_generator-0.1.2'
