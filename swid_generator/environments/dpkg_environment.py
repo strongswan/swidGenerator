@@ -162,15 +162,15 @@ class DpkgEnvironment(CommonEnvironment):
             splitted_line_array = line.split(' ')
 
             # Last-Entry from Array is File-Path
-            directory_or_file_entry = splitted_line_array[-1]
-            file_path_without_leading_point = directory_or_file_entry[1:len(directory_or_file_entry)]
+            directory_or_file_path = splitted_line_array[-1]
+            path_without_leading_point = directory_or_file_path[1:len(directory_or_file_path)]
 
-            temp_save_location = str("/".join((save_options['save_location'], file_path_without_leading_point)))
+            temp_save_location = str("/".join((save_options['save_location'], path_without_leading_point)))
 
             if cls._is_file(temp_save_location):
-                if file_path_without_leading_point not in config_file_paths:
-                    file_info = FileInfo(file_path_without_leading_point, actual_path=False)
-                    file_info.set_actual_path(save_options['save_location'] + file_path_without_leading_point)
+                if path_without_leading_point not in config_file_paths:
+                    file_info = FileInfo(path_without_leading_point, actual_path=False)
+                    file_info.set_actual_path(save_options['save_location'] + path_without_leading_point)
                     all_files.append(file_info)
 
         return sorted(all_files, key=lambda f: f.full_pathname)

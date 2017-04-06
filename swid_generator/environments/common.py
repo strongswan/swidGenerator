@@ -5,7 +5,8 @@ import os
 import stat
 import platform
 from distutils.spawn import find_executable
-import random, string
+import random
+import string
 
 
 class CommonEnvironment(object):
