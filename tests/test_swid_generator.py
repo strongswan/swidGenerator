@@ -78,7 +78,7 @@ def swid_tag_generator(packages):
     kwargs = {
         'environment': env,
         'entity_name': DEFAULT_ENTITY_NAME,
-        'regid': DEFAULT_REGID,
+        'regid': DEFAULT_REGID
     }
     return partial(swid_generator.create_swid_tags, **kwargs)
 

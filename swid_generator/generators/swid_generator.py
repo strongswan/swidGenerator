@@ -81,7 +81,7 @@ def create_software_identity_element(ctx, from_package_file=False):
     software_identity.set('xmlns', XMLNS)
     software_identity.set('xmlns:n8060', N8060)
     software_identity.set('name', ctx['package_info'].package)
-    software_identity.set('uniqueId', create_unique_id(ctx['package_info'],
+    software_identity.set('tagId', create_unique_id(ctx['package_info'],
                                                        ctx['environment'].get_os_string(),
                                                        ctx['environment'].get_architecture())
                           )
@@ -92,6 +92,10 @@ def create_software_identity_element(ctx, from_package_file=False):
     entity.set('name', ctx['entity_name'])
     entity.set('regid', ctx['regid'])
     entity.set('role', ROLE)
+
+    product_meta = ET.SubElement(software_identity, 'Meta')
+    product_meta.set('product', create_system_id(ctx['environment'].get_os_string(),
+                                                 ctx['environment'].get_architecture()))
 
     if ctx['full']:
 
