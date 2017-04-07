@@ -5,6 +5,7 @@ from xml.etree import cElementTree as ET
 
 from .utils import create_unique_id, create_software_id, create_system_id
 from .utils import create_sha256_hash, create_sha384_hash, create_sha512_hash
+from itertools import groupby
 
 import ntpath
 
@@ -15,7 +16,7 @@ XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 N8060 = 'http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd'
 
 
-def _create_payload_tag(package_info, hash_algorithms):
+def _create_flat_payload_tag(package_info, hash_algorithms):
     payload = ET.Element('Payload')
     last_full_pathname = ""
     last_directory_tag = ""
@@ -49,6 +50,59 @@ def _create_payload_tag(package_info, hash_algorithms):
             file_tag.set('SHA384:hash', create_sha384_hash(file_info.actual_full_pathname))
         if 'sha512' in hash_algorithms:
             file_tag.set('SHA512:hash', create_sha512_hash(file_info.actual_full_pathname))
+
+    return payload
+
+
+def _create_hierarchic_payload_tag(package_info, hash_algorithms):
+    payload = ET.Element('Payload')
+
+    for file in package_info.files:
+        splitted_location = file.location.split('/')
+        splitted_location.append(file.name)
+
+        file.fullpathname_splitted = splitted_location[1:len(splitted_location)]
+
+    def _file_hierarchy(filelist, payload_tag=None, last_tag=None):
+        filelist.sort(key=_keyfunc)
+
+        for head, tail_of_file_iterator in groupby(filelist, _keyfunc):
+            if payload_tag is not None:
+                current_tag = ET.SubElement(payload_tag, 'Directory')
+                current_tag.set('root', head)
+                last_tag = payload_tag
+            else:
+                current_tag = ET.SubElement(last_tag, 'Directory')
+                current_tag.set('name', head)
+            sub_files = list()
+            for file_info in tail_of_file_iterator:
+
+                if len(file_info.fullpathname_splitted) == 2:
+                    file_tag = ET.SubElement(current_tag, 'File')
+                    file_tag.set('name', file_info.fullpathname_splitted[1])
+                    if file_info.mutable:
+                        file_tag.set('mutable', "True")
+                    file_tag.set('size', file_info.size)
+
+                    if 'sha256' in hash_algorithms:
+                        file_tag.set('SHA256:hash', create_sha256_hash(file_info.actual_full_pathname))
+                    if 'sha384' in hash_algorithms:
+                        file_tag.set('SHA384:hash', create_sha384_hash(file_info.actual_full_pathname))
+                    if 'sha512' in hash_algorithms:
+                        file_tag.set('SHA512:hash', create_sha512_hash(file_info.actual_full_pathname))
+
+                    del file_info
+                else:
+                    del file_info.fullpathname_splitted[0]
+                    sub_files.append(file_info)
+            if len(sub_files) > 0:
+                _file_hierarchy(sub_files, last_tag=current_tag)
+
+    def _keyfunc(obj):
+
+        return obj.fullpathname_splitted[0]
+
+    _file_hierarchy(package_info.files, payload_tag=payload)
 
     return payload
 
@@ -111,14 +165,18 @@ def create_software_identity_element(ctx, from_package_file=False):
         else:
             ctx['package_info'].files.extend(ctx['environment'].get_files_for_package(ctx['package_info']))
 
-        payload_tag = _create_payload_tag(ctx['package_info'], ctx['hash_algorithms'])
+        if ctx['hierarchic']:
+            payload_tag = _create_hierarchic_payload_tag(ctx['package_info'], ctx['hash_algorithms'])
+        else:
+            payload_tag = _create_flat_payload_tag(ctx['package_info'], ctx['hash_algorithms'])
+
         software_identity.append(payload_tag)
 
     return software_identity
 
 
-def create_swid_tags(environment, entity_name, regid,
-                     hash_algorithms='sha256', full=False, matcher=all_matcher, file_path=None):
+def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
+                     full=False, matcher=all_matcher, hierarchic=False, file_path=None):
     """
     Return SWID tags as utf8-encoded xml bytestrings for all available
     packages.
@@ -150,6 +208,7 @@ def create_swid_tags(environment, entity_name, regid,
         'entity_name': entity_name,
         'full': full,
         'hash_algorithms': hash_algorithms,
+        'hierarchic': hierarchic,
         'file_path': file_path
     }
 

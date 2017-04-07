@@ -10,6 +10,7 @@ class FileInfo(object):
         self.location = (os.path.split(path)[0]).strip()
         self.mutable = False
         self.full_pathname = '/'.join((self.location, self.name))
+        self.fullpathname_splitted = []
         if actual_path:
             self.actual_full_pathname = self.full_pathname
             self.size = str(os.path.getsize(self.actual_full_pathname))
