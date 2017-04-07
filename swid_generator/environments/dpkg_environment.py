@@ -16,6 +16,9 @@ class DpkgEnvironment(CommonEnvironment):
 
     """
     executable = 'dpkg-query'
+    executable_dpkg = 'dpkg'
+    CONFFILE_FILE_NAME = 'conffiles'
+    CONTROL_ARCHIVE = 'control.tar.gz'
 
     installed_states = {
         'install ok installed': True,
@@ -107,3 +110,92 @@ class DpkgEnvironment(CommonEnvironment):
 
         """
         return cls.installed_states.get(package_info.status, True)
+
+    @classmethod
+    def get_files_from_packagefile(cls, file_fullpathname):
+        """
+        Extract all information of a .deb package.
+        - List of all files
+        - List of all Configuration-files
+
+        This Method extract all the information in a temporary directory. The Debian package
+        is extracted to the temporary directory, this because the files are needed to compute the File-Hash.
+
+        :param file_fullpathname: Path to the .deb package
+        :return: Lexicographical sorted List of FileInfo()-Objects (Conffiles and normal Files)
+        """
+        save_options = cls._create_temp_folder(file_fullpathname)
+        all_files = []
+
+        # unpack .deb-Packagefile
+        subprocess.call([cls.executable_dpkg, '-x', file_fullpathname, save_options['save_location']])
+
+        # add Config-Files
+        subprocess.call(["ar", "x", save_options['absolute_package_path'], cls.CONTROL_ARCHIVE])
+        subprocess.call(["mv", cls.CONTROL_ARCHIVE, save_options['save_location']])
+        subprocess.call(["tar", "-zxf",
+                         "/".join((save_options['save_location'], cls.CONTROL_ARCHIVE)), "./conffiles"])
+        subprocess.call(["mv", cls.CONFFILE_FILE_NAME, save_options['save_location']])
+
+        conffile_save_location = "/".join((save_options['save_location'], cls.CONFFILE_FILE_NAME))
+
+        with open(conffile_save_location, 'rb') as afile:
+            file_content = afile.read().encode('utf-8')
+
+        config_file_paths = filter(lambda path: len(path) > 0, file_content.split('\n'))
+
+        for config_file_path in config_file_paths:
+            file_info = FileInfo(config_file_path, actual_path=False)
+            file_info.set_actual_path(save_options['save_location'] + config_file_path)
+            file_info.mutable = True
+            all_files.append(file_info)
+
+        # extract File-List from Package
+        command_args = [cls.executable_dpkg, '-c', file_fullpathname]
+        data = subprocess.check_output(command_args)
+
+        if isinstance(data, bytes):
+            data = data.decode('utf-8')
+
+        line_list = data.split('\n')
+
+        for line in line_list:
+            splitted_line_array = line.split(' ')
+
+            # Last-Entry from Array is File-Path
+            directory_or_file_path = splitted_line_array[-1]
+            path_without_leading_point = directory_or_file_path[1:len(directory_or_file_path)]
+
+            temp_save_location = str("/".join((save_options['save_location'], path_without_leading_point)))
+
+            if cls._is_file(temp_save_location):
+                if path_without_leading_point not in config_file_paths:
+                    file_info = FileInfo(path_without_leading_point, actual_path=False)
+                    file_info.set_actual_path(save_options['save_location'] + path_without_leading_point)
+                    all_files.append(file_info)
+
+        return sorted(all_files, key=lambda f: f.full_pathname)
+
+    @classmethod
+    def get_packageinfo_from_packagefile(cls, file_path):
+        """
+        Extract the Package-Name and the Package-Version from the Debian-Package.
+
+        :param file_path: Path to the Debian-Package
+        :return: A PackageInfo()-Object with Package-Version and Package-Name.
+        """
+        command_args = ['dpkg', '-f', file_path, 'Package']
+        package_name = subprocess.check_output(command_args)
+        if isinstance(package_name, bytes):
+            package_name = package_name.decode('utf-8')
+        # extract Package-Version
+        command_args = ['dpkg', '-f', file_path, 'Version']
+        package_version = subprocess.check_output(command_args)
+        if isinstance(package_version, bytes):
+            package_version = package_version.decode('utf-8')
+
+        package_info = PackageInfo()
+        package_info.package = package_name.strip()
+        package_info.version = package_version.strip()
+
+        return package_info

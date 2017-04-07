@@ -50,6 +50,10 @@ def entity_name_string(string):
         raise ArgumentTypeError("String '{0}' does not match required format".format(string))
 
 
+def file_path(string):
+    return string
+
+
 class MainArgumentParser(object):
     def __init__(self, environment_registry):
         self.environments = environment_registry
@@ -96,6 +100,10 @@ class MainArgumentParser(object):
                             help='Define the algorithm for the file hashes ("sha256", "sha384", "sha512"). '
                                  'Multiple hashes can be added with comma separated. ("sha256,sha384") '
                                  'Default is "%s"' % settings.DEFAULT_HASH_ALGORITHM)
+        swid_parser.add_argument('--package-file', dest='file_path', type=file_path,
+                                 help='Create SWID-Tag based on information of a Package-File.'
+                                 'Rpm-Environments: .rpm Package-Files, Dpkg-Environments: .deb '
+                                 'Package-Files, Pacman-Environments: .pacman Package-Files')
 
         swid_parser.set_defaults(matcher=all_matcher)
 
