@@ -18,6 +18,7 @@ class FileInfoMock(object):
         self.size = size
         self.mutable = mutable
         self.full_pathname = full_pathname
+        self.actual_full_pathname = self.full_pathname
 
 
 class TestEnvironment(CommonEnvironment):

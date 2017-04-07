@@ -133,7 +133,8 @@ class DpkgEnvironment(CommonEnvironment):
         # add Config-Files
         subprocess.call(["ar", "x", save_options['absolute_package_path'], cls.CONTROL_ARCHIVE])
         subprocess.call(["mv", cls.CONTROL_ARCHIVE, save_options['save_location']])
-        subprocess.call(["tar", "-zxf", "/".join((save_options['save_location'], cls.CONTROL_ARCHIVE)), "./conffiles"])
+        subprocess.call(["tar", "-zxf",
+                         "/".join((save_options['save_location'], cls.CONTROL_ARCHIVE)), "./conffiles"])
         subprocess.call(["mv", cls.CONFFILE_FILE_NAME, save_options['save_location']])
 
         conffile_save_location = "/".join((save_options['save_location'], cls.CONFFILE_FILE_NAME))

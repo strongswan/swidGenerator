@@ -15,7 +15,6 @@ XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 N8060 = 'http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd'
 
 
-
 def _create_payload_tag(package_info, hash_algorithms):
     payload = ET.Element('Payload')
     last_full_pathname = ""
@@ -166,10 +165,11 @@ def create_swid_tags(environment, entity_name, regid,
 
         for pi in pkg_info:
             # Check if the software-id of the current package matches the targeted request
-            if not matcher(ctx):
-                continue
 
             ctx['package_info'] = pi
+
+            if not matcher(ctx):
+                continue
 
             software_identity = create_software_identity_element(ctx)
 
