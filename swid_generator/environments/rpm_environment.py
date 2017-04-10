@@ -89,34 +89,29 @@ class RpmEnvironment(CommonEnvironment):
             return output
 
         all_file_info = []
+
         normal_files = filter(lambda fp: len(fp) > 0, _run_info_query_command("-l").split('\n'))
         config_files = filter(lambda fp: len(fp) > 0, _run_info_query_command("-c").split('\n'))
 
         save_options = cls._create_temp_folder(file_path)
 
-        # rpm2cpio zsh-5.1.1-4.fc23.x86_64.rpm | cpio -id --quiet
-
-        """
-            ps = subprocess.Popen(('ps', '-A'), stdout=subprocess.PIPE)
-            output = subprocess.check_output(('grep', 'process_name'), stdin=ps.stdout)
-            ps.wait()
-        """
-
         rpm2cpio = subprocess.Popen(["rpm2cpio", file_path], stdout=subprocess.PIPE)
-        output = subprocess.check_output(["cpio", "-id", "--quiet"], stdin=rpm2cpio.stdout)
-
-        print(output)
-
-
-        for file_path in normal_files:
-            if cls._is_file(file_path[1:len(file_path)]):
-                file_info = FileInfo(file_path)
-                all_file_info.append(file_info)
+        subprocess.check_output(["cpio", "-id", "--quiet"], stdin=rpm2cpio.stdout, cwd=save_options[
+            'save_location'])
 
         for file_path in config_files:
-            if cls._is_file(file_path):
-                file_info = FileInfo(file_path)
+            temporary_path = save_options['save_location'] + file_path
+            if cls._is_file(temporary_path):
+                file_info = FileInfo(file_path, actual_path=False)
+                file_info.set_actual_path(temporary_path)
                 file_info.mutable = True
+                all_file_info.append(file_info)
+
+        for file_path in normal_files:
+            temporary_path = save_options['save_location'] + file_path
+            if cls._is_file(temporary_path) and file_path not in config_files:
+                file_info = FileInfo(file_path, actual_path=False)
+                file_info.set_actual_path(temporary_path)
                 all_file_info.append(file_info)
 
         return all_file_info
