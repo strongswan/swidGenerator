@@ -116,7 +116,6 @@ class RpmEnvironment(CommonEnvironment):
 
         return all_file_info
 
-
     @classmethod
     def get_packageinfo_from_packagefile(cls, file_path):
 
