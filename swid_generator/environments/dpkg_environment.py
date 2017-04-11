@@ -2,6 +2,7 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import subprocess
+import os
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
@@ -130,25 +131,32 @@ class DpkgEnvironment(CommonEnvironment):
         # unpack .deb-Packagefile
         subprocess.call([cls.executable_dpkg, '-x', file_fullpathname, save_options['save_location']])
 
-        # add Config-Files
-        subprocess.call(["ar", "x", save_options['absolute_package_path'], cls.CONTROL_ARCHIVE])
-        subprocess.call(["mv", cls.CONTROL_ARCHIVE, save_options['save_location']])
-        subprocess.call(["tar", "-zxf",
-                         "/".join((save_options['save_location'], cls.CONTROL_ARCHIVE)), "./conffiles"])
-        subprocess.call(["mv", cls.CONFFILE_FILE_NAME, save_options['save_location']])
+        try:
+            # add Config-Files
+            with open(os.devnull, 'w') as devnull:
+                subprocess.call(["ar", "x", save_options['absolute_package_path'], cls.CONTROL_ARCHIVE],
+                                stderr=devnull)
+                subprocess.call(["mv", cls.CONTROL_ARCHIVE, save_options['save_location']], stderr=devnull)
+                subprocess.call(["tar", "-zxf",
+                                 "/".join((save_options['save_location'], cls.CONTROL_ARCHIVE)),
+                                 "./conffiles"], stderr=devnull)
+                subprocess.call(["mv", cls.CONFFILE_FILE_NAME, save_options['save_location']],
+                                stderr=devnull)
 
-        conffile_save_location = "/".join((save_options['save_location'], cls.CONFFILE_FILE_NAME))
+            conffile_save_location = "/".join((save_options['save_location'], cls.CONFFILE_FILE_NAME))
 
-        with open(conffile_save_location, 'rb') as afile:
-            file_content = afile.read().encode('utf-8')
+            with open(conffile_save_location, 'rb') as afile:
+                file_content = afile.read().encode('utf-8')
 
-        config_file_paths = filter(lambda path: len(path) > 0, file_content.split('\n'))
+            config_file_paths = filter(lambda path: len(path) > 0, file_content.split('\n'))
 
-        for config_file_path in config_file_paths:
-            file_info = FileInfo(config_file_path, actual_path=False)
-            file_info.set_actual_path(save_options['save_location'] + config_file_path)
-            file_info.mutable = True
-            all_files.append(file_info)
+            for config_file_path in config_file_paths:
+                file_info = FileInfo(config_file_path, actual_path=False)
+                file_info.set_actual_path(save_options['save_location'] + config_file_path)
+                file_info.mutable = True
+                all_files.append(file_info)
+        except(IOError, subprocess.CalledProcessError):
+            config_file_paths = []
 
         # extract File-List from Package
         command_args = [cls.executable_dpkg, '-c', file_fullpathname]
@@ -171,7 +179,7 @@ class DpkgEnvironment(CommonEnvironment):
             if cls._is_file(temp_save_location):
                 if path_without_leading_point not in config_file_paths:
                     file_info = FileInfo(path_without_leading_point, actual_path=False)
-                    file_info.set_actual_path(save_options['save_location'] + path_without_leading_point)
+                    file_info.set_actual_path(temp_save_location)
                     all_files.append(file_info)
 
         return sorted(all_files, key=lambda f: f.full_pathname)
