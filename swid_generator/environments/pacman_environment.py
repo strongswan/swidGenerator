@@ -83,13 +83,23 @@ class PacmanEnvironment(CommonEnvironment):
 
         save_options = cls._create_temp_folder(file_fullpathname)
         lines = data.split('\n')
-
+        all_files = []
         lines = filter(lambda l: len(l) > 0, lines)
 
-        for line in lines:
-            split_line = line.split(' ')
+        subprocess.call(["tar", "-xf", save_options['absolute_package_path']], cwd=save_options[
+            'save_location'])
 
-        return []
+        for line in lines:
+            path = line.split(' ')[1]
+            temporary_path = save_options['save_location'] + path
+            if cls._is_file(temporary_path):
+                file_info = FileInfo(path, actual_path=False)
+                file_info.set_actual_path(temporary_path)
+                if 'etc' in path:
+                    file_info.mutable = True
+                all_files.append(file_info)
+
+        return all_files
 
     @classmethod
     def get_packageinfo_from_packagefile(cls, file_path):
