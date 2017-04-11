@@ -72,3 +72,36 @@ class PacmanEnvironment(CommonEnvironment):
                     file_info.mutable = True
                 result.append(file_info)
         return result
+
+    @classmethod
+    def get_files_from_packagefile(cls, file_fullpathname):
+
+        command_args = [cls.executable, '-Qlp', file_fullpathname]
+        data = subprocess.check_output(command_args)
+        if isinstance(data, bytes):
+            data = data.decode('utf-8')
+
+        save_options = cls._create_temp_folder(file_fullpathname)
+        lines = data.split('\n')
+
+        lines = filter(lambda l: len(l) > 0, lines)
+
+        for line in lines:
+            split_line = line.split(' ')
+
+        return []
+
+    @classmethod
+    def get_packageinfo_from_packagefile(cls, file_path):
+        command_args = [cls.executable, '--query', '--file', file_path]
+        data = subprocess.check_output(command_args)
+        if isinstance(data, bytes):
+            data = data.decode('utf-8')
+
+        line_split = data.split(' ')
+
+        package_info = PackageInfo()
+        package_info.package = line_split[0]
+        package_info.version = line_split[1].rstrip()
+
+        return package_info
