@@ -19,6 +19,24 @@ def _create_payload_tag(package_info, hash_algorithms):
     payload = ET.Element('Payload')
     last_full_pathname = ""
     last_directory_tag = ""
+
+    for file_info in package_info.files:
+        del file_info.full_pathname_splitted[-1]
+
+    def _lenfunc(obj):
+        return len(obj.full_pathname_splitted)
+
+    longest_path = len(max(package_info.files, key=_lenfunc).full_pathname_splitted)
+
+    for file_info in package_info.files:
+        path_lenght = len(file_info.full_pathname_splitted)
+
+        for j in range(0, (longest_path - path_lenght)):
+            file_info.full_pathname_splitted.append('')
+
+    for i in range(longest_path, 0, -1):
+        package_info.files.sort(key=lambda file: file.full_pathname_splitted[i - 1])
+
     for file_info in package_info.files:
 
         head, file_name = ntpath.split(file_info.full_pathname)
