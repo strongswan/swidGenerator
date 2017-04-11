@@ -81,7 +81,7 @@ class RpmEnvironment(CommonEnvironment):
     def get_files_from_packagefile(cls, file_path):
 
         def _run_info_query_command(file_type):
-            command_args = [cls.executable, "--query", "--package", file_path, file_type, file_path]
+            command_args = [cls.executable, "--query", "--package", file_path, file_type]
             output = subprocess.check_output(command_args)
             if isinstance(output, bytes):
                 output = output.decode('utf-8')
