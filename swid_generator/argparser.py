@@ -2,6 +2,7 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import re
+import os
 from functools import partial
 from argparse import ArgumentParser, ArgumentTypeError, Action
 
@@ -51,7 +52,9 @@ def entity_name_string(string):
 
 
 def file_path(string=None):
-    if string.endswith('.deb') or string.endswith('.rpm') or string.endswith('.pkg.tar.xz'):
+    if not os.path.exists(string):
+        raise ArgumentTypeError("The file '{0}' does not exist".format(string))
+    elif string.endswith('.deb') or string.endswith('.rpm') or string.endswith('.pkg.tar.xz'):
         return string
     else:
         raise ArgumentTypeError("File '{0}' is not a valid Package.".format(string))
