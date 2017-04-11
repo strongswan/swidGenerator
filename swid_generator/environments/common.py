@@ -77,7 +77,7 @@ class CommonEnvironment(object):
         :return: A dictionary with the save options of the temporary folder.
         """
 
-        random_string = ''.join(random.choice(string.lowercase) for _ in range(5))
+        random_string = ''.join(random.choice(string.ascii_letters) for _ in range(5))
 
         absolute_package_path = '/'.join((os.getcwd(), package_pathname))
         save_location_pathname = '/'.join((cls.TEMP_FOLDER_NAME, cls.FOLDER_PREFIX + random_string))
