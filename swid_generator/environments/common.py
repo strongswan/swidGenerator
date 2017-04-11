@@ -67,19 +67,23 @@ class CommonEnvironment(object):
         return True
 
     @classmethod
-    def _create_temp_folder(cls, package_pathname):
+    def _create_temp_folder(cls, package_path):
         """
         It creates a folder in the directory /tmp of the client/server.
-        This folder has the prefix "swid_". To this prefix a random generated String is appended, this to
+        This folder has the prefix "swid_". To this prefix a random generated String is appended to
         prevent collisions of foldernames.
 
-        :param package_pathname: Path to the package
+        :param package_path: Path to the package
         :return: A dictionary with the save options of the temporary folder.
         """
 
         random_string = ''.join(random.choice(string.ascii_letters) for _ in range(5))
 
-        absolute_package_path = '/'.join((os.getcwd(), package_pathname))
+        if package_path[0] is '/':
+            absolute_package_path = '/'.join((os.getcwd(), package_path))
+        else:
+            absolute_package_path = package_path
+
         save_location_pathname = '/'.join((cls.TEMP_FOLDER_NAME, cls.FOLDER_PREFIX + random_string))
 
         if not os.path.exists(save_location_pathname):
