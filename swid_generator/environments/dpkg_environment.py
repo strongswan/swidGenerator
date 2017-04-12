@@ -3,6 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import subprocess
 import os
+from .command_manager import CommandManager
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
@@ -18,8 +19,10 @@ class DpkgEnvironment(CommonEnvironment):
     """
     executable = 'dpkg-query'
     executable_dpkg = 'dpkg'
+    md5_hash_length = 32
     CONFFILE_FILE_NAME = 'conffiles'
     CONTROL_ARCHIVE = 'control.tar.gz'
+
 
     installed_states = {
         'install ok installed': True,
@@ -35,13 +38,12 @@ class DpkgEnvironment(CommonEnvironment):
             List of ``PackageInfo`` instances.
 
         """
-        command_args = [cls.executable, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
-        data = subprocess.check_output(command_args)
         result = []
+        command_args = [cls.executable, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
 
-        if isinstance(data, bytes):
-            data = data.decode('utf-8')
-        line_list = data.split('\t')
+        command_output = CommandManager.run_command_check_output(command_args)
+
+        line_list = command_output.split('\t')
 
         for line in line_list:
             split_line = line.split('\n')
@@ -51,18 +53,6 @@ class DpkgEnvironment(CommonEnvironment):
                 package_info.package = split_line[0]
                 package_info.version = split_line[1]
                 package_info.status = split_line[2]
-
-                # if Config-Files exists
-                if split_line[3] != '':
-                    config_files = []
-                    for file_path in split_line[3:len(split_line)]:
-                        file_path_without_md5 = file_path.split(' ')[1]
-                        if cls._is_file(file_path_without_md5):
-                            file_info = FileInfo(file_path_without_md5)
-                            file_info.mutable = True
-                            config_files.append(file_info)
-
-                    package_info.files.extend(config_files)
 
                 result.append(package_info)
 
@@ -74,25 +64,44 @@ class DpkgEnvironment(CommonEnvironment):
         Get list of files related to the specified package.
 
         Args:
-            package_name (str):
-                The package name as string (e.g. ``cowsay``).
+            package_info (PackageInfo):
+                The ``PackageInfo`` instance for the query.
 
         Returns:
             List of ``FileInfo`` instances.
 
         """
-        command_args = [cls.executable, '-L', package_info.package]
-        data = subprocess.check_output(command_args)
-        if isinstance(data, bytes):
-            data = data.decode('utf-8')
-        lines = data.rstrip().split('\n')
-        files = filter(cls._is_file, lines)
-        result_list = []
+        result = []
 
-        for path in files:
-            if not any(file_info.full_pathname.strip() == path for file_info in package_info.files):
-                result_list.append(FileInfo(path))
-        return result_list
+        command_args_normal_files = [cls.executable, '-L', package_info.package]
+        command_normal_file_output = CommandManager.run_command_check_output(command_args_normal_files)
+
+        lines = command_normal_file_output.rstrip().split('\n')
+        normal_files = filter(cls._is_file, lines)
+
+        command_args_config_files = [cls.executable, '-W', '-f=${conffiles}\\n', package_info.package]
+        command_config_file_output = CommandManager.run_command_check_output(command_args_config_files)
+
+        lines = command_config_file_output.split('\n')
+        stripped_lines = []
+
+        for line in lines:
+            if len(line) != 0:
+                path_without_md5 = line.strip()[:len(line.strip())-cls.md5_hash_length].strip()
+                stripped_lines.append(path_without_md5)
+
+        config_files = filter(cls._is_file, stripped_lines)
+
+        for config_file_path in config_files:
+            file_info = FileInfo(config_file_path)
+            file_info.mutable = True
+            result.append(file_info)
+
+        for file_path in normal_files:
+            if file_path not in config_files:
+                result.append(FileInfo(file_path))
+
+        return result
 
     @classmethod
     def _package_installed(cls, package_info):
