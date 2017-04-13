@@ -1,4 +1,3 @@
-import platform
 from functools import partial
 from xml.etree import cElementTree as ET
 
@@ -112,12 +111,3 @@ def test_generate_swid_from_package(swid_tag_generator):
             assert output_directory_tag[j].attrib['name'] == template_directory_tag[j].attrib['name']
             print("name ", output_directory_tag[j].attrib['name'], " ----- ", template_directory_tag[j].attrib['name'])
             assert output_directory_tag[j].attrib['size'] == template_directory_tag[j].attrib['size']
-            """
-            assert len(test) == 1
-            if test[0].mutable == 'True':
-                assert file_tag.attrib['mutable'] == 'True'
-            else:
-                with pytest.raises(KeyError):
-                    file_tag.attrib['mutable']
-            assert file_tag.attrib['size'] == test[0].size
-            """

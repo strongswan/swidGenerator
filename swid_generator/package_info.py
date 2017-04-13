@@ -12,7 +12,7 @@ class FileInfo(object):
         self.full_pathname = '/'.join((self.location, self.name))
 
         splitted_location = self.full_pathname.split('/')
-        self.full_pathname_splitted = splitted_location[1:len(splitted_location)]
+        self.full_pathname_splitted = splitted_location[1:]
 
         if actual_path:
             self.actual_full_pathname = self.full_pathname

@@ -15,27 +15,32 @@ XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 N8060 = 'http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd'
 
 
+def _sort_files(files):
+    def _lenfunc(obj):
+        return len(obj.full_pathname_splitted)
+
+    def _keyfunc(file, i):
+        return file.full_pathname_splitted[i - 1]
+
+    longest_path_length = len(max(files, key=_lenfunc).full_pathname_splitted) - 1
+
+    for file_info in files:
+        del file_info.full_pathname_splitted[-1]
+
+        path_length = len(file_info.full_pathname_splitted)
+        file_info.full_pathname_splitted.extend([''] * (longest_path_length - path_length))
+
+    for i in range(longest_path_length, 0, -1):
+        files.sort(key=lambda f: _keyfunc(f, i))
+    return files
+
+
 def _create_payload_tag(package_info, hash_algorithms):
     payload = ET.Element('Payload')
     last_full_pathname = ""
     last_directory_tag = ""
 
-    for file_info in package_info.files:
-        del file_info.full_pathname_splitted[-1]
-
-    def _lenfunc(obj):
-        return len(obj.full_pathname_splitted)
-
-    longest_path = len(max(package_info.files, key=_lenfunc).full_pathname_splitted)
-
-    for file_info in package_info.files:
-        path_lenght = len(file_info.full_pathname_splitted)
-
-        for j in range(0, (longest_path - path_lenght)):
-            file_info.full_pathname_splitted.append('')
-
-    for i in range(longest_path, 0, -1):
-        package_info.files.sort(key=lambda file: file.full_pathname_splitted[i - 1])
+    package_info.files = _sort_files(package_info.files)
 
     for file_info in package_info.files:
 
