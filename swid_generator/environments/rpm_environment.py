@@ -5,6 +5,7 @@ import subprocess
 
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
+from .command_manager import CommandManager
 
 
 class RpmEnvironment(CommonEnvironment):
@@ -30,12 +31,10 @@ class RpmEnvironment(CommonEnvironment):
 
         """
 
-        command_args = [cls.executable, '-qa', '--queryformat', '\t%{name} %{version}-%{release}', '-c']
-        data = subprocess.check_output(command_args)
-        if isinstance(data, bytes):  # convert to unicode
-            data = data.decode('utf-8')
+        command_args_package_list = [cls.executable, '-qa', '--queryformat', '\t%{name} %{version}-%{release}']
+        package_list_output = CommandManager.run_command_check_output(command_args_package_list)
 
-        line_list = data.split('\t')
+        line_list = package_list_output.split('\t')
         result = []
 
         for line in line_list:
@@ -44,38 +43,36 @@ class RpmEnvironment(CommonEnvironment):
                 package_info = PackageInfo()
                 package_info.package = split_line[0]
                 package_info.version = split_line[1]
-
-                # if Config-Files exists
-                if len(split_line) >= 3:
-                    config_files = []
-                    for file_path in split_line[2:len(split_line)]:
-                        if cls._is_file(file_path):
-                            file_info = FileInfo(file_path)
-                            file_info.mutable = True
-                            config_files.append(file_info)
-
-                    package_info.files.extend(config_files)
-
                 result.append(package_info)
-
         return result
 
     @classmethod
     def get_files_for_package(cls, package_info):
-        command_args = [cls.executable, '-ql', package_info.package]
-        data = subprocess.check_output(command_args)
-        if isinstance(data, bytes):  # convert to unicode
-            data = data.decode('utf-8')
-        lines = data.rstrip().split('\n')
-        files = filter(cls._is_file, lines)
 
-        result_list = []
+        result = []
 
-        for path in files:
-            if not any(file_info.full_pathname.strip() == path for file_info in package_info.files):
-                result_list.append(FileInfo(path))
+        command_args_file_list = [cls.executable, '-ql', package_info.package]
+        file_list_output = CommandManager.run_command_check_output(command_args_file_list)
+        lines_file_list = file_list_output.rstrip().split('\n')
+        files = filter(cls._is_file, lines_file_list)
 
-        return result_list
+        command_args_package_list = [cls.executable, '-qa', '--queryformat', '%{name}\n', '-c', package_info.package]
+        config_file_list_output = CommandManager.run_command_check_output(command_args_package_list)
+        config_files = config_file_list_output.split('\n')
+        config_files = (filter(lambda f: len(f) > 0, config_files))
+
+        for conf_file_path in config_files:
+            if cls._is_file(conf_file_path):
+                file_info = FileInfo(conf_file_path)
+                file_info.mutable = True
+                result.append(file_info)
+
+        for file_path in files:
+            if cls._is_file(file_path) and file_path not in config_files:
+                file_info = FileInfo(file_path)
+                result.append(file_info)
+
+        return result
 
     @classmethod
     def get_files_from_packagefile(cls, file_path):
