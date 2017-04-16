@@ -5,7 +5,7 @@ import subprocess
 
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
-
+from .command_manager import CommandManager
 
 class PacmanEnvironment(CommonEnvironment):
     """
@@ -25,11 +25,9 @@ class PacmanEnvironment(CommonEnvironment):
 
         """
 
-        command_args = [cls.executable, '-Q', '--color', 'never']
-        data = subprocess.check_output(command_args)
-        if isinstance(data, bytes):
-            data = data.decode('utf-8')
-        lines = filter(None, data.rstrip().split('\n'))
+        command_args_packages = [cls.executable, '-Q', '--color', 'never']
+        packages_output = CommandManager.run_command_check_output(command_args_packages)
+        lines = filter(None, packages_output.rstrip().split('\n'))
         result = []
         for line in lines:
             split_line = line.split()
@@ -55,11 +53,9 @@ class PacmanEnvironment(CommonEnvironment):
             List of ``FileInfo`` instances.
 
         """
-        command_args = [cls.executable, '-Ql', package_info.package]
-        data = subprocess.check_output(command_args)
-        if isinstance(data, bytes):
-            data = data.decode('utf-8')
-        lines = filter(None, data.rstrip().split('\n'))
+        command_args_files = [cls.executable, '-Ql', package_info.package]
+        files_output = CommandManager.run_command_check_output(command_args_files)
+        lines = filter(None, files_output.rstrip().split('\n'))
         result = []
         for line in lines:
             split_line = line.split(' ', 1)
@@ -76,18 +72,19 @@ class PacmanEnvironment(CommonEnvironment):
     @classmethod
     def get_files_from_packagefile(cls, file_fullpathname):
 
-        command_args = [cls.executable, '-Qlp', file_fullpathname]
-        data = subprocess.check_output(command_args)
-        if isinstance(data, bytes):
-            data = data.decode('utf-8')
+        command_args_files = [cls.executable, '-Qlp', file_fullpathname]
+        files_output = CommandManager.run_command_check_output(command_args_files)
 
-        save_options = cls._create_temp_folder(file_fullpathname)
-        lines = data.split('\n')
-        all_files = []
+        lines = files_output.split('\n')
         lines = filter(lambda l: len(l) > 0, lines)
 
-        subprocess.call(["tar", "-xf", save_options['absolute_package_path']], cwd=save_options[
-            'save_location'])
+        save_options = cls._create_temp_folder(file_fullpathname)
+
+        all_files = []
+
+        command_args_extract_package = ['tar', '-xf', save_options['absolute_package_path']]
+
+        CommandManager.run_command(command_args_extract_package, working_directory=save_options['save_location'])
 
         for line in lines:
             path = line.split(' ')[1]
@@ -103,12 +100,9 @@ class PacmanEnvironment(CommonEnvironment):
 
     @classmethod
     def get_packageinfo_from_packagefile(cls, file_path):
-        command_args = [cls.executable, '--query', '--file', file_path]
-        data = subprocess.check_output(command_args)
-        if isinstance(data, bytes):
-            data = data.decode('utf-8')
-
-        line_split = data.split(' ')
+        command_args_packageinfo = [cls.executable, '--query', '--file', file_path]
+        package_info_output = CommandManager.run_command_check_output(command_args_packageinfo)
+        line_split = package_info_output.split(' ')
 
         package_info = PackageInfo()
         package_info.package = line_split[0]
