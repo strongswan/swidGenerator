@@ -23,7 +23,6 @@ class DpkgEnvironment(CommonEnvironment):
     CONFFILE_FILE_NAME = 'conffiles'
     CONTROL_ARCHIVE = 'control.tar.gz'
 
-
     installed_states = {
         'install ok installed': True,
         'deinstall ok config-files': False
@@ -39,7 +38,8 @@ class DpkgEnvironment(CommonEnvironment):
 
         """
         result = []
-        command_args = [cls.executable_query, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
+        command_args = [cls.executable_query,
+                        '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
 
         command_output = CommandManager.run_command_check_output(command_args)
 
@@ -87,7 +87,7 @@ class DpkgEnvironment(CommonEnvironment):
 
         for line in lines:
             if len(line) != 0:
-                path_without_md5 = line.strip()[:len(line.strip())-cls.md5_hash_length].strip()
+                path_without_md5 = line.strip()[:len(line.strip()) - cls.md5_hash_length].strip()
                 stripped_lines.append(path_without_md5)
 
         config_files = filter(cls._is_file, stripped_lines)
