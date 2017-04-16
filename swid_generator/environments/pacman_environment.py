@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
-import subprocess
-
+from swid_generator.command_manager import CommandManager
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
-from .command_manager import CommandManager
 
 class PacmanEnvironment(CommonEnvironment):
     """

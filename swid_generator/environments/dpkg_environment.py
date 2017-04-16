@@ -2,8 +2,8 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import subprocess
-import os
-from .command_manager import CommandManager
+
+from swid_generator.command_manager import CommandManager
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
