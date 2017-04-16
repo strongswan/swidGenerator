@@ -77,18 +77,16 @@ class RpmEnvironment(CommonEnvironment):
     @classmethod
     def get_files_from_packagefile(cls, file_path):
 
-        def _run_info_query_command(file_type):
-            command_args = [cls.executable, "--query", "--package", file_path, file_type]
-            output = subprocess.check_output(command_args)
-            if isinstance(output, bytes):
-                output = output.decode('utf-8')
+        command_args_file_list = [cls.executable, "--query", "--package", file_path, '-l']
+        command_args_conffile_list = [cls.executable, "--query", "--package", file_path, '-c']
 
-            return output
+        file_list_output = CommandManager.run_command_check_output(command_args_file_list)
+        conffile_list_output = CommandManager.run_command_check_output(command_args_conffile_list)
 
         all_file_info = []
 
-        normal_files = filter(lambda fp: len(fp) > 0, _run_info_query_command("-l").split('\n'))
-        config_files = filter(lambda fp: len(fp) > 0, _run_info_query_command("-c").split('\n'))
+        normal_files = filter(lambda fp: len(fp) > 0, file_list_output.split('\n'))
+        config_files = filter(lambda fp: len(fp) > 0, conffile_list_output.split('\n'))
 
         save_options = cls._create_temp_folder(file_path)
 
@@ -116,16 +114,14 @@ class RpmEnvironment(CommonEnvironment):
     @classmethod
     def get_packageinfo_from_packagefile(cls, file_path):
 
-        def _run_info_query_command(field):
-            command_args = [cls.executable, "--query", "--package", "--queryformat", "%{" + field + "}",
-                            file_path]
-            output = subprocess.check_output(command_args)
-            if isinstance(output, bytes):
-                output = output.decode('utf-8')
-            return output
+        command_args_package_name = [cls.executable, "--query", "--package", "--queryformat", "%{name}", file_path]
+        command_args_package_version = [cls.executable, "--query", "--package", "--queryformat", "%{version}", file_path]
+
+        package_name_output = CommandManager.run_command_check_output(command_args_package_name)
+        package_version_output = CommandManager.run_command_check_output(command_args_package_version)
 
         package_info = PackageInfo()
-        package_info.package = _run_info_query_command("name")
-        package_info.version = _run_info_query_command("version")
+        package_info.package = package_name_output
+        package_info.version = package_version_output
 
         return package_info
