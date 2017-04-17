@@ -16,14 +16,31 @@ class CommandManager(object):
             subprocess.call(command_argumentlist, stderr=devnull, cwd=working_directory)
 
     @staticmethod
-    def run_command_check_output(command_argumentlist):
+    def run_command_check_output(command_argumentlist, stdin=None):
         """
         Exectues a command. Output expected.
         :param command_argumentlist: Command-Arguments
+        :param stdin: standard-input of the subprocess (e.x stdout from ohter subprocess)
         :return: Console-Output of the command.
         """
-        output = subprocess.check_output(command_argumentlist)
+        if stdin is None:
+            output = subprocess.check_output(command_argumentlist)
 
-        if isinstance(output, bytes):
-            output = output.decode('utf-8')
-        return output
+            if isinstance(output, bytes):
+                output = output.decode('utf-8')
+            return output
+        else:
+            subprocess.check_output(command_argumentlist, stdin=stdin)
+
+    @staticmethod
+    def run_command_popen(command_argumentlist, stdout=None):
+        """
+        Runs a command with subprocess Library.
+        :param command_argumentlist: Command arguments
+        :param stdout: Standard output (e.x subprocess.PIPE)
+        :return: Popen object to catch pipeline output
+        """
+        if stdout is not None:
+            return subprocess.Popen(command_argumentlist, stdout=stdout)
+        else:
+            return subprocess.Popen(command_argumentlist)
