@@ -21,6 +21,7 @@ class CommandManager(object):
         Exectues a command. Output expected.
         :param command_argumentlist: Command-Arguments
         :param stdin: standard-input of the subprocess (e.x stdout from ohter subprocess)
+        :param working_directory: Working directory of the command.
         :return: Console-Output of the command.
         """
         if stdin is None:
