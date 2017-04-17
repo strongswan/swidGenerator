@@ -12,12 +12,15 @@ from swid_generator.generators.swid_generator import software_id_matcher, packag
 
 
 class FileInfoMock(object):
-    def __init__(self, name, location, size, mutable, full_pathname):
+    def __init__(self, name, location, size, mutable, full_pathname, full_pathname_splitted):
         self.name = name
         self.location = location
         self.size = size
         self.mutable = mutable
         self.full_pathname = full_pathname
+        self.full_pathname_splitted = full_pathname_splitted
+
+        self.actual_full_pathname = self.full_pathname
 
 
 class TestEnvironment(CommonEnvironment):
@@ -51,16 +54,30 @@ class TestEnvironment(CommonEnvironment):
 
 @pytest.fixture
 def packages():
-    cowsay_file1 = FileInfoMock('cowsay', 'tests/dumps/package_files/cowsay','4421', False, 'tests/dumps/package_files/cowsay/cowsay')
-    cowsay_file2 = FileInfoMock('pony-smaller.cow', 'tests/dumps/package_files/cowsay', '305', True, 'tests/dumps/package_files/cowsay/pony-smaller.cow')
-    cowsay_file3 = FileInfoMock('copyright.txt', 'tests/dumps/package_files/cowsay/etc', '12854', True, 'tests/dumps/package_files/cowsay/etc/copyright.txt')
+    cowsay_file1 = FileInfoMock('cowsay', 'tests/dumps/package_files/cowsay','4421', False,
+                                'tests/dumps/package_files/cowsay/cowsay',
+                                ['tests', 'dumps', 'package_files', 'cowsay', 'cowsay'])
+    cowsay_file2 = FileInfoMock('pony-smaller.cow', 'tests/dumps/package_files/cowsay', '305', True,
+                                'tests/dumps/package_files/cowsay/pony-smaller.cow',
+                                ['tests', 'dumps', 'package_files', 'cowsay', 'pony-smaller.cow'])
+    cowsay_file3 = FileInfoMock('copyright.txt', 'tests/dumps/package_files/cowsay/etc', '12854', True,
+                                'tests/dumps/package_files/cowsay/etc/copyright.txt',
+                                ['tests', 'dumps', 'package_files', 'cowsay', 'etc', 'copyright.txt'])
 
-    fortune_file1 = FileInfoMock('fortune', 'tests/dumps/package_files/fortune', '1234', False, 'tests/dumps/package_files/fortune/fortune')
-    fortune_file2 = FileInfoMock('copyright', 'tests/dumps/package_files/fortune', '3333', False, 'tests/dumps/package_files/fortune/copyright')
-    fortune_file3 = FileInfoMock('config.txt', 'tests/dumps/package_files/fortune/usr', '45986', True, 'tests/dumps/package_files/fortune/usr/config.txt')
+    fortune_file1 = FileInfoMock('fortune', 'tests/dumps/package_files/fortune', '1234', False,
+                                 'tests/dumps/package_files/fortune/fortune',
+                                 ['tests', 'dumps', 'package_files', 'fortune', 'fortune'])
+    fortune_file2 = FileInfoMock('copyright', 'tests/dumps/package_files/fortune', '3333', False,
+                                 'tests/dumps/package_files/fortune/copyright',
+                                 ['tests', 'dumps', 'package_files', 'fortune', 'copyright'])
+    fortune_file3 = FileInfoMock('config.txt', 'tests/dumps/package_files/fortune/usr', '45986', True,
+                                 'tests/dumps/package_files/fortune/usr/config.txt',
+                                 ['tests', 'dumps', 'package_files', 'usr', 'config.txt'])
 
-    openssh_file1 = FileInfoMock('ssh.conf', '/etc/init/', '555', True, '/etc/init/ssh.conf')
-    openssh_file2 = FileInfoMock('sshd', '/usr/sbin/', '89484', False, '/usr/sbin/sshd')
+    openssh_file1 = FileInfoMock('ssh.conf', '/etc/init/', '555', True, '/etc/init/ssh.conf',
+                                 ['etc', 'init', 'ssh.conf'])
+    openssh_file2 = FileInfoMock('sshd', '/usr/sbin/', '89484', False, '/usr/sbin/sshd',
+                                 ['usr', 'sbin', 'sshd'])
 
     infos = [
         PackageInfo('cowsay', '1.0', [cowsay_file1, cowsay_file2, cowsay_file3], 'install ok installed'),
@@ -77,7 +94,7 @@ def swid_tag_generator(packages):
     kwargs = {
         'environment': env,
         'entity_name': DEFAULT_ENTITY_NAME,
-        'regid': DEFAULT_REGID,
+        'regid': DEFAULT_REGID
     }
     return partial(swid_generator.create_swid_tags, **kwargs)
 

@@ -2,6 +2,7 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import re
+import os
 from functools import partial
 from argparse import ArgumentParser, ArgumentTypeError, Action
 
@@ -50,6 +51,15 @@ def entity_name_string(string):
         raise ArgumentTypeError("String '{0}' does not match required format".format(string))
 
 
+def file_path(string=None):
+    if not os.path.exists(string):
+        raise ArgumentTypeError("The file '{0}' does not exist".format(string))
+    elif string.endswith('.deb') or string.endswith('.rpm') or string.endswith('.pkg.tar.xz'):
+        return string
+    else:
+        raise ArgumentTypeError("File '{0}' is not a valid Package.".format(string))
+
+
 class MainArgumentParser(object):
     def __init__(self, environment_registry):
         self.environments = environment_registry
@@ -91,11 +101,17 @@ class MainArgumentParser(object):
                                  help='Dump the full SWID tags including file tags for each package.')
         swid_parser.add_argument('--pretty', action='store_true', default=False,
                                  help='Indent the XML output.')
+        swid_parser.add_argument('--hierarchic', action='store_true', default=False,
+                                 help='Change directory structure to hierarchic.')
         swid_parser.add_argument('--hash', dest='hash_algorithms', type=hash_string,
                             default=hash_string(settings.DEFAULT_HASH_ALGORITHM),
                             help='Define the algorithm for the file hashes ("sha256", "sha384", "sha512"). '
                                  'Multiple hashes can be added with comma separated. ("sha256,sha384") '
                                  'Default is "%s"' % settings.DEFAULT_HASH_ALGORITHM)
+        swid_parser.add_argument('--package-file', dest='file_path', type=file_path,
+                                 help='Create SWID-Tag based on information of a Package-File.'
+                                 ' Rpm-Environment: *.rpm File, Dpkg-Environment: *.deb File, '
+                                 'Pacman-Environment: *.pgk.tar.xz File')
 
         swid_parser.set_defaults(matcher=all_matcher)
 
