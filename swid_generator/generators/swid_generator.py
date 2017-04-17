@@ -191,10 +191,10 @@ def create_swid_tags(environment, entity_name, regid,
         pkg_info = environment.get_package_list()
 
         for pi in pkg_info:
-            # Check if the software-id of the current package matches the targeted request
 
             ctx['package_info'] = pi
 
+            # Check if the software-id of the current package matches the targeted request
             if not matcher(ctx):
                 continue
 

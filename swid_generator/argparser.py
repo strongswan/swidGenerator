@@ -2,6 +2,7 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import re
+import os
 from functools import partial
 from argparse import ArgumentParser, ArgumentTypeError, Action
 
@@ -50,8 +51,13 @@ def entity_name_string(string):
         raise ArgumentTypeError("String '{0}' does not match required format".format(string))
 
 
-def file_path(string):
-    return string
+def file_path(string=None):
+    if not os.path.exists(string):
+        raise ArgumentTypeError("The file '{0}' does not exist".format(string))
+    elif string.endswith('.deb') or string.endswith('.rpm') or string.endswith('.pkg.tar.xz'):
+        return string
+    else:
+        raise ArgumentTypeError("File '{0}' is not a valid Package.".format(string))
 
 
 class MainArgumentParser(object):
@@ -102,8 +108,8 @@ class MainArgumentParser(object):
                                  'Default is "%s"' % settings.DEFAULT_HASH_ALGORITHM)
         swid_parser.add_argument('--package-file', dest='file_path', type=file_path,
                                  help='Create SWID-Tag based on information of a Package-File.'
-                                 'Rpm-Environments: .rpm Package-Files, Dpkg-Environments: .deb '
-                                 'Package-Files, Pacman-Environments: .pacman Package-Files')
+                                 ' Rpm-Environment: *.rpm File, Dpkg-Environment: *.deb File, '
+                                 'Pacman-Environment: *.pgk.tar.xz File')
 
         swid_parser.set_defaults(matcher=all_matcher)
 

@@ -36,6 +36,11 @@ from .generators.swid_generator import create_swid_tags
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
 from .exceptions import AutodetectionError, EnvironmentNotInstalledError
+from glob import glob
+from shutil import rmtree
+
+TMP_FOLDER = '/tmp/'
+PREFIX_FOLDER = 'swid_*'
 
 
 def py26_check_output(*popenargs, **kwargs):
@@ -100,12 +105,18 @@ def main():
         }
 
         swid_tags = create_swid_tags(**swid_args)
+
         try:
             print_swid_tags(swid_tags, separator=options.document_separator, pretty=options.pretty)
 
         # if --match was used no matching packages were found
         except StopIteration:
             sys.exit(1)
+
+        # Garbage-Collection, clean tmp folder, delete swid_*-Folders
+        files_to_delete = glob(TMP_FOLDER + PREFIX_FOLDER)
+        for file_path in files_to_delete:
+            rmtree(file_path)
 
     elif options.command == 'software-id':
         software_ids = create_software_ids(env=env, regid=options.regid)

@@ -3,6 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import subprocess
 
+from swid_generator.command_manager import CommandManager
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
@@ -30,12 +31,11 @@ class RpmEnvironment(CommonEnvironment):
 
         """
 
-        command_args = [cls.executable, '-qa', '--queryformat', '\t%{name} %{version}-%{release}', '-c']
-        data = subprocess.check_output(command_args)
-        if isinstance(data, bytes):  # convert to unicode
-            data = data.decode('utf-8')
+        command_args_package_list = [cls.executable, '-qa', '--queryformat',
+                                     '\t%{name} %{version}-%{release}']
+        package_list_output = CommandManager.run_command_check_output(command_args_package_list)
 
-        line_list = data.split('\t')
+        line_list = package_list_output.split('\t')
         result = []
 
         for line in line_list:
@@ -44,60 +44,62 @@ class RpmEnvironment(CommonEnvironment):
                 package_info = PackageInfo()
                 package_info.package = split_line[0]
                 package_info.version = split_line[1]
-
-                # if Config-Files exists
-                if len(split_line) >= 3:
-                    config_files = []
-                    for file_path in split_line[2:len(split_line)]:
-                        if cls._is_file(file_path):
-                            file_info = FileInfo(file_path)
-                            file_info.mutable = True
-                            config_files.append(file_info)
-
-                    package_info.files.extend(config_files)
-
                 result.append(package_info)
-
         return result
 
     @classmethod
     def get_files_for_package(cls, package_info):
-        command_args = [cls.executable, '-ql', package_info.package]
-        data = subprocess.check_output(command_args)
-        if isinstance(data, bytes):  # convert to unicode
-            data = data.decode('utf-8')
-        lines = data.rstrip().split('\n')
-        files = filter(cls._is_file, lines)
 
-        result_list = []
+        result = []
 
-        for path in files:
-            if not any(file_info.full_pathname.strip() == path for file_info in package_info.files):
-                result_list.append(FileInfo(path))
+        command_args_file_list = [cls.executable, '-ql', package_info.package]
+        file_list_output = CommandManager.run_command_check_output(command_args_file_list)
+        lines_file_list = file_list_output.rstrip().split('\n')
+        files = filter(cls._is_file, lines_file_list)
 
-        return result_list
+        command_args_package_list = [cls.executable, '-qa', '--queryformat',
+                                     '%{name}\n', '-c', package_info.package]
+        config_file_list_output = CommandManager.run_command_check_output(command_args_package_list)
+        config_files = config_file_list_output.split('\n')
+        config_files = (filter(lambda f: len(f) > 0, config_files))
+
+        for conf_file_path in config_files:
+            if cls._is_file(conf_file_path):
+                file_info = FileInfo(conf_file_path)
+                file_info.mutable = True
+                result.append(file_info)
+
+        for file_path in files:
+            if cls._is_file(file_path) and file_path not in config_files:
+                file_info = FileInfo(file_path)
+                result.append(file_info)
+
+        return result
 
     @classmethod
     def get_files_from_packagefile(cls, file_path):
 
-        def _run_info_query_command(file_type):
-            command_args = [cls.executable, "--query", "--package", file_path, file_type]
-            output = subprocess.check_output(command_args)
-            if isinstance(output, bytes):
-                output = output.decode('utf-8')
+        command_args_file_list = [cls.executable, "--query", "--package",
+                                  file_path, '-l']
+        command_args_conffile_list = [cls.executable, "--query", "--package",
+                                      file_path, '-c']
 
-            return output
+        file_list_output = CommandManager.run_command_check_output(command_args_file_list)
+        conffile_list_output = CommandManager.run_command_check_output(command_args_conffile_list)
 
         all_file_info = []
 
-        normal_files = filter(lambda fp: len(fp) > 0, _run_info_query_command("-l").split('\n'))
-        config_files = filter(lambda fp: len(fp) > 0, _run_info_query_command("-c").split('\n'))
+        normal_files = filter(lambda fp: len(fp) > 0, file_list_output.split('\n'))
+        config_files = filter(lambda fp: len(fp) > 0, conffile_list_output.split('\n'))
 
         save_options = cls._create_temp_folder(file_path)
 
-        rpm2cpio = subprocess.Popen(["rpm2cpio", file_path], stdout=subprocess.PIPE)
-        subprocess.check_output(["cpio", "-id", "--quiet"], stdin=rpm2cpio.stdout, cwd=save_options[
-            'save_location'])
+        command_args_rpm2cpio = ["rpm2cpio", file_path]
+        command_args_cpio = ["cpio", "-id", "--quiet"]
+
+        rpm2cpio = CommandManager.run_command_popen(command_args_rpm2cpio, stdout=subprocess.PIPE)
+        CommandManager.run_command_check_output(command_args_cpio, stdin=rpm2cpio.stdout,
+                                                working_directory=save_options['save_location'])
 
         for file_path in config_files:
             temporary_path = save_options['save_location'] + file_path
@@ -119,16 +121,16 @@ class RpmEnvironment(CommonEnvironment):
     @classmethod
     def get_packageinfo_from_packagefile(cls, file_path):
 
-        def _run_info_query_command(field):
-            command_args = [cls.executable, "--query", "--package", "--queryformat", "%{" + field + "}",
-                            file_path]
-            output = subprocess.check_output(command_args)
-            if isinstance(output, bytes):
-                output = output.decode('utf-8')
-            return output
+        command_args_package_name = [cls.executable, "--query", "--package", "--queryformat", "%{name}",
+                                     file_path]
+        command_args_package_version = [cls.executable, "--query", "--package", "--queryformat",
+                                        "%{version}", file_path]
+
+        package_name_output = CommandManager.run_command_check_output(command_args_package_name)
+        package_version_output = CommandManager.run_command_check_output(command_args_package_version)
 
         package_info = PackageInfo()
-        package_info.package = _run_info_query_command("name")
-        package_info.version = _run_info_query_command("version")
+        package_info.package = package_name_output
+        package_info.version = package_version_output
 
         return package_info
