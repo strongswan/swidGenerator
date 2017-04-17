@@ -44,12 +44,7 @@ def _create_flat_payload_tag(package_info, hash_algorithms):
 
         file_tag.set('size', file_info.size)
 
-        if 'sha256' in hash_algorithms:
-            file_tag.set('SHA256:hash', create_sha256_hash(file_info.actual_full_pathname))
-        if 'sha384' in hash_algorithms:
-            file_tag.set('SHA384:hash', create_sha384_hash(file_info.actual_full_pathname))
-        if 'sha512' in hash_algorithms:
-            file_tag.set('SHA512:hash', create_sha512_hash(file_info.actual_full_pathname))
+        _add_hashes(file_info, file_tag, hash_algorithms)
 
     return payload
 
@@ -84,12 +79,7 @@ def _create_hierarchic_payload_tag(package_info, hash_algorithms):
                         file_tag.set('mutable', "True")
                     file_tag.set('size', file_info.size)
 
-                    if 'sha256' in hash_algorithms:
-                        file_tag.set('SHA256:hash', create_sha256_hash(file_info.actual_full_pathname))
-                    if 'sha384' in hash_algorithms:
-                        file_tag.set('SHA384:hash', create_sha384_hash(file_info.actual_full_pathname))
-                    if 'sha512' in hash_algorithms:
-                        file_tag.set('SHA512:hash', create_sha512_hash(file_info.actual_full_pathname))
+                    _add_hashes(file_info, file_tag, hash_algorithms)
 
                     del file_info
                 else:
@@ -99,12 +89,20 @@ def _create_hierarchic_payload_tag(package_info, hash_algorithms):
                 _file_hierarchy(sub_files, last_tag=current_tag)
 
     def _keyfunc(obj):
-
         return obj.fullpathname_splitted[0]
 
     _file_hierarchy(package_info.files, payload_tag=payload)
 
     return payload
+
+
+def _add_hashes(file_info, file_tag, hash_algorithms):
+    if 'sha256' in hash_algorithms:
+        file_tag.set('SHA256:hash', create_sha256_hash(file_info.actual_full_pathname))
+    if 'sha384' in hash_algorithms:
+        file_tag.set('SHA384:hash', create_sha384_hash(file_info.actual_full_pathname))
+    if 'sha512' in hash_algorithms:
+        file_tag.set('SHA512:hash', create_sha512_hash(file_info.actual_full_pathname))
 
 
 def all_matcher(ctx):
