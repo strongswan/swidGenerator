@@ -94,8 +94,11 @@ class RpmEnvironment(CommonEnvironment):
 
         save_options = cls._create_temp_folder(file_path)
 
-        rpm2cpio = subprocess.Popen(["rpm2cpio", file_path], stdout=subprocess.PIPE)
-        subprocess.check_output(["cpio", "-id", "--quiet"], stdin=rpm2cpio.stdout, cwd=save_options[
+        command_args_rpm2cpio = ["rpm2cpio", file_path]
+        command_args_cpio = ["cpio", "-id", "--quiet"]
+
+        rpm2cpio = CommandManager.run_command_popen(command_args_rpm2cpio, stdout=subprocess.PIPE)
+        CommandManager.run_command_check_output(command_args_cpio, stdin=rpm2cpio.stdout, cwd=save_options[
             'save_location'])
 
         for file_path in config_files:
