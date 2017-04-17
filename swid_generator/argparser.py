@@ -101,6 +101,8 @@ class MainArgumentParser(object):
                                  help='Dump the full SWID tags including file tags for each package.')
         swid_parser.add_argument('--pretty', action='store_true', default=False,
                                  help='Indent the XML output.')
+        swid_parser.add_argument('--hierarchic', action='store_true', default=False,
+                                 help='Change directory structure to hierarchic.')
         swid_parser.add_argument('--hash', dest='hash_algorithms', type=hash_string,
                             default=hash_string(settings.DEFAULT_HASH_ALGORITHM),
                             help='Define the algorithm for the file hashes ("sha256", "sha384", "sha512"). '

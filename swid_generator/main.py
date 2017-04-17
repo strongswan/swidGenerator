@@ -101,6 +101,7 @@ def main():
             'full': options.full,
             'matcher': options.matcher,
             'hash_algorithms': options.hash_algorithms,
+            'hierarchic': options.hierarchic,
             'file_path': options.file_path
         }
 
