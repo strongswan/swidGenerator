@@ -16,7 +16,7 @@ class CommandManager(object):
             subprocess.call(command_argumentlist, stderr=devnull, cwd=working_directory)
 
     @staticmethod
-    def run_command_check_output(command_argumentlist, stdin=None):
+    def run_command_check_output(command_argumentlist, stdin=None, working_directory=os.getcwd()):
         """
         Exectues a command. Output expected.
         :param command_argumentlist: Command-Arguments
@@ -24,13 +24,13 @@ class CommandManager(object):
         :return: Console-Output of the command.
         """
         if stdin is None:
-            output = subprocess.check_output(command_argumentlist)
+            output = subprocess.check_output(command_argumentlist, cwd=working_directory)
 
             if isinstance(output, bytes):
                 output = output.decode('utf-8')
             return output
         else:
-            subprocess.check_output(command_argumentlist, stdin=stdin)
+            subprocess.check_output(command_argumentlist, stdin=stdin, cwd=working_directory)
 
     @staticmethod
     def run_command_popen(command_argumentlist, stdout=None):

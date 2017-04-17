@@ -98,8 +98,8 @@ class RpmEnvironment(CommonEnvironment):
         command_args_cpio = ["cpio", "-id", "--quiet"]
 
         rpm2cpio = CommandManager.run_command_popen(command_args_rpm2cpio, stdout=subprocess.PIPE)
-        CommandManager.run_command_check_output(command_args_cpio, stdin=rpm2cpio.stdout, cwd=save_options[
-            'save_location'])
+        CommandManager.run_command_check_output(command_args_cpio, stdin=rpm2cpio.stdout,
+                                                working_directory=save_options['save_location'])
 
         for file_path in config_files:
             temporary_path = save_options['save_location'] + file_path
