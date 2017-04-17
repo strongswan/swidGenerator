@@ -15,14 +15,14 @@ class FileInfo(object):
         self.full_pathname_splitted = splitted_location[1:]
 
         if actual_path:
-            self.actual_full_pathname = self.full_pathname
-            self.size = str(os.path.getsize(self.actual_full_pathname))
+            self.actual_full_pathname = self.full_pathname.encode('utf-8')
+            self.size = str(os.path.getsize(self.full_pathname.encode('utf-8')))
         else:
             self.actual_full_pathname = ""
 
     def set_actual_path(self, file_path):
-        self.actual_full_pathname = file_path
-        self.size = str(os.path.getsize(self.actual_full_pathname))
+        self.actual_full_pathname = file_path.encode('utf-8')
+        self.size = str(os.path.getsize(file_path))
 
 
 class PackageInfo(object):
