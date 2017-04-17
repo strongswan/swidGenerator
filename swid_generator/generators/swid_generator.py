@@ -14,6 +14,9 @@ VERSION_SCHEME = 'alphanumeric'
 XMLNS = 'http://standards.iso.org/iso/19770/-2/2015/schema.xsd'
 XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 N8060 = 'http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd'
+SHA256NS = 'http://www.w3.org/2001/04/xmlenc#sha256'
+SHA384NS = 'http://www.w3.org/2001/04/xmldsig-more#sha384'
+SHA512NS = 'http://www.w3.org/2001/04/xmlenc#sha512'
 
 
 def _sort_files(files):
@@ -64,7 +67,7 @@ def _create_flat_payload_tag(package_info, hash_algorithms):
             last_directory_tag = directory_tag
 
         if file_info.mutable:
-            file_tag.set('n8060:mutable', "True")
+            file_tag.set('n8060:mutable', "true")
 
         file_tag.set('size', file_info.size)
 
@@ -100,7 +103,7 @@ def _create_hierarchic_payload_tag(package_info, hash_algorithms):
                     file_tag = ET.SubElement(current_tag, 'File')
                     file_tag.set('name', file_info.fullpathname_splitted[1])
                     if file_info.mutable:
-                        file_tag.set('mutable', "True")
+                        file_tag.set('n8060:mutable', "true")
                     file_tag.set('size', file_info.size)
 
                     _add_hashes(file_info, file_tag, hash_algorithms)
@@ -176,11 +179,11 @@ def create_software_identity_element(ctx, from_package_file=False):
     if ctx['full']:
 
         if 'sha256' in ctx['hash_algorithms']:
-            software_identity.set('xmlns:SHA256', "http://www.w3.org/2001/04/xmlenc#sha256")
+            software_identity.set('xmlns:SHA256', SHA256NS)
         if 'sha384' in ctx['hash_algorithms']:
-            software_identity.set('xmlns:SHA384', "http://www.w3.org/2001/04/xmlenc#sha384")
+            software_identity.set('xmlns:SHA384', SHA384NS)
         if 'sha512' in ctx['hash_algorithms']:
-            software_identity.set('xmlns:SHA512', "http://www.w3.org/2001/04/xmlenc#sha512")
+            software_identity.set('xmlns:SHA512', SHA512NS)
 
         if from_package_file:
             ctx['package_info'].files.extend(ctx['environment'].get_files_from_packagefile(ctx['file_path']))
