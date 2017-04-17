@@ -40,7 +40,8 @@ def _create_payload_tag(package_info, hash_algorithms):
     last_full_pathname = ""
     last_directory_tag = ""
 
-    package_info.files = _sort_files(package_info.files)
+    if len(package_info.files) > 0:
+        package_info.files = _sort_files(package_info.files)
 
     for file_info in package_info.files:
 
