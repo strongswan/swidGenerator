@@ -5,6 +5,7 @@ from swid_generator.command_manager import CommandManager
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
+
 class PacmanEnvironment(CommonEnvironment):
     """
     Environment class for distributions using pacman as package manager (used
@@ -80,9 +81,11 @@ class PacmanEnvironment(CommonEnvironment):
 
         all_files = []
 
-        command_args_extract_package = ['tar', '-xf', save_options['absolute_package_path']]
+        command_args_extract_package = ['tar', '-xf',
+                                        save_options['absolute_package_path']]
 
-        CommandManager.run_command(command_args_extract_package, working_directory=save_options['save_location'])
+        CommandManager.run_command(command_args_extract_package,
+                                   working_directory=save_options['save_location'])
 
         for line in lines:
             path = line.split(' ')[1]

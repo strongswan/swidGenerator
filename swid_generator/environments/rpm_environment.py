@@ -31,7 +31,8 @@ class RpmEnvironment(CommonEnvironment):
 
         """
 
-        command_args_package_list = [cls.executable, '-qa', '--queryformat', '\t%{name} %{version}-%{release}']
+        command_args_package_list = [cls.executable, '-qa', '--queryformat',
+                                     '\t%{name} %{version}-%{release}']
         package_list_output = CommandManager.run_command_check_output(command_args_package_list)
 
         line_list = package_list_output.split('\t')
@@ -56,7 +57,8 @@ class RpmEnvironment(CommonEnvironment):
         lines_file_list = file_list_output.rstrip().split('\n')
         files = filter(cls._is_file, lines_file_list)
 
-        command_args_package_list = [cls.executable, '-qa', '--queryformat', '%{name}\n', '-c', package_info.package]
+        command_args_package_list = [cls.executable, '-qa', '--queryformat',
+                                     '%{name}\n', '-c', package_info.package]
         config_file_list_output = CommandManager.run_command_check_output(command_args_package_list)
         config_files = config_file_list_output.split('\n')
         config_files = (filter(lambda f: len(f) > 0, config_files))
@@ -77,8 +79,10 @@ class RpmEnvironment(CommonEnvironment):
     @classmethod
     def get_files_from_packagefile(cls, file_path):
 
-        command_args_file_list = [cls.executable, "--query", "--package", file_path, '-l']
-        command_args_conffile_list = [cls.executable, "--query", "--package", file_path, '-c']
+        command_args_file_list = [cls.executable, "--query", "--package",
+                                  file_path, '-l']
+        command_args_conffile_list = [cls.executable, "--query", "--package",
+                                      file_path, '-c']
 
         file_list_output = CommandManager.run_command_check_output(command_args_file_list)
         conffile_list_output = CommandManager.run_command_check_output(command_args_conffile_list)
@@ -114,8 +118,10 @@ class RpmEnvironment(CommonEnvironment):
     @classmethod
     def get_packageinfo_from_packagefile(cls, file_path):
 
-        command_args_package_name = [cls.executable, "--query", "--package", "--queryformat", "%{name}", file_path]
-        command_args_package_version = [cls.executable, "--query", "--package", "--queryformat", "%{version}", file_path]
+        command_args_package_name = [cls.executable, "--query", "--package", "--queryformat", "%{name}",
+                                     file_path]
+        command_args_package_version = [cls.executable, "--query", "--package", "--queryformat",
+                                        "%{version}", file_path]
 
         package_name_output = CommandManager.run_command_check_output(command_args_package_name)
         package_version_output = CommandManager.run_command_check_output(command_args_package_version)
