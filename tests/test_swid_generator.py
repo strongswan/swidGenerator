@@ -89,6 +89,19 @@ def packages():
 
 
 @pytest.fixture
+def file_packages():
+    file_paths = []
+
+    docker_valid_deb = 'tests/dumps/package_files/docker.deb'
+    docker_valid_rpm = 'tests/dumps/package_files/docker.rpm'
+
+    file_paths.append(docker_valid_deb)
+    file_paths.append(docker_valid_rpm)
+
+    return file_paths
+
+
+@pytest.fixture
 def swid_tag_generator(packages):
     env = TestEnvironment(packages)
     kwargs = {
@@ -176,3 +189,13 @@ def test_targeted_package_name_test(swid_tag_generator, package_name, expected):
     matcher = partial(package_name_matcher, value=package_name)
     output = list(swid_tag_generator(full=False, matcher=matcher))
     assert len(output) == expected
+
+
+def test_get_info_from_package_file(file_packages):
+
+    expected_package_information = []
+
+    package_info_docker_deb = PackageInfo()
+    package_info_docker_deb.package = 'docker'
+    package_info_docker_deb.version = '1.5-1'
+    expected_package_information.append(package_info_docker_deb)

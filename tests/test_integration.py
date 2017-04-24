@@ -2,80 +2,59 @@ from functools import partial
 from xml.etree import cElementTree as ET
 
 import pytest
-import logging
-import subprocess
 
 from swid_generator.generators import swid_generator
 from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
+from swid_generator.environments.environment_registry import EnvironmentRegistry
 from swid_generator.environments.dpkg_environment import DpkgEnvironment
-
-
-def py26_check_output(*popenargs, **kwargs):
-    """
-    This function is an ugly hack to monkey patch the backported `check_output`
-    method into the subprocess module.
-
-    Taken from https://gist.github.com/edufelipe/1027906.
-
-    """
-    process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
-    output, unused_err = process.communicate()
-    retcode = process.poll()
-    if retcode:
-        cmd = kwargs.get('args')
-        if cmd is None:
-            cmd = popenargs[0]
-        error = subprocess.CalledProcessError(retcode, cmd)
-        error.output = output
-        raise error
-    return output
-
-
-class TestEnvironment(DpkgEnvironment):
-
-    # Python 2.6 compatibility
-    if 'check_output' not in dir(subprocess):
-        # Ugly monkey patching hack ahead
-        logging.debug('Monkey patching subprocess.check_output')
-        subprocess.check_output = py26_check_output
-
-    os_string = 'SomeTestOS'
-
-    @staticmethod
-    def get_os_string():
-        return TestEnvironment.os_string
-
-    @staticmethod
-    def get_architecture():
-        return 'i686'
-
-
-### Template fixtures ###
-@pytest.fixture
-def zsh_deb_package_template():
-    with open('tests/dumps/zsh_5.1.1-1ubuntu2_amd64-SWID-template.xml') as template_file:
-        return ET.fromstring(template_file.read())
+from swid_generator.environments.rpm_environment import RpmEnvironment
+from swid_generator.environments.pacman_environment import PacmanEnvironment
 
 
 @pytest.fixture
-def swid_tag_generator():
-    env = TestEnvironment()
+def environment():
+
+    environment_registry = EnvironmentRegistry()
+    environment_registry.register('rpm', RpmEnvironment)
+    environment_registry.register('dpkg', DpkgEnvironment)
+    environment_registry.register('pacman', PacmanEnvironment)
+
+    return environment_registry.get_environment("auto")
+
+
+@pytest.fixture
+def swid_tag_generator(environment):
     kwargs = {
-        'environment': env,
+        'environment': environment,
         'entity_name': DEFAULT_ENTITY_NAME,
         'regid': DEFAULT_REGID
     }
+
     return partial(swid_generator.create_swid_tags, **kwargs)
 
 
-def test_generate_swid_from_package(swid_tag_generator):
-    output = list(swid_tag_generator(full=True, file_path="tests/dumps/zsh_5.1.1-1ubuntu2_amd64.deb"))
+@pytest.fixture
+def docker_package_template(environment):
+    if isinstance(environment, RpmEnvironment):
+        path = "tests/dumps/docker_rpm_SWID-Template.xml"
+    if isinstance(environment, DpkgEnvironment):
+        path = "tests/dumps/docker_deb_SWID-Template.xml"
+
+    with open(path) as template_file:
+        return ET.fromstring(template_file.read())
+
+
+def test_generate_swid_from_package(swid_tag_generator, environment):
+
+    if isinstance(environment, RpmEnvironment):
+        path = "tests/dumps/package_files/docker.rpm"
+    if isinstance(environment, DpkgEnvironment):
+        path = "tests/dumps/package_files/docker.deb"
+
+    output = list(swid_tag_generator(full=True, file_path=path))
     output_root = ET.fromstring(output[0])
 
-    template_root = zsh_deb_package_template()
-
-    print(output_root)
-    print(template_root)
+    template_root = docker_package_template(environment)
 
     output_package_name = output_root.attrib['name']
     output_meta_tag = output_root[1]
