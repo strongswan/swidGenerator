@@ -178,8 +178,13 @@ class DpkgEnvironment(CommonEnvironment):
         for line in line_list:
             splitted_line_array = line.split(' ')
 
-            # Last-Entry from Array is File-Path
-            directory_or_file_path = splitted_line_array[-1]
+            if '->' in splitted_line_array:
+                # symbol-link
+                directory_or_file_path = splitted_line_array[-3]
+            else:
+                # Last-Entry from Array is File-Path
+                directory_or_file_path = splitted_line_array[-1]
+
             path_without_leading_point = directory_or_file_path[1:]
 
             temp_save_location = str("/".join((save_options['save_location'], path_without_leading_point)))
