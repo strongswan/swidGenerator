@@ -76,8 +76,10 @@ def test_generate_swid_from_package(swid_tag_generator, environment):
         output_directory_tag = output_payload[i]
         template_directory_tag = template_payload[i]
 
-        output_directory_fullpath = output_directory_tag.attrib['root'] + "/" + output_directory_tag.attrib['name']
-        template_directory_fullpath = template_directory_tag.attrib['root'] + "/" + template_directory_tag.attrib['name']
+        output_directory_fullpath = output_directory_tag.attrib['root'] \
+                                    + "/" + output_directory_tag.attrib['name']
+        template_directory_fullpath = template_directory_tag.attrib['root'] \
+                                      + "/" + template_directory_tag.attrib['name']
 
         assert output_directory_fullpath == template_directory_fullpath
         print("directory ", output_directory_fullpath, " ----- ", template_directory_fullpath)
@@ -87,6 +89,9 @@ def test_generate_swid_from_package(swid_tag_generator, environment):
         directory_tag_size = len(output_directory_tag)
 
         for j in range(0, directory_tag_size):
-            assert output_directory_tag[j].attrib['name'] == template_directory_tag[j].attrib['name']
-            print("name ", output_directory_tag[j].attrib['name'], " ----- ", template_directory_tag[j].attrib['name'])
-            assert output_directory_tag[j].attrib['size'] == template_directory_tag[j].attrib['size']
+            assert output_directory_tag[j].attrib['name'] == \
+                   template_directory_tag[j].attrib['name']
+            print("name ", output_directory_tag[j].attrib['name'], " ----- ",
+                  template_directory_tag[j].attrib['name'])
+            assert output_directory_tag[j].attrib['size'] == \
+                   template_directory_tag[j].attrib['size']

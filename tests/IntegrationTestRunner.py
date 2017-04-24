@@ -2,47 +2,66 @@ from __future__ import print_function
 import subprocess
 import sys
 
-SOURCE_CODE_FOLDER = "/Users/dada/Desktop/HSR/BA/SourceCode/swidGenerator/"
-WORKING_DIRECTORY_DOCKER = "/home/swid"
 
-FOLDER_MOUNT = ':'.join((SOURCE_CODE_FOLDER, WORKING_DIRECTORY_DOCKER))
+class IntegrationTestRunner(object):
 
-DOCKER_IMAGE_NAMES = [
-    {"environment": "dpkg", "image": "ubu"},
-    {"environment": "rpm", "image": "rdh"},
-    {"environment": "pacman", "image": "arl"},
-]
+    WORKING_DIRECTORY_DOCKER = "/home/swid"
+    DOCKER_IMAGE_NAMES = [
+        {"environment": "dpkg", "image": "ubu"},
+        {"environment": "rpm", "image": "rdh"},
+        {"environment": "pacman", "image": "arl"}
+    ]
+    TEST_FILES = ['Tests/test_integration.py']
+    CMD_TO_EXECUTE = ['tox', "-c", "tox_integration.ini"]
 
-CMD_ARGS_DOCKER = ["docker", "run", "-i", "--rm", "-v", FOLDER_MOUNT]
+    def __init__(self, arguments):
+        self.SOURCE_CODE_FOLDER_PATH = arguments[1]
+        self.FOLDER_MOUNT = ':'.join((self.SOURCE_CODE_FOLDER_PATH, self.WORKING_DIRECTORY_DOCKER))
+        self.CMD_ARGS_DOCKER = ["docker", "run", "-i", "--rm", "-v", self.FOLDER_MOUNT]
+        self.ELECTED_ENVIRONMENTS = arguments[2:]
 
+    def run_main(self):
 
-def main(arguments):
+        print("Start all Tests with own Environment")
+        print()
 
-    print("Start all Tests with own Environment")
+        for _, env_image in enumerate(self.DOCKER_IMAGE_NAMES):
 
-    for _, env_image in enumerate(DOCKER_IMAGE_NAMES):
+            if env_image['environment'] in self.ELECTED_ENVIRONMENTS:
 
-        if env_image['environment'] in arguments:
-            title = "Tests for Environment with Image: " + env_image['environment']
-            underline_title = '=' * len(title)
-            print(title)
-            print(underline_title)
-            cmd_args_specific_env = CMD_ARGS_DOCKER
-            cmd_args_specific_env.append(env_image['image'])
-            for path in execute_command(cmd_args_specific_env):
-                print(path, end="")
-            cmd_args_specific_env.pop()
+                title = "Tests for Environment with Image: " + env_image['environment']
+                underline_title = '=' * len(title)
+                print(title)
+                print(underline_title)
 
+                cmd_args_specific_env = self.CMD_ARGS_DOCKER
+                cmd_args_specific_env.append(env_image['image'])
 
-def execute_command(cmd):
-    popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
-    for stdout_line in iter(popen.stdout.readline, ""):
-        yield stdout_line
-    popen.stdout.close()
-    return_code = popen.wait()
-    if return_code:
-        raise subprocess.CalledProcessError(return_code, cmd)
+                for test_file in self.TEST_FILES:
+                    self.CMD_TO_EXECUTE.append(test_file)
+                    cmd_args_specific_env.extend(self.CMD_TO_EXECUTE)
+                    print(cmd_args_specific_env)
+
+                    for path in self._execute_command(cmd_args_specific_env):
+                        print(path, end="")
+                    cmd_args_specific_env.pop()
+
+                cmd_args_specific_env.pop()
+                cmd_args_specific_env.pop()
+                cmd_args_specific_env.pop()
+                cmd_args_specific_env.pop()
+
+    def _execute_command(self, cmd):
+        popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
+        for stdout_line in iter(popen.stdout.readline, ""):
+            yield stdout_line
+        popen.stdout.close()
+        return_code = popen.wait()
+        if return_code:
+            raise subprocess.CalledProcessError(return_code, cmd)
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    integration_test = IntegrationTestRunner(sys.argv)
+    integration_test.run_main()
+
