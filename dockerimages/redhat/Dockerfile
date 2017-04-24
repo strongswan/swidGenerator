@@ -16,6 +16,3 @@ RUN yum -y install cpio
 
 # Setting /home/swid to working direcotry, this folder is mapped with Source-Code Folder
 WORKDIR /home/swid
-
-# run tox-command on start
-CMD ["tox"]
