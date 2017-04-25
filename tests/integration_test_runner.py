@@ -10,7 +10,7 @@ def _execute_command(cmd):
     popen.stdout.close()
     return_code = popen.wait()
     if return_code:
-        raise subprocess.CalledProcessError(return_code, cmd)
+        raise sys.exit(1)
 
 
 class IntegrationTestRunner(object):
@@ -33,7 +33,6 @@ class IntegrationTestRunner(object):
     def run_main(self):
 
         print("Start all Tests with own Environment")
-        print()
 
         for _, env_image in enumerate(self.DOCKER_IMAGE_NAMES):
 
