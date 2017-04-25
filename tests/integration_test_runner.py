@@ -21,7 +21,7 @@ class IntegrationTestRunner(object):
         {"environment": "rpm", "image": "davidedegiorgio/swidgenerator-dockerimages:redhat"},
         {"environment": "pacman", "image": "davidedegiorgio/swidgenerator-dockerimages:archlinux"}
     ]
-    TEST_FILES = ['tests/IntegrationTest.py']
+    TEST_FILES = ['tests/integration_test.py']
     CMD_TO_EXECUTE = ['tox', "-r", "-c", "tox_integration.ini", "--", "-x"]
 
     def __init__(self, arguments):

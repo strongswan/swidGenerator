@@ -21,7 +21,4 @@ after_script:
     coveralls;
     fi
   - echo 'Start Integration-Tests in Docker:'
-  - ls -l
-  - ls -l tests
-  - echo ${PWD}
-  - python tests/IntegrationTestRunner.py `echo ${PWD}` dpkg
+  - python tests/integration_test_runner.py `echo ${PWD}` dpkg
