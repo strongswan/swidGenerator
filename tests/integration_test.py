@@ -39,6 +39,8 @@ def docker_package_template(environment):
         path = "tests/dumps/docker_rpm_SWID-Template.xml"
     if isinstance(environment, DpkgEnvironment):
         path = "tests/dumps/docker_deb_SWID-Template.xml"
+    if isinstance(environment, PacmanEnvironment):
+        path = "tests/dumps/docker_pacman_SWID-Template.xml"
 
     with open(path) as template_file:
         return ET.fromstring(template_file.read())
@@ -50,6 +52,8 @@ def test_generate_swid_from_package(swid_tag_generator, environment):
         path = "tests/dumps/package_files/docker.rpm"
     if isinstance(environment, DpkgEnvironment):
         path = "tests/dumps/package_files/docker.deb"
+    if isinstance(environment, PacmanEnvironment):
+        path = "tests/dumps/package_files/docker.pkg.tar.xz"
 
     output = list(swid_tag_generator(full=True, file_path=path))
     output_root = ET.fromstring(output[0])
