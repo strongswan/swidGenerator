@@ -1,4 +1,7 @@
 language:  python
+sudo: required
+services:
+  - docker
 env:
   - TOXENV=py26
   - TOXENV=py27

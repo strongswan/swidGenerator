@@ -3,6 +3,16 @@ import subprocess
 import sys, os
 
 
+def _execute_command(cmd):
+    popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
+    for stdout_line in iter(popen.stdout.readline, ""):
+        yield stdout_line
+    popen.stdout.close()
+    return_code = popen.wait()
+    if return_code:
+        raise subprocess.CalledProcessError(return_code, cmd)
+
+
 class IntegrationTestRunner(object):
 
     WORKING_DIRECTORY_DOCKER = "/home/swid"
@@ -12,7 +22,7 @@ class IntegrationTestRunner(object):
         {"environment": "pacman", "image": "arl"}
     ]
     TEST_FILES = ['tests/IntegrationTest.py']
-    CMD_TO_EXECUTE = ['tox', "-r" ,"-c", "tox_integration.ini", "--", "-x"]
+    CMD_TO_EXECUTE = ['tox', "-r", "-c", "tox_integration.ini", "--", "-x"]
 
     def __init__(self, arguments):
         self.SOURCE_CODE_FOLDER_PATH = arguments[1]
@@ -43,7 +53,7 @@ class IntegrationTestRunner(object):
                     cmd_args_specific_env.extend(self.CMD_TO_EXECUTE)
                     print(cmd_args_specific_env)
 
-                    for path in self._execute_command(cmd_args_specific_env):
+                    for path in _execute_command(cmd_args_specific_env):
                         print(path, end="")
                     cmd_args_specific_env.pop()
 
@@ -51,15 +61,6 @@ class IntegrationTestRunner(object):
                 cmd_args_specific_env.pop()
                 cmd_args_specific_env.pop()
                 cmd_args_specific_env.pop()
-
-    def _execute_command(self, cmd):
-        popen = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
-        for stdout_line in iter(popen.stdout.readline, ""):
-            yield stdout_line
-        popen.stdout.close()
-        return_code = popen.wait()
-        if return_code:
-            raise subprocess.CalledProcessError(return_code, cmd)
 
 
 if __name__ == '__main__':
