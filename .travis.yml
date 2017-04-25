@@ -20,4 +20,4 @@ after_script:
     fi
   - echo 'Start Integration-Tests in Docker:'
   - echo ${PWD}
-  - python tests/IntegrationTestRunner.py echo ${PWD} dpkg
+  - python tests/IntegrationTestRunner.py `echo ${PWD}` dpkg
