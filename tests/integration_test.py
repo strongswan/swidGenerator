@@ -46,7 +46,9 @@ def docker_package_template(environment):
         return ET.fromstring(template_file.read())
 
 
-def test_generate_swid_from_package(swid_tag_generator, environment):
+def test_generate_swid_from_package_file(swid_tag_generator, environment):
+
+    path = None
 
     if isinstance(environment, RpmEnvironment):
         path = "tests/dumps/package_files/docker.rpm"
@@ -54,6 +56,9 @@ def test_generate_swid_from_package(swid_tag_generator, environment):
         path = "tests/dumps/package_files/docker.deb"
     if isinstance(environment, PacmanEnvironment):
         path = "tests/dumps/package_files/docker.pkg.tar.xz"
+
+    if path is None:
+        raise EnvironmentError
 
     output = list(swid_tag_generator(full=True, file_path=path))
     output_root = ET.fromstring(output[0])
@@ -99,3 +104,5 @@ def test_generate_swid_from_package(swid_tag_generator, environment):
                   template_directory_tag[j].attrib['name'])
             assert output_directory_tag[j].attrib['size'] == \
                    template_directory_tag[j].attrib['size']
+
+def test_generate_swid_from_package(swid_generator, environment):
