@@ -11,7 +11,7 @@ class IntegrationTestRunner(object):
         {"environment": "rpm", "image": "rdh"},
         {"environment": "pacman", "image": "arl"}
     ]
-    TEST_FILES = ['Tests/test_integration.py']
+    TEST_FILES = ['tests/IntegrationTest.py']
     CMD_TO_EXECUTE = ['tox', "-c", "tox_integration.ini"]
 
     def __init__(self, arguments):
