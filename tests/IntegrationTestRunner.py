@@ -1,6 +1,6 @@
 from __future__ import print_function
 import subprocess
-import sys
+import sys, os
 
 
 class IntegrationTestRunner(object):
@@ -12,7 +12,7 @@ class IntegrationTestRunner(object):
         {"environment": "pacman", "image": "arl"}
     ]
     TEST_FILES = ['tests/IntegrationTest.py']
-    CMD_TO_EXECUTE = ['tox', "-c", "tox_integration.ini"]
+    CMD_TO_EXECUTE = ['tox', "-r" ,"-c", "tox_integration.ini", "--", "-x"]
 
     def __init__(self, arguments):
         self.SOURCE_CODE_FOLDER_PATH = arguments[1]
@@ -38,6 +38,7 @@ class IntegrationTestRunner(object):
                 cmd_args_specific_env.append(env_image['image'])
 
                 for test_file in self.TEST_FILES:
+
                     self.CMD_TO_EXECUTE.append(test_file)
                     cmd_args_specific_env.extend(self.CMD_TO_EXECUTE)
                     print(cmd_args_specific_env)
