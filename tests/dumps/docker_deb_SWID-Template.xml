@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SoftwareIdentity name="docker" tagId="debian_stretch~sid-x86_64-docker-1.5-1" version="1.5-1" versionScheme="alphanumeric" xmlns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" xmlns:SHA256="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:n8060="http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd">
+<SoftwareIdentity name="docker" tagId="Ubuntu_16.04_x86_64-docker-1.5-1" version="1.5-1" versionScheme="alphanumeric"
+                  xmlns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" xmlns:SHA256="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:n8060="http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd">
   <Entity name="strongSwan Project" regid="strongswan.org" role="tagCreator"/>
-  <Meta product="debian stretch/sid x86_64"/>
+  <Meta product="Ubuntu 16.04 x86_64"/>
   <Payload>
     <Directory name="etc" root="/">
       <File SHA256:hash="a291f0c9f422874c071387e3892bc78e2b7a98306caffd6d9b894cb7c31abd92" n8060:mutable="true" name="docker-network.conf" size="20"/>

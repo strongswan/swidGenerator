@@ -7,7 +7,7 @@ class IntegrationTestRunner(object):
 
     WORKING_DIRECTORY_DOCKER = "/home/swid"
     DOCKER_IMAGE_NAMES = [
-        {"environment": "dpkg", "image": "ubu"},
+        {"environment": "dpkg", "image": "davidedegiorgio/swidgenerator:latest"},
         {"environment": "rpm", "image": "rdh"},
         {"environment": "pacman", "image": "arl"}
     ]
