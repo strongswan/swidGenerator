@@ -18,3 +18,5 @@ after_script:
     pip install --quiet --use-mirrors coveralls;
     coveralls;
     fi
+  - echo 'Start Integration-Tests in Docker:'
+  - echo ${PWD}
