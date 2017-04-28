@@ -33,8 +33,6 @@ class IntegrationTestRunner(object):
 
     def run_main(self):
 
-        print("Start all Tests with own Environment")
-
         for _, env_image in enumerate(self.test_configuration.docker_image_list):
 
             if env_image['environment'] in self.selected_environments:
@@ -73,7 +71,7 @@ if __name__ == '__main__':
         {"environment": "pacman", "image": "davidedegiorgio/swidgenerator-dockerimages:archlinux"}
     ]
 
-    # Realtive names of Test-files in working_directory_docker/tests
+    # Relative names of Test-files in working_directory_docker/tests. Multiple Files can be appended.
     test_files = ['integration_test.py']
 
     integration_test_configuration = IntegrationTestRunnerConfiguration(docker_image_list=docker_image_names,
