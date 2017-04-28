@@ -1,14 +1,14 @@
-from functools import partial
-from xml.etree import cElementTree as ET
-
 import pytest
 
-from swid_generator.generators import swid_generator
-from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
+from swid_generator.command_manager import CommandManager
+from xml.etree import cElementTree as ET
 from swid_generator.environments.environment_registry import EnvironmentRegistry
 from swid_generator.environments.dpkg_environment import DpkgEnvironment
 from swid_generator.environments.rpm_environment import RpmEnvironment
 from swid_generator.environments.pacman_environment import PacmanEnvironment
+
+environment = None
+path = None
 
 
 @pytest.fixture
@@ -22,87 +22,65 @@ def environment():
     return environment_registry.get_environment("auto")
 
 
-@pytest.fixture
-def swid_tag_generator(environment):
-    kwargs = {
-        'environment': environment,
-        'entity_name': DEFAULT_ENTITY_NAME,
-        'regid': DEFAULT_REGID
+def check_equality(expected_tag, acutal_tag):
+    template_entity_tag = expected_tag[0]
+    template_meta_tag = expected_tag[1]
+    template_payload_tag = expected_tag[2]
+
+    output_entity_tag = acutal_tag[0]
+    output_meta_tag = acutal_tag[1]
+    output_payload_tag = acutal_tag[2]
+
+    assert template_entity_tag.attrib['name'] == output_entity_tag.attrib['name']
+    assert template_entity_tag.attrib['regid'] == output_entity_tag.attrib['regid']
+    assert template_meta_tag.attrib['product'] == output_meta_tag.attrib['product']
+    assert len(template_payload_tag) == len(output_payload_tag)
+
+
+def get_testcontext(environment):
+
+    template_path = None
+    package_path = None
+
+    if isinstance(environment, DpkgEnvironment):
+        template_path = "tests/dumps/docker_deb_SWID-Template.xml"
+        package_path = "/tmp/docker.deb"
+    if isinstance(environment, RpmEnvironment):
+        template_path = "tests/dumps/docker_rpm_SWID-Template.xml"
+        package_path = "/tmp/docker.rpm"
+    if isinstance(environment, PacmanEnvironment):
+        template_path = "tests/dumps/docker_pacman_SWID-Template.xml"
+        package_path = "/tmp/docker.pkg.tar.xz"
+
+    return {
+        "template": get_template_from_file(template_path),
+        "package_path": package_path
     }
 
-    return partial(swid_generator.create_swid_tags, **kwargs)
 
-
-@pytest.fixture
-def docker_package_template(environment):
-    if isinstance(environment, RpmEnvironment):
-        path = "tests/dumps/docker_rpm_SWID-Template.xml"
-    if isinstance(environment, DpkgEnvironment):
-        path = "tests/dumps/docker_deb_SWID-Template.xml"
-    if isinstance(environment, PacmanEnvironment):
-        path = "tests/dumps/docker_pacman_SWID-Template.xml"
-
-    with open(path) as template_file:
+def get_template_from_file(file_path):
+    with open(file_path) as template_file:
         return ET.fromstring(template_file.read())
 
 
-def test_generate_swid_from_package_file(swid_tag_generator, environment):
+def get_template_from_cmd_output(command):
+    print(CommandManager.run_command_check_output(command))
+    return ET.fromstring(CommandManager.run_command_check_output(command))
 
-    path = None
 
-    if isinstance(environment, RpmEnvironment):
-        path = "tests/dumps/package_files/docker.rpm"
-    if isinstance(environment, DpkgEnvironment):
-        path = "tests/dumps/package_files/docker.deb"
-    if isinstance(environment, PacmanEnvironment):
-        path = "tests/dumps/package_files/docker.pkg.tar.xz"
+def test_integration(environment):
 
-    if path is None:
-        raise EnvironmentError
+    print("Start Integration-Tests")
 
-    output = list(swid_tag_generator(full=True, file_path=path))
-    output_root = ET.fromstring(output[0])
+    test_context = get_testcontext(environment)
 
-    template_root = docker_package_template(environment)
+    command_package = ["swid_generator", "swid", "--full", "--pretty", "--package", "docker"]
+    output_swid_tag = get_template_from_cmd_output(command_package)
+    expected_swid_tag = test_context['template']
+    check_equality(expected_swid_tag, output_swid_tag)
 
-    output_package_name = output_root.attrib['name']
-    output_meta_tag = output_root[1]
-    output_payload = output_root[2]
-
-    template_package_name = template_root.attrib['name']
-    template_meta_tag = template_root[1]
-    template_payload = template_root[2]
-
-    assert output_package_name == template_package_name
-
-    assert output_meta_tag.attrib['product'] == template_meta_tag.attrib['product']
-
-    assert len(output_payload) == len(template_payload)
-
-    payload_size = len(output_payload)
-    for i in range(0, payload_size):
-
-        output_directory_tag = output_payload[i]
-        template_directory_tag = template_payload[i]
-
-        output_directory_fullpath = output_directory_tag.attrib['root'] \
-                                    + "/" + output_directory_tag.attrib['name']
-        template_directory_fullpath = template_directory_tag.attrib['root'] \
-                                      + "/" + template_directory_tag.attrib['name']
-
-        assert output_directory_fullpath == template_directory_fullpath
-        print("directory ", output_directory_fullpath, " ----- ", template_directory_fullpath)
-
-        assert len(output_directory_tag) == len(template_directory_tag)
-
-        directory_tag_size = len(output_directory_tag)
-
-        for j in range(0, directory_tag_size):
-            assert output_directory_tag[j].attrib['name'] == \
-                   template_directory_tag[j].attrib['name']
-            print("name ", output_directory_tag[j].attrib['name'], " ----- ",
-                  template_directory_tag[j].attrib['name'])
-            assert output_directory_tag[j].attrib['size'] == \
-                   template_directory_tag[j].attrib['size']
-
-def test_generate_swid_from_package(swid_generator, environment):
+    command_package_file = "swid_generator swid --full --pretty --package-file {PACKAGE_FILE}"
+    command_package_file = command_package_file.format(PACKAGE_FILE=test_context['package_path'])
+    output_swid_tag = get_template_from_cmd_output(command_package_file.split(' '))
+    expected_swid_tag = test_context['template']
+    check_equality(expected_swid_tag, output_swid_tag)
