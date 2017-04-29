@@ -21,6 +21,6 @@ after_script:
       pip install coveralls;
       coveralls;
     else
-      echo 'Start Integration-Tests in Docker:'
-      python tests/integration_test_runner.py `echo ${PWD}` $TOXENV dpkg pacman rpm
+      echo 'Start Integration-Tests in Docker:';
+      python tests/integration_test_runner.py `echo ${PWD}` $TOXENV dpkg pacman rpm;
     fi
