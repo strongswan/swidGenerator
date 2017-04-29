@@ -71,6 +71,7 @@ if __name__ == '__main__':
         {"environment": "pacman", "image": "davidedegiorgio/swidgenerator-dockerimages:archlinux"}
     ]
 
+
     # Relative names of Test-files in working_directory_docker/tests. Multiple Files can be appended.
     test_files = ['integration_test.py']
 
