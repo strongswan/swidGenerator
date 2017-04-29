@@ -16,9 +16,11 @@ install:
 script:
    - tox
 after_script:
-  - if [ $TOXENV == "cov" ]; then
-    pip install coveralls;
-    coveralls;
+  - if [ $TOXENV == "cov" ];
+    then
+      pip install coveralls;
+      coveralls;
+    else
+      echo 'Start Integration-Tests in Docker:'
+      python tests/integration_test_runner.py `echo ${PWD}` $TOXENV dpkg pacman rpm
     fi
-  - echo 'Start Integration-Tests in Docker:'
-  - python tests/integration_test_runner.py `echo ${PWD}` $TOXENV dpkg pacman rpm
