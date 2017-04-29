@@ -24,12 +24,13 @@ def _compose_test_files(test_files):
 class IntegrationTestRunner(object):
 
     # Command separated with commas because of split in docker_command_args variable and ENV variable composition
-    docker_command = "docker,run,-i,--rm,-e,TOX_TEST_FILES={TOX_FILES},-v,{FOLDER_MOUNT},{DOCKER_IMAGE_NAME}"
+    docker_command = "docker,run,-i,--rm,-e,TOX_TEST_FILES={TOX_FILES},-e,TOXENV={TOXENV},-v,{FOLDER_MOUNT},{DOCKER_IMAGE_NAME}"
 
     def __init__(self, arguments, test_configuration):
         self.test_configuration = test_configuration
         self.source_code_folder_path = arguments[1]
-        self.selected_environments = arguments[2:]
+        self.python_version = arguments[2]
+        self.selected_environments = arguments[3:]
 
     def run_main(self):
 
@@ -38,13 +39,14 @@ class IntegrationTestRunner(object):
             if env_image['environment'] in self.selected_environments:
 
                 args = {
+                    "TOXENV": self.python_version,
                     "TOX_FILES": _compose_test_files(self.test_configuration.test_files),
                     "FOLDER_MOUNT": ':'.join((self.source_code_folder_path, self.test_configuration.working_directory_docker)),
                     "DOCKER_IMAGE_NAME": env_image['image']
                 }
 
                 docker_command_args = self.docker_command.format(**args).split(',')
-
+                print(docker_command_args)
                 title = "Tests for Environment with Image: " + env_image['environment']
                 underline_title = '=' * len(title)
                 print(title)
@@ -65,12 +67,19 @@ if __name__ == '__main__':
 
     working_directory_docker = "/home/swid"
 
+    """
     docker_image_names = [
         {"environment": "dpkg", "image": "davidedegiorgio/swidgenerator-dockerimages:debian"},
         {"environment": "rpm", "image": "davidedegiorgio/swidgenerator-dockerimages:redhat"},
         {"environment": "pacman", "image": "davidedegiorgio/swidgenerator-dockerimages:archlinux"}
     ]
+    """
 
+    docker_image_names = [
+        {"environment": "dpkg", "image": "deb"},
+        # {"environment": "rpm", "image": "rdh"},
+        # {"environment": "pacman", "image": "arch"}
+    ]
 
     # Relative names of Test-files in working_directory_docker/tests. Multiple Files can be appended.
     test_files = ['integration_test.py']

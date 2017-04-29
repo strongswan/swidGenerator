@@ -21,4 +21,4 @@ after_script:
     coveralls;
     fi
   - echo 'Start Integration-Tests in Docker:'
-  - python tests/integration_test_runner.py `echo ${PWD}` dpkg pacman rpm
+  - python tests/integration_test_runner.py `echo ${PWD}` $TOXENV dpkg pacman rpm
