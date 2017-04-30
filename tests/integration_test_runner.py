@@ -67,7 +67,6 @@ if __name__ == '__main__':
 
     working_directory_docker = "/home/swid"
 
-
     docker_image_names = [
         {"environment": "dpkg", "image": "davidedegiorgio/swidgenerator-dockerimages:debian"},
         {"environment": "rpm", "image": "davidedegiorgio/swidgenerator-dockerimages:redhat"},
