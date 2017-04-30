@@ -179,7 +179,7 @@ class DpkgEnvironment(CommonEnvironment):
 
         for line in line_list:
             splitted_line_array = line.split(' ')
-            print(splitted_line_array)
+
             if '->' in splitted_line_array:
                 # symbol-link
                 directory_or_file_path = splitted_line_array[-1]
