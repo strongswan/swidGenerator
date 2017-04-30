@@ -3,9 +3,13 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import sys
 import platform
+import os
+from glob import glob
+from shutil import rmtree
 
 import pytest
 from minimock import Mock
+
 
 from swid_generator.environments.common import CommonEnvironment
 
@@ -49,3 +53,46 @@ def test_is_file(tmpdir):
     symlink = tmpdir.join('mysymlink')
     symlink.mksymlinkto(real_file)
     assert isfile(symlink.strpath) is True, 'A symlink is a file like object.'
+
+
+def test_create_temp_folder():
+
+    no_absolute_package_path = "package/test.deb"
+    absolute_package_path = "/tmp/test.deb"
+    save_location = "/tmp/swid_33333"
+
+    current_directory = os.getcwd()
+
+    common_env = CommonEnvironment()
+    save_options_absolute_path = common_env._create_temp_folder(absolute_package_path)  # Absolute Path
+    save_options_relative_path = common_env._create_temp_folder(no_absolute_package_path)  # Relative Path
+
+    print(save_options_absolute_path)
+
+    expected_save_options_absolute_path = {
+        'absolute_package_path': absolute_package_path,
+        'save_location': save_location
+    }
+
+    expected_save_options_relative_path = {
+        'absolute_package_path': '/'.join((current_directory, no_absolute_package_path)),
+        'save_location': save_location
+    }
+
+    assert expected_save_options_absolute_path['absolute_package_path'] == save_options_absolute_path['absolute_package_path']
+    assert expected_save_options_absolute_path['save_location'][:9] == save_options_absolute_path['save_location'][:9]
+
+    assert os.path.exists(save_options_absolute_path['save_location'])
+
+    assert expected_save_options_relative_path['absolute_package_path'] == save_options_relative_path['absolute_package_path']
+    assert expected_save_options_relative_path['save_location'][:9] == save_options_relative_path['save_location'][:9]
+
+    assert os.path.exists(save_options_absolute_path['save_location'])
+
+    tmp_folder = '/tmp/'
+    prefix_folder = 'swid_*'
+
+    # garbage collection
+    files_to_delete = glob(tmp_folder + prefix_folder)
+    for file_path in files_to_delete:
+        rmtree(file_path)
