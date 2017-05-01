@@ -1,0 +1,1 @@
+	perl-Git 2.9.3-3.fc25	fedora-repos 25-3	perl-IO-Socket-SSL 2.038-1.fc25	setup 2.10.4-1.fc25
