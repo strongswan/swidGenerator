@@ -79,10 +79,10 @@ class CommonEnvironment(object):
 
         random_string = ''.join(random.choice(string.ascii_letters) for _ in range(5))
 
-        if package_path[0] is not '/':
-            absolute_package_path = '/'.join((os.getcwd(), package_path))
-        else:
+        if package_path[0] == "/":
             absolute_package_path = package_path
+        else:
+            absolute_package_path = '/'.join((os.getcwd(), package_path))
 
         save_location_pathname = '/'.join((cls.TEMP_FOLDER_NAME, cls.FOLDER_PREFIX + random_string))
 

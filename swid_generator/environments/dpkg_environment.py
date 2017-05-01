@@ -2,6 +2,7 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import subprocess
+import ntpath
 
 from swid_generator.command_manager import CommandManager
 from .common import CommonEnvironment
@@ -136,6 +137,7 @@ class DpkgEnvironment(CommonEnvironment):
         """
         save_options = cls._create_temp_folder(file_pathname)
         result = []
+        result_help_list = []  # needed to check duplications
 
         command_args_unpack_package = [cls.executable, '-x', save_options['absolute_package_path'],
                                        save_options['save_location']]
@@ -178,14 +180,28 @@ class DpkgEnvironment(CommonEnvironment):
         for line in line_list:
             splitted_line_array = line.split(' ')
 
-            # Last-Entry from Array is File-Path
-            directory_or_file_path = splitted_line_array[-1]
+            if '->' in splitted_line_array:
+                # symbol-link
+                directory_or_file_path = splitted_line_array[-1]
+                symbol_link = splitted_line_array[-3]
+                head, file_name = ntpath.split(symbol_link)
+
+                if "../" in directory_or_file_path:
+                    root, folder_name = ntpath.split(head)
+                    directory_or_file_path = root + directory_or_file_path[2:]
+                else:
+                    directory_or_file_path = "/".join((head, directory_or_file_path))
+
+            else:
+                # Last-Entry from Array is File-Path
+                directory_or_file_path = splitted_line_array[-1]
+
             path_without_leading_point = directory_or_file_path[1:]
 
             temp_save_location = str("/".join((save_options['save_location'], path_without_leading_point)))
-
             if cls._is_file(temp_save_location):
-                if path_without_leading_point not in config_file_paths:
+                if path_without_leading_point not in config_file_paths and path_without_leading_point not in result_help_list:
+                    result_help_list.append(path_without_leading_point)
                     file_info = FileInfo(path_without_leading_point, actual_path=False)
                     file_info.set_actual_path(temp_save_location)
                     result.append(file_info)

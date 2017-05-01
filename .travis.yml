@@ -1,4 +1,6 @@
 language:  python
+services:
+  - docker
 env:
   - TOXENV=py26
   - TOXENV=py27
@@ -10,11 +12,15 @@ matrix:
   allow_failures:
     - env: TOXENV=cov
 install: 
-   - pip install --quiet --use-mirrors tox
+   - pip install tox
 script:
    - tox
 after_script:
-  - if [ $TOXENV == "cov" ]; then
-    pip install --quiet --use-mirrors coveralls;
-    coveralls;
+  - if [ $TOXENV == "cov" ];
+    then
+      pip install coveralls;
+      coveralls;
+    else
+      echo 'Start Integration-Tests in Docker:';
+      python tests/integration_test_runner.py `echo ${PWD}` $TOXENV dpkg pacman rpm;
     fi
