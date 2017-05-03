@@ -4,6 +4,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import subprocess
 import ntpath
 
+from swid_generator.generators.utils import create_temp_folder
 from swid_generator.command_manager import CommandManager
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
@@ -135,7 +136,7 @@ class DpkgEnvironment(CommonEnvironment):
         :param file_pathname: Path to the .deb package
         :return: Lexicographical sorted List of FileInfo()-Objects (Conffiles and normal Files)
         """
-        save_options = cls._create_temp_folder(file_pathname)
+        save_options = create_temp_folder(file_pathname)
         result = []
         result_help_list = []  # needed to check duplications
 
