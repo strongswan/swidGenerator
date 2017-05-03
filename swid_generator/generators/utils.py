@@ -2,7 +2,10 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import hashlib
+import os
 import re
+import random
+import string
 
 
 uri_reserved_chars_re = re.compile(r'[:\/?#\[\]@!$&\'()*+,;=]')
@@ -89,3 +92,35 @@ def _create_hash(file_path, hash_algorithm):
             buf = afile.read(blocksize)
 
     return hash_algorithm.hexdigest()
+
+
+def create_temp_folder(package_path):
+    """
+    It creates a folder in the directory /tmp of the client/server.
+    This folder has the prefix "swid_". To this prefix a random generated String is appended to
+    prevent collisions of foldernames.
+
+    :param package_path: Path to the package
+    :return: A dictionary with the save options of the temporary folder.
+    """
+    TEMP_FOLDER_NAME = '/tmp'
+    FOLDER_PREFIX = 'swid_'
+
+    random_string = ''.join(random.choice(string.ascii_letters) for _ in range(5))
+
+    if package_path[0] == "/":
+        absolute_package_path = package_path
+    else:
+        absolute_package_path = '/'.join((os.getcwd(), package_path))
+
+    save_location_pathname = '/'.join((TEMP_FOLDER_NAME, FOLDER_PREFIX + random_string))
+
+    if not os.path.exists(save_location_pathname):
+        os.makedirs(save_location_pathname)
+
+    folder_information = {
+        'absolute_package_path': absolute_package_path,
+        'save_location': save_location_pathname
+    }
+
+    return folder_information

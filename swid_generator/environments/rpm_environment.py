@@ -3,6 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import subprocess
 
+from swid_generator.generators.utils import create_temp_folder
 from swid_generator.command_manager import CommandManager
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
@@ -92,7 +93,7 @@ class RpmEnvironment(CommonEnvironment):
         normal_files = filter(lambda fp: len(fp) > 0, file_list_output.split('\n'))
         config_files = filter(lambda fp: len(fp) > 0, conffile_list_output.split('\n'))
 
-        save_options = cls._create_temp_folder(file_path)
+        save_options = create_temp_folder(file_path)
 
         command_args_rpm2cpio = ["rpm2cpio", file_path]
         command_args_cpio = ["cpio", "-id", "--quiet"]

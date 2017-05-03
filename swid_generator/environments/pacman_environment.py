@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
+from swid_generator.generators.utils import create_temp_folder
 from swid_generator.command_manager import CommandManager
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
@@ -77,7 +78,7 @@ class PacmanEnvironment(CommonEnvironment):
         lines = files_output.split('\n')
         lines = filter(lambda l: len(l) > 0, lines)
 
-        save_options = cls._create_temp_folder(file_fullpathname)
+        save_options = create_temp_folder(file_fullpathname)
 
         all_files = []
 
