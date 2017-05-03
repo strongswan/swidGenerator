@@ -141,19 +141,15 @@ class DpkgEnvironment(CommonEnvironment):
 
         command_args_unpack_package = [cls.executable, '-x', save_options['absolute_package_path'], save_options['save_location']]
 
-        command_args_extract_controlpackage = ["ar", "x", save_options['absolute_package_path'],
-                                               cls.CONTROL_ARCHIVE]
+        command_args_extract_controlpackage = ["ar", "x", save_options['absolute_package_path'], cls.CONTROL_ARCHIVE]
 
-        command_args_extract_conffile = ["tar", "-zxf", "/".join((save_options['save_location'],
-                                                                  cls.CONTROL_ARCHIVE)), "./conffiles"]
+        command_args_extract_conffile = ["tar", "-zxf", "/".join((save_options['save_location'], cls.CONTROL_ARCHIVE)), "./conffiles"]
 
         CommandManager.run_command(command_args_unpack_package)
 
         try:
-            CommandManager.run_command(command_args_extract_controlpackage,
-                                       working_directory=save_options['save_location'])
-            CommandManager.run_command(command_args_extract_conffile,
-                                       working_directory=save_options['save_location'])
+            CommandManager.run_command(command_args_extract_controlpackage, working_directory=save_options['save_location'])
+            CommandManager.run_command(command_args_extract_conffile, working_directory=save_options['save_location'])
 
             conffile_save_location = "/".join((save_options['save_location'], cls.CONFFILE_FILE_NAME))
 
@@ -221,10 +217,6 @@ class DpkgEnvironment(CommonEnvironment):
                     file_info.set_actual_path(temp_save_location_symbol_link)
                     result.append(file_info)
                 symbol_link = None
-
-            if symbol_link is not None and cls._is_file(temp_save_location_symbol_link) is False:
-                print(symbol_link)
-
         return sorted(result, key=lambda f: f.full_pathname)
 
     @classmethod
