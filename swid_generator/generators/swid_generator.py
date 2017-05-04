@@ -8,6 +8,7 @@ from .utils import create_sha256_hash, create_sha384_hash, create_sha512_hash
 from itertools import groupby
 
 import ntpath
+from swid_generator.signature_template import SIGNATURE
 
 ROLE = 'tagCreator'
 VERSION_SCHEME = 'alphanumeric'
@@ -244,6 +245,10 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
 
         software_identity = create_software_identity_element(ctx, from_package_file=True)
 
+        if pkcs12_file is not None:
+            signature_template_tree = ET.fromstring(SIGNATURE)
+            software_identity.append(signature_template_tree)
+
         swidtag_flat = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')
         yield XML_DECLARATION.encode('utf-8') + swidtag_flat
 
@@ -261,8 +266,7 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
             software_identity = create_software_identity_element(ctx)
 
             if pkcs12_file is not None:
-                signature_template = open("/home/seperox/Documents/Studium/BA-SWID-Generator/swidGenerator/signature_template.xml").read()
-                signature_template_tree = ET.fromstring(signature_template)
+                signature_template_tree = ET.fromstring(SIGNATURE)
                 software_identity.append(signature_template_tree)
 
             swidtag_flat = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')

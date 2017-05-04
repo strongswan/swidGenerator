@@ -94,13 +94,13 @@ def _create_hash(file_path, hash_algorithm):
     return hash_algorithm.hexdigest()
 
 
-def create_temp_folder(package_path):
+def create_temp_folder(file_path):
     """
     It creates a folder in the directory /tmp of the client/server.
     This folder has the prefix "swid_". To this prefix a random generated String is appended to
     prevent collisions of foldernames.
 
-    :param package_path: Path to the package
+    :param file_path: Path to the file (package or certificate)
     :return: A dictionary with the save options of the temporary folder.
     """
     TEMP_FOLDER_NAME = '/tmp'
@@ -108,10 +108,10 @@ def create_temp_folder(package_path):
 
     random_string = ''.join(random.choice(string.ascii_letters) for _ in range(5))
 
-    if package_path[0] == "/":
-        absolute_package_path = package_path
+    if file_path[0] == "/":
+        absolute_package_path = file_path
     else:
-        absolute_package_path = '/'.join((os.getcwd(), package_path))
+        absolute_package_path = '/'.join((os.getcwd(), file_path))
 
     save_location_pathname = '/'.join((TEMP_FOLDER_NAME, FOLDER_PREFIX + random_string))
 
