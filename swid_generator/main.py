@@ -102,13 +102,19 @@ def main():
             'matcher': options.matcher,
             'hash_algorithms': options.hash_algorithms,
             'hierarchic': options.hierarchic,
-            'file_path': options.file_path
+            'file_path': options.file_path,
+            'pkcs12_file': options.pkcs12
+        }
+        signatur_args = {
+            'pkcs12_file': options.pkcs12,
+            'pkcs12_password': options.pkcs12_pwd
         }
 
         swid_tags = create_swid_tags(**swid_args)
 
         try:
-            print_swid_tags(swid_tags, separator=options.document_separator, pretty=options.pretty)
+            print_swid_tags(swid_tags, signatur_args, separator=options.document_separator,
+                            pretty=options.pretty)
 
         # if --match was used no matching packages were found
         except StopIteration:

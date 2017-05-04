@@ -51,13 +51,19 @@ def entity_name_string(string):
         raise ArgumentTypeError("String '{0}' does not match required format".format(string))
 
 
-def file_path(string=None):
+def package_path(string=None):
     if not os.path.exists(string):
         raise ArgumentTypeError("The file '{0}' does not exist".format(string))
     elif string.endswith('.deb') or string.endswith('.rpm') or string.endswith('.pkg.tar.xz'):
         return string
     else:
         raise ArgumentTypeError("File '{0}' is not a valid Package.".format(string))
+
+
+def certificate_path(string=None):
+    if not os.path.exists(string):
+        raise ArgumentTypeError("The file '{0}' does not exist".format(string))
+    return string
 
 
 class MainArgumentParser(object):
@@ -108,10 +114,15 @@ class MainArgumentParser(object):
                             help='Define the algorithm for the file hashes ("sha256", "sha384", "sha512"). '
                                  'Multiple hashes can be added with comma separated. ("sha256,sha384") '
                                  'Default is "%s"' % settings.DEFAULT_HASH_ALGORITHM)
-        swid_parser.add_argument('--package-file', dest='file_path', type=file_path,
+        swid_parser.add_argument('--package-file', dest='file_path', type=package_path,
                                  help='Create SWID-Tag based on information of a Package-File.'
                                  ' Rpm-Environment: *.rpm File, Dpkg-Environment: *.deb File, '
                                  'Pacman-Environment: *.pgk.tar.xz File')
+        swid_parser.add_argument('--pkcs12', dest='pkcs12', type=certificate_path,
+                                   help='The pkcs12 file with key and certificate to sign the xml output.')
+        swid_parser.add_argument('--pkcs12-pwd', dest='pkcs12_pwd',
+                                   help='If the pkcs12 file is password protected, '
+                                        'the password needs to be provided.')
 
         swid_parser.set_defaults(matcher=all_matcher)
 
