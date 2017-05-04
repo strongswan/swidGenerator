@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
-from xml.etree import cElementTree as ET
+from xml.etree import ElementTree as ET
 
 from .utils import create_unique_id, create_software_id, create_system_id
 from .utils import create_sha256_hash, create_sha384_hash, create_sha512_hash
 from itertools import groupby
 
 import ntpath
+from swid_generator.signature_template import SIGNATURE
 
 ROLE = 'tagCreator'
 VERSION_SCHEME = 'alphanumeric'
@@ -201,7 +202,7 @@ def create_software_identity_element(ctx, from_package_file=False):
 
 
 def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
-                     full=False, matcher=all_matcher, hierarchic=False, file_path=None):
+                     full=False, matcher=all_matcher, hierarchic=False, file_path=None, pkcs12_file=None):
     """
     Return SWID tags as utf8-encoded xml bytestrings for all available
     packages.
@@ -244,6 +245,10 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
 
         software_identity = create_software_identity_element(ctx, from_package_file=True)
 
+        if pkcs12_file is not None:
+            signature_template_tree = ET.fromstring(SIGNATURE)
+            software_identity.append(signature_template_tree)
+
         swidtag_flat = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')
         yield XML_DECLARATION.encode('utf-8') + swidtag_flat
 
@@ -258,8 +263,11 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
             # Check if the software-id of the current package matches the targeted request
             if not matcher(ctx):
                 continue
-
             software_identity = create_software_identity_element(ctx)
+
+            if pkcs12_file is not None:
+                signature_template_tree = ET.fromstring(SIGNATURE)
+                software_identity.append(signature_template_tree)
 
             swidtag_flat = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')
             yield XML_DECLARATION.encode('utf-8') + swidtag_flat

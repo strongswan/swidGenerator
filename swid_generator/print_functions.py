@@ -3,9 +3,21 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import sys
 from xml.dom import minidom
+from swid_generator.command_manager import CommandManager
+from swid_generator.generators.utils import create_temp_folder
 
 
-def safe_print(data, end='\n'):
+def sign_xml(data, signature_args):
+    folder_info = create_temp_folder(signature_args['pkcs12_file'])
+    file_path = folder_info['save_location'] + '/swid_tag.xml'
+    with open(file_path, 'wb') as file:
+        file.write(data)
+    sign_command = ["xmlsec1", "--sign", "--pkcs12", signature_args['pkcs12_file'],
+                    "--pwd", signature_args['pkcs12_password'], file_path]
+    return CommandManager.run_command_check_output(sign_command)
+
+
+def safe_print(data, signature_args=None, end='\n'):
     """
     Safely print a binary or unicode string to stdout.
 
@@ -21,8 +33,12 @@ def safe_print(data, end='\n'):
             The bytestring with which to end the output (default newline).
 
     """
+
     # Python 3
     if hasattr(sys.stdout, 'buffer'):
+        if signature_args is not None:
+            if signature_args['pkcs12_file'] is not None:
+                data = bytes(sign_xml(data, signature_args), encoding='utf-8')
         if isinstance(data, bytes):
             sys.stdout.buffer.write(data)
         else:
@@ -35,6 +51,9 @@ def safe_print(data, end='\n'):
 
     # Python 2
     else:
+        if signature_args is not None:
+            if signature_args['pkcs12_file'] is not None:
+                data = bytes(sign_xml(data, signature_args))
         print(data, end=end)
 
 
@@ -68,7 +87,7 @@ def iterate(generator, action_func, separator, end):
             break
 
 
-def print_swid_tags(swid_tags, separator, pretty):
+def print_swid_tags(swid_tags, signature_args, separator, pretty):
     """
     Print the specified SWID Tags using the specified separator.
 
@@ -85,9 +104,10 @@ def print_swid_tags(swid_tags, separator, pretty):
         if pretty:
             swidtag_reparsed = minidom.parseString(tag)
             # [:-1] strips away the last newline, automatically inserted by minidoms toprettyxml
-            safe_print(swidtag_reparsed.toprettyxml(indent='  ', encoding='utf-8')[:-1], end='')
+            safe_print(swidtag_reparsed.toprettyxml(indent='  ', encoding='utf-8')[:-1],
+                       signature_args, end='')
         else:
-            safe_print(tag, end='')
+            safe_print(tag, signature_args, end='')
 
     iterate(swid_tags, action, separator, end='\n')
 
