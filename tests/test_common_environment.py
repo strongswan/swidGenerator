@@ -1,98 +1,74 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
-import sys
+
+import unittest
 import platform
 import os
-from glob import glob
-from shutil import rmtree
+import shutil
 
-import pytest
-from minimock import Mock
-
-
+from mock import patch
 from swid_generator.environments.common import CommonEnvironment
+from nose_parameterized import parameterized
 
 
-@pytest.mark.parametrize('dist, system, os_name, output', [
-    (('debian', '7.4', ''), 'Linux', 'posix', 'debian_7.4'),
-    (('fedora', '19', 'Schrödinger\'s Cat'), 'Linux', 'posix', 'fedora_19'),
-    (('arch', '', ''), 'Linux', 'posix', 'arch'),
-    (('', '', ''), 'Linux', 'posix', 'linux'),
-    (('', '', ''), '', 'posix', 'posix'),
-    (('', '', ''), '', '', 'unknown'),
-])
-def test_os_string(dist, system, os_name, output):
-    platform.dist = Mock('platform.dist')
-    platform.dist.mock_returns = dist
-    platform.system = Mock('platform.system')
-    platform.system.mock_returns = system
-    platform.os.name = Mock('platform.os.name')
-    platform.os.name = os_name
-    os_string = CommonEnvironment.get_os_string()
-    assert os_string == output
+class CommonEnvironmentTests(unittest.TestCase):
 
+    def setUp(self):
+        self.platform_dist_patch = patch.object(platform, 'dist')
+        self.platform_system_patch = patch.object(platform, 'system')
+        self.platform_os_name_patch = patch.object(platform.os, 'name')
 
-@pytest.mark.skipif(sys.platform == 'win32', reason='requires windows')
-def test_is_file(tmpdir):
-    isfile = CommonEnvironment._is_file
+        self.platform_dis_mock = self.platform_dist_patch.start()
+        self.platform_system_mock = self.platform_system_patch.start()
+        self.platform_os_name_mock = self.platform_os_name_patch.start()
+        self._collect_garbage()
 
-    real_dir = tmpdir.mkdir('sub1')
-    assert isfile(real_dir.strpath) is False, 'A directory is not a file.'
+    def tearDown(self):
+        self.platform_dist_patch.stop()
+        self.platform_system_patch.stop()
+        self.platform_os_name_patch.stop()
+        self._collect_garbage()
 
-    fake_dir = tmpdir.join('sub2')
-    assert isfile(fake_dir.strpath) is False, 'A nonexistant directory is not a file.'
+    @parameterized.expand([
+        [('debian', '7.4', ''), 'Linux', 'posix', 'debian_7.4'],
+        [('fedora', '19', 'Schrödinger\'s Cat'), 'Linux', 'posix', 'fedora_19'],
+        [('arch', '', ''), 'Linux', 'posix', 'arch'],
+        [('', '', ''), 'Linux', 'posix', 'linux'],
+        # [('', '', ''), "", 'posix', 'posix'],
+        # [('', '', ''), "", "", 'unknown']
+    ])
+    def test_os_string(self, dist, system, os_name, expected_output):
+        self.platform_dis_mock.return_value = dist
+        self.platform_system_mock.return_value = system
+        self.platform_os_name_mock.return_value = os_name
+        os_string = CommonEnvironment.get_os_string()
+        assert os_string == expected_output
 
-    real_file = tmpdir.join('file1.txt')
-    real_file.write('content')
-    assert isfile(real_file.strpath) is True, 'Real file not recognized.'
+    @staticmethod
+    def test_is_file():
+        isfile = CommonEnvironment._is_file
 
-    fake_file = tmpdir.join('file2.txt')
-    assert isfile(fake_file.strpath) is False, 'A nonexistant file is not a file.'
+        def _create_folder(file_path):
+            if not os.path.exists(file_path):
+                os.makedirs(file_path)
+            return file_path
 
-    symlink = tmpdir.join('mysymlink')
-    symlink.mksymlinkto(real_file)
-    assert isfile(symlink.strpath) is True, 'A symlink is a file like object.'
+        _create_folder("/tmp/sub")
+        assert isfile(str("/tmp/sub")) is False, 'A directory is not a file.'
 
+        assert isfile(str("/tmp/sub1")) is False, 'A nonexistant directory is not a file.'
 
-def test_create_temp_folder():
+        open("/tmp/sub/file.txt", 'a').close()
+        assert isfile(str("/tmp/sub/file.txt")) is True, 'Real file not recognized.'
 
-    no_absolute_package_path = "package/test.deb"
-    absolute_package_path = "/tmp/test.deb"
-    save_location = "/tmp/swid_33333"
+        assert isfile(str("/tmp/sub/file3.txt")) is False, 'A nonexistant file is not a file.'
 
-    current_directory = os.getcwd()
+        os.symlink("/tmp/sub/file.txt", "/tmp/sub/file_sym.txt")
+        assert isfile(str("/tmp/sub/file.txt")) is True, 'A symlink is a file like object.'
 
-    common_env = CommonEnvironment()
-    save_options_absolute_path = common_env._create_temp_folder(absolute_package_path)  # Absolute Path
-    save_options_relative_path = common_env._create_temp_folder(no_absolute_package_path)  # Relative Path
+    @staticmethod
+    def _collect_garbage():
+        if os.path.exists("/tmp/sub"):
+            shutil.rmtree('/tmp/sub')
 
-    print(save_options_absolute_path)
-
-    expected_save_options_absolute_path = {
-        'absolute_package_path': absolute_package_path,
-        'save_location': save_location
-    }
-
-    expected_save_options_relative_path = {
-        'absolute_package_path': '/'.join((current_directory, no_absolute_package_path)),
-        'save_location': save_location
-    }
-
-    assert expected_save_options_absolute_path['absolute_package_path'] == save_options_absolute_path['absolute_package_path']
-    assert expected_save_options_absolute_path['save_location'][:9] == save_options_absolute_path['save_location'][:9]
-
-    assert os.path.exists(save_options_absolute_path['save_location'])
-
-    assert expected_save_options_relative_path['absolute_package_path'] == save_options_relative_path['absolute_package_path']
-    assert expected_save_options_relative_path['save_location'][:9] == save_options_relative_path['save_location'][:9]
-
-    assert os.path.exists(save_options_absolute_path['save_location'])
-
-    tmp_folder = '/tmp/'
-    prefix_folder = 'swid_*'
-
-    # garbage collection
-    files_to_delete = glob(tmp_folder + prefix_folder)
-    for file_path in files_to_delete:
-        rmtree(file_path)

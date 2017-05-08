@@ -1,8 +1,17 @@
-adduser\n3.113+nmu3ubuntu4\ninstall ok installed\n /etc/deluser.conf 773fb95e98a27947de4a95abb3d3f2a2\tapt\n1.2.19\ninstall ok installed\n /etc/apt/apt.conf.d/01-vendor-ubuntu 5232396660502461fc834c0a1229dbe4
+adduser
+3.113+nmu3ubuntu4
+install ok installed
+ /etc/deluser.conf 773fb95e98a27947de4a95abb3d3f2a2	apt
+1.2.19
+install ok installed
+ /etc/apt/apt.conf.d/01-vendor-ubuntu 5232396660502461fc834c0a1229dbe4
  /etc/apt/apt.conf.d/01autoremove 0b1391c01d75f95fa4ea5ac01219b515
  /etc/cron.daily/apt-compat bc4a71cbcaeed4179f25d798257fa980
  /etc/kernel/postinst.d/apt-auto-removal 8ad76ae4492b54f0dcbf18c79429dfab
- /etc/logrotate.d/apt 179f2ed4f85cbaca12fa3d69c2a4a1c3\tbase-files\n9.4ubuntu4.4\ninstall ok installed\n /etc/debian_version e90148aa8aae3eb74ca11dc306b03dcd
+ /etc/logrotate.d/apt 179f2ed4f85cbaca12fa3d69c2a4a1c3	base-files
+9.4ubuntu4.4
+ install ok installed
+  /etc/debian_version e90148aa8aae3eb74ca11dc306b03dcd
  /etc/dpkg/origins/debian 731423fa8ba067262f8ef37882d1e742
  /etc/dpkg/origins/ubuntu ea35901c45553c3451f60476be94d2d8
  /etc/host.conf 89408008f2585c957c031716600d5a80
@@ -11,116 +20,4 @@ adduser\n3.113+nmu3ubuntu4\ninstall ok installed\n /etc/deluser.conf 773fb95e98a
  /etc/legal 0110925f6e068836ef2e09356e3651d9
  /etc/lsb-release 9246fd89b86191f32e510b61f6c588e7
  /etc/update-motd.d/00-header 4a1e6eed7a59f200b4267085721750a3
- /etc/update-motd.d/10-help-text d95d18b11ac12cf6582d08a1643034f3\tbase-passwd\n3.5.39\ninstall ok installed\n\tbash\n4.3-14ubuntu1.1\ninstall ok installed\n /etc/bash.bashrc d80b5c72ee089f1e43de3f084a69495c
- /etc/skel/.bash_logout 22bfb8c1dd94b5f3813a2b25da67463f
- /etc/skel/.bashrc 1f98b8f3f3c8f8927eca945d59dcc1c6
- /etc/skel/.profile 905f748ceda81747600e9a593b42f3e4\tbinutils\n2.26.1-1ubuntu1~16.04.3\ninstall ok installed\n\tbsdutils\n1:2.27.1-6ubuntu3.2\ninstall ok installed\n\tbuild-essential\n12.1ubuntu2\ninstall ok installed\n\tbzip2\n1.0.6-8\ninstall ok installed\n\tca-certificates\n20160104ubuntu1\ninstall ok installed\n\tcoreutils\n8.25-2ubuntu2\ninstall ok installed\n\tcpp\n4:5.3.1-1ubuntu1\ninstall ok installed\n\tcpp-5\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tdash\n0.5.8-2.1ubuntu2\ninstall ok installed\n\tdebconf\n1.5.58ubuntu1\ninstall ok installed\n /etc/apt/apt.conf.d/70debconf 7e9d09d5801a42b4926b736b8eeabb73
- /etc/debconf.conf 8c0619be413824f1fc7698cee0f23811\tdebianutils\n4.7\ninstall ok installed\n\tdh-python\n2.20151103ubuntu1.1\ninstall ok installed\n\tdiffutils\n1:3.3-3\ninstall ok installed\n\tdocker\n1.5-1\ninstall ok installed\n\tdpkg\n1.18.4ubuntu1.1\ninstall ok installed\n /etc/alternatives/README 69c4ba7f08363e998e0f2e244a04f881
- /etc/cron.daily/dpkg b8065b6bfc248caba501c3f5bb508e66
- /etc/dpkg/dpkg.cfg f4413ffb515f8f753624ae3bb365b81b
- /etc/logrotate.d/dpkg 782ea5ae536f67ff51dc8c3e2eeb4cf9\tdpkg-dev\n1.18.4ubuntu1.2\ninstall ok installed\n /etc/dpkg/shlibs.default 1a2b9d0a869e2aa885ae3621c557fb95
- /etc/dpkg/shlibs.override 84b1e69080569cc5c613a50887af5200\te2fslibs\n1.42.13-1ubuntu1\ninstall ok installed\n\te2fsprogs\n1.42.13-1ubuntu1\ninstall ok installed\n /etc/mke2fs.conf f3de4385c498ee9e01d1d703f0c3795d\tfakeroot\n1.20.2-1ubuntu1\ninstall ok installed\n\tfile\n1:5.25-2ubuntu1\ninstall ok installed\n\tfindutils\n4.6.0+git+20160126-2\ninstall ok installed\n\tg++\n4:5.3.1-1ubuntu1\ninstall ok installed\n\tg++-5\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tgcc\n4:5.3.1-1ubuntu1\ninstall ok installed\n\tgcc-5\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tgcc-5-base\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tgcc-6-base\n6.0.1-0ubuntu1\ninstall ok installed\n\tgit\n1:2.7.4-0ubuntu1\ninstall ok installed\n /etc/bash_completion.d/git-prompt 7baac5c3ced94ebf2c0e1dde65c3b1a6\tgit-man\n1:2.7.4-0ubuntu1\ninstall ok installed\n\tgnupg\n1.4.20-1ubuntu3.1\ninstall ok installed\n\tgpgv\n1.4.20-1ubuntu3.1\ninstall ok installed\n\tgrep\n2.25-1~16.04.1\ninstall ok installed\n\tgzip\n1.6-4ubuntu1\ninstall ok installed\n\thostname\n3.16ubuntu2\ninstall ok installed\n /etc/init/hostname.conf 2521555e6850a6ee2461a4444b4c1d0d
- /etc/init/hostname.sh.conf 5fd24ea35befe5d66bf8ff80b612e3f2\tifupdown\n0.8.10ubuntu1.2\ninstall ok installed\n /etc/default/networking 35cd4a2713981c9239ce4532c1bfc1c7
- /etc/init.d/networking 2c98e17c0d329b6451685ebbd0c14f81
- /etc/init/network-interface-container.conf 4daa570594afc50940f140a7731d20d1
- /etc/init/network-interface-security.conf feb6b4b52fe24c44ff1bc68addf245d6
- /etc/init/network-interface.conf aae12345eba8e946579b06798b1752c1
- /etc/init/networking.conf c50811e19bcd596d99b0467b40cfbb8b
- /etc/network/if-down.d/upstart 1a0205ddbc1446782a8d4d818e97d8a5
- /etc/network/if-up.d/upstart dfbcde4fd4a3a2553930605e03e160ab\tinit\n1.29ubuntu4\ninstall ok installed\n\tinit-system-helpers\n1.29ubuntu4\ninstall ok installed\n\tinitscripts\n2.88dsf-59.3ubuntu2\ninstall ok installed\n /etc/init.d/bootmisc.sh b1cc3129e3045bb60bd18d99c5dc1357
- /etc/init.d/checkfs.sh fb72965ae6e43424c01b0d9d5b43d985
- /etc/init.d/checkroot.sh 74896125b097dfbfc0d0e15d2d04f20c
- /etc/init.d/checkroot-bootclean.sh f968128c0fc7bc81433e71eec88e30ff
- /etc/init.d/halt a0e668699f774d928ddc62954155adb5
- /etc/init.d/hostname.sh 2180072dbb4e2f42f7ad4df4a2f9888d
- /etc/init.d/killprocs 9866a64a5d3d34552b0c36f5667cdacd
- /etc/init.d/mountall.sh 5137a3cd0ad998c4e548c9d6bde8b672
- /etc/init.d/mountall-bootclean.sh 3e159968f2cd0fd8f6fb8d0e606b1ea4
- /etc/init.d/mountnfs.sh e6d04d2e3ac6f728baa3ca6c0eeb8006
- /etc/init.d/mountnfs-bootclean.sh 88b09d2279260128d40cbe314bff1b6d
- /etc/init.d/mountdevsubfs.sh 55612432fe9994baa8ad5a6776fb6af1
- /etc/init.d/mountkernfs.sh aed61dc8fffc89d6cbd518d4ad986518
- /etc/init.d/ondemand e1841131a99266c6376839f7c1edc021
- /etc/init.d/rc.local 7d505630f083ddc543cb68fbeb83a6b5
- /etc/init.d/reboot 39ce57bc053ad1bf9861347927d7db6b
- /etc/init.d/sendsigs 7e940b6c8a108a5beb2f51262ec9195c
- /etc/init.d/single bc7e38f0849ebfe767d162861fae002c
- /etc/init.d/umountfs 49f742a0f5af8124caba6c4264e78aa6
- /etc/init.d/umountnfs.sh 5137d5524cdba56d07e61c1cd5bb7238
- /etc/init.d/umountroot 871c0eb052da52d66d4a9b26efb8c7c8
- /etc/init.d/urandom e6454386bfce38efb5987dd06cb3b21d
- /etc/default/devpts fc857c5ac5fb84d80720ed4d1c624f6e
- /etc/default/halt 18d9844cf8ca8608e2a559a4555e593a
- /etc/default/rcS a4af750cc5d1edc264d47dc01d11e1b8\tinsserv\n1.14.0-5ubuntu3\ninstall ok installed\n /etc/bash_completion.d/insserv 32975fe14795d6fce1408d5fd22747fd
- /etc/insserv.conf 3e9467113029a6356f57842085f3c849\tiproute2\n4.3.0-1ubuntu3\ninstall ok installed\n /etc/iproute2/ematch_map b91e7f9b26918449bade9573f8871d61
- /etc/iproute2/group 3aea2c0e0dd75e13a5f8f48f2936915f
- /etc/iproute2/nl_protos c0fc5315e2dd3c6b50f19da3678bce80
- /etc/iproute2/rt_dsfield 4c80d267a84d350d89d88774efe48a0f
- /etc/iproute2/rt_protos a4f97323f29caf9faf49596aea11d91a
- /etc/iproute2/rt_realms 7137bdf40e8d58c87ac7e3bba503767f
- /etc/iproute2/rt_scopes 6298b8df09e9bda23ea7da49021ca457
- /etc/iproute2/rt_tables a1313318d6778fe6b8c680248ef5a463\tisc-dhcp-client\n4.3.3-5ubuntu12.6\ninstall ok installed\n /etc/apparmor.d/sbin.dhclient 03efd29a659b09117c6125c416856d29
- /etc/dhcp/debug 521717b5f9e08db15893d3d062c59aeb
- /etc/dhcp/dhclient-exit-hooks.d/rfc3442-classless-routes 95e21c32fa7f603db75f1dc33db53cf5
- /etc/dhcp/dhclient.conf c3b6c3271031ab8e250a192f4eb18695\tisc-dhcp-common\n4.3.3-5ubuntu12.6\ninstall ok installed\n\tkrb5-locales\n1.13.2+dfsg-5ubuntu2\ninstall ok installed\n\tless\n481-2.1ubuntu0.1\ninstall ok installed\n\tlibacl1\n2.2.52-3\ninstall ok installed\n\tlibalgorithm-diff-perl\n1.19.03-1\ninstall ok installed\n\tlibalgorithm-diff-xs-perl\n0.04-4build1\ninstall ok installed\n\tlibalgorithm-merge-perl\n0.08-3\ninstall ok installed\n\tlibapparmor1\n2.10.95-0ubuntu2.6\ninstall ok installed\n\tlibapt-pkg5.0\n1.2.19\ninstall ok installed\n\tlibasan2\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibasn1-8-heimdal\n1.7~git20150920+dfsg-4ubuntu1\ninstall ok installed\n\tlibatm1\n1:2.5.1-1.5\ninstall ok installed\n\tlibatomic1\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibattr1\n1:2.4.47-2\ninstall ok installed\n\tlibaudit-common\n1:2.4.5-1ubuntu2\ninstall ok installed\n /etc/libaudit.conf cdc703f9d27f0d980271a9e95d0f18b2\tlibaudit1\n1:2.4.5-1ubuntu2\ninstall ok installed\n\tlibblkid1\n2.27.1-6ubuntu3.2\ninstall ok installed\n\tlibbsd0\n0.8.2-1\ninstall ok installed\n\tlibbz2-1.0\n1.0.6-8\ninstall ok installed\n\tlibc-bin\n2.23-0ubuntu7\ninstall ok installed\n /etc/bindresvport.blacklist 4c09213317e4e3dd3c71d74404e503c5
- /etc/default/nss d6d5d6f621fb3ead2548076ce81e309c
- /etc/gai.conf 28fa76ff5a9e0566eaa1e11f1ce51f09
- /etc/ld.so.conf 4317c6de8564b68d628c21efa96b37e4
- /etc/ld.so.conf.d/libc.conf d4d833fd095fb7b90e1bb4a547f16de6\tlibc-dev-bin\n2.23-0ubuntu7\ninstall ok installed\n\tlibc6\n2.23-0ubuntu7\ninstall ok installed\n /etc/ld.so.conf.d/x86_64-linux-gnu.conf 593ad12389ab2b6f952e7ede67b8fbbf\tlibc6-dev\n2.23-0ubuntu7\ninstall ok installed\n\tlibcap2\n1:2.24-12\ninstall ok installed\n\tlibcap2-bin\n1:2.24-12\ninstall ok installed\n\tlibcc1-0\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibcilkrts5\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibcomerr2\n1.42.13-1ubuntu1\ninstall ok installed\n\tlibcryptsetup4\n2:1.6.6-5ubuntu2\ninstall ok installed\n\tlibcurl3-gnutls\n7.47.0-1ubuntu2.2\ninstall ok installed\n\tlibdb5.3\n5.3.28-11\ninstall ok installed\n\tlibdebconfclient0\n0.198ubuntu1\ninstall ok installed\n\tlibdevmapper1.02.1\n2:1.02.110-1ubuntu10\ninstall ok installed\n\tlibdns-export162\n1:9.10.3.dfsg.P4-8ubuntu1.6\ninstall ok installed\n\tlibdpkg-perl\n1.18.4ubuntu1.2\ninstall ok installed\n\tlibedit2\n3.1-20150325-1ubuntu2\ninstall ok installed\n\tliberror-perl\n0.17-1.2\ninstall ok installed\n\tlibexpat1\n2.1.0-7ubuntu0.16.04.2\ninstall ok installed\n\tlibexpat1-dev\n2.1.0-7ubuntu0.16.04.2\ninstall ok installed\n\tlibfakeroot\n1.20.2-1ubuntu1\ninstall ok installed\n /etc/ld.so.conf.d/fakeroot-x86_64-linux-gnu.conf f9f2331782e9078d5472c77e1d9cd869\tlibfdisk1\n2.27.1-6ubuntu3.2\ninstall ok installed\n\tlibffi6\n3.2.1-4\ninstall ok installed\n\tlibfile-fcntllock-perl\n0.22-3\ninstall ok installed\n\tlibgcc-5-dev\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibgcc1\n1:6.0.1-0ubuntu1\ninstall ok installed\n\tlibgcrypt20\n1.6.5-2ubuntu0.2\ninstall ok installed\n\tlibgdbm3\n1.8.3-13.1\ninstall ok installed\n\tlibgmp10\n2:6.1.0+dfsg-2\ninstall ok installed\n\tlibgnutls30\n3.4.10-4ubuntu1.2\ninstall ok installed\n\tlibgomp1\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibgpg-error0\n1.21-2ubuntu1\ninstall ok installed\n\tlibgssapi-krb5-2\n1.13.2+dfsg-5ubuntu2\ninstall ok installed\n /etc/gss/mech.d/README 27e753ba1dc72900d2892b8efef6e35e\tlibgssapi3-heimdal\n1.7~git20150920+dfsg-4ubuntu1\ninstall ok installed\n\tlibhcrypto4-heimdal\n1.7~git20150920+dfsg-4ubuntu1\ninstall ok installed\n\tlibheimbase1-heimdal\n1.7~git20150920+dfsg-4ubuntu1\ninstall ok installed\n\tlibheimntlm0-heimdal\n1.7~git20150920+dfsg-4ubuntu1\ninstall ok installed\n\tlibhogweed4\n3.2-1ubuntu0.16.04.1\ninstall ok installed\n\tlibhx509-5-heimdal\n1.7~git20150920+dfsg-4ubuntu1\ninstall ok installed\n\tlibidn11\n1.32-3ubuntu1.1\ninstall ok installed\n\tlibisc-export160\n1:9.10.3.dfsg.P4-8ubuntu1.6\ninstall ok installed\n\tlibisl15\n0.16.1-1\ninstall ok installed\n\tlibitm1\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibk5crypto3\n1.13.2+dfsg-5ubuntu2\ninstall ok installed\n\tlibkeyutils1\n1.5.9-8ubuntu1\ninstall ok installed\n\tlibkmod2\n22-1ubuntu4\ninstall ok installed\n\tlibkrb5-26-heimdal\n1.7~git20150920+dfsg-4ubuntu1\ninstall ok installed\n\tlibkrb5-3\n1.13.2+dfsg-5ubuntu2\ninstall ok installed\n\tlibkrb5support0\n1.13.2+dfsg-5ubuntu2\ninstall ok installed\n\tlibldap-2.4-2\n2.4.42+dfsg-2ubuntu3.1\ninstall ok installed\n /etc/ldap/ldap.conf 0b3f4d19d88498314478273ce10b0a70\tliblsan0\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tliblz4-1\n0.0~r131-2ubuntu2\ninstall ok installed\n\tliblzma5\n5.1.1alpha+20120614-2ubuntu2\ninstall ok installed\n\tlibmagic1\n1:5.25-2ubuntu1\ninstall ok installed\n /etc/magic 272913026300e7ae9b5e2d51f138e674
- /etc/magic.mime 272913026300e7ae9b5e2d51f138e674\tlibmnl0\n1.0.3-5\ninstall ok installed\n\tlibmount1\n2.27.1-6ubuntu3.2\ninstall ok installed\n\tlibmpc3\n1.0.3-1\ninstall ok installed\n\tlibmpdec2\n2.4.2-1\ninstall ok installed\n\tlibmpfr4\n3.1.4-1\ninstall ok installed\n\tlibmpx0\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibncurses5\n6.0+20160213-1ubuntu1\ninstall ok installed\n\tlibncursesw5\n6.0+20160213-1ubuntu1\ninstall ok installed\n\tlibnettle6\n3.2-1ubuntu0.16.04.1\ninstall ok installed\n\tlibp11-kit0\n0.23.2-5~ubuntu16.04.1\ninstall ok installed\n\tlibpam-modules\n1.1.8-3.2ubuntu2\ninstall ok installed\n /etc/security/access.conf 13ec4d189f0ed9acf3433977a53d446b
- /etc/security/group.conf f1e26e8db6f7abd2d697d7dad3422c36
- /etc/security/limits.conf 11c27ba00b7bd6a255f33126f75c5005
- /etc/security/namespace.conf 6424c99a62ddf4b7d3ca713bb06ded89
- /etc/security/namespace.init b46b23d64860d1557d2a8f44b231fd54
- /etc/security/pam_env.conf ddee4a931170dc21b4e0b9bb28e02a7b
- /etc/security/sepermit.conf d41c74654734a5c069a37bfc02f0a6d4
- /etc/security/time.conf 06e05c6079e839c8833ac7c3abfde192\tlibpam-modules-bin\n1.1.8-3.2ubuntu2\ninstall ok installed\n\tlibpam-runtime\n1.1.8-3.2ubuntu2\ninstall ok installed\n /etc/pam.conf 87fc76f18e98ee7d3848f6b81b3391e5
- /etc/pam.d/other 31aa7f2181889ffb00b87df4126d1701\tlibpam0g\n1.1.8-3.2ubuntu2\ninstall ok installed\n\tlibpcre3\n2:8.38-3.1\ninstall ok installed\n\tlibperl5.22\n5.22.1-9\ninstall ok installed\n\tlibpopt0\n1.16-10\ninstall ok installed\n\tlibprocps4\n2:3.3.10-4ubuntu2.3\ninstall ok installed\n\tlibpython-all-dev\n2.7.11-1\ninstall ok installed\n\tlibpython-dev\n2.7.11-1\ninstall ok installed\n\tlibpython-stdlib\n2.7.11-1\ninstall ok installed\n\tlibpython2.7\n2.7.12-1ubuntu0~16.04.1\ninstall ok installed\n\tlibpython2.7-dev\n2.7.12-1ubuntu0~16.04.1\ninstall ok installed\n\tlibpython2.7-minimal\n2.7.12-1ubuntu0~16.04.1\ninstall ok installed\n /etc/python2.7/sitecustomize.py d6b276695157bde06a56ba1b2bc53670\tlibpython2.7-stdlib\n2.7.12-1ubuntu0~16.04.1\ninstall ok installed\n\tlibpython3-dev\n3.5.1-3\ninstall ok installed\n\tlibpython3-stdlib\n3.5.1-3\ninstall ok installed\n\tlibpython3.5\n3.5.2-2ubuntu0~16.04.1\ninstall ok installed\n\tlibpython3.5-dev\n3.5.2-2ubuntu0~16.04.1\ninstall ok installed\n\tlibpython3.5-minimal\n3.5.2-2ubuntu0~16.04.1\ninstall ok installed\n /etc/python3.5/sitecustomize.py d6b276695157bde06a56ba1b2bc53670\tlibpython3.5-stdlib\n3.5.2-2ubuntu0~16.04.1\ninstall ok installed\n\tlibquadmath0\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibreadline6\n6.3-8ubuntu2\ninstall ok installed\n\tlibroken18-heimdal\n1.7~git20150920+dfsg-4ubuntu1\ninstall ok installed\n\tlibrtmp1\n2.4+20151223.gitfa8646d-1build1\ninstall ok installed\n\tlibsasl2-2\n2.1.26.dfsg1-14build1\ninstall ok installed\n\tlibsasl2-modules\n2.1.26.dfsg1-14build1\ninstall ok installed\n /etc/logcheck/ignore.d.server/libsasl2-modules c032d5205f090a30661ae9f82a03f36e\tlibsasl2-modules-db\n2.1.26.dfsg1-14build1\ninstall ok installed\n\tlibseccomp2\n2.2.3-3ubuntu3\ninstall ok installed\n\tlibselinux1\n2.4-3build2\ninstall ok installed\n\tlibsemanage-common\n2.3-1build3\ninstall ok installed\n /etc/selinux/semanage.conf e69d42a4d98a93c3b8e201bdda367c55\tlibsemanage1\n2.3-1build3\ninstall ok installed\n\tlibsepol1\n2.4-2\ninstall ok installed\n\tlibsmartcols1\n2.27.1-6ubuntu3.2\ninstall ok installed\n\tlibsqlite3-0\n3.11.0-1ubuntu1\ninstall ok installed\n\tlibss2\n1.42.13-1ubuntu1\ninstall ok installed\n\tlibssl1.0.0\n1.0.2g-1ubuntu4.6\ninstall ok installed\n\tlibstdc++-5-dev\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibstdc++6\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibsystemd0\n229-4ubuntu16\ninstall ok installed\n\tlibtasn1-6\n4.7-3ubuntu0.16.04.1\ninstall ok installed\n\tlibtinfo5\n6.0+20160213-1ubuntu1\ninstall ok installed\n\tlibtsan0\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibubsan0\n5.4.0-6ubuntu1~16.04.4\ninstall ok installed\n\tlibudev1\n229-4ubuntu16\ninstall ok installed\n\tlibusb-0.1-4\n2:0.1.12-28\ninstall ok installed\n\tlibustr-1.0-1\n1.0.4-5\ninstall ok installed\n\tlibuuid1\n2.27.1-6ubuntu3.2\ninstall ok installed\n\tlibwind0-heimdal\n1.7~git20150920+dfsg-4ubuntu1\ninstall ok installed\n\tlibx11-6\n2:1.6.3-1ubuntu2\ninstall ok installed\n\tlibx11-data\n2:1.6.3-1ubuntu2\ninstall ok installed\n\tlibxau6\n1:1.0.8-1\ninstall ok installed\n\tlibxcb1\n1.11.1-1ubuntu1\ninstall ok installed\n\tlibxdmcp6\n1:1.1.2-1.1\ninstall ok installed\n\tlibxext6\n2:1.3.3-1\ninstall ok installed\n\tlibxmuu1\n2:1.1.2-2\ninstall ok installed\n\tlibxtables11\n1.6.0-2ubuntu3\ninstall ok installed\n\tlinux-libc-dev\n4.4.0-75.96\ninstall ok installed\n\tlogin\n1:4.2-3.1ubuntu5\ninstall ok installed\n /etc/login.defs be0977c1c1c84c62823c7d7d4e099067
- /etc/pam.d/login e796fb1e78dbb9fbaf52b972e91634b9
- /etc/pam.d/su ce6dcfda3b190a27a455bb38a45ff34a
- /etc/securetty d9e5bf5e6bfa00ddd273a3bcf1a49bec\tlsb-base\n9.20160110ubuntu0.2\ninstall ok installed\n\tmake\n4.1-6\ninstall ok installed\n\tmakedev\n2.3.1-93ubuntu2~ubuntu16.04.1\ninstall ok installed\n\tmanpages\n4.04-2\ninstall ok installed\n\tmanpages-dev\n4.04-2\ninstall ok installed\n\tmawk\n1.3.3-17ubuntu2\ninstall ok installed\n\tmime-support\n3.59ubuntu1\ninstall ok installed\n /etc/mime.types aa13939777d1a7b82e873d5eb0282a1a
- /etc/mailcap.order ba07e08a7fe3741d0b8339127963190e\tmount\n2.27.1-6ubuntu3.2\ninstall ok installed\n\tmultiarch-support\n2.23-0ubuntu7\ninstall ok installed\n\tncurses-base\n6.0+20160213-1ubuntu1\ninstall ok installed\n /etc/terminfo/README 45b6df19fb5e21f55717482fa7a30171\tncurses-bin\n6.0+20160213-1ubuntu1\ninstall ok installed\n\tnetbase\n5.3\ninstall ok installed\n /etc/rpc f0b6f6352bf886623adc04183120f83b
- /etc/protocols bb9c019d6524e913fd72441d58b68216
- /etc/services 7d9960c77b363e2c2f41b77733cf57d4\topenssh-client\n1:7.2p2-4ubuntu2.1\ninstall ok installed\n /etc/ssh/moduli 0075fd4b72a421f909af9809d0dd3bdc
- /etc/ssh/ssh_config ac848ff6a465188e7dd91cf91dbe4889\topenssl\n1.0.2g-1ubuntu4.6\ninstall ok installed\n /etc/ssl/openssl.cnf 7df26c55291b33344dc15e3935dabaf3\tpasswd\n1:4.2-3.1ubuntu5\ninstall ok installed\n /etc/cron.daily/passwd db990990933b6f56322725223f13c2bc
- /etc/default/useradd cc9f9a7713ab62a32cd38363d958f396
- /etc/init/passwd.conf 948960f10233ae11ffad9027ef430c3d
- /etc/pam.d/chfn 4d466e00a348ba426130664d795e8afa
- /etc/pam.d/chpasswd 9900720564cb4ee98b7da29e2d183cb2
- /etc/pam.d/chsh a6e9b589e90009334ffd030d819290a6
- /etc/pam.d/newusers 1454e29bfa9f2a10836563e76936cea5
- /etc/pam.d/passwd eaf2ad85b5ccd06cceb19a3e75f40c63\tpatch\n2.7.5-1\ninstall ok installed\n\tperl\n5.22.1-9\ninstall ok installed\n /etc/perl/Net/libnet.cfg fb2946cae573b8ed3d654a180d458733\tperl-base\n5.22.1-9\ninstall ok installed\n\tperl-modules-5.22\n5.22.1-9\ninstall ok installed\n\tprocps\n2:3.3.10-4ubuntu2.3\ninstall ok installed\n /etc/init.d/procps 021482ebab1024f5ed76e650e5191e8f
- /etc/init/procps-instance.conf 96170a339d08797dc90d69b01d6bf610
- /etc/init/procps.conf c273de3ebde8d4a50f17de17bb04a3e5
- /etc/sysctl.conf 76c1d8285c578d5e827c3e07b9738112
- /etc/sysctl.d/10-console-messages.conf 154f6f5c5810d10bb303fb6a8e907c6a
- /etc/sysctl.d/10-ipv6-privacy.conf e9473d12b4a7069d6a3ca8b694511ddf
- /etc/sysctl.d/10-kernel-hardening.conf 5c1388f00011a287cdeba60208c674e1
- /etc/sysctl.d/10-link-restrictions.conf 8568316f2baa8db06554dab91f93a161
- /etc/sysctl.d/10-magic-sysrq.conf b3059f2835f17c97265433fdfdee358f
- /etc/sysctl.d/10-network-security.conf 4ac7258f5336e7eeaf448c05ab668d3c
- /etc/sysctl.d/10-ptrace.conf 47f40494b2fc698e15549e0a4a79e81c
- /etc/sysctl.d/10-zeropage.conf 8d7193abcc4dfedaf519dd03016a5e59
- /etc/sysctl.d/README c20074b9b11a5202758c69d7bcb6996f\tpypy\n5.1.2+dfsg-1~16.04\ninstall ok installed\n\tpypy-lib\n5.1.2+dfsg-1~16.04\ninstall ok installed\n\tpython\n2.7.11-1\ninstall ok installed\n\tpython-all\n2.7.11-1\ninstall ok installed\n\tpython-all-dev\n2.7.11-1\ninstall ok installed\n\tpython-dev\n2.7.11-1\ninstall ok installed\n\tpython-minimal\n2.7.11-1\ninstall ok installed\n\tpython-pip\n8.1.1-2ubuntu0.4\ninstall ok installed\n\tpython-pip-whl\n8.1.1-2ubuntu0.4\ninstall ok installed\n\tpython-pkg-resources\n20.7.0-1\ninstall ok installed\n\tpython-setuptools\n20.7.0-1\ninstall ok installed\n\tpython-wheel\n0.29.0-1\ninstall ok installed\n\tpython2.7\n2.7.12-1ubuntu0~16.04.1\ninstall ok installed\n\tpython2.7-dev\n2.7.12-1ubuntu0~16.04.1\ninstall ok installed\n\tpython2.7-minimal\n2.7.12-1ubuntu0~16.04.1\ninstall ok installed\n\tpython3\n3.5.1-3\ninstall ok installed\n\tpython3-dev\n3.5.1-3\ninstall ok installed\n\tpython3-minimal\n3.5.1-3\ninstall ok installed\n\tpython3-pip\n8.1.1-2ubuntu0.4\ninstall ok installed\n\tpython3-pkg-resources\n20.7.0-1\ninstall ok installed\n\tpython3-setuptools\n20.7.0-1\ninstall ok installed\n\tpython3-wheel\n0.29.0-1\ninstall ok installed\n\tpython3.5\n3.5.2-2ubuntu0~16.04.1\ninstall ok installed\n\tpython3.5-dev\n3.5.2-2ubuntu0~16.04.1\ninstall ok installed\n\tpython3.5-minimal\n3.5.2-2ubuntu0~16.04.1\ninstall ok installed\n\treadline-common\n6.3-8ubuntu2\ninstall ok installed\n\trename\n0.20-4\ninstall ok installed\n\trsync\n3.1.1-3ubuntu1\ninstall ok installed\n /etc/default/rsync e0d7efac23e911c65f44b08de446e837
- /etc/init.d/rsync c5d89677f904551f5b192f35ad98d73c\tsed\n4.2.2-7\ninstall ok installed\n\tsensible-utils\n0.0.9\ninstall ok installed\n\tsystemd\n229-4ubuntu16\ninstall ok installed\n /etc/dbus-1/system.d/org.freedesktop.hostname1.conf f55c94d000b5d62b5f06d38852977dd1
- /etc/dbus-1/system.d/org.freedesktop.locale1.conf 5893ab03e7e96aa3759baceb4dd04190
- /etc/dbus-1/system.d/org.freedesktop.login1.conf 4aac4fe1a99c9fca83c85b80e4e0c2ba
- /etc/dbus-1/system.d/org.freedesktop.network1.conf 162e9a90d8f824f79ef2c6390827ec7b
- /etc/dbus-1/system.d/org.freedesktop.resolve1.conf 6969148b4616c56a5c9065cec5ab0775
- /etc/dbus-1/system.d/org.freedesktop.systemd1.conf 846824928e39a465c06c3aae53510535
- /etc/dbus-1/system.d/org.freedesktop.timedate1.conf 682369fbf3de26b21e775732c89a2bbe
- /etc/dhcp/dhclient-exit-hooks.d/timesyncd a891f21f45b0648b7082d999bf424591
- /etc/pam.d/systemd-user 3bdb96b18046bd209135cdfe73421db6
- /etc/systemd/bootchart.conf 7cb6c9cab8ec511882e0e05fceb87e45
- /etc/systemd/journald.conf d928a3ce9f51fcff8ed925270f14a2aa
- /etc/systemd/logind.conf 5b41bb868487d1013382b738f6648328
- /etc/systemd/resolved.conf cc77726b02979ddc8b034a338f7bdea9
- /etc/systemd/system.conf 1340491c660f9eb234c92fe1225ff427
- /etc/systemd/timesyncd.conf 4e1cf2b5f85dff6c1f186135b9f66a85
- /etc/systemd/user.conf 2eaf5976751be8864d0555f30814d832\tsystemd-sysv\n229-4ubuntu16\ninstall ok installed\n\tsysv-rc\n2.88dsf-59.3ubuntu2\ninstall ok installed\n\tsysvinit-utils\n2.88dsf-59.3ubuntu2\ninstall ok installed\n\ttar\n1.28-2.1ubuntu0.1\ninstall ok installed\n /etc/rmt 3c58b7cd13da1085eff0acc6a00f43c7\tubuntu-keyring\n2012.05.19\ninstall ok installed\n\tutil-linux\n2.27.1-6ubuntu3.2\ninstall ok installed\n /etc/cron.weekly/fstrim 8c720b8db851b9038137e08ab8c51b65
- /etc/init.d/hwclock.sh 1ca5c0743fa797ffa364db95bb8d8d8e
- /etc/init/hwclock-save.conf be6e51abc290276742f1e77f6652e106
- /etc/init/hwclock.conf 0bd420e7f81a2ea80d64f8a57a24c78e
- /etc/init/hwclock.sh.conf 55a27396b54021d912e15dbf394a31a3
- /etc/pam.d/runuser b8b44b045259525e0fae9e38fdb2aeeb
- /etc/pam.d/runuser-l 2106ea05877e8913f34b2c77fa02be45\txauth\n1:1.0.9-1ubuntu2\ninstall ok installed\n\txz-utils\n5.1.1alpha+20120614-2ubuntu2\ninstall ok installed\n\tzlib1g\n1:1.2.8.dfsg-2ubuntu4\ninstall ok installed\n\t
+ /etc/update-motd.d/10-help-text d95d18b11ac12cf6582d08a1643034f3

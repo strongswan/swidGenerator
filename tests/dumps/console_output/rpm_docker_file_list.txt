@@ -1,4 +1,0 @@
-/etc/docker
-/etc/docker/certs.d
-/etc/docker/certs.d/redhat.com
-/var/lib/docker

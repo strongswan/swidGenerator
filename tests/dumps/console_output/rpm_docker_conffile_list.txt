@@ -1,3 +1,0 @@
-/etc/sysconfig/docker-network
-/etc/sysconfig/docker-storage
-/etc/sysconfig/docker-storage-setup
