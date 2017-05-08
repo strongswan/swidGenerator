@@ -4,7 +4,7 @@ import unittest
 from swid_generator.argparser import *
 from swid_generator.environments.environment_registry import EnvironmentRegistry
 from mock import patch
-from os import path
+
 
 class SwidGeneratorParserTests(unittest.TestCase):
 
