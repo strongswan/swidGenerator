@@ -7,7 +7,7 @@ from swid_generator.generators import swid_generator
 from swid_generator.package_info import PackageInfo
 from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 from swid_generator.environments.common import CommonEnvironment
-from swid_generator.generators.swid_generator import software_id_matcher, package_name_matcher
+from swid_generator.generators.swid_generator import software_id_matcher, package_name_matcher, _create_flat_payload_tag, _create_hierarchic_payload_tag
 from nose_parameterized import parameterized
 
 
@@ -80,6 +80,17 @@ class SwidGeneratorTests(unittest.TestCase):
                                      ['etc', 'init', 'ssh.conf'])
         openssh_file2 = FileInfoMock('sshd', '/usr/sbin/', '89484', False, '/usr/sbin/sshd',
                                      ['usr', 'sbin', 'sshd'])
+
+        self.file_list = list()
+
+        self.file_list.append(cowsay_file1)
+        self.file_list.append(cowsay_file2)
+        self.file_list.append(cowsay_file3)
+        self.file_list.append(fortune_file1)
+        self.file_list.append(fortune_file2)
+        self.file_list.append(fortune_file3)
+        self.file_list.append(openssh_file1)
+        self.file_list.append(openssh_file2)
 
         self.packages = [
             PackageInfo('cowsay', '1.0', [cowsay_file1, cowsay_file2, cowsay_file3], 'install ok installed'),
@@ -177,3 +188,79 @@ class SwidGeneratorTests(unittest.TestCase):
         matcher = partial(package_name_matcher, value=package_name)
         output = list(self.swid_tag_generator(full=False, matcher=matcher))
         assert len(output) == expected
+
+    def test_sort_files(self):
+
+        sorted_files = swid_generator._sort_files(self.file_list)
+
+        expected_list = list()
+
+        # exactly in these sequence, key-point is entry on index 3
+        # /etc/copyright.txt is alphabetical before pony-smaller.cow, but
+        # /etc/... is a folder and thus it must have one more nesting
+        expected_list.append("/etc/init/ssh.conf")
+        expected_list.append("tests/dumps/package_files/cowsay/cowsay")
+        expected_list.append("tests/dumps/package_files/cowsay/pony-smaller.cow")
+        expected_list.append("tests/dumps/package_files/cowsay/etc/copyright.txt")
+        expected_list.append("tests/dumps/package_files/fortune/fortune")
+        expected_list.append("tests/dumps/package_files/fortune/copyright")
+        expected_list.append("tests/dumps/package_files/fortune/usr/config.txt")
+        expected_list.append("/usr/sbin/sshd")
+
+        for index, path in enumerate(expected_list):
+            assert sorted_files[index].full_pathname == path
+
+    def test_create_flat_payload(self):
+        """
+        Expected flat-payload-tag:
+        <Payload>
+            <Directory name="cowsay" root="tests/dumps/package_files">
+                <File SHA256:hash="320c67b.." name="cowsay" size="4421" />
+                <File SHA256:hash="62cca7d.." n8060:mutable="true" name="pony-smaller.cow" size="305" />
+            </Directory>
+            <Directory name="etc" root="tests/dumps/package_files/cowsay">
+                <File SHA256:hash="92d4ee8.." n8060:mutable="true" name="copyright.txt" size="12854" />
+            </Directory>
+        </Payload>
+        """
+
+        payload_tag = _create_flat_payload_tag(self.packages[0], 'sha256')
+
+        assert payload_tag[0].attrib['name'] == 'cowsay'
+        assert payload_tag[0].attrib['root'] == 'tests/dumps/package_files'
+        assert payload_tag[0][0].attrib['name'] == 'cowsay'
+        assert payload_tag[0][1].attrib['name'] == 'pony-smaller.cow'
+
+        assert payload_tag[1].attrib['name'] == 'etc'
+        assert payload_tag[1].attrib['root'] == 'tests/dumps/package_files/cowsay'
+        assert payload_tag[1][0].attrib['name'] == 'copyright.txt'
+
+    def test_create_hierarchic_payload(self):
+        """
+        Expected hierarchic-payload-tag:
+        <Payload>
+            <Directory root="tests">
+              <Directory name="dumps">
+                <Directory name="package_files">
+                  <Directory name="cowsay">
+                    <File SHA256:hash="320c67b4.." name="cowsay" size="4421" />
+                    <File SHA256:hash="62cca7d1.." n8060:mutable="true" name="pony-smaller.cow" size="305" />
+                    <Directory name="etc">
+                      <File SHA256:hash="92d4ee.." n8060:mutable="true" name="copyright.txt" size="12854" />
+                    </Directory>
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>
+        </Payload>
+        """
+        payload_tag = _create_hierarchic_payload_tag(self.packages[0], 'sha256')
+
+        assert payload_tag[0].attrib['root'] == 'tests'
+        assert payload_tag[0][0].attrib['name'] == 'dumps'
+        assert payload_tag[0][0][0].attrib['name'] == 'package_files'
+        assert payload_tag[0][0][0][0].attrib['name'] == 'cowsay'
+        assert payload_tag[0][0][0][0][0].attrib['name'] == 'cowsay'
+        assert payload_tag[0][0][0][0][1].attrib['name'] == 'pony-smaller.cow'
+        assert payload_tag[0][0][0][0][2].attrib['name'] == 'etc'
+        assert payload_tag[0][0][0][0][2][0].attrib['name'] == 'copyright.txt'

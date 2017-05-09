@@ -84,7 +84,7 @@ def _create_hierarchic_payload_tag(package_info, hash_algorithms):
         splitted_location = file.location.split('/')
         splitted_location.append(file.name)
 
-        file.fullpathname_splitted = splitted_location[1:len(splitted_location)]
+        file.fullpathname_splitted = splitted_location[0:len(splitted_location)]
 
     def _file_hierarchy(filelist, payload_tag=None, last_tag=None):
         filelist.sort(key=_keyfunc)
