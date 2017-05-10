@@ -30,6 +30,11 @@ class DpkgEnvironment(CommonEnvironment):
         'deinstall ok config-files': False
     }
 
+    required_packages_package_file_argument = [
+        "tar",
+        "ar"
+    ]
+
     @classmethod
     def get_package_list(cls):
         """

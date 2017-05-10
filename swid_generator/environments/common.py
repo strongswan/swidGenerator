@@ -5,6 +5,7 @@ import os
 import stat
 import platform
 from distutils.spawn import find_executable
+from swid_generator.exceptions import RequirementsNotInstalledError
 
 
 class CommonEnvironment(object):
@@ -13,6 +14,8 @@ class CommonEnvironment(object):
     """
     executable = None
     CONFFILE_FILE_NAME = None
+    required_packages_package_file_argument = None
+    required_packages_sign_argument = None
 
     @staticmethod
     def get_architecture():
@@ -66,3 +69,29 @@ class CommonEnvironment(object):
     def is_installed(cls):
         assert cls.executable is not None, 'Executable may not be None'
         return find_executable(cls.executable)
+
+    @classmethod
+    def check_package_installed(cls, package_name):
+        return find_executable(package_name)
+
+    @classmethod
+    def check_package_file_requirements(cls, package_file_execution=False, sing_execution=False):
+
+        assert cls.required_packages_package_file_argument is not None, 'List of required packages for package file execution may not be None'
+        # assert cls.required_packages_sign_argument is not None, 'List of required packages for sing execution may not be None'
+
+        not_installed_packages = list()
+
+        if package_file_execution is True:
+            required_packages = cls.required_packages_package_file_argument
+        else:
+            required_packages = cls.required_packages_sign_argument
+
+        for package in required_packages:
+            is_installed = cls.check_package_installed(package)
+
+            if is_installed is None:
+                not_installed_packages.append(package)
+
+        if len(not_installed_packages) != 0:
+            raise RequirementsNotInstalledError("Please install following packages: " + ",".join(not_installed_packages))

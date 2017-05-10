@@ -4,10 +4,11 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import re
 import os
 from functools import partial
-from argparse import ArgumentParser, ArgumentTypeError, Action
+from argparse import ArgumentParser, ArgumentTypeError, Action, ArgumentError
 
 from . import settings, meta
 from .generators.swid_generator import software_id_matcher, package_name_matcher, all_matcher
+from swid_generator.exceptions import RequirementsNotInstalledError
 
 
 class TargetAction(Action):
@@ -16,6 +17,22 @@ class TargetAction(Action):
             setattr(namespace, "matcher", partial(software_id_matcher, value=value))
         elif option_string == '--package':
             setattr(namespace, "matcher", partial(package_name_matcher, value=value))
+
+
+class RequirementCheckAction(Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        env_setting = namespace.env
+        env_registry = self.const
+        actual_environment = env_registry.get_environment(env_setting)
+
+        if option_string == '--package-file':
+            try:
+                actual_environment.check_package_file_requirements(package_file_execution=True)
+                setattr(namespace, self.dest, values)
+            except RequirementsNotInstalledError as e:
+                parser.error(e.message)
+        if option_string == '--pkcs12':
+            print("Check if xmlsec1 is installed")
 
 
 def regid_string(string):
@@ -115,6 +132,8 @@ class MainArgumentParser(object):
                                  'Multiple hashes can be added with comma separated. ("sha256,sha384") '
                                  'Default is "%s"' % settings.DEFAULT_HASH_ALGORITHM)
         swid_parser.add_argument('--package-file', dest='file_path', type=package_path,
+                                 action=RequirementCheckAction,
+                                 const=environment_registry,
                                  help='Create SWID-Tag based on information of a Package-File.'
                                  ' Rpm-Environment: *.rpm File, Dpkg-Environment: *.deb File, '
                                  'Pacman-Environment: *.pgk.tar.xz File')

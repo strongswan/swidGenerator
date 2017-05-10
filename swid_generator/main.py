@@ -35,7 +35,7 @@ from .environments.pacman_environment import PacmanEnvironment
 from .generators.swid_generator import create_swid_tags
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
-from .exceptions import AutodetectionError, EnvironmentNotInstalledError
+from .exceptions import AutodetectionError, EnvironmentNotInstalledError, RequirementsNotInstalledError
 from glob import glob
 from shutil import rmtree
 
