@@ -123,7 +123,7 @@ def main():
         # Garbage-Collection, clean tmp folder, delete swid_*-Folders
         files_to_delete = glob(TMP_FOLDER + PREFIX_FOLDER)
         for file_path in files_to_delete:
-            rmtree(file_path)
+            rmtree(file_path.encode('utf-8'))
 
     elif options.command == 'software-id':
         software_ids = create_software_ids(env=env, regid=options.regid)
