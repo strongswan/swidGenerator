@@ -15,6 +15,14 @@ class PacmanEnvironment(CommonEnvironment):
     """
     executable = 'pacman'
 
+    required_packages_package_file_method = [
+        "tar"
+    ]
+
+    required_packages_sign_method = [
+        "xmlsec1"
+    ]
+
     @classmethod
     def get_package_list(cls):
         """
