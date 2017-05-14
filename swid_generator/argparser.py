@@ -25,14 +25,14 @@ class RequirementCheckAction(Action):
         env_registry = self.const
         actual_environment = env_registry.get_environment(env_setting)
 
-        if option_string == '--package-file':
-            try:
-                actual_environment.check_package_file_requirements(package_file_execution=True)
-                setattr(namespace, self.dest, values)
-            except RequirementsNotInstalledError as e:
-                parser.error(e.message)
-        if option_string == '--pkcs12':
-            print("Check if xmlsec1 is installed")
+        try:
+            if option_string == '--package-file':
+                actual_environment.check_requirements(package_file_execution=True)
+            if option_string == '--pkcs12':
+                actual_environment.check_requirements(sign_tag_execution=True)
+            setattr(namespace, self.dest, values)
+        except RequirementsNotInstalledError as e:
+            parser.error(e.message)
 
 
 def regid_string(string):
@@ -138,6 +138,8 @@ class MainArgumentParser(object):
                                  ' Rpm-Environment: *.rpm File, Dpkg-Environment: *.deb File, '
                                  'Pacman-Environment: *.pgk.tar.xz File')
         swid_parser.add_argument('--pkcs12', dest='pkcs12', type=certificate_path,
+                                 action=RequirementCheckAction,
+                                 const=environment_registry,
                                    help='The pkcs12 file with key and certificate to sign the xml output.')
         swid_parser.add_argument('--pkcs12-pwd', dest='pkcs12_pwd',
                                    help='If the pkcs12 file is password protected, '

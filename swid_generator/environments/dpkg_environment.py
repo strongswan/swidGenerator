@@ -30,9 +30,13 @@ class DpkgEnvironment(CommonEnvironment):
         'deinstall ok config-files': False
     }
 
-    required_packages_package_file_argument = [
+    required_packages_package_file_method = [
         "tar",
         "ar"
+    ]
+
+    required_packages_sign_method = [
+        "xmlsec1"
     ]
 
     @classmethod

@@ -14,8 +14,8 @@ class CommonEnvironment(object):
     """
     executable = None
     CONFFILE_FILE_NAME = None
-    required_packages_package_file_argument = None
-    required_packages_sign_argument = None
+    required_packages_package_file_method = None
+    required_packages_sign_method = None
 
     @staticmethod
     def get_architecture():
@@ -75,17 +75,20 @@ class CommonEnvironment(object):
         return find_executable(package_name)
 
     @classmethod
-    def check_package_file_requirements(cls, package_file_execution=False, sing_execution=False):
+    def check_requirements(cls, package_file_execution=False, sign_tag_execution=False):
 
-        assert cls.required_packages_package_file_argument is not None, 'List of required packages for package file execution may not be None'
-        # assert cls.required_packages_sign_argument is not None, 'List of required packages for sing execution may not be None'
+        assert cls.required_packages_package_file_method is not None, 'List of required packages for package file execution may not be None'
+        assert cls.required_packages_sign_method is not None, 'List of required packages for sing execution may not be None'
 
         not_installed_packages = list()
 
+        required_packages = list()
+
         if package_file_execution is True:
-            required_packages = cls.required_packages_package_file_argument
-        else:
-            required_packages = cls.required_packages_sign_argument
+            required_packages.extend(cls.required_packages_package_file_method)
+
+        if sign_tag_execution is True:
+            required_packages.extend(cls.required_packages_sign_method)
 
         for package in required_packages:
             is_installed = cls.check_package_installed(package)
