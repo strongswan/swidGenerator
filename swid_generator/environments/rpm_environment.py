@@ -22,6 +22,15 @@ class RpmEnvironment(CommonEnvironment):
     CONFFILE_FILE_NAME = 'conffiles'
     CONTROL_ARCHIVE = 'control.tar.gz'
 
+    required_packages_package_file_method = [
+        "rpm2cpio"
+        "cpio"
+    ]
+
+    required_packages_sign_method = [
+        "xmlsec1"
+    ]
+
     @classmethod
     def get_package_list(cls):
         """
