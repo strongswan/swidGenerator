@@ -162,6 +162,7 @@ class IntegrationTests(unittest.TestCase):
         command_package = ["swid_generator", "swid", "--full", "--pretty", "--package-file", "/tmp/ubu_wallpaper.deb"]
         output_swid_tag = CommandManager.run_command_check_output(command_package)
         print(output_swid_tag)
+
         expected_swid_tag = test_context['template_full_pretty_cmd_package']
         self.check_equality(expected_swid_tag, output_swid_tag)
 
