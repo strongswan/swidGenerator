@@ -159,7 +159,7 @@ class IntegrationTests(unittest.TestCase):
 
         test_context = self.get_testcontext(self.env)
 
-        command_package = ["swid_generator", "swid", "--full", "--pretty", "--package-file", "/tmp/ubu_wallpaper.deb"]
+        command_package = ["swid_generator", "swid", "--full", "--pretty", "--package-file", "/tmp/docker.deb"]
         output_swid_tag = CommandManager.run_command_check_output(command_package)
         print(output_swid_tag)
 
