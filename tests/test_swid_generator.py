@@ -1,7 +1,6 @@
+import sys
 from functools import partial
 from xml.etree import cElementTree as ET
-
-import unittest
 
 from swid_generator.generators import swid_generator
 from swid_generator.package_info import PackageInfo
@@ -9,6 +8,12 @@ from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 from swid_generator.environments.common import CommonEnvironment
 from swid_generator.generators.swid_generator import software_id_matcher, package_name_matcher, _create_flat_payload_tag, _create_hierarchic_payload_tag
 from nose_parameterized import parameterized
+
+if sys.version_info < (2, 7):
+    # We need the skip decorators from unittest2 on Python 2.6.
+    import unittest2 as unittest
+else:
+    import unittest
 
 
 class FileInfoMock(object):
