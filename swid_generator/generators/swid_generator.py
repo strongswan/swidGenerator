@@ -3,6 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 from xml.etree import ElementTree as ET
 
+from swid_generator.package_info import PackageInfo
 from .utils import create_unique_id, create_software_id, create_system_id
 from .utils import create_sha256_hash, create_sha384_hash, create_sha512_hash
 from itertools import groupby
@@ -42,6 +43,25 @@ def _sort_files(files):
 
 def _create_flat_payload_tag(package_info, hash_algorithms):
     payload = ET.Element('Payload')
+    return _create_flat_content_tag(payload, package_info, hash_algorithms)
+
+
+def _create_flat_evidence_tag(package_info, hash_algorithms):
+    evidence = ET.Element('Evidence')
+    return _create_flat_content_tag(evidence, package_info, hash_algorithms)
+
+
+def _create_hierarchic_payload_tag(package_info, hash_algorithms):
+    payload = ET.Element('Payload')
+    return _create_hierarchic_content_tag(payload, package_info, hash_algorithms)
+
+
+def _create_hierarchic_evidence_tag(package_info, hash_algorithms):
+    evidence = ET.Element('Evidence')
+    return _create_hierarchic_content_tag(evidence, package_info, hash_algorithms)
+
+
+def _create_flat_content_tag(root_element, package_info, hash_algorithms):
     last_full_pathname = ""
     last_directory_tag = ""
 
@@ -59,7 +79,7 @@ def _create_flat_payload_tag(package_info, hash_algorithms):
             file_tag = ET.SubElement(last_directory_tag, 'File')
             file_tag.set('name', file_name)
         else:
-            directory_tag = ET.SubElement(payload, 'Directory')
+            directory_tag = ET.SubElement(root_element, 'Directory')
             directory_tag.set('root', root)
             directory_tag.set('name', folder_name)
             file_tag = ET.SubElement(directory_tag, 'File')
@@ -74,12 +94,10 @@ def _create_flat_payload_tag(package_info, hash_algorithms):
 
         _add_hashes(file_info, file_tag, hash_algorithms)
 
-    return payload
+    return root_element
 
 
-def _create_hierarchic_payload_tag(package_info, hash_algorithms):
-    payload = ET.Element('Payload')
-
+def _create_hierarchic_content_tag(root_element, package_info, hash_algorithms):
     for file in package_info.files:
         splitted_location = file.location.split('/')
         splitted_location.append(file.name)
@@ -119,9 +137,9 @@ def _create_hierarchic_payload_tag(package_info, hash_algorithms):
     def _keyfunc(obj):
         return obj.fullpathname_splitted[0]
 
-    _file_hierarchy(package_info.files, payload_tag=payload)
+    _file_hierarchy(package_info.files, payload_tag=root_element)
 
-    return payload
+    return root_element
 
 
 def _add_hashes(file_info, file_tag, hash_algorithms):
@@ -150,7 +168,7 @@ def software_id_matcher(ctx, value):
     return software_id == value
 
 
-def create_software_identity_element(ctx, from_package_file=False):
+def create_software_identity_element(ctx, from_package_file=False, from_folder=False):
     """
     This method creates the SoftwareIdentity-Tag for the SWID.
     :param ctx: Information of package and arguments given by User (example: full-flag, regid, etc.)
@@ -188,21 +206,31 @@ def create_software_identity_element(ctx, from_package_file=False):
 
         if from_package_file:
             ctx['package_info'].files.extend(ctx['environment'].get_files_from_packagefile(ctx['file_path']))
+        elif from_folder:
+            ctx['package_info'].files.extend(ctx['environment'].get_files_from_folder(ctx['evidence_path']))
         else:
             ctx['package_info'].files.extend(ctx['environment'].get_files_for_package(ctx['package_info']))
 
         if ctx['hierarchic']:
-            payload_tag = _create_hierarchic_payload_tag(ctx['package_info'], ctx['hash_algorithms'])
-        else:
-            payload_tag = _create_flat_payload_tag(ctx['package_info'], ctx['hash_algorithms'])
+            if from_folder:
+                content_tag = _create_hierarchic_evidence_tag(ctx['package_info'], ctx['hash_algorithms'])
+            else:
+                content_tag = _create_hierarchic_payload_tag(ctx['package_info'], ctx['hash_algorithms'])
 
-        software_identity.append(payload_tag)
+        else:
+            if from_folder:
+                content_tag = _create_flat_evidence_tag(ctx['package_info'], ctx['hash_algorithms'])
+            else:
+                content_tag = _create_flat_payload_tag(ctx['package_info'], ctx['hash_algorithms'])
+
+        software_identity.append(content_tag)
 
     return software_identity
 
 
 def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
-                     full=False, matcher=all_matcher, hierarchic=False, file_path=None, pkcs12_file=None):
+                     full=False, matcher=all_matcher, hierarchic=False, file_path=None, evidence_path=None,
+                     name=None, version=None, root_path=None, pkcs12_file=None):
     """
     Return SWID tags as utf8-encoded xml bytestrings for all available
     packages.
@@ -235,7 +263,8 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
         'full': full,
         'hash_algorithms': hash_algorithms,
         'hierarchic': hierarchic,
-        'file_path': file_path
+        'file_path': file_path,
+        'evidence_path': evidence_path
     }
 
     if file_path is not None:
@@ -249,11 +278,26 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
             signature_template_tree = ET.fromstring(SIGNATURE)
             software_identity.append(signature_template_tree)
 
-        swidtag_flat = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')
-        yield XML_DECLARATION.encode('utf-8') + swidtag_flat
+        swidtag = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')
+        yield XML_DECLARATION.encode('utf-8') + swidtag
+
+    elif evidence_path is not None:
+        pi = PackageInfo()
+        pi.package = name
+        pi.version = version
+
+        ctx['package_info'] = pi
+
+        software_identity = create_software_identity_element(ctx, from_folder=True)
+
+        if pkcs12_file is not None:
+            signature_template_tree = ET.fromstring(SIGNATURE)
+            software_identity.append(signature_template_tree)
+
+        swidtag = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')
+        yield XML_DECLARATION.encode('utf-8') + swidtag
 
     else:
-
         pkg_info = environment.get_package_list()
 
         for pi in pkg_info:
@@ -269,5 +313,5 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
                 signature_template_tree = ET.fromstring(SIGNATURE)
                 software_identity.append(signature_template_tree)
 
-            swidtag_flat = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')
-            yield XML_DECLARATION.encode('utf-8') + swidtag_flat
+            swidtag = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')
+            yield XML_DECLARATION.encode('utf-8') + swidtag

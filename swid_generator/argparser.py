@@ -151,7 +151,15 @@ class MainArgumentParser(object):
                                          'dpkg managed environment. '
                                          'If no matching package is found, the output is empty and the '
                                          'exit code is set to 1.')
-
+        targeted_group.add_argument('--evidence', dest='evidence_path', metavar='PATH',
+                                    help='Create a SWID Tag from a folder structure.')
+        targeted_group.add_argument('--name', dest='name', default=None, type=entity_name_string,
+                                    help='Name for the folder swid tag.')
+        targeted_group.add_argument('--version-string', dest='version', type=entity_name_string, default=None,
+                                    help='Version for the folder swid tag.')
+        targeted_group.add_argument('--new-root', dest='new-root', metavar='PATH', type=entity_name_string,
+                                    default=None,
+                                    help='New Root for the folder swid tag.')
         # Subparser for software-id command
         subparsers.add_parser('software-id', help='Software id output', parents=[parent_parser],
                               description='Generate Software-IDs.')

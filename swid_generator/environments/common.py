@@ -5,6 +5,7 @@ import os
 import stat
 import platform
 from distutils.spawn import find_executable
+from swid_generator.package_info import FileInfo
 
 
 class CommonEnvironment(object):
@@ -66,3 +67,19 @@ class CommonEnvironment(object):
     def is_installed(cls):
         assert cls.executable is not None, 'Executable may not be None'
         return find_executable(cls.executable)
+
+    @classmethod
+    def get_files_from_folder(cls, evidence_path):
+        """
+        Get all files from a path on the filesystem
+
+        :param evidence_path: Path on the filesystem
+        :return: Lexicographical sorted List of FileInfo()-Objects
+        """
+        result_files = []
+        for dirpath, dirs, files in os.walk(evidence_path):
+            for file in files:
+                file_info = FileInfo('/'.join([dirpath, file]))
+                result_files.append(file_info)
+
+        return result_files
