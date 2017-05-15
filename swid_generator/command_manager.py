@@ -1,6 +1,7 @@
 
-import subprocess
 import os
+from .exceptions import CommandManagerException
+from subprocess import call, check_output, Popen
 
 
 class CommandManager(object):
@@ -13,7 +14,10 @@ class CommandManager(object):
         :param working_directory: The working directory of the command.
         """
         with open(os.devnull, 'w') as devnull:
-            subprocess.call(command_argumentlist, stderr=devnull, cwd=working_directory)
+            try:
+                call(command_argumentlist, stderr=devnull, cwd=working_directory)
+            except Exception as e:
+                raise CommandManagerException(e.message)
 
     @staticmethod
     def run_command_check_output(command_argumentlist, stdin=None, working_directory=os.getcwd()):
@@ -24,14 +28,16 @@ class CommandManager(object):
         :param working_directory: Working directory of the command.
         :return: Console-Output of the command.
         """
-        if stdin is None:
-            output = subprocess.check_output(command_argumentlist, cwd=working_directory)
-
-            if isinstance(output, bytes):
-                output = output.decode('utf-8')
-            return output
-        else:
-            subprocess.check_output(command_argumentlist, stdin=stdin, cwd=working_directory)
+        try:
+            if stdin is None:
+                output = check_output(command_argumentlist, cwd=working_directory)
+                if isinstance(output, bytes):
+                    output = output.decode('utf-8')
+                return output
+            else:
+                check_output(command_argumentlist, stdin=stdin, cwd=working_directory)
+        except Exception as e:
+            raise CommandManagerException(e.message)
 
     @staticmethod
     def run_command_popen(command_argumentlist, stdout=None):
@@ -41,7 +47,10 @@ class CommandManager(object):
         :param stdout: Standard output (e.x subprocess.PIPE)
         :return: Popen object to catch pipeline output
         """
-        if stdout is not None:
-            return subprocess.Popen(command_argumentlist, stdout=stdout)
-        else:
-            return subprocess.Popen(command_argumentlist)
+        try:
+            if stdout is not None:
+                return Popen(command_argumentlist, stdout=stdout)
+            else:
+                return Popen(command_argumentlist)
+        except Exception as e:
+            raise CommandManagerException(e.message)

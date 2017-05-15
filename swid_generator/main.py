@@ -35,7 +35,7 @@ from .environments.pacman_environment import PacmanEnvironment
 from .generators.swid_generator import create_swid_tags
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
-from .exceptions import AutodetectionError, EnvironmentNotInstalledError, RequirementsNotInstalledError
+from .exceptions import AutodetectionError, EnvironmentNotInstalledError, CommandManagerException
 from glob import glob
 from shutil import rmtree
 
@@ -105,25 +105,27 @@ def main():
             'file_path': options.file_path,
             'pkcs12_file': options.pkcs12
         }
+
         signatur_args = {
             'pkcs12_file': options.pkcs12,
             'pkcs12_password': options.pkcs12_pwd
         }
 
-        swid_tags = create_swid_tags(**swid_args)
-
         try:
-            print_swid_tags(swid_tags, signatur_args, separator=options.document_separator,
-                            pretty=options.pretty)
 
+            swid_tags = create_swid_tags(**swid_args)
+            print_swid_tags(swid_tags, signatur_args, separator=options.document_separator, pretty=options.pretty)
+
+            # Garbage-Collection, clean tmp folder, delete swid_*-Folders
+            files_to_delete = glob(TMP_FOLDER + PREFIX_FOLDER)
+            for file_path in files_to_delete:
+                rmtree(file_path)
+
+        except CommandManagerException:
+            sys.exit(1)
         # if --match was used no matching packages were found
         except StopIteration:
             sys.exit(1)
-
-        # Garbage-Collection, clean tmp folder, delete swid_*-Folders
-        files_to_delete = glob(TMP_FOLDER + PREFIX_FOLDER)
-        for file_path in files_to_delete:
-            rmtree(file_path)
 
     elif options.command == 'software-id':
         software_ids = create_software_ids(env=env, regid=options.regid)

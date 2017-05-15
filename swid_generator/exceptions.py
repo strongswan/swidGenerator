@@ -21,3 +21,10 @@ class RequirementsNotInstalledError(RuntimeError):
     Raised when the requirements for a operation is not installed.
     """
     pass
+
+
+class CommandManagerException(RuntimeError):
+    """
+    Raised when CommandManager cannot run command.
+    """
+    pass
