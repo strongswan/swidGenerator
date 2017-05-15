@@ -159,13 +159,6 @@ class IntegrationTests(unittest.TestCase):
 
         test_context = self.get_testcontext(self.env)
 
-        command_package = ["swid_generator", "swid", "--full", "--pretty", "--package-file", "/tmp/docker.deb"]
-        output_swid_tag = CommandManager.run_command_check_output(command_package)
-        print(output_swid_tag)
-
-        expected_swid_tag = test_context['template_full_pretty_cmd_package']
-        self.check_equality(expected_swid_tag, output_swid_tag)
-
         command_package = ["swid_generator", "swid", "--full", "--pretty", "--package", "docker"]
         output_swid_tag = self.get_tree_output_from_cmd(command_package)
         expected_swid_tag = test_context['template_full_pretty_cmd_package']
