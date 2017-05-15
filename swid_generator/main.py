@@ -119,7 +119,7 @@ def main():
             # Garbage-Collection, clean tmp folder, delete swid_*-Folders
             files_to_delete = glob(TMP_FOLDER + PREFIX_FOLDER)
             for file_path in files_to_delete:
-                rmtree(file_path)
+                rmtree(file_path.encode('utf-8'))
 
         except CommandManagerException:
             sys.exit(1)
