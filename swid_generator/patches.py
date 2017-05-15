@@ -1,5 +1,7 @@
 
+
 import subprocess
+import inspect
 
 
 def py26_check_output(*popenargs, **kwargs):
@@ -21,3 +23,15 @@ def py26_check_output(*popenargs, **kwargs):
         error.output = output
         raise error
     return output
+
+"""
+def unicode(*popenargs, **kwargs):
+
+    all_builtin_classes = inspect.getmembers(builtins, inspect.isclass)
+
+    unicode_declaration = [cls for class_member in ]
+    # Python 2.6 compatibility
+    if 'unicode' not in dir(subprocess):
+        # Ugly monkey patching hack ahead
+        subprocess.check_output = py26_check_output
+"""
