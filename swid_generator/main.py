@@ -27,6 +27,8 @@ import sys
 import logging
 import subprocess
 
+from glob import glob
+from shutil import rmtree
 from .argparser import MainArgumentParser
 from .environments.environment_registry import EnvironmentRegistry
 from .environments.dpkg_environment import DpkgEnvironment
@@ -36,32 +38,10 @@ from .generators.swid_generator import create_swid_tags
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
 from .exceptions import AutodetectionError, EnvironmentNotInstalledError, CommandManagerException
-from glob import glob
-from shutil import rmtree
+from .patches import py26_check_output
 
 TMP_FOLDER = '/tmp/'
 PREFIX_FOLDER = 'swid_*'
-
-
-def py26_check_output(*popenargs, **kwargs):
-    """
-    This function is an ugly hack to monkey patch the backported `check_output`
-    method into the subprocess module.
-
-    Taken from https://gist.github.com/edufelipe/1027906.
-
-    """
-    process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
-    output, unused_err = process.communicate()
-    retcode = process.poll()
-    if retcode:
-        cmd = kwargs.get('args')
-        if cmd is None:
-            cmd = popenargs[0]
-        error = subprocess.CalledProcessError(retcode, cmd)
-        error.output = output
-        raise error
-    return output
 
 
 def main():
