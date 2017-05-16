@@ -24,8 +24,7 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import sys
-import logging
-import subprocess
+
 
 from glob import glob
 from shutil import rmtree
@@ -38,18 +37,13 @@ from .generators.swid_generator import create_swid_tags
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
 from .exceptions import AutodetectionError, EnvironmentNotInstalledError, CommandManagerException
-from .patches import py26_check_output
+
 
 TMP_FOLDER = '/tmp/'
 PREFIX_FOLDER = 'swid_*'
 
 
 def main():
-    # Python 2.6 compatibility
-    if 'check_output' not in dir(subprocess):
-        # Ugly monkey patching hack ahead
-        logging.debug('Monkey patching subprocess.check_output')
-        subprocess.check_output = py26_check_output
 
     # Register environments
     environment_registry = EnvironmentRegistry()

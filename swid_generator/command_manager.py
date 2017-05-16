@@ -1,7 +1,15 @@
 
 import os
+import subprocess
 from .exceptions import CommandManagerException
-from subprocess import call, check_output, Popen
+from .patches import py26_check_output
+
+
+# Python 2.6 compatibility
+if 'check_output' not in dir(subprocess):
+    # Ugly monkey patching hack ahead
+    # logging.debug('Monkey patching subprocess.check_output')
+    subprocess.check_output = py26_check_output
 
 
 class CommandManager(object):
@@ -15,7 +23,7 @@ class CommandManager(object):
         """
         with open(os.devnull, 'w') as devnull:
             try:
-                call(command_argumentlist, stderr=devnull, cwd=working_directory)
+                subprocess.call(command_argumentlist, stderr=devnull, cwd=working_directory)
             except Exception as e:
                 raise CommandManagerException(e.message)
 
@@ -30,12 +38,12 @@ class CommandManager(object):
         """
         try:
             if stdin is None:
-                output = check_output(command_argumentlist, cwd=working_directory)
+                output = subprocess.check_output(command_argumentlist, cwd=working_directory)
                 if isinstance(output, bytes):
                     output = output.decode('utf-8')
                 return output
             else:
-                check_output(command_argumentlist, stdin=stdin, cwd=working_directory)
+                subprocess.check_output(command_argumentlist, stdin=stdin, cwd=working_directory)
         except Exception as e:
             raise CommandManagerException(e.message)
 
@@ -49,8 +57,8 @@ class CommandManager(object):
         """
         try:
             if stdout is not None:
-                return Popen(command_argumentlist, stdout=stdout)
+                return subprocess.Popen(command_argumentlist, stdout=stdout)
             else:
-                return Popen(command_argumentlist)
+                return subprocess.Popen(command_argumentlist)
         except Exception as e:
             raise CommandManagerException(e.message)
