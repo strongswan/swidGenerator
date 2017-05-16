@@ -23,7 +23,7 @@ class RpmEnvironment(CommonEnvironment):
     CONTROL_ARCHIVE = 'control.tar.gz'
 
     required_packages_package_file_method = [
-        "rpm2cpio"
+        "rpm2cpio",
         "cpio"
     ]
 
