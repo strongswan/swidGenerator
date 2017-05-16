@@ -157,7 +157,7 @@ class MainArgumentParser(object):
                                     help='Name for the folder swid tag.')
         targeted_group.add_argument('--version-string', dest='version', type=entity_name_string, default=None,
                                     help='Version for the folder swid tag.')
-        targeted_group.add_argument('--new-root', dest='new-root', metavar='PATH', type=entity_name_string,
+        targeted_group.add_argument('--new-root', dest='new_root', metavar='PATH', type=entity_name_string,
                                     default=None,
                                     help='New Root for the folder swid tag.')
         # Subparser for software-id command

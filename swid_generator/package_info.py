@@ -9,14 +9,15 @@ class FileInfo(object):
         self.name = (os.path.split(path)[1]).strip()
         self.location = (os.path.split(path)[0]).strip()
         self.mutable = False
+#       self.full_pathname = path
         self.full_pathname = '/'.join((self.location, self.name))
 
         splitted_location = self.full_pathname.split('/')
         self.full_pathname_splitted = splitted_location[1:]
 
         if actual_path:
-            self.actual_full_pathname = self.full_pathname.encode('utf-8')
-            self.size = str(os.path.getsize(self.full_pathname.encode('utf-8')))
+            self.actual_full_pathname = self.full_pathname
+            self.size = str(os.path.getsize(self.full_pathname))
         else:
             self.actual_full_pathname = ""
 

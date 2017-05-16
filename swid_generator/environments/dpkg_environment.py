@@ -200,9 +200,9 @@ class DpkgEnvironment(CommonEnvironment):
 
             if symbol_link is not None:
                 symbol_link = symbol_link[1:]
-                temp_save_location_symbol_link = str("/".join((save_options['save_location'], symbol_link[1:])))
+                temp_save_location_symbol_link = "/".join((save_options['save_location'], symbol_link[1:]))
 
-            temp_save_location = str("/".join((save_options['save_location'], path_without_leading_point[1:])))
+            temp_save_location = "/".join((save_options['save_location'], path_without_leading_point[1:]))
 
             if cls._is_file(temp_save_location):
                 if path_without_leading_point not in config_file_paths and path_without_leading_point not in result_help_list:

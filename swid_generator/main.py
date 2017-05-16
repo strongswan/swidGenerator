@@ -104,6 +104,7 @@ def main():
             'hierarchic': options.hierarchic,
             'file_path': options.file_path,
             'evidence_path': options.evidence_path,
+            'new_root_path': options.new_root,
             'name': options.name,
             'version': options.version,
             'pkcs12_file': options.pkcs12

@@ -69,7 +69,7 @@ class CommonEnvironment(object):
         return find_executable(cls.executable)
 
     @classmethod
-    def get_files_from_folder(cls, evidence_path):
+    def get_files_from_folder(cls, evidence_path, new_root_path):
         """
         Get all files from a path on the filesystem
 
@@ -79,7 +79,14 @@ class CommonEnvironment(object):
         result_files = []
         for dirpath, dirs, files in os.walk(evidence_path):
             for file in files:
-                file_info = FileInfo('/'.join([dirpath, file]))
-                result_files.append(file_info)
+                actual_path = '/'.join([dirpath, file])
+                if new_root_path is not None:
+                    path_for_tag = actual_path.replace(evidence_path, new_root_path)
+                    path_for_tag = path_for_tag.replace('//', '/')
+                    file_info = FileInfo(path_for_tag, actual_path=False)
+                    file_info.set_actual_path(actual_path)
+                else:
+                    file_info = FileInfo(actual_path)
 
+                result_files.append(file_info)
         return result_files

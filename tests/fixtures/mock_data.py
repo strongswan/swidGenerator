@@ -1,6 +1,6 @@
 
 def _read_file(file_path):
-    with open(file_path) as dump:
+    with open(file_path, 'rb') as dump:
         data = dump.read()
     return data
 
@@ -20,3 +20,9 @@ pacman_query_package_list_output = _read_file("tests/dumps/console_output/pacman
 pacman_query_file_list = _read_file("tests/dumps/console_output/pacman_file_list.txt")
 pacman_query_file_list_package = _read_file("tests/dumps/console_output/pacman_file_list_package.txt")
 pacman_query_conffile_list = _read_file("tests/dumps/console_output/rpm_conffile_list.txt")
+
+#OS.walk
+os_walk_three_tuple = [('/home/BA-SWID-Generator/ca-certificates/', ['usr', 'etc'], ['data.tar.xz', 'control.tar.gz', 'debian-binary', 'ca-certificates_20160104ubuntu1_all.deb']),
+('/home/BA-SWID-Generator/ca-certificates/usr', ['sbin', 'share'], []),
+('/home/BA-SWID-Generator/ca-certificates/usr/sbin', [], ['update-ca-certificates']),
+('/home/BA-SWID-Generator/ca-certificates/usr/share', ['ca-certificates', 'man', 'doc'], [])]

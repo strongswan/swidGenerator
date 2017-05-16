@@ -207,7 +207,8 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
         if from_package_file:
             ctx['package_info'].files.extend(ctx['environment'].get_files_from_packagefile(ctx['file_path']))
         elif from_folder:
-            ctx['package_info'].files.extend(ctx['environment'].get_files_from_folder(ctx['evidence_path']))
+            ctx['package_info'].files.extend(ctx['environment'].get_files_from_folder(ctx['evidence_path'],
+                                                                                      ctx['new_root_path']))
         else:
             ctx['package_info'].files.extend(ctx['environment'].get_files_for_package(ctx['package_info']))
 
@@ -230,7 +231,7 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
 
 def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
                      full=False, matcher=all_matcher, hierarchic=False, file_path=None, evidence_path=None,
-                     name=None, version=None, root_path=None, pkcs12_file=None):
+                     name=None, version=None, new_root_path=None, pkcs12_file=None):
     """
     Return SWID tags as utf8-encoded xml bytestrings for all available
     packages.
@@ -264,7 +265,8 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
         'hash_algorithms': hash_algorithms,
         'hierarchic': hierarchic,
         'file_path': file_path,
-        'evidence_path': evidence_path
+        'evidence_path': evidence_path,
+        'new_root_path': new_root_path
     }
 
     if file_path is not None:
