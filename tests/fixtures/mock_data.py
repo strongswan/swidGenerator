@@ -1,6 +1,6 @@
 
 def _read_file(file_path):
-    with open(file_path, 'rb') as dump:
+    with open(file_path) as dump:
         data = dump.read()
     return data
 
