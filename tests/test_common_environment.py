@@ -10,6 +10,7 @@ import shutil
 from mock import patch
 from swid_generator.environments.common import CommonEnvironment
 from nose_parameterized import parameterized
+from .fixtures.mock_data import os_walk_three_tuple
 
 
 class CommonEnvironmentTests(unittest.TestCase):
@@ -18,16 +19,22 @@ class CommonEnvironmentTests(unittest.TestCase):
         self.platform_dist_patch = patch.object(platform, 'dist')
         self.platform_system_patch = patch.object(platform, 'system')
         self.platform_os_name_patch = patch.object(platform.os, 'name')
+        self.os_walk_patch = patch.object(os, 'walk')
+        self.os_path_getsize_patch = patch.object(os.path, 'getsize')
 
         self.platform_dis_mock = self.platform_dist_patch.start()
         self.platform_system_mock = self.platform_system_patch.start()
         self.platform_os_name_mock = self.platform_os_name_patch.start()
+        self.os_walk_mock = self.os_walk_patch.start()
+        self.os_path_getsize_mock = self.os_path_getsize_patch.start()
+        self.os_path_getsize_mock.return_value = 1
         self._collect_garbage()
 
     def tearDown(self):
         self.platform_dist_patch.stop()
         self.platform_system_patch.stop()
         self.platform_os_name_patch.stop()
+        self.os_walk_patch.stop()
         self._collect_garbage()
 
     @parameterized.expand([
@@ -66,6 +73,23 @@ class CommonEnvironmentTests(unittest.TestCase):
 
         os.symlink("/tmp/sub/file.txt", "/tmp/sub/file_sym.txt")
         assert isfile(str("/tmp/sub/file.txt")) is True, 'A symlink is a file like object.'
+
+    def test_get_files_from_folder(self):
+        self.os_walk_mock.return_value = os_walk_three_tuple
+
+        common = CommonEnvironment()
+        result = common.get_files_from_folder('/', None)
+
+        result_list = []
+        for file in result:
+            result_list.append('/'.join([file.location, file.name]))
+        template = [u'/home/BA-SWID-Generator/ca-certificates/data.tar.xz',
+         u'/home/BA-SWID-Generator/ca-certificates/control.tar.gz',
+         u'/home/BA-SWID-Generator/ca-certificates/debian-binary',
+         u'/home/BA-SWID-Generator/ca-certificates/ca-certificates_20160104ubuntu1_all.deb',
+         u'/home/BA-SWID-Generator/ca-certificates/usr/sbin/update-ca-certificates']
+        assert result_list == template
+
 
     @staticmethod
     def _collect_garbage():

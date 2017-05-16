@@ -77,6 +77,10 @@ def main():
             'hash_algorithms': options.hash_algorithms,
             'hierarchic': options.hierarchic,
             'file_path': options.file_path,
+            'evidence_path': options.evidence_path,
+            'new_root_path': options.new_root,
+            'name': options.name,
+            'version': options.version,
             'pkcs12_file': options.pkcs12
         }
 
@@ -84,6 +88,8 @@ def main():
             'pkcs12_file': options.pkcs12,
             'pkcs12_password': options.pkcs12_pwd
         }
+        if options.evidence_path is not None:
+            swid_args['full'] = True
 
         try:
 
@@ -104,9 +110,10 @@ def main():
     elif options.command == 'software-id':
         software_ids = create_software_ids(env=env, regid=options.regid)
         print_software_ids(software_ids, separator=options.document_separator)
+
     else:
         print('Error: Please choose a subcommand: '
-              'swid for swid output, software-id for software id output')
+              'swid for swid output, software-id for software id output, evidence for folder input')
         parser.print_usage()
         sys.exit(1)
 
