@@ -1,5 +1,4 @@
 import unittest
-import subprocess
 from swid_generator.command_manager import CommandManager
 from swid_generator.generators.utils import create_temp_folder
 from xml.etree import cElementTree as ET
@@ -33,12 +32,8 @@ class IntegrationTests(unittest.TestCase):
         template_entity_tag = expected_tag[0]
         output_entity_tag = acutal_tag[0]
 
-        template_meta_tag = expected_tag[1]
-        output_meta_tag = acutal_tag[1]
-
         assert template_entity_tag.attrib['name'] == output_entity_tag.attrib['name']
         assert template_entity_tag.attrib['regid'] == output_entity_tag.attrib['regid']
-        assert template_meta_tag.attrib['product'] == output_meta_tag.attrib['product']
 
         try:
             template_payload_tag = expected_tag[2]
@@ -59,7 +54,7 @@ class IntegrationTests(unittest.TestCase):
     def validate_signature(output_swid_tag):
         folder_info = create_temp_folder('nofile')
         file_path = folder_info['save_location'] + '/swid_tag.xml'
-        with open(file_path, 'wb') as file:
+        with open(file_path, 'w') as file:
             file.write(output_swid_tag)
         CommandManager.run_command_check_output(["xmlsec1", "--verify", file_path])
 
