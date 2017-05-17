@@ -27,17 +27,17 @@ class IntegrationTests(unittest.TestCase):
         return environment_registry.get_environment("auto")
 
     @staticmethod
-    def check_equality(expected_tag, acutal_tag):
+    def check_equality(expected_tag, actual_tag):
 
         template_entity_tag = expected_tag[0]
-        output_entity_tag = acutal_tag[0]
+        output_entity_tag = actual_tag[0]
 
         assert template_entity_tag.attrib['name'] == output_entity_tag.attrib['name']
         assert template_entity_tag.attrib['regid'] == output_entity_tag.attrib['regid']
 
         try:
             template_payload_tag = expected_tag[2]
-            output_payload_tag = acutal_tag[2]
+            output_payload_tag = actual_tag[2]
 
             assert len(template_payload_tag) == len(output_payload_tag)
         except IndexError:
@@ -45,7 +45,7 @@ class IntegrationTests(unittest.TestCase):
 
         try:
             template_signature_tag = expected_tag[3]
-            output_signature_tag = acutal_tag[3]
+            output_signature_tag = actual_tag[3]
             assert len(template_signature_tag) == len(output_signature_tag)
         except IndexError:
             print("Test with no signature")
@@ -57,7 +57,6 @@ class IntegrationTests(unittest.TestCase):
         with open(file_path, 'w') as file:
             file.write(output_swid_tag)
         CommandManager.run_command_check_output(["xmlsec1", "--verify", file_path])
-
 
     def get_testcontext(self, environment):
 
