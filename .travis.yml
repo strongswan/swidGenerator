@@ -12,7 +12,7 @@ env:
 matrix:
   allow_failures:
     - env: TOXENV=cov
-
+  include:
     - language: python
       python: "3.6"
       env: TOXENV=py36
