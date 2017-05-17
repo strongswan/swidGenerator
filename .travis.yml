@@ -6,12 +6,12 @@ env:
   - TOXENV=py33
   - TOXENV=py34
   - TOXENV=py35
-  - TOXENV=py36
   - TOXENV=pypy
   - TOXENV=cov
 matrix:
   allow_failures:
     - env: TOXENV=cov
+  # python3.6 compatibility See: https://github.com/travis-ci/travis-ci/issues/4794 (Comment BanzaiMan)
   include:
     - python: 3.6
       env:
