@@ -23,3 +23,19 @@ def py26_check_output(*popenargs, **kwargs):
         error.output = output
         raise error
     return output
+
+
+def unicode_patch(string):
+
+    all_builtins_classmembers = inspect.getmembers(__builtins__, inspect.isclass)
+
+    unicode_accepted = False
+
+    for member in all_builtins_classmembers:
+        if member[0] == 'unicode':
+            unicode_accepted = True
+
+    if unicode_accepted:
+        return __builtins__.unicode(string)
+    else:
+        return str(string, 'utf-8')
