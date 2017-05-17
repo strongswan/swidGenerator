@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SoftwareIdentity name="docker" tagId="Ubuntu_16.04-x86_64-docker-1.5-1" version="1.5-1" versionScheme="alphanumeric" xmlns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" xmlns:SHA256="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:n8060="http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd">
+<SoftwareIdentity name="docker" tagId="debian stretch/sid-x86_64-docker-1.5-1" version="1.5-1" versionScheme="alphanumeric" xmlns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" xmlns:SHA256="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:n8060="http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd">
   <Entity name="strongSwan Project" regid="strongswan.org" role="tagCreator"/>
-  <Meta product="Ubuntu 16.04 x86_64"/>
+  <Meta product="debian stretch/sid x86_64"/>
   <Payload>
     <Directory name="bin" root="/usr">
       <File SHA256:hash="681458ed63e2f0b0b105d9dbad65d9440eb53be931a052451ba7400415bd096e" name="wmdocker" size="18832"/>

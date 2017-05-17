@@ -10,8 +10,7 @@ def _execute_command(cmd):
     popen.stdout.close()
     return_code = popen.wait()
     if return_code:
-        # On error fail Build-process. Break with exit of program.
-        raise sys.exit(1)
+        raise sys.exit(0)
 
 
 def _compose_test_files(test_files):
@@ -52,8 +51,11 @@ class IntegrationTestRunner(object):
                 print(title)
                 print(underline_title)
 
-                for path in _execute_command(docker_command_args):
-                    print(path, end="")
+                for line in _execute_command(docker_command_args):
+                    if 'FAILED' in line or 'ERROR' in line or 'Error' in line:
+                        print(line, end="")
+                        sys.exit(1)
+                    print(line, end="")
 
 
 class IntegrationTestRunnerConfiguration(object):
