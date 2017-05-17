@@ -1,7 +1,5 @@
 language:  python
 matrix:
-  allow_failures:
-    - env: TOXENV=cov
   include:
     - python: 2.7
       env:
@@ -36,6 +34,8 @@ matrix:
     - python: 2.7
       env:
       - TOXENV=cov
+  allow_failures:
+    - env: TOXENV=cov
 install:
    - pip install tox
 script:
