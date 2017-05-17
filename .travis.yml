@@ -11,18 +11,31 @@ matrix:
     - python: 3.3
       env:
       - TOXENV=py33
+      services:
+      - docker
     - python: 3.4
       env:
       - TOXENV=py34
+      services:
+      - docker
     - python: 3.5
       env:
       - TOXENV=py35
+      services:
+      - docker
     - python: 3.6
       env:
       - TOXENV=py36
+      services:
+      - docker
     - python: pypy
       env:
       - TOXENV=pypy
+      services:
+      - docker
+    - python: 2.7
+      env:
+      - TOXENV=cov
 install:
    - pip install tox
 script:
