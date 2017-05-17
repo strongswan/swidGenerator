@@ -1,8 +1,6 @@
 language:  python
 services:
   - docker
-python:
-  - "3.6"
 env:
   - TOXENV=py27
   - TOXENV=py33
@@ -14,6 +12,10 @@ env:
 matrix:
   allow_failures:
     - env: TOXENV=cov
+
+    - language: python
+      python: "3.6"
+      env: TOXENV=py36
 install: 
    - pip install tox
 script:
