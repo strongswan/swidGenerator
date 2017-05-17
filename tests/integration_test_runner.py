@@ -52,7 +52,8 @@ class IntegrationTestRunner(object):
                 print(underline_title)
 
                 for line in _execute_command(docker_command_args):
-                    if 'FAILED' in line or 'ERROR' in line:
+                    if 'FAILED' in line or 'ERROR' in line or 'Error' in line:
+                        print(line, end="")
                         sys.exit(1)
                     print(line, end="")
 
