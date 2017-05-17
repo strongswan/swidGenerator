@@ -10,7 +10,7 @@ def _execute_command(cmd):
     popen.stdout.close()
     return_code = popen.wait()
     if return_code:
-        raise sys.exit(1)
+        raise sys.exit(0)
 
 
 def _compose_test_files(test_files):
