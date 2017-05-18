@@ -22,7 +22,7 @@ class DpkgEnvironment(CommonEnvironment):
     executable_query = 'dpkg-query'
     executable = 'dpkg'
     md5_hash_length = 32
-    conffile_file_name = 'conffiles'
+    conffile_file_name = './conffiles'
     control_archive = 'control.tar.gz'
 
     installed_states = {
@@ -81,7 +81,9 @@ class DpkgEnvironment(CommonEnvironment):
             List of ``FileInfo`` instances.
 
         """
+
         result = []
+        stripped_lines = []
 
         command_args_normal_files = [cls.executable_query, '-L', package_info.package]
         command_normal_file_output = run_command_check_output(command_args_normal_files)
@@ -93,7 +95,6 @@ class DpkgEnvironment(CommonEnvironment):
         command_config_file_output = run_command_check_output(command_args_config_files)
 
         lines = command_config_file_output.split('\n')
-        stripped_lines = []
 
         for line in lines:
             if len(line) != 0:
@@ -145,21 +146,22 @@ class DpkgEnvironment(CommonEnvironment):
         :return: Lexicographical sorted List of FileInfo()-Objects (Conffiles and normal Files)
         """
         save_options = create_temp_folder(file_pathname)
+
         result = []
         result_help_list = []  # needed to check duplications
+        symbol_link = None
+        temp_save_location_symbol_link = None
 
         command_args_unpack_package = [cls.executable, '-x', save_options['absolute_package_path'], save_options['save_location']]
-
         command_args_extract_controlpackage = ["ar", "x", save_options['absolute_package_path'], cls.control_archive]
+        command_args_extract_conffile = ["tar", "-zxf", "/".join((save_options['save_location'], cls.control_archive)), cls.conffile_file_name]
+        command_args_file_list = [cls.executable, '-c', file_pathname]
 
-        command_args_extract_conffile = ["tar", "-zxf", "/".join((save_options['save_location'], cls.control_archive)), "./conffiles"]
-
-        run_command(command_args_unpack_package)
-
+        # Extraction of all needed Files (Store Files into tmp folder), extract Configuration-Files entries
         try:
 
+            run_command(command_args_unpack_package)
             run_command(command_args_extract_controlpackage, working_directory=save_options['save_location'])
-
             run_command(command_args_extract_conffile, working_directory=save_options['save_location'])
 
             conffile_save_location = "/".join((save_options['save_location'], cls.conffile_file_name))
@@ -176,15 +178,13 @@ class DpkgEnvironment(CommonEnvironment):
                 result.append(file_info)
 
         except(IOError, subprocess.CalledProcessError):
+            # If no file extracted -> Error raises, therefore no Configuration-files for this package exists
             config_file_paths = []
 
-        command_args_file_list = [cls.executable, '-c', file_pathname]
-        command_output_list = run_command_check_output(command_args_file_list)
+        # Extraction of file-list
+        command_output_file_list = run_command_check_output(command_args_file_list)
 
-        line_list = command_output_list.split('\n')
-
-        symbol_link = None
-        temp_save_location_symbol_link = None
+        line_list = command_output_file_list.split('\n')
 
         for line in line_list:
             splitted_line_array = line.split(' ')
@@ -198,7 +198,7 @@ class DpkgEnvironment(CommonEnvironment):
                 if "../" in directory_or_file_path:
                     root, folder_name = ntpath.split(head)
                     directory_or_file_path = root + directory_or_file_path[2:]
-                    symbol_link = directory_or_file_path
+                    # symbol_link = directory_or_file_path
                 else:
                     directory_or_file_path = "/".join((head, directory_or_file_path))
 
@@ -212,7 +212,8 @@ class DpkgEnvironment(CommonEnvironment):
                 symbol_link = symbol_link[1:]
                 temp_save_location_symbol_link = "/".join((save_options['save_location'], symbol_link[1:]))
 
-            temp_save_location = "/".join((save_options['save_location'], path_without_leading_point[1:]))
+            if directory_or_file_path is not None:
+                temp_save_location = "/".join((save_options['save_location'], path_without_leading_point[1:]))
 
             if cls._is_file(temp_save_location):
                 if path_without_leading_point not in config_file_paths and path_without_leading_point not in result_help_list:
@@ -228,6 +229,7 @@ class DpkgEnvironment(CommonEnvironment):
                     file_info.set_actual_path(temp_save_location_symbol_link)
                     result.append(file_info)
                 symbol_link = None
+
         return sorted(result, key=lambda f: f.full_pathname)
 
     @classmethod
