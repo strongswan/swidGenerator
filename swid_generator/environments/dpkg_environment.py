@@ -49,8 +49,7 @@ class DpkgEnvironment(CommonEnvironment):
 
         """
         result = []
-        command_args = [cls.executable_query,
-                        '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
+        command_args = [cls.executable_query, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
 
         command_output = run_command_check_output(command_args)
 
@@ -158,7 +157,9 @@ class DpkgEnvironment(CommonEnvironment):
         run_command(command_args_unpack_package)
 
         try:
+
             run_command(command_args_extract_controlpackage, working_directory=save_options['save_location'])
+
             run_command(command_args_extract_conffile, working_directory=save_options['save_location'])
 
             conffile_save_location = "/".join((save_options['save_location'], cls.conffile_file_name))
