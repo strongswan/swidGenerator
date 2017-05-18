@@ -86,7 +86,7 @@ class CommonEnvironmentTests(unittest.TestCase):
         template = [u'/home/BA-SWID-Generator/ca-certificates/data.tar.xz',
          u'/home/BA-SWID-Generator/ca-certificates/control.tar.gz',
          u'/home/BA-SWID-Generator/ca-certificates/debian-binary',
-         u'/home/BA-SWID-Generator/ca-certificates/ca-certificates_20160104ubuntu1_all.deb',
+         u'/home/BA-SWID-Generator/ca-certificates/ca-certificates.deb',
          u'/home/BA-SWID-Generator/ca-certificates/usr/sbin/update-ca-certificates']
         assert result_list == template
 
