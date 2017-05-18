@@ -36,7 +36,7 @@ from .environments.pacman_environment import PacmanEnvironment
 from .generators.swid_generator import create_swid_tags
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
-from .exceptions import AutodetectionError, EnvironmentNotInstalledError, CommandManagerException
+from .exceptions import AutodetectionError, EnvironmentNotInstalledError, CommandManagerError
 
 
 TMP_FOLDER = '/tmp/'
@@ -101,7 +101,7 @@ def main():
             for file_path in files_to_delete:
                 rmtree(file_path.encode('utf-8'))
 
-        except CommandManagerException:
+        except CommandManagerError:
             sys.exit(1)
         # if --match was used no matching packages were found
         except StopIteration:

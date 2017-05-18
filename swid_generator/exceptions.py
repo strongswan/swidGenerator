@@ -23,7 +23,7 @@ class RequirementsNotInstalledError(RuntimeError):
     pass
 
 
-class CommandManagerException(RuntimeError):
+class CommandManagerError(RuntimeError):
     """
     Raised when CommandManager cannot run command.
     """

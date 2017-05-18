@@ -1,7 +1,7 @@
 
 import os
 import subprocess
-from .exceptions import CommandManagerException
+from .exceptions import CommandManagerError
 from .patches import py26_check_output
 
 
@@ -22,7 +22,7 @@ def run_command(command_argumentlist, working_directory=os.getcwd()):
         try:
             subprocess.call(command_argumentlist, stderr=devnull, cwd=working_directory)
         except Exception as e:
-            raise CommandManagerException(e.message)
+            raise CommandManagerError(e.message)
 
 
 def run_command_check_output(command_argumentlist, stdin=None, working_directory=os.getcwd()):
@@ -42,7 +42,7 @@ def run_command_check_output(command_argumentlist, stdin=None, working_directory
         else:
             subprocess.check_output(command_argumentlist, stdin=stdin, cwd=working_directory)
     except Exception as e:
-        raise CommandManagerException(e.message)
+        raise CommandManagerError(e.message)
 
 
 def run_command_popen(command_argumentlist, stdout=None):
@@ -58,4 +58,4 @@ def run_command_popen(command_argumentlist, stdout=None):
         else:
             return subprocess.Popen(command_argumentlist)
     except Exception as e:
-        raise CommandManagerException(e.message)
+        raise CommandManagerError(e.message)
