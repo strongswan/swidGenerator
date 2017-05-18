@@ -34,10 +34,10 @@ def _create_hierarchic_payload_tag(package_info, hash_algorithms):
 
 def _create_hierarchic_evidence_tag(package_info, hash_algorithms):
     evidence = ET.Element('Evidence')
-    return _create_hierarchic_content_tag(evidence, package_info, hash_algorithms)
+    return create_hierarchic_content_tag(evidence, package_info, hash_algorithms)
 
 
-def all_matcher():
+def all_matcher(ctx):
     return True
 
 
