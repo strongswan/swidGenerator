@@ -22,8 +22,8 @@ class DpkgEnvironment(CommonEnvironment):
     executable_query = 'dpkg-query'
     executable = 'dpkg'
     md5_hash_length = 32
-    CONFFILE_FILE_NAME = 'conffiles'
-    CONTROL_ARCHIVE = 'control.tar.gz'
+    conffile_file_name = 'conffiles'
+    control_archive = 'control.tar.gz'
 
     installed_states = {
         'install ok installed': True,
@@ -151,9 +151,9 @@ class DpkgEnvironment(CommonEnvironment):
 
         command_args_unpack_package = [cls.executable, '-x', save_options['absolute_package_path'], save_options['save_location']]
 
-        command_args_extract_controlpackage = ["ar", "x", save_options['absolute_package_path'], cls.CONTROL_ARCHIVE]
+        command_args_extract_controlpackage = ["ar", "x", save_options['absolute_package_path'], cls.control_archive]
 
-        command_args_extract_conffile = ["tar", "-zxf", "/".join((save_options['save_location'], cls.CONTROL_ARCHIVE)), "./conffiles"]
+        command_args_extract_conffile = ["tar", "-zxf", "/".join((save_options['save_location'], cls.control_archive)), "./conffiles"]
 
         CommandManager.run_command(command_args_unpack_package)
 
@@ -161,7 +161,7 @@ class DpkgEnvironment(CommonEnvironment):
             CommandManager.run_command(command_args_extract_controlpackage, working_directory=save_options['save_location'])
             CommandManager.run_command(command_args_extract_conffile, working_directory=save_options['save_location'])
 
-            conffile_save_location = "/".join((save_options['save_location'], cls.CONFFILE_FILE_NAME))
+            conffile_save_location = "/".join((save_options['save_location'], cls.conffile_file_name))
 
             with open(conffile_save_location, 'rb') as afile:
                 file_content = afile.read().encode('utf-8')
