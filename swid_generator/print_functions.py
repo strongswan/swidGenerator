@@ -3,7 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import sys
 from xml.dom import minidom
-from swid_generator.command_manager import CommandManager
+from swid_generator.command_manager import run_command_check_output
 from swid_generator.generators.utils import create_temp_folder
 
 
@@ -14,7 +14,7 @@ def sign_xml(data, signature_args):
         file.write(data)
     sign_command = ["xmlsec1", "--sign", "--pkcs12", signature_args['pkcs12_file'],
                     "--pwd", signature_args['pkcs12_password'], file_path]
-    return CommandManager.run_command_check_output(sign_command)
+    return run_command_check_output(sign_command)
 
 
 def safe_print(data, signature_args=None, end='\n'):
