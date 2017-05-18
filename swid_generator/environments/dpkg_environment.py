@@ -3,7 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import subprocess
 import ntpath
-
+import os
 from swid_generator.generators.utils import create_temp_folder
 from swid_generator.command_manager import CommandManager as CM
 from .common import CommonEnvironment
@@ -198,24 +198,21 @@ class DpkgEnvironment(CommonEnvironment):
                 if "../" in directory_or_file_path:
                     root, folder_name = ntpath.split(head)
                     directory_or_file_path = root + directory_or_file_path[2:]
-                    # symbol_link = directory_or_file_path
+                    symbol_link = directory_or_file_path
                 else:
                     directory_or_file_path = "/".join((head, directory_or_file_path))
-
             else:
                 # Last-Entry from Array is File-Path
                 directory_or_file_path = splitted_line_array[-1]
-
-            path_without_leading_point = directory_or_file_path[1:]
 
             if symbol_link is not None:
                 symbol_link = symbol_link[1:]
                 temp_save_location_symbol_link = "/".join((save_options['save_location'], symbol_link[1:]))
 
-            if directory_or_file_path is not None:
-                temp_save_location = "/".join((save_options['save_location'], path_without_leading_point[1:]))
+            path_without_leading_point = directory_or_file_path[1:]
+            temp_save_location = "/".join((save_options['save_location'], path_without_leading_point[1:]))
 
-            if cls._is_file(temp_save_location):
+            if path_without_leading_point is not None and cls._is_file(temp_save_location):
                 if path_without_leading_point not in config_file_paths and path_without_leading_point not in result_help_list:
                     result_help_list.append(path_without_leading_point)
                     file_info = FileInfo(path_without_leading_point, actual_path=False)
