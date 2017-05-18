@@ -2,7 +2,7 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 from swid_generator.generators.utils import create_temp_folder
-from swid_generator.command_manager import run_command_popen, run_command_check_output, run_command
+from swid_generator.command_manager import CommandManager as CM
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
@@ -34,7 +34,7 @@ class PacmanEnvironment(CommonEnvironment):
         """
 
         command_args_packages = [cls.executable, '-Q', '--color', 'never']
-        packages_output = run_command_check_output(command_args_packages)
+        packages_output = CM.run_command_check_output(command_args_packages)
         lines = filter(None, packages_output.rstrip().split('\n'))
         result = []
         for line in lines:
@@ -62,7 +62,7 @@ class PacmanEnvironment(CommonEnvironment):
 
         """
         command_args_files = [cls.executable, '-Ql', package_info.package]
-        files_output = run_command_check_output(command_args_files)
+        files_output = CM.run_command_check_output(command_args_files)
         lines = filter(None, files_output.rstrip().split('\n'))
         result = []
         for line in lines:
@@ -97,12 +97,12 @@ class PacmanEnvironment(CommonEnvironment):
         command_args_extract_package = ['tar', '-xf', save_options['absolute_package_path']]
         command_args_files = [cls.executable, '-Qlp', file_fullpathname]
 
-        files_output = run_command_check_output(command_args_files)
+        files_output = CM.run_command_check_output(command_args_files)
 
         lines = files_output.split('\n')
         lines = filter(lambda l: len(l) > 0, lines)
 
-        run_command(command_args_extract_package, working_directory=save_options['save_location'])
+        CM.run_command(command_args_extract_package, working_directory=save_options['save_location'])
 
         for line in lines:
             path = line.split(' ')[1]
@@ -126,7 +126,7 @@ class PacmanEnvironment(CommonEnvironment):
         :return: A PackageInfo()-Object with Package-Version and Package-Name.
         """
         command_args_packageinfo = [cls.executable, '--query', '--file', file_path]
-        package_info_output = run_command_check_output(command_args_packageinfo)
+        package_info_output = CM.run_command_check_output(command_args_packageinfo)
         line_split = package_info_output.split(' ')
 
         package_info = PackageInfo()

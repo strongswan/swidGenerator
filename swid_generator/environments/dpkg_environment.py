@@ -5,7 +5,7 @@ import subprocess
 import ntpath
 
 from swid_generator.generators.utils import create_temp_folder
-from swid_generator.command_manager import run_command, run_command_check_output
+from swid_generator.command_manager import CommandManager as CM
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
@@ -51,7 +51,7 @@ class DpkgEnvironment(CommonEnvironment):
         result = []
         command_args = [cls.executable_query, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
 
-        command_output = run_command_check_output(command_args)
+        command_output = CM.run_command_check_output(command_args)
 
         line_list = command_output.split('\t')
 
@@ -86,13 +86,13 @@ class DpkgEnvironment(CommonEnvironment):
         stripped_lines = []
 
         command_args_normal_files = [cls.executable_query, '-L', package_info.package]
-        command_normal_file_output = run_command_check_output(command_args_normal_files)
+        command_normal_file_output = CM.run_command_check_output(command_args_normal_files)
 
         lines = command_normal_file_output.rstrip().split('\n')
         normal_files = filter(cls._is_file, lines)
 
         command_args_config_files = [cls.executable_query, '-W', '-f=${conffiles}\\n', package_info.package]
-        command_config_file_output = run_command_check_output(command_args_config_files)
+        command_config_file_output = CM.run_command_check_output(command_args_config_files)
 
         lines = command_config_file_output.split('\n')
 
@@ -160,9 +160,9 @@ class DpkgEnvironment(CommonEnvironment):
         # Extraction of all needed Files (Store Files into tmp folder), extract Configuration-Files entries
         try:
 
-            run_command(command_args_unpack_package)
-            run_command(command_args_extract_controlpackage, working_directory=save_options['save_location'])
-            run_command(command_args_extract_conffile, working_directory=save_options['save_location'])
+            CM.run_command(command_args_unpack_package)
+            CM.run_command(command_args_extract_controlpackage, working_directory=save_options['save_location'])
+            CM.run_command(command_args_extract_conffile, working_directory=save_options['save_location'])
 
             conffile_save_location = "/".join((save_options['save_location'], cls.conffile_file_name))
 
@@ -242,8 +242,8 @@ class DpkgEnvironment(CommonEnvironment):
         """
         command_args_packagename = [cls.executable, '-f', file_path, 'Package']
         command_args_version = [cls.executable, '-f', file_path, 'Version']
-        package_name = run_command_check_output(command_args_packagename)
-        package_version = run_command_check_output(command_args_version)
+        package_name = CM.run_command_check_output(command_args_packagename)
+        package_version = CM.run_command_check_output(command_args_version)
 
         package_info = PackageInfo()
         package_info.package = package_name.strip()

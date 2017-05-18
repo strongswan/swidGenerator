@@ -4,7 +4,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import subprocess
 
 from swid_generator.generators.utils import create_temp_folder
-from swid_generator.command_manager import run_command_check_output, run_command_popen
+from swid_generator.command_manager import CommandManager as CM
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
@@ -43,7 +43,7 @@ class RpmEnvironment(CommonEnvironment):
 
         command_args_package_list = [cls.executable, '-qa', '--queryformat',
                                      '\t%{name} %{version}-%{release}']
-        package_list_output = run_command_check_output(command_args_package_list)
+        package_list_output = CM.run_command_check_output(command_args_package_list)
 
         line_list = package_list_output.split('\t')
         result = []
@@ -75,11 +75,11 @@ class RpmEnvironment(CommonEnvironment):
         command_args_file_list = [cls.executable, '-ql', package_info.package]
         command_args_package_list = [cls.executable, '-qa', '--queryformat', '%{name}\n', '-c', package_info.package]
 
-        file_list_output = run_command_check_output(command_args_file_list)
+        file_list_output = CM.run_command_check_output(command_args_file_list)
         lines_file_list = file_list_output.rstrip().split('\n')
         files = filter(cls._is_file, lines_file_list)
 
-        config_file_list_output = run_command_check_output(command_args_package_list)
+        config_file_list_output = CM.run_command_check_output(command_args_package_list)
         config_files = config_file_list_output.split('\n')
         config_files = (filter(lambda f: len(f) > 0, config_files))
 
@@ -118,14 +118,14 @@ class RpmEnvironment(CommonEnvironment):
         command_args_rpm2cpio = ["rpm2cpio", file_path]
         command_args_cpio = ["cpio", "-id", "--quiet"]
 
-        file_list_output = run_command_check_output(command_args_file_list)
-        conffile_list_output = run_command_check_output(command_args_conffile_list)
+        file_list_output = CM.run_command_check_output(command_args_file_list)
+        conffile_list_output = CM.run_command_check_output(command_args_conffile_list)
 
         normal_files = filter(lambda fp: len(fp) > 0, file_list_output.split('\n'))
         config_files = filter(lambda fp: len(fp) > 0, conffile_list_output.split('\n'))
 
-        rpm2cpio = run_command_popen(command_args_rpm2cpio, stdout=subprocess.PIPE)
-        run_command_check_output(command_args_cpio, stdin=rpm2cpio.stdout, working_directory=save_options['save_location'])
+        rpm2cpio = CM.run_command_popen(command_args_rpm2cpio, stdout=subprocess.PIPE)
+        CM.run_command_check_output(command_args_cpio, stdin=rpm2cpio.stdout, working_directory=save_options['save_location'])
 
         for file_path in config_files:
             temporary_path = save_options['save_location'] + file_path
@@ -155,8 +155,8 @@ class RpmEnvironment(CommonEnvironment):
         command_args_package_name = [cls.executable, "--query", "--package", "--queryformat", "%{name}", file_path]
         command_args_package_version = [cls.executable, "--query", "--package", "--queryformat", "%{version}", file_path]
 
-        package_name_output = run_command_check_output(command_args_package_name)
-        package_version_output = run_command_check_output(command_args_package_version)
+        package_name_output = CM.run_command_check_output(command_args_package_name)
+        package_version_output = CM.run_command_check_output(command_args_package_version)
 
         package_info = PackageInfo()
         package_info.package = package_name_output
