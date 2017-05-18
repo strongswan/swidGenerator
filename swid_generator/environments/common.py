@@ -14,7 +14,6 @@ class CommonEnvironment(object):
     The common base for all environment classes.
     """
     executable = None
-    CONFFILE_FILE_NAME = None
     required_packages_package_file_method = None
     required_packages_sign_method = None
 
@@ -96,11 +95,21 @@ class CommonEnvironment(object):
 
     @classmethod
     def check_package_installed(cls, package_name):
+        """
+        Checks if the Package is installed on System
+        :param package_name: Name of the Package.
+        :return: None if the package is not installed and the executable if package is installed.
+        """
         return find_executable(package_name)
 
     @classmethod
     def check_requirements(cls, package_file_execution=False, sign_tag_execution=False):
-
+        """
+        Checks if all the Linux-commands are installed for the required operations (e.g: get_files_from_packagefile or signxml).
+        If the Requirements are not met, a RequirementsNotInstalledError raises.
+        :param package_file_execution: Default: False. Choice between get_files_from_packagefile or signxml operation.
+        :param sign_tag_execution:
+        """
         assert cls.required_packages_package_file_method is not None, 'List of required packages for package file execution may not be None'
         assert cls.required_packages_sign_method is not None, 'List of required packages for sing execution may not be None'
 
