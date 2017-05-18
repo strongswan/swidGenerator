@@ -182,7 +182,7 @@ class DpkgEnvironment(CommonEnvironment):
             config_file_paths = []
 
         # Extraction of file-list
-        command_output_file_list = run_command_check_output(command_args_file_list)
+        command_output_file_list = CM.run_command_check_output(command_args_file_list)
 
         line_list = command_output_file_list.split('\n')
 
