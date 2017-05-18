@@ -14,6 +14,8 @@ class CommonEnvironment(object):
     The common base for all environment classes.
     """
     executable = None
+    conffile_file_name = None
+    control_archive = None
     required_packages_package_file_method = None
     required_packages_sign_method = None
 
