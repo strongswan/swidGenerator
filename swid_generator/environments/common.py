@@ -84,7 +84,6 @@ class CommonEnvironment(object):
         result_files = []
         for dirpath, dirs, files in os.walk(evidence_path):
             for file in files:
-                print(file)
                 actual_path = '/'.join([dirpath, unicode_patch(file)])
                 if new_root_path is not None:
                     path_for_tag = actual_path.replace(evidence_path, new_root_path)
