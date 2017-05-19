@@ -7,6 +7,7 @@ import platform
 from distutils.spawn import find_executable
 from swid_generator.package_info import FileInfo
 from swid_generator.exceptions import RequirementsNotInstalledError
+from swid_generator.patches import unicode_patch
 
 
 class CommonEnvironment(object):
@@ -83,7 +84,8 @@ class CommonEnvironment(object):
         result_files = []
         for dirpath, dirs, files in os.walk(evidence_path):
             for file in files:
-                actual_path = '/'.join([dirpath, file])
+                print(file)
+                actual_path = '/'.join([dirpath, unicode_patch(file)])
                 if new_root_path is not None:
                     path_for_tag = actual_path.replace(evidence_path, new_root_path)
                     path_for_tag = path_for_tag.replace('//', '/')

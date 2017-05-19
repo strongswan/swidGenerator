@@ -1,4 +1,5 @@
-
+# -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import, unicode_literals
 
 import subprocess
 import inspect
@@ -26,16 +27,20 @@ def py26_check_output(*popenargs, **kwargs):
 
 
 def unicode_patch(string):
+    """
+    This is a ugly unicode-patch. Problem is decoding of special characters in packages.
+    E.g: TÜRKTRUST_Elektronik_Sertifika_Hizmet_Sağlayıcısı_H5.crt
 
-    all_builtins_classmembers = inspect.getmembers(__builtins__, inspect.isclass)
+    In Python 2.7 Unicode-Class to translate string in unicode-format exists. In Python-Versions 3+,
+    this class do not exists anymore. Alternative str()-Constructor is used.
 
-    unicode_accepted = False
-
-    for member in all_builtins_classmembers:
-        if member[0] == 'unicode':
-            unicode_accepted = True
-
-    if unicode_accepted:
-        return __builtins__.unicode(string)
-    else:
-        return str(string, 'utf-8')
+    :param string: String to decode.
+    :return: Decoded string in UTF-8.
+    """
+    try:
+        inspect.getmembers(unicode)
+        string_in_bytes = bytes(string)
+        return string_in_bytes.decode('utf-8')
+    except NameError:
+        string_in_bytes = bytes(string, 'utf-8')
+        return str(string_in_bytes, 'utf-8')
