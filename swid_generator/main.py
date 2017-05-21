@@ -104,10 +104,8 @@ def main():
             sys.exit(1)
         except (UnicodeEncodeError, UnicodeEncodeError, UnicodeError):
             unicode_error_message = \
-                "#################################################################################################### \n" \
                 "Error: Unicode-Decode/Encode error has occurred. Please check the locales settings on your system.\n" \
-                "The stdout-encoding must be utf-8 compatible and the '$LANG' environment-variable must be set.\n" \
-                "####################################################################################################"
+                "The stdout-encoding must be utf-8 compatible and the '$LANG' environment-variable must be set."
             print('\x1b[1;31;0m' + unicode_error_message + '\x1b[0m')
         # if --match was used no matching packages were found
         except StopIteration:
