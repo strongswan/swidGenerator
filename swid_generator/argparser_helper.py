@@ -80,4 +80,3 @@ def certificate_path(string=None):
     if not os.path.exists(string):
         raise ArgumentTypeError("The file '{0}' does not exist".format(string))
     return string
-
