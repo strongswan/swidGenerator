@@ -87,8 +87,16 @@ def main():
             'pkcs12_file': options.pkcs12,
             'pkcs12_password': options.pkcs12_pwd
         }
+
         if options.evidence_path is not None:
+
             swid_args['full'] = True
+
+            if options.name is None:
+                swid_args['name'] = "_".join((options.evidence_path, env.get_os_string()))
+
+            if options.version is None:
+                swid_args['version'] = "1.0.0"
 
         try:
 
