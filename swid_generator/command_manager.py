@@ -24,8 +24,8 @@ class CommandManager(object):
         with open(os.devnull, 'w') as devnull:
             try:
                 subprocess.call(command_argumentlist, stderr=devnull, cwd=working_directory)
-            except Exception as e:
-                raise CommandManagerError(e.message)
+            except BaseException as e:
+                raise CommandManagerError(e)
 
     @staticmethod
     def run_command_check_output(command_argumentlist, stdin=None, working_directory=os.getcwd()):
@@ -44,8 +44,8 @@ class CommandManager(object):
                 return output
             else:
                 subprocess.check_output(command_argumentlist, stdin=stdin, cwd=working_directory)
-        except Exception as e:
-            raise CommandManagerError(e.message)
+        except BaseException as e:
+            raise CommandManagerError(e)
 
     @staticmethod
     def run_command_popen(command_argumentlist, stdout=None):
@@ -60,5 +60,5 @@ class CommandManager(object):
                 return subprocess.Popen(command_argumentlist, stdout=stdout)
             else:
                 return subprocess.Popen(command_argumentlist)
-        except Exception as e:
-            raise CommandManagerError(e.message)
+        except BaseException as e:
+            raise CommandManagerError(e)
