@@ -3,6 +3,7 @@ import sys
 
 from swid_generator.argparser import *
 from swid_generator.environments.environment_registry import EnvironmentRegistry
+from swid_generator.argparser_helper import *
 from mock import patch
 
 if sys.version_info < (2, 7):
@@ -15,11 +16,12 @@ else:
 class SwidGeneratorParserTests(unittest.TestCase):
 
     def setUp(self):
+
         self.env_registry = EnvironmentRegistry()
         self.parser = MainArgumentParser(self.env_registry)
-
         self.os_path_exists_patch = patch.object(os.path, 'exists')
         self.os_path_exists_mock = self.os_path_exists_patch.start()
+
         self.os_path_exists_mock.return_value = True
 
     def tearDown(self):
@@ -86,3 +88,25 @@ class SwidGeneratorParserTests(unittest.TestCase):
     def test_pkcs12_pwd_parameter(self):
         result = self.parser.parse('swid --pkcs12-pwd testpwd'.split())
         assert result.pkcs12_pwd == 'testpwd'
+
+    def test_evidence_valid_arguments(self):
+        result = self.parser.parse('swid --evidence /tmp/ --name test --version-string 1.0'.split())
+        assert result.evidence_path == "/tmp/"
+        assert result.name == "test"
+        assert result.version == "1.0"
+
+    def test_regid_string(self):
+        result = regid_string("http://www.strongswan.org")
+        assert result == "http://www.strongswan.org"
+
+    def test_invalid_regid_string(self):
+
+        with self.assertRaises(ArgumentTypeError):
+            regid_string(".org")
+
+        result = regid_string(None)
+        assert result is None
+
+    def test_invalid_hash_string(self):
+        with self.assertRaises(ArgumentTypeError):
+            hash_string("sha333")
