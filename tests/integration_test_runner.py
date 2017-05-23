@@ -10,7 +10,7 @@ def _execute_command(cmd):
     popen.stdout.close()
     return_code = popen.wait()
     if return_code:
-        raise sys.exit(0)
+        sys.exit(return_code)
 
 
 def _compose_test_files(test_files):
@@ -21,7 +21,6 @@ def _compose_test_files(test_files):
 
 
 class IntegrationTestRunner(object):
-
     # Command separated with commas because of split in docker_command_args variable and ENV variable composition
     docker_command = "docker,run,-i,--rm,-e,TOX_TEST_FILES={TOX_FILES},-e,TOXENV={TOXENV},-v,{FOLDER_MOUNT},{DOCKER_IMAGE_NAME}"
 
@@ -52,9 +51,6 @@ class IntegrationTestRunner(object):
                 print(underline_title)
 
                 for line in _execute_command(docker_command_args):
-                    if 'FAILED' in line or 'ERROR' in line or 'Error' in line:
-                        print(line, end="")
-                        sys.exit(1)
                     print(line, end="")
 
 
