@@ -149,83 +149,71 @@ class DpkgEnvironment(CommonEnvironment):
 
         result = []
         result_help_list = []  # needed to check duplications
-        symbol_link = None
-        temp_save_location_symbol_link = None
 
         command_args_unpack_package = [cls.executable, '-x', save_options['absolute_package_path'], save_options['save_location']]
         command_args_extract_controlpackage = ["ar", "x", save_options['absolute_package_path'], cls.control_archive]
         command_args_extract_conffile = ["tar", "-zxf", "/".join((save_options['save_location'], cls.control_archive)), cls.conffile_file_name]
         command_args_file_list = [cls.executable, '-c', file_pathname]
 
+        def _add_to_result_list(file_path, actual_path, mutable=False):
+            result_help_list.append(file_path)
+            file_info = FileInfo(file_path, actual_path=False)
+            file_info.set_actual_path(actual_path)
+            file_info.mutable = mutable
+            result.append(file_info)
+
         # Extraction of all needed Files (Store Files into tmp folder), extract Configuration-Files entries
         try:
-
             CM.run_command(command_args_unpack_package)
             CM.run_command(command_args_extract_controlpackage, working_directory=save_options['save_location'])
             CM.run_command(command_args_extract_conffile, working_directory=save_options['save_location'])
 
-            conffile_save_location = "/".join((save_options['save_location'], cls.conffile_file_name))
+            temp_conffile_save_location = "/".join((save_options['save_location'], cls.conffile_file_name))
 
-            with open(conffile_save_location, 'rb') as afile:
+            with open(temp_conffile_save_location, 'rb') as afile:
                 file_content = afile.read().encode('utf-8')
 
+        except(IOError, subprocess.CalledProcessError):
+            # If no file extracted from command -> no .conffile-File exists
+            file_content = None
+
+        # Extract Configuration-Files-Entries from output
+        if file_content is not None:
             config_file_paths = filter(lambda path: len(path) > 0, file_content.split('\n'))
 
             for config_file_path in config_file_paths:
-                file_info = FileInfo(config_file_path, actual_path=False)
-                file_info.set_actual_path(save_options['save_location'] + config_file_path)
-                file_info.mutable = True
-                result.append(file_info)
-
-        except(IOError, subprocess.CalledProcessError):
-            # If no file extracted -> Error raises, therefore no Configuration-files for this package exists
-            config_file_paths = []
+                _add_to_result_list(config_file_path, save_options['save_location'] + config_file_path, mutable=True)
 
         # Extraction of file-list
-        command_output_file_list = CM.run_command_check_output(command_args_file_list)
-
-        line_list = command_output_file_list.split('\n')
+        output_file_list = CM.run_command_check_output(command_args_file_list)
+        line_list = output_file_list.split('\n')
 
         for line in line_list:
-            splitted_line_array = line.split(' ')
 
-            if "->" in splitted_line_array:
+            splitted_line = line.split(' ')
+            directory_or_file_path = (splitted_line[-1])[1:]
+
+            if "->" in splitted_line:
                 # symbol-link
-                directory_or_file_path = splitted_line_array[-1]
-                symbol_link = splitted_line_array[-3]
+                symbol_link = (splitted_line[-3])[1:]
+                temp_save_location_symbol_link = "/".join((save_options['save_location'], symbol_link))
                 head, file_name = ntpath.split(symbol_link)
 
                 if "../" in directory_or_file_path:
-                    root, folder_name = ntpath.split(head)
-                    directory_or_file_path = root + directory_or_file_path[2:]
-                    symbol_link = directory_or_file_path
+                    head, folder_name = ntpath.split(head)
+                    directory_or_file_path = head + directory_or_file_path[2:]
                 else:
                     directory_or_file_path = "/".join((head, directory_or_file_path))
-            else:
-                # Last-Entry from Array is File-Path
-                directory_or_file_path = splitted_line_array[-1]
 
-            if symbol_link is not None:
-                symbol_link = symbol_link[1:]
-                temp_save_location_symbol_link = "/".join((save_options['save_location'], symbol_link[1:]))
+                if cls._is_file(temp_save_location_symbol_link):
+                    if symbol_link not in config_file_paths and symbol_link not in result_help_list:
+                        _add_to_result_list(symbol_link, temp_save_location_symbol_link)
 
-            path_without_leading_point = directory_or_file_path[1:]
-            temp_save_location = "/".join((save_options['save_location'], path_without_leading_point[1:]))
+            temp_save_location_file = "/".join((save_options['save_location'], directory_or_file_path))
 
-            if path_without_leading_point is not None and cls._is_file(temp_save_location):
-                if path_without_leading_point not in config_file_paths and path_without_leading_point not in result_help_list:
-                    result_help_list.append(path_without_leading_point)
-                    file_info = FileInfo(path_without_leading_point, actual_path=False)
-                    file_info.set_actual_path(temp_save_location)
-                    result.append(file_info)
-
-            if symbol_link is not None and cls._is_file(temp_save_location_symbol_link):
-                if symbol_link not in config_file_paths and symbol_link not in result_help_list:
-                    result_help_list.append(symbol_link)
-                    file_info = FileInfo(symbol_link, actual_path=False)
-                    file_info.set_actual_path(temp_save_location_symbol_link)
-                    result.append(file_info)
-                symbol_link = None
+            if cls._is_file(temp_save_location_file):
+                if directory_or_file_path not in config_file_paths and directory_or_file_path not in result_help_list:
+                    _add_to_result_list(directory_or_file_path, temp_save_location_file)
 
         return sorted(result, key=lambda f: f.full_pathname)
 
