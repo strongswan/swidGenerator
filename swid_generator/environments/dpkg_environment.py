@@ -176,6 +176,7 @@ class DpkgEnvironment(CommonEnvironment):
         except(IOError, subprocess.CalledProcessError):
             # If no file extracted from command -> no .conffile-File exists
             file_content = None
+            config_file_paths = []
 
         # Extract Configuration-Files-Entries from output
         if file_content is not None:
@@ -191,7 +192,7 @@ class DpkgEnvironment(CommonEnvironment):
         for line in line_list:
 
             splitted_line = line.split(' ')
-            directory_or_file_path = (splitted_line[-1])[1:]
+            directory_or_file_path = splitted_line[-1]
 
             if "->" in splitted_line:
                 # symbol-link
@@ -200,14 +201,16 @@ class DpkgEnvironment(CommonEnvironment):
                 head, file_name = ntpath.split(symbol_link)
 
                 if "../" in directory_or_file_path:
-                    head, folder_name = ntpath.split(head)
-                    directory_or_file_path = head + directory_or_file_path[2:]
+                    root, folder_name = ntpath.split(head)
+                    directory_or_file_path = root + directory_or_file_path[2:]
                 else:
                     directory_or_file_path = "/".join((head, directory_or_file_path))
 
                 if cls._is_file(temp_save_location_symbol_link):
                     if symbol_link not in config_file_paths and symbol_link not in result_help_list:
                         _add_to_result_list(symbol_link, temp_save_location_symbol_link)
+            else:
+                directory_or_file_path = directory_or_file_path[1:]
 
             temp_save_location_file = "/".join((save_options['save_location'], directory_or_file_path))
 
