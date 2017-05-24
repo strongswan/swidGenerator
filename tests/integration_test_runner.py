@@ -66,9 +66,9 @@ if __name__ == '__main__':
     working_directory_docker = "/home/swid"
 
     docker_image_names = [
-        {"environment": "dpkg", "image": "deb"},
-        {"environment": "rpm", "image": "rdh"},
-        {"environment": "pacman", "image": "archlinux"}
+        {"environment": "dpkg", "image": "davidedegiorgio/swidgenerator-dockerimages:debian"},
+        {"environment": "rpm", "image": "davidedegiorgio/swidgenerator-dockerimages:redhat"},
+        {"environment": "pacman", "image": "davidedegiorgio/swidgenerator-dockerimages:archlinux"}
     ]
 
     # Relative names of Test-files in working_directory_docker/tests. Multiple Files can be appended.
