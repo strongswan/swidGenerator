@@ -8,6 +8,7 @@ from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 from swid_generator.environments.common import CommonEnvironment
 from swid_generator.generators.swid_generator import software_id_matcher, package_name_matcher, _create_flat_payload_tag, _create_hierarchic_payload_tag
 from nose_parameterized import parameterized
+from swid_generator.generators.content_creator import _sort_files
 
 if sys.version_info < (2, 7):
     # We need the skip decorators from unittest2 on Python 2.6.
@@ -196,7 +197,7 @@ class SwidGeneratorTests(unittest.TestCase):
 
     def test_sort_files(self):
 
-        sorted_files = swid_generator._sort_files(self.file_list)
+        sorted_files = _sort_files(self.file_list)
 
         expected_list = list()
 

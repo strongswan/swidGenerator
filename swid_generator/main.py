@@ -25,7 +25,6 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import sys
 
-
 from glob import glob
 from shutil import rmtree
 from .argparser import MainArgumentParser
@@ -36,7 +35,7 @@ from .environments.pacman_environment import PacmanEnvironment
 from .generators.swid_generator import create_swid_tags
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
-from .exceptions import AutodetectionError, EnvironmentNotInstalledError, CommandManagerException
+from .exceptions import AutodetectionError, EnvironmentNotInstalledError, CommandManagerError
 
 
 TMP_FOLDER = '/tmp/'
@@ -88,8 +87,16 @@ def main():
             'pkcs12_file': options.pkcs12,
             'pkcs12_password': options.pkcs12_pwd
         }
+
         if options.evidence_path is not None:
+
             swid_args['full'] = True
+
+            if options.name is None:
+                swid_args['name'] = "_".join((options.evidence_path, env.get_os_string()))
+
+            if options.version is None:
+                swid_args['version'] = "1.0.0"
 
         try:
 
@@ -101,8 +108,13 @@ def main():
             for file_path in files_to_delete:
                 rmtree(file_path.encode('utf-8'))
 
-        except CommandManagerException:
+        except CommandManagerError:
             sys.exit(1)
+        except (UnicodeEncodeError, UnicodeEncodeError, UnicodeError):
+            unicode_error_message = \
+                "Error: Unicode-Decode/Encode error has occurred. Please check the locales settings on your system.\n" \
+                "The stdout-encoding must be utf-8 compatible and the '$LANG' environment-variable must be set."
+            print('\x1b[1;31;0m' + unicode_error_message + '\x1b[0m')
         # if --match was used no matching packages were found
         except StopIteration:
             sys.exit(1)

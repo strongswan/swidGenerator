@@ -86,9 +86,13 @@ class DpkgEnvironmentTests(unittest.TestCase):
     def test_get_files_from_packagefile(self):
         all_files = self.dpkg_environment.get_files_from_packagefile("/tmp/docker.pkg")
 
+        for f in all_files:
+            print(f.full_pathname)
+
         expected_file_list = list()
 
         expected_file_list.append(FileInfo("/usr/share/bug/docker-bin/control"))
+        expected_file_list.append(FileInfo("/usr/share/bug/docker/control"))
         expected_file_list.append(FileInfo("/usr/share/doc/docker/README.backtrace"))
         expected_file_list.append(FileInfo("/usr/share/man/man8/docker.8.gz"))
         expected_file_list.append(FileInfo("/usr/share/man/man8/dockerctl.8.gz"))

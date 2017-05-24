@@ -2,7 +2,7 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 from swid_generator.generators.utils import create_temp_folder
-from swid_generator.command_manager import CommandManager
+from swid_generator.command_manager import CommandManager as CM
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
@@ -34,7 +34,7 @@ class PacmanEnvironment(CommonEnvironment):
         """
 
         command_args_packages = [cls.executable, '-Q', '--color', 'never']
-        packages_output = CommandManager.run_command_check_output(command_args_packages)
+        packages_output = CM.run_command_check_output(command_args_packages)
         lines = filter(None, packages_output.rstrip().split('\n'))
         result = []
         for line in lines:
@@ -62,7 +62,7 @@ class PacmanEnvironment(CommonEnvironment):
 
         """
         command_args_files = [cls.executable, '-Ql', package_info.package]
-        files_output = CommandManager.run_command_check_output(command_args_files)
+        files_output = CM.run_command_check_output(command_args_files)
         lines = filter(None, files_output.rstrip().split('\n'))
         result = []
         for line in lines:
@@ -79,22 +79,30 @@ class PacmanEnvironment(CommonEnvironment):
 
     @classmethod
     def get_files_from_packagefile(cls, file_fullpathname):
+        """
+        Extract all information of a .pkg.tar.xz package.
+        - List of all files
+        - List of all Configuration-files
 
+        This Method extract all the information in a temporary directory. The Debian package
+        is extracted to the temporary directory, this because the files are needed to compute the File-Hash.
+
+        :param file_pathname: Path to the .pkg.tar.xz package
+        :return: Lexicographical sorted List of FileInfo()-Objects (Conffiles and normal Files)
+        """
+        all_files = []
+
+        save_options = create_temp_folder(file_fullpathname)
+
+        command_args_extract_package = ['tar', '-xf', save_options['absolute_package_path']]
         command_args_files = [cls.executable, '-Qlp', file_fullpathname]
-        files_output = CommandManager.run_command_check_output(command_args_files)
+
+        files_output = CM.run_command_check_output(command_args_files)
 
         lines = files_output.split('\n')
         lines = filter(lambda l: len(l) > 0, lines)
 
-        save_options = create_temp_folder(file_fullpathname)
-
-        all_files = []
-
-        command_args_extract_package = ['tar', '-xf',
-                                        save_options['absolute_package_path']]
-
-        CommandManager.run_command(command_args_extract_package,
-                                   working_directory=save_options['save_location'])
+        CM.run_command(command_args_extract_package, working_directory=save_options['save_location'])
 
         for line in lines:
             path = line.split(' ')[1]
@@ -102,6 +110,7 @@ class PacmanEnvironment(CommonEnvironment):
             if cls._is_file(temporary_path):
                 file_info = FileInfo(path, actual_path=False)
                 file_info.set_actual_path(temporary_path)
+                # With the assumption that files in the '/etc'-Folders are mostly Configuration-Files
                 if 'etc' in path:
                     file_info.mutable = True
                 all_files.append(file_info)
@@ -110,8 +119,14 @@ class PacmanEnvironment(CommonEnvironment):
 
     @classmethod
     def get_packageinfo_from_packagefile(cls, file_path):
+        """
+        Extract the Package-Name and the Package-Version from the Pacman-Package.
+
+        :param file_path: Path to the Pacman-Package
+        :return: A PackageInfo()-Object with Package-Version and Package-Name.
+        """
         command_args_packageinfo = [cls.executable, '--query', '--file', file_path]
-        package_info_output = CommandManager.run_command_check_output(command_args_packageinfo)
+        package_info_output = CM.run_command_check_output(command_args_packageinfo)
         line_split = package_info_output.split(' ')
 
         package_info = PackageInfo()
