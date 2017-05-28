@@ -50,6 +50,16 @@ class SwidGeneratorParserTests(unittest.TestCase):
         with self.assertRaises(ArgumentTypeError):
             entity_name_string('strong <Swan>')
 
+    @staticmethod
+    def test_invalid_entity_name_format_None():
+        result = entity_name_string(None)
+        assert result is None
+
+    @staticmethod
+    def test_valid_entity_name_format():
+        result = entity_name_string("strongSwan Project")
+        assert result == "strongSwan Project"
+
     def test_pretty_parameter(self):
         result = self.parser.parse('swid --pretty'.split())
         assert result.pretty is True
@@ -62,7 +72,8 @@ class SwidGeneratorParserTests(unittest.TestCase):
         with self.assertRaises(ArgumentTypeError):
             hash_string('sha500')
 
-    def test_package_path(self):
+    @staticmethod
+    def test_package_path():
         deb_result = package_path("/tmp/docker.deb")
         rpm_result = package_path("/tmp/docker.rpm")
         pacman_result = package_path("/tmp/docker.pkg.tar.xz")
@@ -95,7 +106,8 @@ class SwidGeneratorParserTests(unittest.TestCase):
         assert result.name == "test"
         assert result.version == "1.0"
 
-    def test_regid_string(self):
+    @staticmethod
+    def test_regid_string():
         result = regid_string("http://www.strongswan.org")
         assert result == "http://www.strongswan.org"
 
