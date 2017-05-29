@@ -25,7 +25,10 @@ class SwidGeneratorParserTests(unittest.TestCase):
         self.os_path_exists_mock.return_value = True
 
     def tearDown(self):
-        self.os_path_exists_patch.stop()
+        try:
+            self.os_path_exists_patch.stop()
+        except RuntimeError:
+            print("Patch was stopped by a test before.")
 
     def test_full_argument(self):
         result = self.parser.parse('swid --full'.split())
@@ -122,3 +125,20 @@ class SwidGeneratorParserTests(unittest.TestCase):
     def test_invalid_hash_string(self):
         with self.assertRaises(ArgumentTypeError):
             hash_string("sha333")
+
+    def test_hash_string_none(self):
+        result = hash_string(None)
+        assert result is None
+
+    def test_entity_name_string_name(self):
+        result = entity_name_string(None)
+        assert result is None
+
+    def test_package_path_invalid(self):
+        with self.assertRaises(ArgumentTypeError):
+            package_path("/tmp/test.pfx")
+
+    def test_certificate_package_path_invalid(self):
+        self.os_path_exists_patch.stop()
+        with self.assertRaises(ArgumentTypeError):
+            certificate_path("/tmp/invalid.pfx")
