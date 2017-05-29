@@ -12,3 +12,5 @@ Other Contributions
 -------------------
 
 - Šimon Lukašík (@isimluk)
+- Davide De Giorgio (@degiorgioo)
+- Christof Greiner (@Seperox)
