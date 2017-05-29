@@ -1,7 +1,7 @@
 swidGenerator
 #############
 
-.. image:: https://pypip.in/version/swid_generator/badge.png
+.. image:: https://img.shields.io/pypi/v/swid_generator.svg
     :target: https://pypi.python.org/pypi/swid_generator/
     :alt: Latest Version
 
@@ -15,7 +15,7 @@ swidGenerator
 	:target: https://landscape.io/github/strongswan/swidGenerator/master
 	:alt: Code Health
 
-.. image:: https://pypip.in/download/swid_generator/badge.png?period=month
+.. image:: https://img.shields.io/pypi/dm/swid_generator.svg
     :target: https://pypi.python.org/pypi/swid_generator/
     :alt: PyPI Downloads
 
