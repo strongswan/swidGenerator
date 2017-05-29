@@ -5,13 +5,13 @@ swidGenerator
     :target: https://pypi.python.org/pypi/swid_generator/
     :alt: Latest Version
 
-.. image:: https://travis-ci.org/strongswan/swidGenerator.png?branch=master
+.. image:: https://travis-ci.org/strongswan/swidGenerator.svg?branch=master
     :target: https://travis-ci.org/strongswan/swidGenerator
 
-.. image:: https://coveralls.io/repos/strongswan/swidGenerator/badge.png
+.. image:: https://coveralls.io/repos/github/strongswan/swidGenerator/badge.svg?branch=master
     :target: https://coveralls.io/r/strongswan/swidGenerator
 
-.. image:: https://landscape.io/github/strongswan/swidGenerator/master/landscape.png
+.. image:: https://landscape.io/github/strongswan/swidGenerator/master/landscape.svg?style=flat
 	:target: https://landscape.io/github/strongswan/swidGenerator/master
 	:alt: Code Health
 
