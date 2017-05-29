@@ -1,4 +1,6 @@
 import unittest
+import os
+
 from swid_generator.command_manager import CommandManager
 from swid_generator.generators.utils import create_temp_folder
 from xml.etree import cElementTree as ET
@@ -69,6 +71,8 @@ class IntegrationTests(unittest.TestCase):
         template_path_full_pretty_signed_cmd_package_file = None
 
         certificate = "tests/dumps/swidgen.pfx"
+        template_path_evidence = "tests/dumps/command_evidence/tmp_folder-Template.xml"
+        evidence_path = "/tmp/evidence-test"
 
         if isinstance(environment, DpkgEnvironment):
             template_path_full_pretty = "tests/dumps/command_package/docker_deb_SWID-Template.xml"
@@ -104,6 +108,8 @@ class IntegrationTests(unittest.TestCase):
             "template_full_pretty_signed_cmd_package_file": self.get_template_from_file(template_path_full_pretty_signed_cmd_package_file),
             "package_path": package_path,
             "certificate": certificate,
+            "template_evidence": self.get_template_from_file(template_path_evidence),
+            "evidence_test_folder": evidence_path
         }
 
     @staticmethod
@@ -118,6 +124,16 @@ class IntegrationTests(unittest.TestCase):
     @staticmethod
     def get_string_output_from_cmd(command):
         return CommandManager.run_command_check_output(command)
+
+    @staticmethod
+    def create_folder(file_path):
+        if not os.path.exists(file_path):
+            os.makedirs(file_path)
+
+    @staticmethod
+    def touch(path):
+        with open(path, 'a'):
+            os.utime(path, None)
 
     def test_integration(self):
 
@@ -154,3 +170,20 @@ class IntegrationTests(unittest.TestCase):
 
         self.validate_signature(output_swid_tag)
         self.check_equality(expected_swid_tag, ET.fromstring(output_swid_tag))
+
+        # Prepare Folders and Files for evidence
+        self.create_folder("/tmp/evidence-test")
+        self.create_folder("/tmp/evidence-test/sub1")
+        self.create_folder("/tmp/evidence-test/sub2")
+        self.create_folder("/tmp/evidence-test/sub3")
+
+        self.touch("/tmp/evidence-test/sub1/testfile1")
+        self.touch("/tmp/evidence-test/sub1/testfile2")
+        self.touch("/tmp/evidence-test/sub2/testfile2")
+        self.touch("/tmp/evidence-test/sub3/testfile3")
+
+        command_evidence = "swid_generator swid --full --pretty --evidence {EVIDENCE_PATH} --name evidence --version-string 1.0"
+        command_evidence = command_evidence.format(EVIDENCE_PATH=test_context['evidence_test_folder'])
+        output_swid_tag = self.get_tree_output_from_cmd(command_evidence.split(' '))
+        expected_swid_tag = test_context['template_evidence']
+        self.check_equality(expected_swid_tag, output_swid_tag)
