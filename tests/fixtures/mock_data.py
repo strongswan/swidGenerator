@@ -21,9 +21,6 @@ pacman_query_file_list = _read_file("tests/dumps/console_output/pacman_file_list
 pacman_query_file_list_package = _read_file("tests/dumps/console_output/pacman_file_list_package.txt")
 pacman_query_conffile_list = _read_file("tests/dumps/console_output/rpm_conffile_list.txt")
 
-# Signed XML
-singed_xml = _read_file("tests/dumps/command_package/docker_deb_signed_SWID-Template.xml")
-
 # OS.walk
 os_walk_three_tuple = \
     [
