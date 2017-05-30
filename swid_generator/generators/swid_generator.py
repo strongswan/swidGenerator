@@ -157,6 +157,7 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
         software_identity = create_software_identity_element(ctx, from_package_file=True)
 
         if pkcs12_file is not None:
+            ET.register_namespace('dsig', "http://www.w3.org/2000/09/xmldsig#")
             signature_template_tree = ET.fromstring(SIGNATURE)
             software_identity.append(signature_template_tree)
 
@@ -173,6 +174,7 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
         software_identity = create_software_identity_element(ctx, from_folder=True)
 
         if pkcs12_file is not None:
+            ET.register_namespace('dsig', "http://www.w3.org/2000/09/xmldsig#")
             signature_template_tree = ET.fromstring(SIGNATURE)
             software_identity.append(signature_template_tree)
 
@@ -192,6 +194,7 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
             software_identity = create_software_identity_element(ctx)
 
             if pkcs12_file is not None:
+                ET.register_namespace('dsig', "http://www.w3.org/2000/09/xmldsig#")
                 signature_template_tree = ET.fromstring(SIGNATURE)
                 software_identity.append(signature_template_tree)
 
