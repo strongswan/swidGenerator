@@ -91,12 +91,9 @@ def main():
         if options.evidence_path is not None:
             """
             If the parameter 'name' and 'version' are missing, then the following default-arguments are set:
-
             name = {evidence_path}_{os_string}
             version = 1.0.0
-
             """
-
             swid_args['full'] = True
 
             if options.name is None:
