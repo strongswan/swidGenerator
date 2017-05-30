@@ -22,3 +22,12 @@ class PrintFunctionsTest(unittest.TestCase):
 
     def test_sing_xml(self):
         print("test_sing_xml")
+
+        signature_args = {
+            'pkcs12_file': "cert.pfx",
+            'pkcs12_password': "123"
+        }
+
+        result = sign_xml("", signature_args)
+        print(result)
+        assert result is not None

@@ -55,6 +55,8 @@ class CommandManagerMock(object):
             return "docker 1:17.04.0-1"
         if command_argumentlist == ['pacman', '-Qlp', '/tmp/docker.pkg']:
             return mock_data.pacman_query_file_list_package
+        if command_argumentlist[:6] == ["xmlsec1", "--sign", "--pkcs12", "cert.pfx", "--pwd", "123"]:
+            return mock_data.singed_xml
 
 
     @staticmethod
