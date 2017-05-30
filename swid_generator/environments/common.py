@@ -82,7 +82,7 @@ class CommonEnvironment(object):
         :return: Lexicographical sorted List of FileInfo()-Objects
         """
         result_files = []
-        for dirpath, dirs, files in os.walk(evidence_path):
+        for dirpath, _, files in os.walk(evidence_path):
             for file in files:
                 actual_path = '/'.join([dirpath, unicode_patch(file)])
                 if new_root_path is not None:
