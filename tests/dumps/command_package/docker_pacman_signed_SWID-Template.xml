@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SoftwareIdentity xmlns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" xmlns:SHA256="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:n8060="http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd" xmlns:ns0="http://www.w3.org/2000/09/xmldsig#" name="docker" tagId="linux-x86_64-docker-1~17.04.0-1" version="1:17.04.0-1" versionScheme="alphanumeric">
+<SoftwareIdentity xmlns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" xmlns:SHA256="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:n8060="http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd" name="docker" tagId="arch-x86_64-docker-1~17.04.0-1" version="1:17.04.0-1" versionScheme="alphanumeric">
   <Entity name="strongSwan Project" regid="strongswan.org" role="tagCreator"/>
   <Meta product="arch x86_64"/>
   <Payload>
@@ -51,28 +51,28 @@
       <File SHA256:hash="c83a35250d72ae8894ad58fda0b6b8eb514201324f133e85e531f0d6268f4fdd" name="_docker" size="120874"/>
     </Directory>
   </Payload>
-  <ns0:Signature>
-    <ns0:SignedInfo>
-      <ns0:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
-      <ns0:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-      <ns0:Reference>
-        <ns0:Transforms>
-          <ns0:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
-          <ns0:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
-        </ns0:Transforms>
-        <ns0:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-        <ns0:DigestValue>r3URsRF5TvFLGNDM3qtstWheJqY=</ns0:DigestValue>
-      </ns0:Reference>
-    </ns0:SignedInfo>
-    <ns0:SignatureValue>n7SRsBp+KmBNsA5VOA9o3RWLP0XZ2pY5oMB9cToz23q0t3H27ofS98t7NIzzqazn
-d/NACCfOYK4djz0q3OmMbfI+wP7Nlh9zteGHcqe79BLVQdmRD29DrMl7oaxrFp1B
-Gf6QPbW7Ebt7cZDCwx23UvI3C+fJ/jyhKEqM/leOqgCkA01NcuriGvSSW9KAjUOc
-2b4JI/U7tMPySyqW1eoL9gKyZXTgTHoTvaH0ZXBIX8q6og0sdmJKBoSbUQGTa/cY
-xRFM8Rq/4rTZxFDpp/tD+91ATV08I+1WsAjgozgLtvvuSchgAd6hbb9UmYa3XArq
-Kqv4o98DfW1aM9tTi1bPaA==</ns0:SignatureValue>
-    <ns0:KeyInfo>
-      <ns0:X509Data>
-<ns0:X509Certificate>MIIF5jCCA86gAwIBAgIQapvhODv/K2ufAdXZuKdSVjANBgkqhkiG9w0BAQwFADCB
+  <dsig:Signature>
+    <dsig:SignedInfo>
+      <dsig:CanonicalizationMethod Algorithm="http://www.w3.org/2006/12/xml-c14n11"/>
+      <dsig:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+      <dsig:Reference>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+          <dsig:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+        <dsig:DigestValue>GygM7bdUgCYqcvYQrfQHyy8S5gLu9gWdhQ+HVT02wv8=</dsig:DigestValue>
+      </dsig:Reference>
+    </dsig:SignedInfo>
+    <dsig:SignatureValue>FKLVh4fjhcf+aLVyudH6WPryH4ICj8bFCXWrnoFnwhlZe/iaT31vK4C38YK6CYab
+XyS9JLBx4oC6tCsLQhW1EoiF3bx4YuTD3fq6lnoS80lWi/KT2gwwTMcLWsSr/0Iv
+SwOf6vErK1shLoN+Zr98MXJMxkhgJ63daxPns/6V+5B3c4GUvLCpI2SoJ2qdjAfS
+SPuplYvSGKDiX08pvD2aRdVWqk8xmIRBlDbhKFh41Mu2tHWvzcN1BmqDTzD993Rk
+1b3poWQTEFmWIfPvWNVLwWcYE3F62HM3Ahdx+Go2JgfTEAOuO6j05olbdikectB3
+0CZTYylf2fkYoVpiC5eJJw==</dsig:SignatureValue>
+    <dsig:KeyInfo>
+      <dsig:X509Data>
+<dsig:X509Certificate>MIIF5jCCA86gAwIBAgIQapvhODv/K2ufAdXZuKdSVjANBgkqhkiG9w0BAQwFADCB
 hTELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4G
 A1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQxKzApBgNV
 BAMTIkNPTU9ETyBSU0EgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkwHhcNMTMwMTEw
@@ -103,9 +103,9 @@ CcyvB8czm12FgX/y/lRjmDbEA08QJNB2729Y+io1IYO3ztveBdvUCIYZojTq/OCR
 L/Zo9jzJ16HO5m60ttl1Enk8MQkz/W3JlHaeI5iKFn4UJu1/cP2YHXYPiWf2JyBz
 sLBrGk1II+3yL8aorYew6CQvdVifC3HtwlSam9V1niiCfOBe2C12TdKGu05LWIA3
 ZkFcWJGaNXOZ6Ggyh/TqvXG5v7zmEVDNXFnHn9tFpMpOUvxhcsjycBtH0dZ0WrNw
-6gH+HF8TIhCnH3+zzWuDN0Rk6h9KVkfKehI=</ns0:X509Certificate>
+6gH+HF8TIhCnH3+zzWuDN0Rk6h9KVkfKehI=</dsig:X509Certificate>
 
-<ns0:X509Certificate>MIIFdDCCBFygAwIBAgIQJ2buVutJ846r13Ci/ITeIjANBgkqhkiG9w0BAQwFADBv
+<dsig:X509Certificate>MIIFdDCCBFygAwIBAgIQJ2buVutJ846r13Ci/ITeIjANBgkqhkiG9w0BAQwFADBv
 MQswCQYDVQQGEwJTRTEUMBIGA1UEChMLQWRkVHJ1c3QgQUIxJjAkBgNVBAsTHUFk
 ZFRydXN0IEV4dGVybmFsIFRUUCBOZXR3b3JrMSIwIAYDVQQDExlBZGRUcnVzdCBF
 eHRlcm5hbCBDQSBSb290MB4XDTAwMDUzMDEwNDgzOFoXDTIwMDUzMDEwNDgzOFow
@@ -134,8 +134,8 @@ Jw5dhHk3QBN39bSsHNA7qxcS1u80GH4r6XnTq1dFDK8o+tDb5VCViLvfhVdpfZLY
 Uspzgb8c8+a4bmYRBbMelC1/kZWSWfFMzqORcUx8Rww7Cxn2obFshj5cqsQugsv5
 B5a6SE2Q8pTIqXOi6wZ7I53eovNNVZ96YUWYGGjHXkBrI/V5eu+MtWuLt29G9Hvx
 PUsE2JOAWVrgQSQdso8VYFhH2+9uRv0V9dlfmrPb2LjkQLPNlzmuhbsdjrzch5vR
-pu/xO28QOG8=</ns0:X509Certificate>
-<ns0:X509Certificate>MIIENjCCAx6gAwIBAgIBATANBgkqhkiG9w0BAQUFADBvMQswCQYDVQQGEwJTRTEU
+pu/xO28QOG8=</dsig:X509Certificate>
+<dsig:X509Certificate>MIIENjCCAx6gAwIBAgIBATANBgkqhkiG9w0BAQUFADBvMQswCQYDVQQGEwJTRTEU
 MBIGA1UEChMLQWRkVHJ1c3QgQUIxJjAkBgNVBAsTHUFkZFRydXN0IEV4dGVybmFs
 IFRUUCBOZXR3b3JrMSIwIAYDVQQDExlBZGRUcnVzdCBFeHRlcm5hbCBDQSBSb290
 MB4XDTAwMDUzMDEwNDgzOFoXDTIwMDUzMDEwNDgzOFowbzELMAkGA1UEBhMCU0Ux
@@ -157,8 +157,8 @@ YINRsPkyPef89iYTx4AWpb9a/IfPeHmJIZriTAcKhjW88t5RxNKWt9x+Tu5w/Rw5
 6wwCURQtjr0W4MHfRnXnJK3s9EK0hZNwEGe6nQY1ShjTK3rMUUKhemPR5ruhxSvC
 Nr4TDea9Y355e6cJDUCrat2PisP29owaQgVR1EX1n6diIWgVIEM8med8vSTYqZEX
 c4g/VhsxOBi0cQ+azcgOno4uG+GMmIPLHzHxREzGBHNJdmAPx/i9F4BrLunMTA5a
-mnkPIAou1Z5jJh5VkpTYghdae9C8x49OhgQ=</ns0:X509Certificate>
-<ns0:X509Certificate>MIIFNTCCBB2gAwIBAgIQOOlFTseVX/OtLa7x+msaojANBgkqhkiG9w0BAQsFADCB
+mnkPIAou1Z5jJh5VkpTYghdae9C8x49OhgQ=</dsig:X509Certificate>
+<dsig:X509Certificate>MIIFNTCCBB2gAwIBAgIQOOlFTseVX/OtLa7x+msaojANBgkqhkiG9w0BAQsFADCB
 lzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4G
 A1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNV
 BAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUg
@@ -185,7 +185,7 @@ UQDmqRrK8cRuWSnV7EaptSDvtqZySFscPm5N7Hczje3c1MDZQizR1xvP7qGuimff
 S7ekigqwADaDPKQsnXrIjW4YaDEVKNQh/8U3InqbE65gxin1L2XS576OqnjDPlIt
 kz8H88zde7pxFzQbwXXY/R3E8bM20eQcGIDD0Aore13fDr7zG5CPmFc5WLDmxaFz
 GuTKSLBqDg9xQdS1kwxFkKGFDcyEzRFCYHOSiBocYDAfZFGxX2zfIeZoFb5krIUY
-crsHIcd6Co9vOAvZc9Y7W+yWldKkNtbE9JGJHS7ZZGowwh0py0Ub3jw=</ns0:X509Certificate></ns0:X509Data>
-    </ns0:KeyInfo>
-  </ns0:Signature>
+crsHIcd6Co9vOAvZc9Y7W+yWldKkNtbE9JGJHS7ZZGowwh0py0Ub3jw=</dsig:X509Certificate></dsig:X509Data>
+    </dsig:KeyInfo>
+  </dsig:Signature>
 </SoftwareIdentity>
