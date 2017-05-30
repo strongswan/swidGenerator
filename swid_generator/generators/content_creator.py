@@ -32,8 +32,8 @@ def _sort_files(files):
         path_length = len(file_info.full_pathname_splitted)
         file_info.full_pathname_splitted.extend([''] * (longest_path_length - path_length))
 
-    for i in range(longest_path_length, 0, -1):
-        files.sort(key=lambda f: _keyfunc(f, i))
+    for path_length in range(longest_path_length, 0, -1):
+        files.sort(key=lambda f, i=path_length: _keyfunc(f, i))
     return files
 
 
