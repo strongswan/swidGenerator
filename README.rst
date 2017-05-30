@@ -32,14 +32,14 @@ The tool provides 2 subcommands to generate SWID tags or Software IDs.
 Generate SWID tags::
 
     usage: swid_generator swid [-h] [--env {auto,dpkg,pacman,rpm}]
-                               [--doc-separator DOCUMENT_SEPARATOR]
-                               [--regid REGID] [--entity-name ENTITY_NAME]
-                               [--full] [--pretty] [--hierarchic]
-                               [--hash HASH_ALGORITHMS] [--package-file FILE_PATH]
-                               [--pkcs12 PKCS12] [--pkcs12-pwd PKCS12_PWD]
-                               [--software-id SOFTWARE-ID | --package PACKAGE]
-                               [--evidence PATH] [--name NAME]
-                               [--version-string VERSION] [--new-root PATH]
+                           [--doc-separator DOCUMENT_SEPARATOR]
+                           [--regid REGID] [--entity-name ENTITY_NAME]
+                           [--full] [--pretty] [--hierarchic]
+                           [--hash HASH_ALGORITHMS] [--pkcs12 PKCS12]
+                           [--pkcs12-pwd PKCS12_PWD]
+                           [--software-id SOFTWARE-ID | --package PACKAGE | --package-file FILE_PATH]
+                           [--evidence PATH] [--name NAME]
+                           [--version-string VERSION] [--new-root PATH]
 
     Generate SWID tags.
 
@@ -66,10 +66,6 @@ Generate SWID tags::
                             Define the algorithm for the file hashes ("sha256",
                             "sha384", "sha512"). Multiple hashes can be added with
                             comma separated. ("sha256,sha384") Default is "sha256"
-      --package-file FILE_PATH
-                            Create SWID-Tag based on information of a Package-
-                            File. Rpm-Environment: *.rpm File, Dpkg-Environment:
-                            *.deb File, Pacman-Environment: *.pgk.tar.xz File
       --pkcs12 PKCS12       The pkcs12 file with key and certificate to sign the
                             xml output.
       --pkcs12-pwd PKCS12_PWD
@@ -95,11 +91,16 @@ Generate SWID tags::
                             "glibc-headers" on a dpkg managed environment. If no
                             matching package is found, the output is empty and the
                             exit code is set to 1.
+      --package-file FILE_PATH
+                            Create SWID-Tag based on information of a Package-
+                            File. Rpm-Environment: *.rpm File, Dpkg-Environment:
+                            *.deb File, Pacman-Environment: *.pgk.tar.xz File
       --evidence PATH       Create a SWID Tag from a folder structure.
       --name NAME           Name for the folder swid tag.
       --version-string VERSION
                             Version for the folder swid tag.
       --new-root PATH       New Root for the folder swid tag.
+
 
 Generate Software IDs::
 
