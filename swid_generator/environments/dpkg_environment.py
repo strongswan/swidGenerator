@@ -3,7 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import subprocess
 import ntpath
-import os
+
 from swid_generator.generators.utils import create_temp_folder
 from swid_generator.command_manager import CommandManager as CM
 from .common import CommonEnvironment
@@ -198,10 +198,10 @@ class DpkgEnvironment(CommonEnvironment):
                 # symbol-link
                 symbol_link = (splitted_line[-3])[1:]
                 temp_save_location_symbol_link = "/".join((save_options['save_location'], symbol_link))
-                head, file_name = ntpath.split(symbol_link)
+                head, _ = ntpath.split(symbol_link)
 
                 if "../" in directory_or_file_path:
-                    root, folder_name = ntpath.split(head)
+                    root, _ = ntpath.split(head)
                     directory_or_file_path = root + directory_or_file_path[2:]
                 else:
                     directory_or_file_path = "/".join((head, directory_or_file_path))
