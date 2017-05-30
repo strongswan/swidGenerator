@@ -5,7 +5,8 @@ from argparse import ArgumentParser
 
 from . import settings, meta
 from .generators.swid_generator import all_matcher
-from swid_generator.argparser_helper import *
+from swid_generator.argparser_helper import entity_name_string, regid_string, hash_string, package_path, certificate_path
+from swid_generator.argparser_helper import RequirementCheckAction, TargetAction
 
 
 class MainArgumentParser(object):
@@ -56,12 +57,6 @@ class MainArgumentParser(object):
                                  help='Define the algorithm for the file hashes ("sha256", "sha384", "sha512"). '
                                  'Multiple hashes can be added with comma separated. ("sha256,sha384") '
                                  'Default is "%s"' % settings.DEFAULT_HASH_ALGORITHM)
-        swid_parser.add_argument('--package-file', dest='file_path', type=package_path,
-                                 action=RequirementCheckAction,
-                                 const=environment_registry,
-                                 help='Create SWID-Tag based on information of a Package-File.'
-                                 ' Rpm-Environment: *.rpm File, Dpkg-Environment: *.deb File, '
-                                 'Pacman-Environment: *.pgk.tar.xz File')
         swid_parser.add_argument('--pkcs12', dest='pkcs12', type=certificate_path,
                                  action=RequirementCheckAction,
                                  const=environment_registry,
@@ -96,6 +91,12 @@ class MainArgumentParser(object):
                                          'dpkg managed environment. '
                                          'If no matching package is found, the output is empty and the '
                                          'exit code is set to 1.')
+        mutually_group.add_argument('--package-file', dest='file_path', type=package_path,
+                                    action=RequirementCheckAction,
+                                    const=environment_registry,
+                                    help='Create SWID-Tag based on information of a Package-File.'
+                                         ' Rpm-Environment: *.rpm File, Dpkg-Environment: *.deb File, '
+                                         'Pacman-Environment: *.pgk.tar.xz File')
         targeted_group.add_argument('--evidence', dest='evidence_path', metavar='PATH',
                                     help='Create a SWID Tag from a folder structure.')
         targeted_group.add_argument('--name', dest='name', default=None, type=entity_name_string,
