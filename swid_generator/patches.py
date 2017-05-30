@@ -14,7 +14,7 @@ def py26_check_output(*popenargs, **kwargs):
 
     """
     process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
-    output, unused_err = process.communicate()
+    output, _ = process.communicate()
     retcode = process.poll()
     if retcode:
         cmd = kwargs.get('args')
