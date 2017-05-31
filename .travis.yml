@@ -1,6 +1,4 @@
 language:  python
-env:
-  - TOXENV=cov
 matrix:
   include:
     - python: 2.7
@@ -33,8 +31,9 @@ matrix:
       - TOXENV=pypy
       services:
       - docker
-  allow_failures:
-    - env: TOXENV=cov
+    - python: 2.7
+      env:
+      - TOXENV=cov
 install:
    - pip install tox
 script:
