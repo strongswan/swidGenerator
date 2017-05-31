@@ -31,7 +31,7 @@ class RequirementCheckAction(Action):
                 actual_environment.check_requirements(sign_tag_execution=True)
             setattr(namespace, self.dest, values)
         except RequirementsNotInstalledError as e:
-            parser.error(e.message)
+            parser.error(e)
 
 
 def regid_string(string):
