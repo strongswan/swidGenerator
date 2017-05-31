@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import, unicode_literals
+
 
 def _read_file(file_path):
     with open(file_path) as dump:
