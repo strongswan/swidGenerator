@@ -8,7 +8,6 @@ from .patches import py26_check_output
 # Python 2.6 compatibility
 if 'check_output' not in dir(subprocess):
     # Ugly monkey patching hack ahead
-    # logging.debug('Monkey patching subprocess.check_output')
     subprocess.check_output = py26_check_output
 
 
