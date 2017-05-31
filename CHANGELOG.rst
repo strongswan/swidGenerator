@@ -14,7 +14,7 @@ v1.0.0 (2017-07-01)
 - [add] '--hash': e.g '--hash sha256,sha384,sha512' computes the hash-values of the file-content. One or more hash-algorithms can be passed.
 - [add] '--package-file': e.g '--package-file /tmp/test.deb' generates the SWID-Tag based on the information of the package-file. Following packages
   are supported: *.deb, *.rpm, *.pkg.tar.xz
-- [add] '--pkcs12': e.g '--pkcs12 /path/to/cert.pfx' sings the SWID-Tag with the given certificate. The '--pkcs12-pwd <password>'-Argument is
+- [add] '--pkcs12': e.g '--pkcs12 /path/to/cert.pfx' signs the SWID-Tag with the given certificate. The '--pkcs12-pwd <password>'-Argument is
   needed for password-protected certificates.
 - [add] '--evidence': e.g '--evidence /path/to/folder' generates the SWID-Tag based the File-/Directory-structure of the path. Possible Arguments
   for the evidence-function added: '--name' sets name of SWID-Tag, '--version-string' sets Version of SWID-Tag, '--new-root' sets root of SWID-Tag.
