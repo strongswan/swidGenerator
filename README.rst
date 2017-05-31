@@ -165,6 +165,21 @@ The following Python versions are fully supported:
 - PyPy
 
 Important: Python 2.6 no longer supported.
+
+Requirements
+------------
+To take advantage of the generator's whole functionality, following packages must be installed before usage:
+
+For the function --package-file (Generate SWID-Tag based on Package-File information):
+
+- Debian: tar, ar
+- Redhat: rpm2cpio, cpio
+- Archlinux: tar
+
+For the function --pkcs12 (Sign SWID-Tag):
+
+- Debian, Redhat and Archlinux: xmlsec1
+
 Install with pip
 ----------------
 
