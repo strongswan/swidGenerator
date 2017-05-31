@@ -103,8 +103,8 @@ def create_temp_folder(file_path):
     :param file_path: Path to the file (package or certificate)
     :return: A dictionary with the save options of the temporary folder.
     """
-    TEMP_FOLDER_NAME = '/tmp'
-    FOLDER_PREFIX = 'swid_'
+    temp_folder_name = '/tmp'
+    folder_prefix = 'swid_'
 
     random_string = ''.join(random.choice(string.ascii_letters) for _ in range(5))
 
@@ -113,7 +113,7 @@ def create_temp_folder(file_path):
     else:
         absolute_package_path = '/'.join((os.getcwd(), file_path))
 
-    save_location_pathname = '/'.join((TEMP_FOLDER_NAME, FOLDER_PREFIX + random_string))
+    save_location_pathname = '/'.join((temp_folder_name, folder_prefix + random_string))
 
     if not os.path.exists(save_location_pathname):
         os.makedirs(save_location_pathname)

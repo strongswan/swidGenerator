@@ -5,7 +5,7 @@ import subprocess
 import ntpath
 
 from swid_generator.generators.utils import create_temp_folder
-from swid_generator.command_manager import CommandManager
+from swid_generator.command_manager import CommandManager as CM
 from .common import CommonEnvironment
 from ..package_info import PackageInfo, FileInfo
 
@@ -22,13 +22,22 @@ class DpkgEnvironment(CommonEnvironment):
     executable_query = 'dpkg-query'
     executable = 'dpkg'
     md5_hash_length = 32
-    CONFFILE_FILE_NAME = 'conffiles'
-    CONTROL_ARCHIVE = 'control.tar.gz'
+    conffile_file_name = './conffiles'
+    control_archive = 'control.tar.gz'
 
     installed_states = {
         'install ok installed': True,
         'deinstall ok config-files': False
     }
+
+    required_packages_for_package_file_method = [
+        "tar",
+        "ar"
+    ]
+
+    required_packages_for_sign_method = [
+        "xmlsec1"
+    ]
 
     @classmethod
     def get_package_list(cls):
@@ -40,10 +49,9 @@ class DpkgEnvironment(CommonEnvironment):
 
         """
         result = []
-        command_args = [cls.executable_query,
-                        '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
+        command_args = [cls.executable_query, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
 
-        command_output = CommandManager.run_command_check_output(command_args)
+        command_output = CM.run_command_check_output(command_args)
 
         line_list = command_output.split('\t')
 
@@ -73,19 +81,20 @@ class DpkgEnvironment(CommonEnvironment):
             List of ``FileInfo`` instances.
 
         """
+
         result = []
+        stripped_lines = []
 
         command_args_normal_files = [cls.executable_query, '-L', package_info.package]
-        command_normal_file_output = CommandManager.run_command_check_output(command_args_normal_files)
+        command_normal_file_output = CM.run_command_check_output(command_args_normal_files)
 
         lines = command_normal_file_output.rstrip().split('\n')
         normal_files = filter(cls._is_file, lines)
 
         command_args_config_files = [cls.executable_query, '-W', '-f=${conffiles}\\n', package_info.package]
-        command_config_file_output = CommandManager.run_command_check_output(command_args_config_files)
+        command_config_file_output = CM.run_command_check_output(command_args_config_files)
 
         lines = command_config_file_output.split('\n')
-        stripped_lines = []
 
         for line in lines:
             if len(line) != 0:
@@ -137,87 +146,78 @@ class DpkgEnvironment(CommonEnvironment):
         :return: Lexicographical sorted List of FileInfo()-Objects (Conffiles and normal Files)
         """
         save_options = create_temp_folder(file_pathname)
+
         result = []
         result_help_list = []  # needed to check duplications
 
         command_args_unpack_package = [cls.executable, '-x', save_options['absolute_package_path'], save_options['save_location']]
+        command_args_extract_controlpackage = ["ar", "x", save_options['absolute_package_path'], cls.control_archive]
+        command_args_extract_conffile = ["tar", "-zxf", "/".join((save_options['save_location'], cls.control_archive)), cls.conffile_file_name]
+        command_args_file_list = [cls.executable, '-c', file_pathname]
 
-        command_args_extract_controlpackage = ["ar", "x", save_options['absolute_package_path'], cls.CONTROL_ARCHIVE]
+        def _add_to_result_list(file_path, actual_path, mutable=False):
+            result_help_list.append(file_path)
+            file_info = FileInfo(file_path, actual_path=False)
+            file_info.set_actual_path(actual_path)
+            file_info.mutable = mutable
+            result.append(file_info)
 
-        command_args_extract_conffile = ["tar", "-zxf", "/".join((save_options['save_location'], cls.CONTROL_ARCHIVE)), "./conffiles"]
-
-        CommandManager.run_command(command_args_unpack_package)
-
+        # Extraction of all needed Files (Store Files into tmp folder), extract Configuration-Files entries
         try:
-            CommandManager.run_command(command_args_extract_controlpackage, working_directory=save_options['save_location'])
-            CommandManager.run_command(command_args_extract_conffile, working_directory=save_options['save_location'])
+            CM.run_command(command_args_unpack_package)
+            CM.run_command(command_args_extract_controlpackage, working_directory=save_options['save_location'])
+            CM.run_command(command_args_extract_conffile, working_directory=save_options['save_location'])
 
-            conffile_save_location = "/".join((save_options['save_location'], cls.CONFFILE_FILE_NAME))
+            temp_conffile_save_location = "/".join((save_options['save_location'], cls.conffile_file_name))
 
-            with open(conffile_save_location, 'rb') as afile:
+            with open(temp_conffile_save_location, 'rb') as afile:
                 file_content = afile.read().encode('utf-8')
 
+        except(IOError, subprocess.CalledProcessError):
+            # If no file extracted from command -> no .conffile-File exists
+            file_content = None
+            config_file_paths = []
+
+        # Extract Configuration-Files-Entries from output
+        if file_content is not None:
             config_file_paths = filter(lambda path: len(path) > 0, file_content.split('\n'))
 
             for config_file_path in config_file_paths:
-                file_info = FileInfo(config_file_path, actual_path=False)
-                file_info.set_actual_path(save_options['save_location'] + config_file_path)
-                file_info.mutable = True
-                result.append(file_info)
+                _add_to_result_list(config_file_path, save_options['save_location'] + config_file_path, mutable=True)
 
-        except(IOError, subprocess.CalledProcessError):
-            config_file_paths = []
-
-        command_args_file_list = [cls.executable, '-c', file_pathname]
-        command_output_list = CommandManager.run_command_check_output(command_args_file_list)
-
-        line_list = command_output_list.split('\n')
-
-        symbol_link = None
-        temp_save_location_symbol_link = None
+        # Extraction of file-list
+        output_file_list = CM.run_command_check_output(command_args_file_list)
+        line_list = output_file_list.split('\n')
 
         for line in line_list:
-            splitted_line_array = line.split(' ')
 
-            if "->" in splitted_line_array:
+            splitted_line = line.split(' ')
+            directory_or_file_path = splitted_line[-1]
+
+            if "->" in splitted_line:
                 # symbol-link
-                directory_or_file_path = splitted_line_array[-1]
-                symbol_link = splitted_line_array[-3]
-                head, file_name = ntpath.split(symbol_link)
+                symbol_link = (splitted_line[-3])[1:]
+                temp_save_location_symbol_link = "/".join((save_options['save_location'], symbol_link))
+                head, _ = ntpath.split(symbol_link)
 
                 if "../" in directory_or_file_path:
-                    root, folder_name = ntpath.split(head)
+                    root, _ = ntpath.split(head)
                     directory_or_file_path = root + directory_or_file_path[2:]
-                    symbol_link = directory_or_file_path
                 else:
                     directory_or_file_path = "/".join((head, directory_or_file_path))
 
+                if cls._is_file(temp_save_location_symbol_link):
+                    if symbol_link not in config_file_paths and symbol_link not in result_help_list:
+                        _add_to_result_list(symbol_link, temp_save_location_symbol_link)
             else:
-                # Last-Entry from Array is File-Path
-                directory_or_file_path = splitted_line_array[-1]
+                directory_or_file_path = directory_or_file_path[1:]
 
-            path_without_leading_point = directory_or_file_path[1:]
+            temp_save_location_file = "/".join((save_options['save_location'], directory_or_file_path))
 
-            if symbol_link is not None:
-                symbol_link = symbol_link[1:]
-                temp_save_location_symbol_link = str("/".join((save_options['save_location'], symbol_link[1:])))
+            if cls._is_file(temp_save_location_file):
+                if directory_or_file_path not in config_file_paths and directory_or_file_path not in result_help_list:
+                    _add_to_result_list(directory_or_file_path, temp_save_location_file)
 
-            temp_save_location = str("/".join((save_options['save_location'], path_without_leading_point[1:])))
-
-            if cls._is_file(temp_save_location):
-                if path_without_leading_point not in config_file_paths and path_without_leading_point not in result_help_list:
-                    result_help_list.append(path_without_leading_point)
-                    file_info = FileInfo(path_without_leading_point, actual_path=False)
-                    file_info.set_actual_path(temp_save_location)
-                    result.append(file_info)
-
-            if symbol_link is not None and cls._is_file(temp_save_location_symbol_link):
-                if symbol_link not in config_file_paths and symbol_link not in result_help_list:
-                    result_help_list.append(symbol_link)
-                    file_info = FileInfo(symbol_link, actual_path=False)
-                    file_info.set_actual_path(temp_save_location_symbol_link)
-                    result.append(file_info)
-                symbol_link = None
         return sorted(result, key=lambda f: f.full_pathname)
 
     @classmethod
@@ -230,8 +230,8 @@ class DpkgEnvironment(CommonEnvironment):
         """
         command_args_packagename = [cls.executable, '-f', file_path, 'Package']
         command_args_version = [cls.executable, '-f', file_path, 'Version']
-        package_name = CommandManager.run_command_check_output(command_args_packagename)
-        package_version = CommandManager.run_command_check_output(command_args_version)
+        package_name = CM.run_command_check_output(command_args_packagename)
+        package_version = CM.run_command_check_output(command_args_version)
 
         package_info = PackageInfo()
         package_info.package = package_name.strip()

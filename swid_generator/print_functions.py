@@ -3,7 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import sys
 from xml.dom import minidom
-from swid_generator.command_manager import CommandManager
+from swid_generator.command_manager import CommandManager as CM
 from swid_generator.generators.utils import create_temp_folder
 
 
@@ -12,9 +12,8 @@ def sign_xml(data, signature_args):
     file_path = folder_info['save_location'] + '/swid_tag.xml'
     with open(file_path, 'wb') as file:
         file.write(data)
-    sign_command = ["xmlsec1", "--sign", "--pkcs12", signature_args['pkcs12_file'],
-                    "--pwd", signature_args['pkcs12_password'], file_path]
-    return CommandManager.run_command_check_output(sign_command)
+    sign_command = ["xmlsec1", "--sign", "--pkcs12", signature_args['pkcs12_file'], "--pwd", signature_args['pkcs12_password'], file_path]
+    return CM.run_command_check_output(sign_command)
 
 
 def safe_print(data, signature_args=None, end='\n'):
@@ -31,6 +30,8 @@ def safe_print(data, signature_args=None, end='\n'):
             The data to print as bytestring.
         end (bytes or unicode):
             The bytestring with which to end the output (default newline).
+        signature_args (Dictionary):
+            Dictionary with needed arguments from argument-parser.
 
     """
 

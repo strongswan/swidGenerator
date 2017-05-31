@@ -15,8 +15,8 @@ class FileInfo(object):
         self.full_pathname_splitted = splitted_location[1:]
 
         if actual_path:
-            self.actual_full_pathname = self.full_pathname.encode('utf-8')
-            self.size = str(os.path.getsize(self.full_pathname.encode('utf-8')))
+            self.actual_full_pathname = self.full_pathname
+            self.size = str(os.path.getsize(self.full_pathname))
         else:
             self.actual_full_pathname = ""
 

@@ -1,69 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
-import re
-import os
-from functools import partial
-from argparse import ArgumentParser, ArgumentTypeError, Action
+from argparse import ArgumentParser
 
 from . import settings, meta
-from .generators.swid_generator import software_id_matcher, package_name_matcher, all_matcher
-
-
-class TargetAction(Action):
-    def __call__(self, parser, namespace, value, option_string=None):
-        if option_string == '--software-id':
-            setattr(namespace, "matcher", partial(software_id_matcher, value=value))
-        elif option_string == '--package':
-            setattr(namespace, "matcher", partial(package_name_matcher, value=value))
-
-
-def regid_string(string):
-    if string is None:
-        return None
-    try:
-        regex = re.compile(
-            r'^(?:(?:http|ftp)s?://)?'
-            r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'
-            r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
-            r'(?::\d+)?'
-            r'(?:/?|[/?]\S+)$', re.IGNORECASE)
-        return re.match(regex, string).group(0)
-    except:
-        raise ArgumentTypeError("String '{0}' does not match required format".format(string))
-
-
-def hash_string(string):
-    if string is None:
-        return None
-    try:
-        return re.match(r'((^|,)(sha256|sha384|sha512))+$', string).group(0)
-    except:
-        raise ArgumentTypeError("String '{0}' does not match required format".format(string))
-
-
-def entity_name_string(string):
-    if string is None:
-        return None
-    try:
-        return re.match('^[^<&"]*$', string).group(0)
-    except:
-        raise ArgumentTypeError("String '{0}' does not match required format".format(string))
-
-
-def package_path(string=None):
-    if not os.path.exists(string):
-        raise ArgumentTypeError("The file '{0}' does not exist".format(string))
-    elif string.endswith('.deb') or string.endswith('.rpm') or string.endswith('.pkg.tar.xz'):
-        return string
-    else:
-        raise ArgumentTypeError("File '{0}' is not a valid Package.".format(string))
-
-
-def certificate_path(string=None):
-    if not os.path.exists(string):
-        raise ArgumentTypeError("The file '{0}' does not exist".format(string))
-    return string
+from .generators.swid_generator import all_matcher
+from swid_generator.argparser_helper import entity_name_string, regid_string, hash_string, package_path, certificate_path
+from swid_generator.argparser_helper import RequirementCheckAction, TargetAction
 
 
 class MainArgumentParser(object):
@@ -110,15 +53,13 @@ class MainArgumentParser(object):
         swid_parser.add_argument('--hierarchic', action='store_true', default=False,
                                  help='Change directory structure to hierarchic.')
         swid_parser.add_argument('--hash', dest='hash_algorithms', type=hash_string,
-                            default=hash_string(settings.DEFAULT_HASH_ALGORITHM),
-                            help='Define the algorithm for the file hashes ("sha256", "sha384", "sha512"). '
+                                 default=hash_string(settings.DEFAULT_HASH_ALGORITHM),
+                                 help='Define the algorithm for the file hashes ("sha256", "sha384", "sha512"). '
                                  'Multiple hashes can be added with comma separated. ("sha256,sha384") '
                                  'Default is "%s"' % settings.DEFAULT_HASH_ALGORITHM)
-        swid_parser.add_argument('--package-file', dest='file_path', type=package_path,
-                                 help='Create SWID-Tag based on information of a Package-File.'
-                                 ' Rpm-Environment: *.rpm File, Dpkg-Environment: *.deb File, '
-                                 'Pacman-Environment: *.pgk.tar.xz File')
         swid_parser.add_argument('--pkcs12', dest='pkcs12', type=certificate_path,
+                                 action=RequirementCheckAction,
+                                 const=environment_registry,
                                    help='The pkcs12 file with key and certificate to sign the xml output.')
         swid_parser.add_argument('--pkcs12-pwd', dest='pkcs12_pwd',
                                    help='If the pkcs12 file is password protected, '
@@ -135,14 +76,13 @@ class MainArgumentParser(object):
 
         # mutually exclusive arguments --package/--software-id
         mutually_group = targeted_group.add_mutually_exclusive_group()
-        mutually_group.add_argument('--software-id', dest='match_software_id', metavar='SOFTWARE-ID',
-                            action=TargetAction,
-                            help='Do a targeted request for the specified Software-ID. '
-                                 'A Software-ID is made up as follows: "{regid}_{unique-id}". '
-                                 'Example: '
-                                 '"regid.2004-03.org.strongswan_Ubuntu_12.04-i686-strongswan-4.5.2-1.2". '
-                                 'If no matching package is found, the output is empty and the '
-                                 'exit code is set to 1.')
+        mutually_group.add_argument('--software-id', dest='match_software_id', metavar='SOFTWARE-ID', action=TargetAction,
+                                    help='Do a targeted request for the specified Software-ID. '
+                                    'A Software-ID is made up as follows: "{regid}_{unique-id}". '
+                                    'Example: '
+                                    '"regid.2004-03.org.strongswan_Ubuntu_12.04-i686-strongswan-4.5.2-1.2". '
+                                    'If no matching package is found, the output is empty and the '
+                                    'exit code is set to 1.')
         mutually_group.add_argument('--package', dest='package_name', metavar='PACKAGE',
                                     action=TargetAction,
                                     help='Do a targeted request for the specified package name. '
@@ -151,7 +91,21 @@ class MainArgumentParser(object):
                                          'dpkg managed environment. '
                                          'If no matching package is found, the output is empty and the '
                                          'exit code is set to 1.')
-
+        mutually_group.add_argument('--package-file', dest='file_path', type=package_path,
+                                    action=RequirementCheckAction,
+                                    const=environment_registry,
+                                    help='Create SWID-Tag based on information of a Package-File.'
+                                         ' Rpm-Environment: *.rpm File, Dpkg-Environment: *.deb File, '
+                                         'Pacman-Environment: *.pgk.tar.xz File')
+        targeted_group.add_argument('--evidence', dest='evidence_path', metavar='PATH',
+                                    help='Create a SWID Tag from a folder structure.')
+        targeted_group.add_argument('--name', dest='name', default=None, type=entity_name_string,
+                                    help='Name for the folder swid tag.')
+        targeted_group.add_argument('--version-string', dest='version', type=entity_name_string, default=None,
+                                    help='Version for the folder swid tag.')
+        targeted_group.add_argument('--new-root', dest='new_root', metavar='PATH', type=entity_name_string,
+                                    default=None,
+                                    help='New Root for the folder swid tag.')
         # Subparser for software-id command
         subparsers.add_parser('software-id', help='Software id output', parents=[parent_parser],
                               description='Generate Software-IDs.')

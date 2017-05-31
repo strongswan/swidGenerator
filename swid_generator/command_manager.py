@@ -1,6 +1,14 @@
 
-import subprocess
 import os
+import subprocess
+from .exceptions import CommandManagerError
+from .patches import py26_check_output
+
+
+# Python 2.6 compatibility
+if 'check_output' not in dir(subprocess):
+    # Ugly monkey patching hack ahead
+    subprocess.check_output = py26_check_output
 
 
 class CommandManager(object):
@@ -13,7 +21,10 @@ class CommandManager(object):
         :param working_directory: The working directory of the command.
         """
         with open(os.devnull, 'w') as devnull:
-            subprocess.call(command_argumentlist, stderr=devnull, cwd=working_directory)
+            try:
+                subprocess.call(command_argumentlist, stderr=devnull, cwd=working_directory)
+            except BaseException as e:
+                raise CommandManagerError(e)
 
     @staticmethod
     def run_command_check_output(command_argumentlist, stdin=None, working_directory=os.getcwd()):
@@ -24,14 +35,16 @@ class CommandManager(object):
         :param working_directory: Working directory of the command.
         :return: Console-Output of the command.
         """
-        if stdin is None:
-            output = subprocess.check_output(command_argumentlist, cwd=working_directory)
-
-            if isinstance(output, bytes):
-                output = output.decode('utf-8')
-            return output
-        else:
-            subprocess.check_output(command_argumentlist, stdin=stdin, cwd=working_directory)
+        try:
+            if stdin is None:
+                output = subprocess.check_output(command_argumentlist, cwd=working_directory)
+                if isinstance(output, bytes):
+                    output = output.decode('utf-8')
+                return output
+            else:
+                subprocess.check_output(command_argumentlist, stdin=stdin, cwd=working_directory)
+        except BaseException as e:
+            raise CommandManagerError(e)
 
     @staticmethod
     def run_command_popen(command_argumentlist, stdout=None):
@@ -41,7 +54,10 @@ class CommandManager(object):
         :param stdout: Standard output (e.x subprocess.PIPE)
         :return: Popen object to catch pipeline output
         """
-        if stdout is not None:
-            return subprocess.Popen(command_argumentlist, stdout=stdout)
-        else:
-            return subprocess.Popen(command_argumentlist)
+        try:
+            if stdout is not None:
+                return subprocess.Popen(command_argumentlist, stdout=stdout)
+            else:
+                return subprocess.Popen(command_argumentlist)
+        except BaseException as e:
+            raise CommandManagerError(e)

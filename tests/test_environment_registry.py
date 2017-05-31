@@ -1,8 +1,17 @@
-import unittest
+# -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import, unicode_literals
+
+import sys
 
 from swid_generator.environments.common import CommonEnvironment
 from swid_generator.environments.environment_registry import EnvironmentRegistry
 from swid_generator.exceptions import AutodetectionError, EnvironmentNotInstalledError
+
+if sys.version_info < (2, 7):
+    # We need the skip decorators from unittest2 on Python 2.6.
+    import unittest2 as unittest
+else:
+    import unittest
 
 
 class TestEnvironmentFail(CommonEnvironment):

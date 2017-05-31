@@ -1,14 +1,24 @@
+# -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import, unicode_literals
+
+import sys
 from functools import partial
 from xml.etree import cElementTree as ET
-
-import unittest
 
 from swid_generator.generators import swid_generator
 from swid_generator.package_info import PackageInfo
 from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
 from swid_generator.environments.common import CommonEnvironment
-from swid_generator.generators.swid_generator import software_id_matcher, package_name_matcher, _create_flat_payload_tag, _create_hierarchic_payload_tag
+from swid_generator.generators.swid_generator import _create_flat_payload_tag, _create_hierarchic_payload_tag
+from swid_generator.generators.swid_generator import software_id_matcher, package_name_matcher
 from nose_parameterized import parameterized
+from swid_generator.generators.content_creator import _sort_files
+
+if sys.version_info < (2, 7):
+    # We need the skip decorators from unittest2 on Python 2.6.
+    import unittest2 as unittest
+else:
+    import unittest
 
 
 class FileInfoMock(object):
@@ -191,7 +201,7 @@ class SwidGeneratorTests(unittest.TestCase):
 
     def test_sort_files(self):
 
-        sorted_files = swid_generator._sort_files(self.file_list)
+        sorted_files = _sort_files(self.file_list)
 
         expected_list = list()
 
