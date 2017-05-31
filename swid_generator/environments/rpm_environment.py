@@ -22,12 +22,12 @@ class RpmEnvironment(CommonEnvironment):
     conffile_file_name = 'conffiles'
     control_archive = 'control.tar.gz'
 
-    required_packages_package_file_method = [
+    required_packages_for_package_file_method = [
         "rpm2cpio",
         "cpio"
     ]
 
-    required_packages_sign_method = [
+    required_packages_for_sign_method = [
         "xmlsec1"
     ]
 

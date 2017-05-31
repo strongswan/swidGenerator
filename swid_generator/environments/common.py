@@ -17,8 +17,8 @@ class CommonEnvironment(object):
     executable = None
     conffile_file_name = None
     control_archive = None
-    required_packages_package_file_method = None
-    required_packages_sign_method = None
+    required_packages_for_package_file_method = None
+    required_packages_for_sign_method = None
 
     @staticmethod
     def get_architecture():
@@ -113,18 +113,18 @@ class CommonEnvironment(object):
         :param package_file_execution: Default: False. Choice between get_files_from_packagefile or signxml operation.
         :param sign_tag_execution:
         """
-        assert cls.required_packages_package_file_method is not None, 'List of required packages for package file execution may not be None'
-        assert cls.required_packages_sign_method is not None, 'List of required packages for sing execution may not be None'
+        assert cls.required_packages_for_package_file_method is not None, 'List of required packages for package file execution may not be None'
+        assert cls.required_packages_for_sign_method is not None, 'List of required packages for sing execution may not be None'
 
         not_installed_packages = list()
 
         required_packages = list()
 
         if package_file_execution is True:
-            required_packages.extend(cls.required_packages_package_file_method)
+            required_packages.extend(cls.required_packages_for_package_file_method)
 
         if sign_tag_execution is True:
-            required_packages.extend(cls.required_packages_sign_method)
+            required_packages.extend(cls.required_packages_for_sign_method)
 
         for package in required_packages:
             is_installed = cls.check_package_installed(package)
