@@ -135,8 +135,8 @@ class CommonEnvironmentTests(unittest.TestCase):
         dpkg_env = DpkgEnvironment()
 
         # setting attribute on class-level
-        setattr(DpkgEnvironment, 'required_packages_package_file_method', None)
-        setattr(DpkgEnvironment, 'required_packages_sign_method', None)
+        setattr(DpkgEnvironment, 'required_packages_for_package_file_method', None)
+        setattr(DpkgEnvironment, 'required_packages_for_sign_method', None)
 
         with self.assertRaises(AssertionError):
             dpkg_env.check_requirements(package_file_execution=True)
@@ -148,8 +148,8 @@ class CommonEnvironmentTests(unittest.TestCase):
         dpkg_env = DpkgEnvironment()
 
         # setting attribute on class-level
-        setattr(DpkgEnvironment, 'required_packages_package_file_method', ['tar'])
-        setattr(DpkgEnvironment, 'required_packages_sign_method', ['tar'])
+        setattr(DpkgEnvironment, 'required_packages_for_package_file_method', ['tar'])
+        setattr(DpkgEnvironment, 'required_packages_for_sign_method', ['tar'])
 
         dpkg_env.check_requirements(package_file_execution=True)
 
@@ -159,8 +159,8 @@ class CommonEnvironmentTests(unittest.TestCase):
         self.package_installed_patch.stop()
 
         # setting attribute on class-level
-        setattr(DpkgEnvironment, 'required_packages_package_file_method', ['f'])
-        setattr(DpkgEnvironment, 'required_packages_sign_method', ['f'])
+        setattr(DpkgEnvironment, 'required_packages_for_package_file_method', ['f'])
+        setattr(DpkgEnvironment, 'required_packages_for_sign_method', ['f'])
 
         with self.assertRaises(RequirementsNotInstalledError):
             dpkg_env.check_requirements(package_file_execution=True)
