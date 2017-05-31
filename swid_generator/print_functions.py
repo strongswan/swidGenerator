@@ -12,8 +12,7 @@ def sign_xml(data, signature_args):
     file_path = folder_info['save_location'] + '/swid_tag.xml'
     with open(file_path, 'wb') as file:
         file.write(data)
-    sign_command = ["xmlsec1", "--sign", "--pkcs12", signature_args['pkcs12_file'],
-                    "--pwd", signature_args['pkcs12_password'], file_path]
+    sign_command = ["xmlsec1", "--sign", "--pkcs12", signature_args['pkcs12_file'], "--pwd", signature_args['pkcs12_password'], file_path]
     return CM.run_command_check_output(sign_command)
 
 
@@ -31,6 +30,8 @@ def safe_print(data, signature_args=None, end='\n'):
             The data to print as bytestring.
         end (bytes or unicode):
             The bytestring with which to end the output (default newline).
+        signature_args (Dictionary):
+            Dictionary with needed arguments from argument-parser.
 
     """
 
