@@ -34,6 +34,8 @@ matrix:
     - python: 2.7
       env:
       - TOXENV=cov
+    allow_failures:
+      - env: cov
 install:
    - pip install tox
 script:
