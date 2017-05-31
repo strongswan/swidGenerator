@@ -8,7 +8,7 @@ import os
 import shutil
 
 from mock import patch
-from mock import MagicMock
+from mock import PropertyMock
 from swid_generator.environments.common import CommonEnvironment
 from swid_generator.environments.dpkg_environment import DpkgEnvironment
 from swid_generator.exceptions import RequirementsNotInstalledError
@@ -21,7 +21,7 @@ class CommonEnvironmentTests(unittest.TestCase):
     def setUp(self):
         self.platform_dist_patch = patch.object(platform, 'dist')
         self.platform_system_patch = patch.object(platform, 'system')
-        self.platform_os_name_patch = patch.object(os, 'name')
+        self.platform_os_name_patch = patch.object(platform, 'os')
         self.os_walk_patch = patch.object(os, 'walk')
         self.os_path_getsize_patch = patch.object(os.path, 'getsize')
         self.package_installed_patch = patch.object(CommonEnvironment, 'check_package_installed')
@@ -52,18 +52,15 @@ class CommonEnvironmentTests(unittest.TestCase):
         [('fedora', '19', 'Schrödinger\'s Cat'), 'Linux', 'posix', 'fedora_19'],
         [('arch', '', ''), 'Linux', 'posix', 'arch'],
         [('', '', ''), 'Linux', 'posix', 'linux'],
-        # [('', '', ''), "", 'posix', 'posix'],
-        # [('', '', ''), "", "", 'unknown']
+        [('', '', ''), "", 'posix', 'posix'],
+        [('', '', ''), "", "", 'unknown']
     ])
     def test_os_string(self, dist, system, os_name, expected_output):
         self.platform_dis_mock.return_value = dist
         self.platform_system_mock.return_value = system
-        self.platform_os_name_mock.return_value = os_name
+        type(self.platform_os_name_mock).name = PropertyMock(return_value=os_name)
         os_string = CommonEnvironment.get_os_string()
-        if isinstance(os_string, MagicMock):
-            assert os_string.return_value == expected_output
-        else:
-            assert os_string == expected_output
+        assert os_string == expected_output
 
     @staticmethod
     def test_is_file():
