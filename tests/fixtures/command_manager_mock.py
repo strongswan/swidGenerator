@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import print_function, division, absolute_import, unicode_literals
 
 import os
 import tests.fixtures.mock_data as mock_data
