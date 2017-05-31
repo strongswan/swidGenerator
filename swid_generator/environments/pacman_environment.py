@@ -72,7 +72,7 @@ class PacmanEnvironment(CommonEnvironment):
             if cls._is_file(file_path):
                 file_info = FileInfo(file_path)
                 # With the assumption that files in the '/etc'-Folders are mostly Configuration-Files
-                if "/etc" in file_path:
+                if file_path.startswith("/etc/"):
                     file_info.mutable = True
                 result.append(file_info)
         return result
@@ -111,7 +111,7 @@ class PacmanEnvironment(CommonEnvironment):
                 file_info = FileInfo(path, actual_path=False)
                 file_info.set_actual_path(temporary_path)
                 # With the assumption that files in the '/etc'-Folders are mostly Configuration-Files
-                if 'etc' in path:
+                if path.startswith("/etc/"):
                     file_info.mutable = True
                 all_files.append(file_info)
 
