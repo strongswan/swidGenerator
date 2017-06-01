@@ -83,7 +83,7 @@ def main():
             'pkcs12_file': options.pkcs12
         }
 
-        signatur_args = {
+        signature_args = {
             'pkcs12_file': options.pkcs12,
             'pkcs12_password': options.pkcs12_pwd
         }
@@ -105,20 +105,24 @@ def main():
         try:
 
             swid_tags = create_swid_tags(**swid_args)
-            print_swid_tags(swid_tags, signatur_args, separator=options.document_separator, pretty=options.pretty)
+            print_swid_tags(swid_tags, signature_args, separator=options.document_separator, pretty=options.pretty)
 
             # Garbage-Collection, clean tmp folder, delete swid_*-Folders
             files_to_delete = glob(TMP_FOLDER + PREFIX_FOLDER)
             for file_path in files_to_delete:
                 rmtree(file_path.encode('utf-8'))
 
-        except CommandManagerError:
+        except CommandManagerError as e:
+            print(e)
             sys.exit(1)
         except (UnicodeEncodeError, UnicodeEncodeError, UnicodeError):
             unicode_error_message = \
                 "Error: Unicode-Decode/Encode error has occurred. Please check the locales settings on your system.\n" \
                 "The stdout-encoding must be utf-8 compatible and the '$LANG' environment-variable must be set."
             print('\x1b[1;31;0m' + unicode_error_message + '\x1b[0m')
+        # Mainly except for evidence-tag generation. e.g Errors: no such file or Operation not permitted
+        except OSError as e:
+            print(e)
         # if --match was used no matching packages were found
         except StopIteration:
             sys.exit(1)
