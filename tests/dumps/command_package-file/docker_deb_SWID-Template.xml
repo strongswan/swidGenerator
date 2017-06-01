@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoftwareIdentity name="docker" tagId="debian stretch/sid-x86_64-docker-1.5-1" version="1.5-1" versionScheme="alphanumeric" xmlns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" xmlns:SHA256="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:n8060="http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd">
+  <Entity name="strongSwan Project" regid="strongswan.org" role="tagCreator"/>
+  <Meta product="debian stretch/sid x86_64"/>
+  <Payload>
+    <Directory name="bin" root="/usr">
+      <File SHA256:hash="681458ed63e2f0b0b105d9dbad65d9440eb53be931a052451ba7400415bd096e" name="wmdocker" size="18832"/>
+    </Directory>
+    <Directory name="docker" root="/usr/share/doc">
+      <File SHA256:hash="fd82a1ac93bfe0a5afcf28cfb5342dd02015555fc23529a87bd77a7b271d3262" name="README" size="2603"/>
+      <File SHA256:hash="54e231972e3d8523b51e9a5925381f3f5439d154a5b5f65c234a40229b9b733b" name="changelog.Debian.gz" size="1062"/>
+      <File SHA256:hash="11e37768d0085a77b5394133385280658ddfc1143ef1baf8696cab9d92d73c2d" name="copyright" size="390"/>
+    </Directory>
+    <Directory name="man1" root="/usr/share/man">
+      <File SHA256:hash="2380fa642f4772863b4a59f1fb9d911dc65107e252411770d97625ebd455a77f" name="wmdocker.1.gz" size="1180"/>
+    </Directory>
+    <Directory name="menu" root="/usr/share">
+      <File SHA256:hash="d0c1385669ac497697233dfd7c59271ea0d10fefa59ec0b6820178e75f3b3f12" name="docker" size="106"/>
+    </Directory>
+  </Payload>
+</SoftwareIdentity>

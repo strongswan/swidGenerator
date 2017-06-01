@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoftwareIdentity name="docker" tagId="arch-x86_64-docker-1~17.04.0-1" version="1:17.04.0-1" versionScheme="alphanumeric" xmlns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" xmlns:SHA256="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:n8060="http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd">
+  <Entity name="strongSwan Project" regid="strongswan.org" role="tagCreator"/>
+  <Meta product="arch x86_64"/>
+</SoftwareIdentity>

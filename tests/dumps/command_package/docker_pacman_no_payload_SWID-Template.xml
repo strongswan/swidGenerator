@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoftwareIdentity name="docker" tagId="arch-x86_64-docker-1~17.04.0-1" version="1:17.04.0-1" versionScheme="alphanumeric" xmlns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" xmlns:SHA256="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:n8060="http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd">
+  <Entity name="strongSwan Project" regid="strongswan.org" role="tagCreator"/>
+  <Meta product="arch x86_64"/>
+  <Payload>
+    <Directory name="bin" root="/usr">
+      <File SHA256:hash="2c8985c62ffda9b2a3ee8ae88b7d2dd42e4220221d5fec63fce00e28557bea08" name="docker" size="11899736"/>
+      <File SHA256:hash="d1f725b3fba92986a04cb062e50ffbfddf484b826c1d795583f90a6dcc6a8ec1" name="docker-containerd" size="12041600"/>
+      <File SHA256:hash="03d8bb6212f76963f016b3473c00af52e692a47391d350b8cecb4bc4245ecb71" name="docker-containerd-ctr" size="10648256"/>
+      <File SHA256:hash="56819c1ad8a6560855bdabde04c6c18ef1c80e833c5bc82898334798346ae460" name="docker-containerd-shim" size="2000304"/>
+      <File SHA256:hash="69087108be4d5313c2da186e95bd51108131ac10873988376eafbf4dea458b59" name="docker-init" size="764128"/>
+      <File SHA256:hash="79be97c67b04f0c5de6e721bb50de1a3366192a68b6e73e8af8329474058ad15" name="docker-proxy" size="2476440"/>
+      <File SHA256:hash="4f2919375e8677c6d23d9ba977c117f382d66b48188814b6623abe96b8bb59ac" name="docker-runc" size="7717368"/>
+      <File SHA256:hash="bcef5eef483b269a6849ce71d1cb5626b7f78a7548255ca2e480b0dd5feedf83" name="dockerd" size="36832256"/>
+    </Directory>
+    <Directory name="system" root="/usr/lib/systemd">
+      <File SHA256:hash="e47c8d28239f07ab481c1688786efe526533f1365bc00657c3e7e083fa6b56d4" name="docker.service" size="1185"/>
+      <File SHA256:hash="7d06f689436fe0ffd0d8ac64b08f7ab2efd2296ac929858359eddf296fee951c" name="docker.socket" size="197"/>
+    </Directory>
+    <Directory name="sysusers.d" root="/usr/lib">
+      <File SHA256:hash="a7a4b52000ed38ead62665eec9ed2366a4f763d61977ebd5414b041ff1c3d415" name="docker.conf" size="46"/>
+    </Directory>
+    <Directory name="rules.d" root="/usr/lib/udev">
+      <File SHA256:hash="863aa0504a0ce84641e95ea29fae80c14c5a64c62b336149c3b7c5795b90a157" name="80-docker.rules" size="343"/>
+    </Directory>
+    <Directory name="completions" root="/usr/share/bash-completion">
+      <File SHA256:hash="e57b883109e0789ff7009ecb42fc80e2819468fba2cc00c884f44a3146402056" name="docker" size="90304"/>
+    </Directory>
+    <Directory name="vendor_completions.d" root="/usr/share/fish">
+      <File SHA256:hash="bf2619a16447dc3c4835833d34e1f42c988d37f5a87e260b72c8a884d1575a33" name="docker.fish" size="36208"/>
+    </Directory>
+    <Directory name="man1" root="/usr/share/man">
+      <File SHA256:hash="ee538e78567684f8eb80361d032d12f0c0f732778f81f80d6bdfaf9f89c0efa0" name="docker-build.1.gz" size="5470"/>
+      <File SHA256:hash="49e1fe268f8c58e9a4e58050c9285f7197379410421c047b02cd3b4ed33749a3" name="docker-run.1.gz" size="15060"/>
+      <File SHA256:hash="64f8d3666d28476dc31fa12c9c1f561db35ce730e45941880412fea08ebc19af" name="docker.1.gz" size="1140"/>
+    </Directory>
+    <Directory name="man5" root="/usr/share/man">
+      <File SHA256:hash="e8a7b7879614c9ca9903941fb385469998d7bbc1a00f8ac16d5414c2418ade09" name="Dockerfile.5.gz" size="6327"/>
+      <File SHA256:hash="4aacf293a103eae3a76b9f046fb3da065e866a5b720e0bbd1822d58d30e6da3c" name="docker-config-json.5.gz" size="1336"/>
+    </Directory>
+    <Directory name="man8" root="/usr/share/man">
+      <File SHA256:hash="da4d7d429f9ec725dbe351ecb79c2b75cc247af2666ef440515400f65ed217c4" name="dockerd.8.gz" size="9344"/>
+    </Directory>
+    <Directory name="ftdetect" root="/usr/share/vim/vimfiles">
+      <File SHA256:hash="a2f400471406858aa4b9fdc8f40ed7a3699e4bc389eea09e3416a360d5a180da" name="dockerfile.vim" size="73"/>
+    </Directory>
+    <Directory name="syntax" root="/usr/share/vim/vimfiles">
+      <File SHA256:hash="ae976d4930fc3c81066447f14ccb9f545eab2d7d3d9b8cf9f595ef02fe7e4860" name="dockerfile.vim" size="1277"/>
+    </Directory>
+    <Directory name="site-functions" root="/usr/share/zsh">
+      <File SHA256:hash="c83a35250d72ae8894ad58fda0b6b8eb514201324f133e85e531f0d6268f4fdd" name="_docker" size="120874"/>
+    </Directory>
+  </Payload>
+</SoftwareIdentity>

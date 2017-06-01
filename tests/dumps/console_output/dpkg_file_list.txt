@@ -1,0 +1,4 @@
+/usr/share/menu
+/usr/share/menu/docker
+/usr/share/doc/docker
+/usr/share/doc/docker/changelog.Debian.gz

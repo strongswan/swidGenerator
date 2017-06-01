@@ -24,9 +24,9 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import sys
-import logging
-import subprocess
 
+from glob import glob
+from shutil import rmtree
 from .argparser import MainArgumentParser
 from .environments.environment_registry import EnvironmentRegistry
 from .environments.dpkg_environment import DpkgEnvironment
@@ -35,36 +35,14 @@ from .environments.pacman_environment import PacmanEnvironment
 from .generators.swid_generator import create_swid_tags
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
-from .exceptions import AutodetectionError, EnvironmentNotInstalledError
+from .exceptions import AutodetectionError, EnvironmentNotInstalledError, CommandManagerError
 
 
-def py26_check_output(*popenargs, **kwargs):
-    """
-    This function is an ugly hack to monkey patch the backported `check_output`
-    method into the subprocess module.
-
-    Taken from https://gist.github.com/edufelipe/1027906.
-
-    """
-    process = subprocess.Popen(stdout=subprocess.PIPE, *popenargs, **kwargs)
-    output, unused_err = process.communicate()
-    retcode = process.poll()
-    if retcode:
-        cmd = kwargs.get('args')
-        if cmd is None:
-            cmd = popenargs[0]
-        error = subprocess.CalledProcessError(retcode, cmd)
-        error.output = output
-        raise error
-    return output
+TMP_FOLDER = '/tmp/'
+PREFIX_FOLDER = 'swid_*'
 
 
 def main():
-    # Python 2.6 compatibility
-    if 'check_output' not in dir(subprocess):
-        # Ugly monkey patching hack ahead
-        logging.debug('Monkey patching subprocess.check_output')
-        subprocess.check_output = py26_check_output
 
     # Register environments
     environment_registry = EnvironmentRegistry()
@@ -88,20 +66,63 @@ def main():
         sys.exit(3)
 
     # Handle commands
-
     if options.command == 'swid':
         swid_args = {
             'environment': env,
             'entity_name': options.entity_name,
             'regid': options.regid,
             'full': options.full,
-            'matcher': options.matcher
+            'matcher': options.matcher,
+            'hash_algorithms': options.hash_algorithms,
+            'hierarchic': options.hierarchic,
+            'file_path': options.file_path,
+            'evidence_path': options.evidence_path,
+            'new_root_path': options.new_root,
+            'name': options.name,
+            'version': options.version,
+            'pkcs12_file': options.pkcs12
         }
 
-        swid_tags = create_swid_tags(**swid_args)
-        try:
-            print_swid_tags(swid_tags, separator=options.document_separator, pretty=options.pretty)
+        signature_args = {
+            'pkcs12_file': options.pkcs12,
+            'pkcs12_password': options.pkcs12_pwd
+        }
 
+        if options.evidence_path is not None:
+            """
+            If the parameter 'name' and 'version' are missing, then the following default-arguments are set:
+            name = {evidence_path}_{os_string}
+            version = 1.0.0
+            """
+            swid_args['full'] = True
+
+            if options.name is None:
+                swid_args['name'] = "_".join((options.evidence_path, env.get_os_string()))
+
+            if options.version is None:
+                swid_args['version'] = "1.0.0"
+
+        try:
+
+            swid_tags = create_swid_tags(**swid_args)
+            print_swid_tags(swid_tags, signature_args, separator=options.document_separator, pretty=options.pretty)
+
+            # Garbage-Collection, clean tmp folder, delete swid_*-Folders
+            files_to_delete = glob(TMP_FOLDER + PREFIX_FOLDER)
+            for file_path in files_to_delete:
+                rmtree(file_path.encode('utf-8'))
+
+        except CommandManagerError as e:
+            print(e)
+            sys.exit(1)
+        except (UnicodeEncodeError, UnicodeEncodeError, UnicodeError):
+            unicode_error_message = \
+                "Error: Unicode-Decode/Encode error has occurred. Please check the locales settings on your system.\n" \
+                "The stdout-encoding must be utf-8 compatible and the '$LANG' environment-variable must be set."
+            print('\x1b[1;31;0m' + unicode_error_message + '\x1b[0m')
+        # Mainly except for evidence-tag generation. e.g Errors: no such file or Operation not permitted
+        except OSError as e:
+            print(e)
         # if --match was used no matching packages were found
         except StopIteration:
             sys.exit(1)
@@ -109,9 +130,10 @@ def main():
     elif options.command == 'software-id':
         software_ids = create_software_ids(env=env, regid=options.regid)
         print_software_ids(software_ids, separator=options.document_separator)
+
     else:
         print('Error: Please choose a subcommand: '
-              'swid for swid output, software-id for software id output')
+              'swid for swid output, software-id for software id output, evidence for folder input')
         parser.print_usage()
         sys.exit(1)
 

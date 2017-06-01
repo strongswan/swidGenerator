@@ -1,0 +1,3 @@
+-rw-r--r-- root/root      1300 2016-04-05 21:15 ./usr/share/doc/docker/README.backtrace
+lrwxrwxrwx root/root         0 2016-07-15 15:33 ./usr/share/man/man8/docker.8.gz -> dockerctl.8.gz
+lrwxrwxrwx root/root         0 2016-07-15 15:33 ./usr/share/bug/docker/control -> ../docker-bin/control
