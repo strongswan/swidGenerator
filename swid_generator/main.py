@@ -133,7 +133,6 @@ def main():
             print(e)
             sys.exit(5)
 
-
     elif options.command == 'software-id':
         software_ids = create_software_ids(env=env, regid=options.regid)
         print_software_ids(software_ids, separator=options.document_separator)
