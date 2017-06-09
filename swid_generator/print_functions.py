@@ -12,7 +12,11 @@ def sign_xml(data, signature_args):
     file_path = folder_info['save_location'] + '/swid_tag.xml'
     with open(file_path, 'wb') as file:
         file.write(data)
-    sign_command = ["xmlsec1", "--sign", "--pkcs12", signature_args['pkcs12_file'], "--pwd", signature_args['pkcs12_password'], file_path]
+    if signature_args['pkcs12_password'] is None:
+        sign_command = ["xmlsec1", "--sign", "--pkcs12", signature_args['pkcs12_file'], file_path]
+    else:
+        sign_command = ["xmlsec1", "--sign", "--pkcs12", signature_args['pkcs12_file'], "--pwd", signature_args['pkcs12_password'], file_path]
+
     return CM.run_command_check_output(sign_command)
 
 
@@ -54,7 +58,7 @@ def safe_print(data, signature_args=None, end='\n'):
     else:
         if signature_args is not None:
             if signature_args['pkcs12_file'] is not None:
-                data = bytes(sign_xml(data, signature_args))
+                data = sign_xml(data, signature_args)
         print(data, end=end)
 
 

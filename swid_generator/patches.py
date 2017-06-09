@@ -42,5 +42,4 @@ def unicode_patch(string):
         string_in_bytes = bytes(string)
         return string_in_bytes.decode('utf-8')
     except NameError:
-        string_in_bytes = bytes(string, 'utf-8')
-        return str(string_in_bytes, 'utf-8')
+        return string
