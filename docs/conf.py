@@ -44,7 +44,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'SWID Generator'
-copyright = u'2014, Danilo Bargen, Christian Fässler, Jonas Furrer'
+copyright = u'2014, Danilo Bargen, Christian Fässler, Jonas Furrer; 2017, Davide De Giorgio, Christof Greiner'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -187,7 +187,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'SWIDGenerator.tex', u'SWID Generator Documentation',
-   u'Danilo Bargen, Christian Fässler, Jonas Furrer', 'manual'),
+   u'Danilo Bargen, Christian Fässler, Jonas Furrer, Davide De Giorgio, Christof Greiner', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -217,7 +217,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('man', 'swid_generator', u'generate SWID-Tags and Software-IDs from package manager data',
-     [u'Danilo Bargen, Christian Fässler, Jonas Furrer'], 1)
+     [u'Danilo Bargen, Christian Fässler, Jonas Furrer, Davide De Giorgio, Christof Greiner'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -231,8 +231,8 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'SWIDGenerator', u'SWID Generator Documentation',
-   u'Danilo Bargen, Christian Fässler, Jonas Furrer', 'SWIDGenerator', 'One line description of project.',
-   'Miscellaneous'),
+   u'Danilo Bargen, Christian Fässler, Jonas Furrer, Davide De Giorgio, Christof Greiner',
+   'SWIDGenerator', 'One line description of project.', 'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.
