@@ -47,7 +47,7 @@ class MainArgumentParser(object):
                                  help='The entity name used in the <Entity> XML tag. '
                                       'Default is "%s".' % settings.DEFAULT_ENTITY_NAME)
         swid_parser.add_argument('--full', action='store_true', default=False,
-                                 help='Dump the full SWID tags including file tags for each package.')
+                                 help='Dump the full SWID tags including directory/file tags for each package.')
         swid_parser.add_argument('--pretty', action='store_true', default=False,
                                  help='Indent the XML output.')
         swid_parser.add_argument('--hierarchic', action='store_true', default=False,
@@ -60,8 +60,8 @@ class MainArgumentParser(object):
         swid_parser.add_argument('--pkcs12', dest='pkcs12', type=certificate_path,
                                  action=RequirementCheckAction,
                                  const=environment_registry,
-                                   help='The pkcs12 file with key and certificate to sign the xml output.')
-        swid_parser.add_argument('--pkcs12-pwd', dest='pkcs12_pwd',
+                                   help='The pkcs12 container with key and certificate to sign the xml output.')
+        swid_parser.add_argument('--pkcs12-pwd', dest='password',
                                    help='If the pkcs12 file is password protected, '
                                         'the password needs to be provided.')
 
@@ -69,7 +69,8 @@ class MainArgumentParser(object):
 
         targeted_group = swid_parser.add_argument_group(
             title='targeted requests',
-            description='You may do a targeted request against either a Software-ID or a package name. '
+            description='You may do a targeted request against either a Software-ID, a package name, '
+                        'a package file or a folder structure. '
                         'The output only contains a SWID tag if the argument fully matches '
                         'the given target. If no matching SWID tag is found, the output is empty '
                         'and the exit code is set to 1. ')
@@ -80,7 +81,7 @@ class MainArgumentParser(object):
                                     help='Do a targeted request for the specified Software-ID. '
                                     'A Software-ID is made up as follows: "{regid}_{unique-id}". '
                                     'Example: '
-                                    '"regid.2004-03.org.strongswan_Ubuntu_12.04-i686-strongswan-4.5.2-1.2". '
+                                    '"strongswan.org_Ubuntu_12.04-i686-strongswan-4.5.2-1.2". '
                                     'If no matching package is found, the output is empty and the '
                                     'exit code is set to 1.')
         mutually_group.add_argument('--package', dest='package_name', metavar='PACKAGE',
@@ -98,14 +99,18 @@ class MainArgumentParser(object):
                                          ' Rpm-Environment: *.rpm File, Dpkg-Environment: *.deb File, '
                                          'Pacman-Environment: *.pgk.tar.xz File')
         targeted_group.add_argument('--evidence', dest='evidence_path', metavar='PATH',
-                                    help='Create a SWID Tag from a folder structure.')
+                                    help='Create a SWID Tag from a directory on the filesystem. '
+                                         'This changes the payload element to a evidence element.')
         targeted_group.add_argument('--name', dest='name', default=None, type=entity_name_string,
-                                    help='Name for the folder swid tag.')
+                                    help='Specify a name for an directory based SWID-Tag. '
+                                         'Default is "{evidence-path}_{os-string}"')
         targeted_group.add_argument('--version-string', dest='version', type=entity_name_string, default=None,
-                                    help='Version for the folder swid tag.')
+                                    help='Specify the version for an directory based SWID-Tag. '
+                                         'Default is "1.0.0"')
         targeted_group.add_argument('--new-root', dest='new_root', metavar='PATH', type=entity_name_string,
                                     default=None,
-                                    help='New Root for the folder swid tag.')
+                                    help='Change the displayed "root"-folder from the provided directory to '
+                                         'an other path.')
         # Subparser for software-id command
         subparsers.add_parser('software-id', help='Software id output', parents=[parent_parser],
                               description='Generate Software-IDs.')

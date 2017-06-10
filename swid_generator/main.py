@@ -36,6 +36,7 @@ from .generators.swid_generator import create_swid_tags
 from .generators.softwareid_generator import create_software_ids
 from .print_functions import print_swid_tags, print_software_ids
 from .exceptions import AutodetectionError, EnvironmentNotInstalledError, CommandManagerError
+from .patches import unicode_patch
 
 
 TMP_FOLDER = '/tmp/'
@@ -85,7 +86,7 @@ def main():
 
         signature_args = {
             'pkcs12_file': options.pkcs12,
-            'pkcs12_password': options.pkcs12_pwd
+            'pkcs12_password': options.password
         }
 
         if options.evidence_path is not None:
@@ -97,7 +98,7 @@ def main():
             swid_args['full'] = True
 
             if options.name is None:
-                swid_args['name'] = "_".join((options.evidence_path, env.get_os_string()))
+                swid_args['name'] = "_".join((unicode_patch(options.evidence_path), env.get_os_string()))
 
             if options.version is None:
                 swid_args['version'] = "1.0.0"
@@ -112,20 +113,25 @@ def main():
             for file_path in files_to_delete:
                 rmtree(file_path.encode('utf-8'))
 
-        except CommandManagerError as e:
-            print(e)
-            sys.exit(1)
-        except (UnicodeEncodeError, UnicodeEncodeError, UnicodeError):
-            unicode_error_message = \
-                "Error: Unicode-Decode/Encode error has occurred. Please check the locales settings on your system.\n" \
-                "The stdout-encoding must be utf-8 compatible and the '$LANG' environment-variable must be set."
-            print('\x1b[1;31;0m' + unicode_error_message + '\x1b[0m')
-        # Mainly except for evidence-tag generation. e.g Errors: no such file or Operation not permitted
-        except OSError as e:
-            print(e)
         # if --match was used no matching packages were found
         except StopIteration:
             sys.exit(1)
+
+        except (UnicodeEncodeError, UnicodeDecodeError, UnicodeError):
+            unicode_error_message = \
+                "Error: An Unicode-Encode/Decode error has occurred. Please check the locales settings on your system.\n" \
+                "The stdout-encoding must be utf-8 compatible and the '$LANG' environment-variable must be set."
+            print('\x1b[1;31;0m' + unicode_error_message + '\x1b[0m')
+            sys.exit(4)
+        # Mainly except for evidence-tag generation. e.g Errors: no such file or Operation not permitted
+        except OSError as e:
+            print(e)
+            sys.exit(4)
+
+        except CommandManagerError as e:
+            print("Error: An external command has encountered an unexpected error.")
+            print(e)
+            sys.exit(5)
 
     elif options.command == 'software-id':
         software_ids = create_software_ids(env=env, regid=options.regid)
@@ -133,7 +139,7 @@ def main():
 
     else:
         print('Error: Please choose a subcommand: '
-              'swid for swid output, software-id for software id output, evidence for folder input')
+              'swid for swid output, software-id for software id output')
         parser.print_usage()
         sys.exit(1)
 
