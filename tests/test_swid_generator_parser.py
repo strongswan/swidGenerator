@@ -101,7 +101,7 @@ class SwidGeneratorParserTests(unittest.TestCase):
 
     def test_pkcs12_pwd_parameter(self):
         result = self.parser.parse('swid --pkcs12-pwd testpwd'.split())
-        assert result.pkcs12_pwd == 'testpwd'
+        assert result.password == 'testpwd'
 
     def test_evidence_valid_arguments(self):
         result = self.parser.parse('swid --evidence /tmp/ --name test --version-string 1.0'.split())

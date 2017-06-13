@@ -32,14 +32,14 @@ The tool provides 2 subcommands to generate SWID tags or Software IDs.
 Generate SWID tags::
 
     usage: swid_generator swid [-h] [--env {auto,dpkg,pacman,rpm}]
-                           [--doc-separator DOCUMENT_SEPARATOR]
-                           [--regid REGID] [--entity-name ENTITY_NAME]
-                           [--full] [--pretty] [--hierarchic]
-                           [--hash HASH_ALGORITHMS] [--pkcs12 PKCS12]
-                           [--pkcs12-pwd PKCS12_PWD]
-                           [--software-id SOFTWARE-ID | --package PACKAGE | --package-file FILE_PATH]
-                           [--evidence PATH] [--name NAME]
-                           [--version-string VERSION] [--new-root PATH]
+                               [--doc-separator DOCUMENT_SEPARATOR]
+                               [--regid REGID] [--entity-name ENTITY_NAME]
+                               [--full] [--pretty] [--hierarchic]
+                               [--hash HASH_ALGORITHMS] [--pkcs12 PKCS12]
+                               [--pkcs12-pwd PASSWORD]
+                               [--software-id SOFTWARE-ID | --package PACKAGE | --package-file FILE_PATH]
+                               [--evidence PATH] [--name NAME]
+                               [--version-string VERSION] [--new-root PATH]
 
     Generate SWID tags.
 
@@ -58,33 +58,32 @@ Generate SWID tags::
       --entity-name ENTITY_NAME
                             The entity name used in the <Entity> XML tag. Default
                             is "strongSwan Project".
-      --full                Dump the full SWID tags including file tags for each
-                            package.
+      --full                Dump the full SWID tags including directory/file tags
+                            for each package.
       --pretty              Indent the XML output.
       --hierarchic          Change directory structure to hierarchic.
       --hash HASH_ALGORITHMS
                             Define the algorithm for the file hashes ("sha256",
                             "sha384", "sha512"). Multiple hashes can be added with
                             comma separated. ("sha256,sha384") Default is "sha256"
-      --pkcs12 PKCS12       The pkcs12 file with key and certificate to sign the
-                            xml output.
-      --pkcs12-pwd PKCS12_PWD
-                            If the pkcs12 file is password protected, the password
+      --pkcs12 PKCS12       The PKCS#12 container with key and certificate to sign
+                            the xml output.
+      --pkcs12-pwd PASSWORD
+                            If the PKCS#12 file is password protected, the password
                             needs to be provided.
 
     targeted requests:
-      You may do a targeted request against either a Software-ID or a package
-      name. The output only contains a SWID tag if the argument fully matches
-      the given target. If no matching SWID tag is found, the output is empty
-      and the exit code is set to 1.
+      You may do a targeted request against either a Software-ID, a package
+      name, a package file or a folder structure. The output only contains a
+      SWID tag if the argument fully matches the given target. If no matching
+      SWID tag is found, the output is empty and the exit code is set to 1.
 
       --software-id SOFTWARE-ID
                             Do a targeted request for the specified Software-ID. A
                             Software-ID is made up as follows: "{regid}_{unique-
-                            id}". Example: "regid.2004-03.org.strongswan_Ubuntu_12
-                            .04-i686-strongswan-4.5.2-1.2". If no matching package
-                            is found, the output is empty and the exit code is set
-                            to 1.
+                            id}". Example: "strongswan.org_Ubuntu_12.04-i686-stron
+                            gswan-4.5.2-1.2". If no matching package is found, the
+                            output is empty and the exit code is set to 1.
       --package PACKAGE     Do a targeted request for the specified package name.
                             The package name corresponds to a package name
                             returned by the environment's package manager, e.g
@@ -95,11 +94,17 @@ Generate SWID tags::
                             Create SWID-Tag based on information of a Package-
                             File. Rpm-Environment: *.rpm File, Dpkg-Environment:
                             *.deb File, Pacman-Environment: *.pgk.tar.xz File
-      --evidence PATH       Create a SWID Tag from a folder structure.
-      --name NAME           Name for the folder swid tag.
+      --evidence PATH       Create a SWID Tag from a directory on the filesystem.
+                            This changes the payload element to an evidence
+                            element.
+      --name NAME           Specify a name for a directory based SWID-Tag.
+                            Default is "{evidence-path}_{os-string}"
       --version-string VERSION
-                            Version for the folder swid tag.
-      --new-root PATH       New Root for the folder swid tag.
+                            Specify the version for a directory based SWID-Tag.
+                            Default is "1.0.0"
+      --new-root PATH       Change the displayed "root"-folder from the provided
+                            directory to a different path.
+
 
 
 Generate Software IDs::
@@ -133,7 +138,9 @@ If the application fails somehow, an exit code is set appropriately:
 - 2: Invalid arguments passed.
 - 3: Either the given environment is not installed or the environment  
   could not be autodetected.
-                   
+- 4: An internal error has occured.
+- 5: An external command has thrown an error.
+
 The exit code can be shown with::
 
     $ echo $?
@@ -331,6 +338,7 @@ License
 The MIT License (MIT)
 
 Copyright (c) 2014 Christian Fässler, Danilo Bargen, Jonas Furrer.
+Copyright (c) 2017 Davide De Giorgio, Christof Greiner.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
