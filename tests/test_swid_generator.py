@@ -179,7 +179,7 @@ class SwidGeneratorTests(unittest.TestCase):
         ('non-existent-software-id', 1337, 0)
     ])
     def test_targeted_software_id_test(self, package_name, package_version, expected_count):
-        software_id = '{regid}_{os_info}-{architecture}-{package_name}-{package_version}' \
+        software_id = '{regid}__{os_info}-{architecture}-{package_name}-{package_version}' \
             .format(regid=DEFAULT_REGID,
                     package_name=package_name,
                     package_version=package_version,

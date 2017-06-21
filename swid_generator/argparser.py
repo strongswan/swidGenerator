@@ -79,9 +79,9 @@ class MainArgumentParser(object):
         mutually_group = targeted_group.add_mutually_exclusive_group()
         mutually_group.add_argument('--software-id', dest='match_software_id', metavar='SOFTWARE-ID', action=TargetAction,
                                     help='Do a targeted request for the specified Software-ID. '
-                                    'A Software-ID is made up as follows: "{regid}_{unique-id}". '
+                                    'A Software-ID is made up as follows: "{regid}__{unique-id}". '
                                     'Example: '
-                                    '"strongswan.org_Ubuntu_12.04-i686-strongswan-4.5.2-1.2". '
+                                    '"strongswan.org__Ubuntu_12.04-i686-strongswan-4.5.2-1.2". '
                                     'If no matching package is found, the output is empty and the '
                                     'exit code is set to 1.')
         mutually_group.add_argument('--package', dest='package_name', metavar='PACKAGE',
