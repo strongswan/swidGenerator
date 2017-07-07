@@ -20,15 +20,15 @@ class SoftwareIdGeneratorTests(unittest.TestCase):
     def test_softwareid_generator(self):
 
         env = Environment(self.package_list)
-        reg_id = regid_string("http://www.strongswan.org")
+        reg_id = regid_string("http://strongswan.org")
 
         software_ids = create_software_ids(env, reg_id)
 
         expected_ids = list()
 
-        expected_ids.append("http://www.strongswan.org_SomeTestOS-i686-Docker-1.5.0")
-        expected_ids.append("http://www.strongswan.org_SomeTestOS-i686-Ranger-3.2.1")
-        expected_ids.append("http://www.strongswan.org_SomeTestOS-i686-Zsh-2.1.4")
+        expected_ids.append("http://strongswan.org__SomeTestOS-i686-Docker-1.5.0")
+        expected_ids.append("http://strongswan.org__SomeTestOS-i686-Ranger-3.2.1")
+        expected_ids.append("http://strongswan.org__SomeTestOS-i686-Zsh-2.1.4")
 
         for index, generated_id in enumerate(software_ids):
             assert expected_ids[index] == generated_id

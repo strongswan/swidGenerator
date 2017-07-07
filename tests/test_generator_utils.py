@@ -36,7 +36,7 @@ class GeneratorUtilsTest(unittest.TestCase):
         regid = 'strongswan.org'
         unique_id = 'debian_7.4-x86_64-swid_generator-0.1.2'
         software_id = utils.create_software_id(regid, unique_id)
-        assert software_id == 'strongswan.org_debian_7.4-x86_64-swid_generator-0.1.2'
+        assert software_id == 'strongswan.org__debian_7.4-x86_64-swid_generator-0.1.2'
 
     @staticmethod
     def test_create_hashes():

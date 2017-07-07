@@ -68,7 +68,7 @@ def create_software_id(regid, unique_id):
         The Software-ID string.
 
     """
-    return '{regid}_{unique_id}'.format(regid=regid, unique_id=unique_id)
+    return '{regid}__{unique_id}'.format(regid=regid, unique_id=unique_id)
 
 
 def create_sha256_hash(filepath):

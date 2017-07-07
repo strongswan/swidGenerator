@@ -30,10 +30,10 @@ class CommonEnvironment(object):
     @staticmethod
     def get_os_string():
         """
-        Return distribution string, e.g. 'debian_7.4'.
+        Return distribution string, e.g. 'Debian_7.4'.
         """
-        dist = '_'.join(filter(None, platform.dist()[:2]))
-        system = platform.system().lower()
+        dist = '_'.join(filter(None, platform.dist()[:2])).capitalize()
+        system = platform.system().capitalize()
         return dist or system or platform.os.name or 'unknown'
 
     @staticmethod
