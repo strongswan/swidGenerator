@@ -48,11 +48,11 @@ class CommonEnvironmentTests(unittest.TestCase):
         self._collect_garbage()
 
     @parameterized.expand([
-        [('debian', '7.4', ''), 'Linux', 'posix', 'debian_7.4'],
-        [('fedora', '19', 'Schrödinger\'s Cat'), 'Linux', 'posix', 'fedora_19'],
-        [('arch', '', ''), 'Linux', 'posix', 'arch'],
-        [('', '', ''), 'Linux', 'posix', 'linux'],
-        [('', '', ''), "", 'posix', 'posix'],
+        [('Debian', '7.4', ''), 'Linux', 'Posix', 'Debian_7.4'],
+        [('Fedora', '19', 'Schrödinger\'s Cat'), 'Linux', 'Posix', 'Fedora_19'],
+        [('Arch', '', ''), 'Linux', 'Posix', 'Arch'],
+        [('', '', ''), 'Linux', 'Posix', 'Linux'],
+        [('', '', ''), "", 'Posix', 'Posix'],
         [('', '', ''), "", "", 'unknown']
     ])
     def test_os_string(self, dist, system, os_name, expected_output):
