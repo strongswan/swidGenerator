@@ -48,6 +48,8 @@ def create_flat_content_tag(root_element, package_info, hash_algorithms):
 
         head, file_name = ntpath.split(file_info.full_pathname)
         root, folder_name = ntpath.split(head)
+        if root == '//':
+            root = '/'
 
         full_pathname = root + folder_name
 
