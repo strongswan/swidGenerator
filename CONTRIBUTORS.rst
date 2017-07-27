@@ -12,6 +12,8 @@ Development continued in spring 2017 during a second bachelor's thesis.
 - Davide De Giorgio (@degiorgioo)
 - Christof Greiner (@Seperox)
 
+- Andreas Steffen (@strongX509)
+
 Other Contributions
 -------------------
 

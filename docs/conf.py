@@ -44,7 +44,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'SWID Generator'
-copyright = u'2014, Danilo Bargen, Christian Fässler, Jonas Furrer; 2017, Davide De Giorgio, Christof Greiner'
+copyright = u'2014, Danilo Bargen, Christian Fässler, Jonas Furrer; 2017, Davide De Giorgio, Christof Greiner, Andreas Steffen'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -217,7 +217,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('man', 'swid_generator', u'generate SWID-Tags and Software-IDs from package manager data',
-     [u'Danilo Bargen, Christian Fässler, Jonas Furrer, Davide De Giorgio, Christof Greiner'], 1)
+     [u'Danilo Bargen, Christian Fässler, Jonas Furrer, Davide De Giorgio, Christof Greiner, Andreas Steffen'], 1)
 ]
 
 # If true, show URL addresses after external links.

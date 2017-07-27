@@ -1,6 +1,10 @@
 Changelog
 =========
 
+v1.0.1 (2017-07-27)
+
+- [info] Updated documentation
+
 v1.0.0 (2017-07-01)
 
 - [info] Python 2.6 no longer supported

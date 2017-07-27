@@ -80,10 +80,10 @@ Generate SWID tags::
 
       --software-id SOFTWARE-ID
                             Do a targeted request for the specified Software-ID. A
-                            Software-ID is made up as follows: "{regid}_{unique-
-                            id}". Example: "strongswan.org_Ubuntu_12.04-i686-stron
-                            gswan-4.5.2-1.2". If no matching package is found, the
-                            output is empty and the exit code is set to 1.
+                            Software-ID is made up as follows: "{regid}__{unique-id}".
+                            Example: "strongswan.org__Ubuntu_16.04-i686-strongswan-5.6.0".
+                            If no matching package is found, the output is empty
+                            and the exit code is set to 1.
       --package PACKAGE     Do a targeted request for the specified package name.
                             The package name corresponds to a package name
                             returned by the environment's package manager, e.g
@@ -204,9 +204,9 @@ Manual Installation
 
 Get code::
 
-    $ wget https://github.com/strongswan/swidGenerator/archive/v0.3.0.zip
-    $ unzip v0.3.0.zip
-    $ cd swidGenerator-0.3.0
+    $ wget https://github.com/strongswan/swidGenerator/archive/v1.0.1.zip
+    $ unzip v1.0.1.zip
+    $ cd swidGenerator-1.0.1
 
 Install::
 
@@ -317,7 +317,7 @@ You can create an unsigned .deb package using the ``package.sh`` script::
     $ ./package.sh
     ...
     $ ls dist/
-    swid-generator_0.1.1-1_all.deb
+    swid-generator_1.0.1-1_all.deb
 
 Note that this only works on a debian based system. Take a look at the comments
 in the script for more information.
@@ -339,6 +339,7 @@ The MIT License (MIT)
 
 Copyright (c) 2014 Christian Fässler, Danilo Bargen, Jonas Furrer.
 Copyright (c) 2017 Davide De Giorgio, Christof Greiner.
+Copyright (c) 2017 Andreas Steffen.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

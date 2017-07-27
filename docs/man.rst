@@ -33,8 +33,8 @@ output only contains a SWID tag if the argument fully matches the given
 target. If no matching SWID tag is found, the output is empty and the
 exit code is set to 1.
 
-A Software-ID is made up as follows: ``{regid}_{unique-id}``. Example:
-``strongswan.org_debian_7.4-i686-strongswan-4.5.2-1.2``.
+A Software-ID is made up as follows: ``{regid}__{unique-id}``. Example:
+``strongswan.org__Debian_8.0-i686-strongswan-5.6.0``.
 
 Options
 -------
@@ -69,10 +69,10 @@ Options
 
 --software-id SOFTWARE-ID
                     Do a targeted request for the specified Software-ID. A
-                    Software-ID is made up as follows: "{regid}_{unique-
-                    id}". Example: "strongswan.org_Ubuntu_12.04-i686-stron
-                    gswan-4.5.2-1.2". If no matching package is found, the
-                    output is empty and the exit code is set to 1.
+                    Software-ID is made up as follows: "{regid}__{unique-id}".
+                    Example: "strongswan.org__Ubuntu_16.04-i686-strongswan-5.6.0".
+                    If no matching package is found, the output is empty and the
+                    exit code is set to 1.
 --package PACKAGE   Do a targeted request for the specified package name.
                     The package name corresponds to a package name
                     returned by the environment's package manager, e.g
