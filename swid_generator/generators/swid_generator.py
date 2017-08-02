@@ -181,6 +181,24 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
         swidtag = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')
         yield XML_DECLARATION.encode('utf-8') + swidtag
 
+    elif name is not None and version is not None:
+        pi = PackageInfo()
+        pi.package = name
+        pi.version = version
+
+        ctx['package_info'] = pi
+        ctx['full'] = False
+
+        software_identity = create_software_identity_element(ctx)
+
+        if pkcs12_file is not None:
+            ET.register_namespace('dsig', "http://www.w3.org/2000/09/xmldsig#")
+            signature_template_tree = ET.fromstring(SIGNATURE)
+            software_identity.append(signature_template_tree)
+
+        swidtag = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')
+        yield XML_DECLARATION.encode('utf-8') + swidtag
+
     else:
         pkg_info = environment.get_package_list()
 
