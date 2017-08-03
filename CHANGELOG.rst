@@ -1,6 +1,10 @@
 Changelog
 =========
 
+v1.0.2 (2017-08-03)
+
+- [add] The parameters --name and --version-string generate a SWID tag with this package info
+
 v1.0.1 (2017-07-27)
 
 - [info] Updated documentation

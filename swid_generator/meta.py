@@ -5,7 +5,7 @@ This module contains metadata about the project.
 from __future__ import unicode_literals
 
 title = 'swid_generator'
-version = '1.0.1'
+version = '1.0.2'
 description = 'Application which generates SWID-Tags from Linux installed packages, package-files and ' \
               'directories using tools like DPGK or RPM.'
 authors = 'Christian Fässler, Danilo Bargen, Jonas Furrer, Davide De Giorgio, Christof Greiner, ' \
