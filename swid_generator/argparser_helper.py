@@ -67,6 +67,24 @@ def entity_name_string(string):
         raise ArgumentTypeError("String '{0}' does not match required format".format(string))
 
 
+def os_string(string):
+    if string is None:
+        return None
+    try:
+        return re.match('^[^<&"]*$', string).group(0).replace(' ', '_')
+    except:
+        raise ArgumentTypeError("String '{0}' does not match required format".format(string))
+
+
+def arch_string(string):
+    if string is None:
+        return None
+    try:
+        return re.match('^[^<&"]*$', string).group(0)
+    except:
+        raise ArgumentTypeError("String '{0}' does not match required format".format(string))
+
+
 def package_path(string=None):
     if not os.path.exists(string):
         raise ArgumentTypeError("The file '{0}' does not exist".format(string))

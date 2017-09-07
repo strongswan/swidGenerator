@@ -20,7 +20,7 @@ def create_unique_id(package_info, os_string, architecture):
             A ``PackageInfo`` instance.
         os_string (str):
             An string representing the current distribution,
-            e.g. ``debian_7.4`` or ``fedora_19``.
+            e.g. ``Debian_7.4`` or ``Fedora_19``.
         architecture (str):
             The system architecture, e.g. ``x86_64`` or ``i386``.
 
@@ -56,7 +56,7 @@ def create_system_id(os_string, architecture):
 
 def create_software_id(regid, unique_id):
     """
-    Create a Software-ID by joining the Regid and the Unique-ID with an underscore.
+    Create a Software-ID by joining the Regid and the Unique-ID with a double underscore.
 
     Args:
         regid (str):

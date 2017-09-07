@@ -72,6 +72,8 @@ def main():
             'environment': env,
             'entity_name': options.entity_name,
             'regid': options.regid,
+            'os_string': options.os_string,
+            'architecture': options.architecture,
             'full': options.full,
             'matcher': options.matcher,
             'hash_algorithms': options.hash_algorithms,

@@ -5,8 +5,8 @@ from argparse import ArgumentParser
 
 from . import settings, meta
 from .generators.swid_generator import all_matcher
-from swid_generator.argparser_helper import entity_name_string, regid_string, hash_string, package_path, certificate_path
-from swid_generator.argparser_helper import RequirementCheckAction, TargetAction
+from swid_generator.argparser_helper import entity_name_string, regid_string, hash_string, os_string, arch_string
+from swid_generator.argparser_helper import RequirementCheckAction, TargetAction, package_path, certificate_path
 
 
 class MainArgumentParser(object):
@@ -46,6 +46,14 @@ class MainArgumentParser(object):
                                  default=entity_name_string(settings.DEFAULT_ENTITY_NAME),
                                  help='The entity name used in the <Entity> XML tag. '
                                       'Default is "%s".' % settings.DEFAULT_ENTITY_NAME)
+        swid_parser.add_argument('--os', dest='os_string', type=os_string,
+                                 default=None,
+                                 help='The OS string used in the tagId attribute. '
+                                      'Default is derived from the OS of the local host.')
+        swid_parser.add_argument('--arch', dest='architecture', type=arch_string,
+                                 default=None,
+                                 help='The HW architecture used in the tagId attribute. '
+                                      'Default is derived from the HW architecture of the local host.')
         swid_parser.add_argument('--full', action='store_true', default=False,
                                  help='Dump the full SWID tags including directory/file tags for each package.')
         swid_parser.add_argument('--pretty', action='store_true', default=False,

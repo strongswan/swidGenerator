@@ -46,10 +46,7 @@ def package_name_matcher(ctx, value):
 
 
 def software_id_matcher(ctx, value):
-    env = ctx['environment']
-    os_string = env.get_os_string()
-    architecture = env.get_architecture()
-    unique_id = create_unique_id(ctx['package_info'], os_string, architecture)
+    unique_id = create_unique_id(ctx['package_info'], ctx['os_string'], ctx['architecture'])
     software_id = create_software_id(ctx['regid'], unique_id)
     return software_id == value
 
@@ -66,7 +63,7 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
     software_identity.set('xmlns', XMLNS)
     software_identity.set('xmlns:n8060', N8060)
     software_identity.set('name', ctx['package_info'].package)
-    software_identity.set('tagId', create_unique_id(ctx['package_info'], ctx['environment'].get_os_string(), ctx['environment'].get_architecture()))
+    software_identity.set('tagId', create_unique_id(ctx['package_info'], ctx['os_string'], ctx['architecture']))
     software_identity.set('version', ctx['package_info'].version)
     software_identity.set('versionScheme', VERSION_SCHEME)
 
@@ -76,7 +73,7 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
     entity.set('role', ROLE)
 
     product_meta = ET.SubElement(software_identity, 'Meta')
-    product_meta.set('product', create_system_id(ctx['environment'].get_os_string(), ctx['environment'].get_architecture()))
+    product_meta.set('product', create_system_id(ctx['os_string'], ctx['architecture']))
 
     if ctx['full']:
 
@@ -110,7 +107,7 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
     return software_identity
 
 
-def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
+def create_swid_tags(environment, entity_name, regid, os_string=None, architecture=None, hash_algorithms='sha256',
                      full=False, matcher=all_matcher, hierarchic=False, file_path=None, evidence_path=None,
                      name=None, version=None, new_root_path=None, pkcs12_file=None):
     """
@@ -141,6 +138,8 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
         'regid': regid,
         'environment': environment,
         'entity_name': entity_name,
+        'os_string': os_string,
+        'architecture': architecture,
         'full': full,
         'hash_algorithms': hash_algorithms,
         'hierarchic': hierarchic,
@@ -148,6 +147,12 @@ def create_swid_tags(environment, entity_name, regid, hash_algorithms='sha256',
         'evidence_path': evidence_path,
         'new_root_path': new_root_path
     }
+
+    if os_string is None:
+        ctx['os_string'] = ctx['environment'].get_os_string()
+
+    if architecture is None:
+        ctx['architecture'] = ctx['environment'].get_architecture()
 
     if file_path is not None:
         pi = environment.get_packageinfo_from_packagefile(file_path)
