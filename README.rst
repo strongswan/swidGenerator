@@ -34,9 +34,9 @@ Generate SWID tags::
     usage: swid_generator swid [-h] [--env {auto,dpkg,pacman,rpm}]
                                [--doc-separator DOCUMENT_SEPARATOR]
                                [--regid REGID] [--entity-name ENTITY_NAME]
-                               [--full] [--pretty] [--hierarchic]
-                               [--hash HASH_ALGORITHMS] [--pkcs12 PKCS12]
-                               [--pkcs12-pwd PASSWORD]
+                               [--os OS_STRING] [--arch ARCHITECTURE] [--full]
+                               [--pretty] [--hierarchic] [--hash HASH_ALGORITHMS]
+                               [--pkcs12 PKCS12] [--pkcs12-pwd PASSWORD]
                                [--software-id SOFTWARE-ID | --package PACKAGE | --package-file FILE_PATH]
                                [--evidence PATH] [--name NAME]
                                [--version-string VERSION] [--new-root PATH]
@@ -58,6 +58,11 @@ Generate SWID tags::
       --entity-name ENTITY_NAME
                             The entity name used in the <Entity> XML tag. Default
                             is "strongSwan Project".
+      --os OS_STRING        The OS string used in the tagId attribute. Default is
+                            derived from the OS of the local host.
+      --arch ARCHITECTURE   The HW architecture used in the tagId attribute.
+                            Default is derived from the HW architecture of the
+                            local host.
       --full                Dump the full SWID tags including directory/file tags
                             for each package.
       --pretty              Indent the XML output.
@@ -204,9 +209,9 @@ Manual Installation
 
 Get code::
 
-    $ wget https://github.com/strongswan/swidGenerator/archive/v1.0.2.zip
-    $ unzip v1.0.2.zip
-    $ cd swidGenerator-1.0.2
+    $ wget https://github.com/strongswan/swidGenerator/archive/v1.0.3.zip
+    $ unzip v1.0.3.zip
+    $ cd swidGenerator-1.0.3
 
 Install::
 
@@ -317,7 +322,7 @@ You can create an unsigned .deb package using the ``package.sh`` script::
     $ ./package.sh
     ...
     $ ls dist/
-    swid-generator_1.0.2-1_all.deb
+    swid-generator_1.0.3-1_all.deb
 
 Note that this only works on a debian based system. Take a look at the comments
 in the script for more information.

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+v1.0.2 (2017-09-09)
+
+- [add] The parameters --os and --arch generate a SWID tag with this product info
+
 v1.0.2 (2017-08-03)
 
 - [add] The parameters --name and --version-string generate a SWID tag with this package info
