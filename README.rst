@@ -15,10 +15,6 @@ swidGenerator
 	:target: https://landscape.io/github/strongswan/swidGenerator/master
 	:alt: Code Health
 
-.. image:: https://img.shields.io/pypi/dm/swid_generator.svg
-    :target: https://pypi.python.org/pypi/swid_generator/
-    :alt: PyPI Downloads
-
 A small application for Python 2 and 3 which generates `SWID tags
 <http://tagvault.org/swid-tags/>`_ from Linux package managers like dpkg, rpm or
 pacman.
