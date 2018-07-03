@@ -7,7 +7,7 @@ from xml.etree import cElementTree as ET
 
 from swid_generator.generators import swid_generator
 from swid_generator.package_info import PackageInfo
-from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME
+from swid_generator.settings import DEFAULT_REGID, DEFAULT_ENTITY_NAME, DEFAULT_XML_LANG
 from swid_generator.environments.common import CommonEnvironment
 from swid_generator.generators.swid_generator import _create_flat_payload_tag, _create_hierarchic_payload_tag
 from swid_generator.generators.swid_generator import software_id_matcher, package_name_matcher
@@ -120,7 +120,8 @@ class SwidGeneratorTests(unittest.TestCase):
         kwargs = {
             'environment': env,
             'entity_name': DEFAULT_ENTITY_NAME,
-            'regid': DEFAULT_REGID
+            'regid': DEFAULT_REGID,
+            'xml_lang': DEFAULT_XML_LANG
         }
         self.swid_tag_generator = partial(swid_generator.create_swid_tags, **kwargs)
 
