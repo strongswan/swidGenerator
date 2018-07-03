@@ -12,6 +12,8 @@ VERSION_SCHEME = 'alphanumeric'
 XMLNS = 'http://standards.iso.org/iso/19770/-2/2015/schema.xsd'
 XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>'
 N8060 = 'http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd'
+XSI = 'http://www.w3.org/2001/XMLSchema-instance'
+SCHEMA_LOCATION = XMLNS + ' http://standards.iso.org/iso/19770/-2/2015-current/schema.xsd'
 SHA256NS = 'http://www.w3.org/2001/04/xmlenc#sha256'
 SHA384NS = 'http://www.w3.org/2001/04/xmldsig-more#sha384'
 SHA512NS = 'http://www.w3.org/2001/04/xmlenc#sha512'
@@ -62,6 +64,8 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
     software_identity = ET.Element('SoftwareIdentity')
     software_identity.set('xmlns', XMLNS)
     software_identity.set('xmlns:n8060', N8060)
+    software_identity.set('xmlns:xsi', XSI)
+    software_identity.set('xsi:schemaLocation', SCHEMA_LOCATION)
     software_identity.set('name', ctx['package_info'].package)
     software_identity.set('tagId', create_unique_id(ctx['package_info'], ctx['os_string'], ctx['architecture']))
     software_identity.set('version', ctx['package_info'].version)
