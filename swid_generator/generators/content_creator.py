@@ -41,6 +41,10 @@ def create_flat_content_tag(root_element, package_info, hash_algorithms):
     last_full_pathname = ""
     last_directory_tag = ""
 
+    root_element.set('n8060:pathSeparator', '/')
+    root_element.set('n8060:envVarPrefix', '$')
+    root_element.set('n8060:envVarSuffix', '')
+
     if len(package_info.files) > 0:
         package_info.files = _sort_files(package_info.files)
 
@@ -76,6 +80,10 @@ def create_flat_content_tag(root_element, package_info, hash_algorithms):
 
 
 def create_hierarchic_content_tag(root_element, package_info, hash_algorithms):
+    root_element.set('n8060:pathSeparator', '/')
+    root_element.set('n8060:envVarPrefix', '$')
+    root_element.set('n8060:envVarSuffix', '')
+
     for file in package_info.files:
         splitted_location = file.location.split('/')
         splitted_location.append(file.name)
