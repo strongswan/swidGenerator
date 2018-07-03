@@ -63,6 +63,7 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
     software_identity.set('xmlns', XMLNS)
     software_identity.set('xmlns:n8060', N8060)
     software_identity.set('name', ctx['package_info'].package)
+    software_identity.set('xml:lang', ctx['xml_lang'])
     software_identity.set('tagId', create_unique_id(ctx['package_info'], ctx['os_string'], ctx['architecture']))
     software_identity.set('version', ctx['package_info'].version)
     software_identity.set('versionScheme', VERSION_SCHEME)
@@ -109,7 +110,7 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
 
 def create_swid_tags(environment, entity_name, regid, os_string=None, architecture=None, hash_algorithms='sha256',
                      full=False, matcher=all_matcher, hierarchic=False, file_path=None, evidence_path=None,
-                     name=None, version=None, new_root_path=None, pkcs12_file=None):
+                     name=None, version=None, new_root_path=None, pkcs12_file=None, xml_lang=None):
     """
     Return SWID tags as utf8-encoded xml bytestrings for all available
     packages.
@@ -127,6 +128,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
     :param hash_algorithms: Comma separated list of the hash algorithms to include in the SWID tag,
     :param full: Whether to include file payload. Default is False.
     :param matcher: A function that defines whether to return a tag or not. Default is a function that returns ``True`` for all tags.
+    :param xml_lang: xml:lang attribute value. Default en-US.
 
     Returns:
         A generator object for all available SWID XML strings. The XML strings
@@ -145,7 +147,8 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
         'hierarchic': hierarchic,
         'file_path': file_path,
         'evidence_path': evidence_path,
-        'new_root_path': new_root_path
+        'new_root_path': new_root_path,
+        'xml_lang': xml_lang
     }
 
     if os_string is None:

@@ -83,7 +83,8 @@ def main():
             'new_root_path': options.new_root,
             'name': options.name,
             'version': options.version,
-            'pkcs12_file': options.pkcs12
+            'pkcs12_file': options.pkcs12,
+            'xml_lang': options.xml_lang
         }
 
         signature_args = {

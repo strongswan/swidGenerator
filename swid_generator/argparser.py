@@ -72,6 +72,10 @@ class MainArgumentParser(object):
         swid_parser.add_argument('--pkcs12-pwd', dest='password',
                                  help='If the PKCS#12 file is password protected, '
                                       'the password needs to be provided.')
+        swid_parser.add_argument('--lang', dest='xml_lang', type=str,
+                                 default=str(settings.DEFAULT_XML_LANG),
+                                 help='Value of xml:lang attribute. '
+                                      'Default is "%s".' % settings.DEFAULT_XML_LANG)
 
         swid_parser.set_defaults(matcher=all_matcher)
 
