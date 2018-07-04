@@ -84,7 +84,8 @@ def main():
             'name': options.name,
             'version': options.version,
             'pkcs12_file': options.pkcs12,
-            'xml_lang': options.xml_lang
+            'xml_lang': options.xml_lang,
+            'schema_location': options.schema_location,
         }
 
         signature_args = {

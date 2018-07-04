@@ -65,8 +65,9 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
     software_identity = ET.Element('SoftwareIdentity')
     software_identity.set('xmlns', XMLNS)
     software_identity.set('xmlns:n8060', N8060)
-    software_identity.set('xmlns:xsi', XSI)
-    software_identity.set('xsi:schemaLocation', SCHEMA_LOCATION)
+    if ctx['schema_location']:
+        software_identity.set('xmlns:xsi', XSI)
+        software_identity.set('xsi:schemaLocation', SCHEMA_LOCATION)
     software_identity.set('name', ctx['package_info'].package)
     software_identity.set('xml:lang', ctx['xml_lang'])
     software_identity.set('tagId', create_unique_id(ctx['package_info'], ctx['os_string'], ctx['architecture']))
@@ -115,7 +116,7 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
 
 def create_swid_tags(environment, entity_name, regid, os_string=None, architecture=None, hash_algorithms='sha256',
                      full=False, matcher=all_matcher, hierarchic=False, file_path=None, evidence_path=None,
-                     name=None, version=None, new_root_path=None, pkcs12_file=None, xml_lang=None):
+                     name=None, version=None, new_root_path=None, pkcs12_file=None, xml_lang=None, schema_location=False):
     """
     Return SWID tags as utf8-encoded xml bytestrings for all available
     packages.
@@ -153,7 +154,8 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
         'file_path': file_path,
         'evidence_path': evidence_path,
         'new_root_path': new_root_path,
-        'xml_lang': xml_lang
+        'xml_lang': xml_lang,
+        'schema_location': schema_location,
     }
 
     if os_string is None:

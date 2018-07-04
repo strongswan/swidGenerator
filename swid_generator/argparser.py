@@ -54,10 +54,17 @@ class MainArgumentParser(object):
                                  default=None,
                                  help='The HW architecture used in the tagId attribute. '
                                       'Default is derived from the HW architecture of the local host.')
-        swid_parser.add_argument('--full', action='store_true', default=False,
-                                 help='Dump the full SWID tags including directory/file tags for each package.')
+        swid_parser.add_argument('--schema-location', action='store_true', default=False,
+                                 help='Add xsi:schemaLocation attribute with schema URIs to validate the '
+                                      'resulting XML documents.')
+        swid_parser.add_argument('--lang', dest='xml_lang', type=str,
+                                 default=str(settings.DEFAULT_XML_LANG),
+                                 help='Value of xml:lang attribute. '
+                                      'Default is "%s".' % settings.DEFAULT_XML_LANG)
         swid_parser.add_argument('--pretty', action='store_true', default=False,
                                  help='Indent the XML output.')
+        swid_parser.add_argument('--full', action='store_true', default=False,
+                                 help='Dump the full SWID tags including directory/file tags for each package.')
         swid_parser.add_argument('--hierarchic', action='store_true', default=False,
                                  help='Change directory structure to hierarchic.')
         swid_parser.add_argument('--hash', dest='hash_algorithms', type=hash_string,
@@ -72,10 +79,6 @@ class MainArgumentParser(object):
         swid_parser.add_argument('--pkcs12-pwd', dest='password',
                                  help='If the PKCS#12 file is password protected, '
                                       'the password needs to be provided.')
-        swid_parser.add_argument('--lang', dest='xml_lang', type=str,
-                                 default=str(settings.DEFAULT_XML_LANG),
-                                 help='Value of xml:lang attribute. '
-                                      'Default is "%s".' % settings.DEFAULT_XML_LANG)
 
         swid_parser.set_defaults(matcher=all_matcher)
 
