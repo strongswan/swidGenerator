@@ -30,8 +30,9 @@ Generate SWID tags::
     usage: swid_generator swid [-h] [--env {auto,dpkg,pacman,rpm}]
                                [--doc-separator DOCUMENT_SEPARATOR]
                                [--regid REGID] [--entity-name ENTITY_NAME]
-                               [--os OS_STRING] [--arch ARCHITECTURE] [--full]
-                               [--pretty] [--hierarchic] [--hash HASH_ALGORITHMS]
+                               [--os OS_STRING] [--arch ARCHITECTURE]
+                               [--schema-location] [--lang XML_LANG] [--pretty]
+                               [--full] [--hierarchic] [--hash HASH_ALGORITHMS]
                                [--pkcs12 PKCS12] [--pkcs12-pwd PASSWORD]
                                [--software-id SOFTWARE-ID | --package PACKAGE | --package-file FILE_PATH]
                                [--evidence PATH] [--name NAME]
@@ -59,9 +60,12 @@ Generate SWID tags::
       --arch ARCHITECTURE   The HW architecture used in the tagId attribute.
                             Default is derived from the HW architecture of the
                             local host.
+      --schema-location     Add xsi:schemaLocation attribute with schema URIs to
+                            validate the resulting XML documents.
+      --lang XML_LANG       Value of xml:lang attribute. Default is "en-US".
+      --pretty              Indent the XML output.
       --full                Dump the full SWID tags including directory/file tags
                             for each package.
-      --pretty              Indent the XML output.
       --hierarchic          Change directory structure to hierarchic.
       --hash HASH_ALGORITHMS
                             Define the algorithm for the file hashes ("sha256",
@@ -137,7 +141,7 @@ If the application fails somehow, an exit code is set appropriately:
 
 - 1: A targeted request did not return any results.
 - 2: Invalid arguments passed.
-- 3: Either the given environment is not installed or the environment  
+- 3: Either the given environment is not installed or the environment
   could not be autodetected.
 - 4: An internal error has occured.
 - 5: An external command has thrown an error.
@@ -222,7 +226,7 @@ reflected::
 
     $ pip install -e .
 
-Invoke application 
+Invoke application
 ------------------
 
 If you have installed the application, you can run the generator via the
