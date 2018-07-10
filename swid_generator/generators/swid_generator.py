@@ -20,24 +20,24 @@ SHA384NS = 'http://www.w3.org/2001/04/xmldsig-more#sha384'
 SHA512NS = 'http://www.w3.org/2001/04/xmlenc#sha512'
 
 
-def _create_flat_payload_tag(package_info, hash_algorithms):
+def _create_flat_payload_tag(package_info, hash_algorithms, default_file_version):
     payload = ET.Element('Payload')
-    return create_flat_content_tag(payload, package_info, hash_algorithms)
+    return create_flat_content_tag(payload, package_info, hash_algorithms, default_file_version)
 
 
-def _create_flat_evidence_tag(package_info, hash_algorithms):
+def _create_flat_evidence_tag(package_info, hash_algorithms, default_file_version):
     evidence = ET.Element('Evidence')
-    return create_flat_content_tag(evidence, package_info, hash_algorithms)
+    return create_flat_content_tag(evidence, package_info, hash_algorithms, default_file_version)
 
 
-def _create_hierarchic_payload_tag(package_info, hash_algorithms):
+def _create_hierarchic_payload_tag(package_info, hash_algorithms, default_file_version):
     payload = ET.Element('Payload')
-    return create_hierarchic_content_tag(payload, package_info, hash_algorithms)
+    return create_hierarchic_content_tag(payload, package_info, hash_algorithms, default_file_version)
 
 
-def _create_hierarchic_evidence_tag(package_info, hash_algorithms):
+def _create_hierarchic_evidence_tag(package_info, hash_algorithms, default_file_version):
     evidence = ET.Element('Evidence')
-    return create_hierarchic_content_tag(evidence, package_info, hash_algorithms)
+    return create_hierarchic_content_tag(evidence, package_info, hash_algorithms, default_file_version)
 
 
 def all_matcher(ctx):
@@ -100,14 +100,14 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
 
         if ctx['hierarchic']:
             if from_folder:
-                content_tag = _create_hierarchic_evidence_tag(ctx['package_info'], ctx['hash_algorithms'])
+                content_tag = _create_hierarchic_evidence_tag(ctx['package_info'], ctx['hash_algorithms'], ctx['default_file_version'])
             else:
-                content_tag = _create_hierarchic_payload_tag(ctx['package_info'], ctx['hash_algorithms'])
+                content_tag = _create_hierarchic_payload_tag(ctx['package_info'], ctx['hash_algorithms'], ctx['default_file_version'])
         else:
             if from_folder:
-                content_tag = _create_flat_evidence_tag(ctx['package_info'], ctx['hash_algorithms'])
+                content_tag = _create_flat_evidence_tag(ctx['package_info'], ctx['hash_algorithms'], ctx['default_file_version'])
             else:
-                content_tag = _create_flat_payload_tag(ctx['package_info'], ctx['hash_algorithms'])
+                content_tag = _create_flat_payload_tag(ctx['package_info'], ctx['hash_algorithms'], ctx['default_file_version'])
 
         software_identity.append(content_tag)
 
@@ -116,7 +116,8 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
 
 def create_swid_tags(environment, entity_name, regid, os_string=None, architecture=None, hash_algorithms='sha256',
                      full=False, matcher=all_matcher, hierarchic=False, file_path=None, evidence_path=None,
-                     name=None, version=None, new_root_path=None, pkcs12_file=None, xml_lang=None, schema_location=False):
+                     name=None, version=None, new_root_path=None, pkcs12_file=None, xml_lang=None, schema_location=False,
+                     default_file_version=None):
     """
     Return SWID tags as utf8-encoded xml bytestrings for all available
     packages.
@@ -135,6 +136,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
     :param full: Whether to include file payload. Default is False.
     :param matcher: A function that defines whether to return a tag or not. Default is a function that returns ``True`` for all tags.
     :param xml_lang: xml:lang attribute value. Default en-US.
+    :param default_file_version: File @version's default value.
 
     Returns:
         A generator object for all available SWID XML strings. The XML strings
@@ -156,6 +158,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
         'new_root_path': new_root_path,
         'xml_lang': xml_lang,
         'schema_location': schema_location,
+        'default_file_version': default_file_version,
     }
 
     if os_string is None:

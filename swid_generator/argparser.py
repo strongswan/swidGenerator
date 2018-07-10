@@ -79,6 +79,8 @@ class MainArgumentParser(object):
         swid_parser.add_argument('--pkcs12-pwd', dest='password',
                                  help='If the PKCS#12 file is password protected, '
                                       'the password needs to be provided.')
+        swid_parser.add_argument('--default-file-version', dest='default_file_version',
+                                 help='Value of version attribute of File when no version exists for the file.')
 
         swid_parser.set_defaults(matcher=all_matcher)
 
