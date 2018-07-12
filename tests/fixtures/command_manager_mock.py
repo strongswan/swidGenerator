@@ -31,7 +31,7 @@ class CommandManagerMock(object):
             return mock_data.rpm_query_conffile_list
         if command_argumentlist == ['rpm', "--query", "--package", "--queryformat", "%{name}", "/tmp/docker.pkg"]:
             return "docker"
-        if command_argumentlist == ['rpm', "--query", "--package", "--queryformat", "%{version}", "/tmp/docker.pkg"]:
+        if command_argumentlist == ['rpm', "--query", "--package", "--queryformat", "%{version}-%{release}", "/tmp/docker.pkg"]:
             return "1.0-5"
         if command_argumentlist == ['rpm', "--query", "--package", "/tmp/docker.pkg", "-l"]:
             return mock_data.rpm_query_file_list
