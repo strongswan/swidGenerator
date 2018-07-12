@@ -23,7 +23,7 @@ class CommandManagerMock(object):
 
     @staticmethod
     def run_command_check_output(command_argumentlist, stdin=None, working_directory=os.getcwd()):
-        if command_argumentlist == ['rpm', '-qa', '--queryformat', '\t%{name} %{version}-%{release}']:
+        if command_argumentlist == ['rpm', '-qa', '--queryformat', '\t%{name} %{version}-%{release}.%{arch}']:
             return mock_data.rpm_query_package_list_output
         if command_argumentlist == ['rpm', '-ql', 'docker']:
             return mock_data.rpm_query_file_list
@@ -31,13 +31,13 @@ class CommandManagerMock(object):
             return mock_data.rpm_query_conffile_list
         if command_argumentlist == ['rpm', "--query", "--package", "--queryformat", "%{name}", "/tmp/docker.pkg"]:
             return "docker"
-        if command_argumentlist == ['rpm', "--query", "--package", "--queryformat", "%{version}-%{release}", "/tmp/docker.pkg"]:
+        if command_argumentlist == ['rpm', "--query", "--package", "--queryformat", "%{version}-%{release}.%{arch}", "/tmp/docker.pkg"]:
             return "1.0-5"
         if command_argumentlist == ['rpm', "--query", "--package", "/tmp/docker.pkg", "-l"]:
             return mock_data.rpm_query_file_list
         if command_argumentlist == ['rpm', "--query", "--package", "/tmp/docker.pkg", "-c"]:
             return mock_data.rpm_query_conffile_list
-        if command_argumentlist == ['dpkg-query', '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']:
+        if command_argumentlist == ['dpkg-query', '-W', '-f=${Package}\\n${Version}.${Architecture}\\n${Status}\\n${conffiles}\\t']:
             return mock_data.dpkg_query_package_list_output
         if command_argumentlist == ['dpkg-query', '-L', "docker"]:
             return mock_data.dpkg_query_file_list
@@ -47,6 +47,8 @@ class CommandManagerMock(object):
             return "docker"
         if command_argumentlist == ['dpkg', '-f', '/tmp/docker.pkg', 'Version']:
             return "1.0-5"
+        if command_argumentlist == ['dpkg', '-f', '/tmp/docker.pkg', 'Architecture']:
+            return "amd64"
         if command_argumentlist == ['dpkg', '-c', '/tmp/docker.pkg']:
             return mock_data.dpkg_query_file_list_package
         if command_argumentlist == ['pacman', '-Q', '--color', 'never']:
