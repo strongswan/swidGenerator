@@ -153,7 +153,7 @@ class RpmEnvironment(CommonEnvironment):
         :return: A PackageInfo()-Object with Package-Version and Package-Name.
         """
         command_args_package_name = [cls.executable, "--query", "--package", "--queryformat", "%{name}", file_path]
-        command_args_package_version = [cls.executable, "--query", "--package", "--queryformat", "%{version}", file_path]
+        command_args_package_version = [cls.executable, "--query", "--package", "--queryformat", "%{version}-%{release}", file_path]
 
         package_name_output = CM.run_command_check_output(command_args_package_name)
         package_version_output = CM.run_command_check_output(command_args_package_version)
