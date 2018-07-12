@@ -49,7 +49,7 @@ class DpkgEnvironment(CommonEnvironment):
 
         """
         result = []
-        command_args = [cls.executable_query, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
+        command_args = [cls.executable_query, '-W', '-f=${Package}\\n${Version}.${Architecture}\\n${Status}\\n${conffiles}\\t']
 
         command_output = CM.run_command_check_output(command_args)
 
@@ -230,11 +230,13 @@ class DpkgEnvironment(CommonEnvironment):
         """
         command_args_packagename = [cls.executable, '-f', file_path, 'Package']
         command_args_version = [cls.executable, '-f', file_path, 'Version']
+        command_args_arch = [cls.executable, '-f', file_path, 'Architecture']
         package_name = CM.run_command_check_output(command_args_packagename)
         package_version = CM.run_command_check_output(command_args_version)
+        package_arch = CM.run_command_check_output(command_args_arch)
 
         package_info = PackageInfo()
         package_info.package = package_name.strip()
-        package_info.version = package_version.strip()
+        package_info.version = package_version.strip() + '.' + package_arch.strip()
 
         return package_info

@@ -43,9 +43,9 @@ class DpkgEnvironmentTests(unittest.TestCase):
 
         expected_package_list = list()
 
-        expected_package_list.append(PackageInfo(package="adduser", version="3.113+nmu3ubuntu4"))
-        expected_package_list.append(PackageInfo(package="apt", version="1.2.19"))
-        expected_package_list.append(PackageInfo(package="base-files", version="9.4ubuntu4.4"))
+        expected_package_list.append(PackageInfo(package="adduser", version="3.113+nmu3ubuntu4.all"))
+        expected_package_list.append(PackageInfo(package="apt", version="1.2.19.amd64"))
+        expected_package_list.append(PackageInfo(package="base-files", version="9.4ubuntu4.4.amd64"))
 
         for index, result_package in enumerate(result_list):
             print(result_package.package)
@@ -81,7 +81,7 @@ class DpkgEnvironmentTests(unittest.TestCase):
         print(result_package.package)
 
         assert result_package.package == 'docker'
-        assert result_package.version == '1.0-5'
+        assert result_package.version == '1.0-5.amd64'
 
     def test_get_files_from_packagefile(self):
         all_files = self.dpkg_environment.get_files_from_packagefile("/tmp/docker.pkg")

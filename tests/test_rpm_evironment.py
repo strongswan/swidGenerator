@@ -44,10 +44,10 @@ class RpmEnvironmentTests(unittest.TestCase):
 
         expected_package_list = list()
 
-        expected_package_list.append(PackageInfo(package="perl-Git", version="2.9.3-3.fc25"))
-        expected_package_list.append(PackageInfo(package="fedora-repos", version="25-3"))
-        expected_package_list.append(PackageInfo(package="perl-IO-Socket-SSL", version="2.038-1.fc25"))
-        expected_package_list.append(PackageInfo(package="setup", version="2.10.4-1.fc25"))
+        expected_package_list.append(PackageInfo(package="perl-Git", version="2.9.3-3.fc25.noarch"))
+        expected_package_list.append(PackageInfo(package="fedora-repos", version="25-3.noarch"))
+        expected_package_list.append(PackageInfo(package="perl-IO-Socket-SSL", version="2.038-1.fc25.noarch"))
+        expected_package_list.append(PackageInfo(package="setup", version="2.10.4-1.fc25.noarch"))
 
         for index, result_package in enumerate(result_list):
             print(result_package.package)
