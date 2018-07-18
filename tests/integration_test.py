@@ -57,11 +57,12 @@ class IntegrationTests(unittest.TestCase):
 
     @staticmethod
     def validate_signature(output_swid_tag):
+        ca_certificate = "tests/ca/swidgen-ca.pem"
         folder_info = create_temp_folder('nofile')
         file_path = folder_info['save_location'] + '/swid_tag.xml'
         with open(file_path, 'w') as file:
             file.write(output_swid_tag)
-        CommandManager.run_command_check_output(["xmlsec1", "--verify", file_path])
+        CommandManager.run_command_check_output(["xmlsec1", "--verify", "--trusted-pem", ca_certificate, file_path])
 
     def get_testcontext(self, environment):
 
@@ -73,7 +74,7 @@ class IntegrationTests(unittest.TestCase):
         template_path_full_pretty_signed = None
         template_path_full_pretty_signed_cmd_package_file = None
 
-        certificate = "tests/dumps/swidgen.pfx"
+        certificate = "tests/ca/swidgen.pfx"
         template_path_evidence = "tests/dumps/command_evidence/tmp_folder-Template.xml"
         evidence_path = "/tmp/evidence-test"
 
@@ -166,7 +167,7 @@ class IntegrationTests(unittest.TestCase):
         expected_swid_tag = test_context['template_no_payload_cmd_package_file']
         self.check_equality(expected_swid_tag, output_swid_tag)
 
-        command_package = "swid_generator swid --pretty --full --package-file {PACKAGE_FILE} --pkcs12 {CERTIFICATE} --pkcs12-pwd Q1w2e3r4t5"
+        command_package = "swid_generator swid --pretty --full --package-file {PACKAGE_FILE} --pkcs12 {CERTIFICATE} --pkcs12-pwd R4onQ7UdCbDoFPeH"
         command_package = command_package.format(CERTIFICATE=test_context['certificate'], PACKAGE_FILE=test_context['package_path'])
         output_swid_tag = self.get_string_output_from_cmd(command_package.split(' '))
         expected_swid_tag = test_context['template_full_pretty_signed_cmd_package']
