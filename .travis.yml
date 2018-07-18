@@ -37,6 +37,7 @@ matrix:
   allow_failures:
     - env: cov
 install:
+   - if [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then pip install virtualenv==15.2.0; fi
    - pip install tox
 script:
   - tox
