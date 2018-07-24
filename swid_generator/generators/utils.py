@@ -11,7 +11,7 @@ import string
 uri_reserved_chars_re = re.compile(r'[:\/?#\[\]@!$&\'()*+,;=]')
 
 
-def create_unique_id(package_info, os_string, architecture):
+def create_unique_id(package_info, os_string, architecture, id_prefix):
     """
     Create a Unique-ID.
 
@@ -28,10 +28,14 @@ def create_unique_id(package_info, os_string, architecture):
         The Unique-ID string.
 
     """
-    unique_id_format = '{os_string}-{architecture}-{pi.package}-{pi.version}'
+    if id_prefix is None:
+        unique_id_format = '{os_string}-{architecture}-{pi.package}-{pi.version}'
+    else:
+        unique_id_format = '{id_prefix}{pi.package}-{pi.version}'
     unique_id = unique_id_format.format(os_string=os_string,
                                         architecture=architecture,
-                                        pi=package_info)
+                                        pi=package_info,
+                                        id_prefix=id_prefix)
     return uri_reserved_chars_re.sub('~', unique_id)
 
 

@@ -86,6 +86,7 @@ def main():
             'pkcs12_file': options.pkcs12,
             'xml_lang': options.xml_lang,
             'schema_location': options.schema_location,
+            'id_prefix': options.id_prefix,
         }
 
         signature_args = {
@@ -138,7 +139,7 @@ def main():
             sys.exit(5)
 
     elif options.command == 'software-id':
-        software_ids = create_software_ids(env=env, regid=options.regid)
+        software_ids = create_software_ids(env=env, regid=options.regid, id_prefix=options.id_prefix)
         print_software_ids(software_ids, separator=options.document_separator)
 
     else:
