@@ -50,7 +50,7 @@ def package_name_matcher(ctx, value):
 
 
 def software_id_matcher(ctx, value):
-    unique_id = create_unique_id(ctx['package_info'], ctx['os_string'], ctx['architecture'])
+    unique_id = create_unique_id(ctx['package_info'], ctx['os_string'], ctx['architecture'], ctx['id_prefix'])
     software_id = create_software_id(ctx['regid'], unique_id)
     return software_id == value
 
@@ -71,7 +71,7 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
         software_identity.set('xsi:schemaLocation', SCHEMA_LOCATION)
     software_identity.set('name', ctx['package_info'].package)
     software_identity.set('xml:lang', ctx['xml_lang'])
-    software_identity.set('tagId', create_unique_id(ctx['package_info'], ctx['os_string'], ctx['architecture']))
+    software_identity.set('tagId', create_unique_id(ctx['package_info'], ctx['os_string'], ctx['architecture'], ctx['id_prefix']))
     software_identity.set('version', ctx['package_info'].version)
     software_identity.set('versionScheme', VERSION_SCHEME)
 
@@ -125,7 +125,7 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
 def create_swid_tags(environment, entity_name, regid, os_string=None, architecture=None, hash_algorithms='sha256',
                      full=False, matcher=all_matcher, hierarchic=False, file_path=None, evidence_path=None,
                      name=None, version=None, new_root_path=None, pkcs12_file=None, xml_lang=None, schema_location=False,
-                     meta_for='os', dpkg_include_package_arch=False):
+                     meta_for='os', id_prefix=None, dpkg_include_package_arch=False):
     """
     Return SWID tags as utf8-encoded xml bytestrings for all available
     packages.
@@ -140,6 +140,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
     :param hierarchic: Optional parameter for the creation of a hierarchical SWID tag.
     :param environment: The package management environment.
     :param entity_name: The SWID tag entity name.
+    :param id_prefix: Custom prefix for unique IDs.
     :param regid: The SWID tag regid.
     :param hash_algorithms: Comma separated list of the hash algorithms to include in the SWID tag,
     :param full: Whether to include file payload. Default is False.
@@ -168,6 +169,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
         'new_root_path': new_root_path,
         'xml_lang': xml_lang,
         'schema_location': schema_location,
+        'id_prefix': id_prefix,
         'dpkg_include_package_arch': dpkg_include_package_arch,
     }
 

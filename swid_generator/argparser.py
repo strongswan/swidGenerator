@@ -35,6 +35,8 @@ class MainArgumentParser(object):
                                    help='The regid to use in the generated output. '
                                         'May not contain any whitespace '
                                         'characters. Default is "%s".' % settings.DEFAULT_REGID)
+        parent_parser.add_argument('--id-prefix', dest='id_prefix',
+                                   help='Override the default {os}-{arch}- tagId prefix.')
 
         subparsers = self.arg_parser.add_subparsers(help='Commands: ', dest='command')
 
