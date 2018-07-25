@@ -6,6 +6,7 @@ from swid_generator.signature_template import SIGNATURE
 from swid_generator.package_info import PackageInfo
 from .utils import create_unique_id, create_software_id, create_system_id
 from .content_creator import create_flat_content_tag, create_hierarchic_content_tag
+import re
 
 ROLE = 'tagCreator'
 VERSION_SCHEME = 'alphanumeric'
@@ -80,7 +81,14 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
     entity.set('role', ROLE)
 
     product_meta = ET.SubElement(software_identity, 'Meta')
-    product_meta.set('product', create_system_id(ctx['os_string'], ctx['architecture']))
+    if ctx['meta_for'] == 'os':
+        product_meta.set('product', create_system_id(ctx['os_string'], ctx['architecture']))
+    else:
+        product_meta.set('product', ctx['package_info'].package)
+        colloquialVersion = re.sub(r'-.+$', '', ctx['package_info'].version)
+        product_meta.set('colloquialVersion', colloquialVersion)
+        if ctx['package_info'].summary:
+            product_meta.set('summary', ctx['package_info'].summary)
 
     if ctx['full']:
 
@@ -117,7 +125,7 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
 def create_swid_tags(environment, entity_name, regid, os_string=None, architecture=None, hash_algorithms='sha256',
                      full=False, matcher=all_matcher, hierarchic=False, file_path=None, evidence_path=None,
                      name=None, version=None, new_root_path=None, pkcs12_file=None, xml_lang=None, schema_location=False,
-                     dpkg_include_package_arch=False):
+                     meta_for='os', dpkg_include_package_arch=False):
     """
     Return SWID tags as utf8-encoded xml bytestrings for all available
     packages.
@@ -126,6 +134,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
     :param new_root_path: Evidence SWID tag Root path.
     :param version: Evidence SWID tag version.
     :param name: Evidence SWID tag name.
+    :param meta_for: Whether the Meta element should hold information about the distribution or about the package.
     :param evidence_path: The folder from which the evidence method starts to create SWID tag.
     :param file_path: File-Path to the Package-File.
     :param hierarchic: Optional parameter for the creation of a hierarchical SWID tag.
@@ -150,6 +159,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
         'entity_name': entity_name,
         'os_string': os_string,
         'architecture': architecture,
+        'meta_for': meta_for,
         'full': full,
         'hash_algorithms': hash_algorithms,
         'hierarchic': hierarchic,

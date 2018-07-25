@@ -75,6 +75,7 @@ def main():
             'os_string': options.os_string,
             'architecture': options.architecture,
             'dpkg_include_package_arch': options.dpkg_include_package_arch,
+            'meta_for': options.meta_for,
             'full': options.full,
             'matcher': options.matcher,
             'hash_algorithms': options.hash_algorithms,

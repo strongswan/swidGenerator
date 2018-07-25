@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 
 from . import settings, meta
 from .generators.swid_generator import all_matcher
-from swid_generator.argparser_helper import entity_name_string, regid_string, hash_string, os_string, arch_string
+from swid_generator.argparser_helper import entity_name_string, regid_string, hash_string, os_string, arch_string, meta_for_string
 from swid_generator.argparser_helper import RequirementCheckAction, TargetAction, package_path, certificate_path
 
 
@@ -56,6 +56,10 @@ class MainArgumentParser(object):
                                       'Default is derived from the HW architecture of the local host.')
         swid_parser.add_argument('--dpkg-include-package-arch', action='store_true', default=False,
                                  help='Include package architecture in tagId and version, for dpkg.')
+        swid_parser.add_argument('--meta-for', dest='meta_for', type=meta_for_string,
+                                 default='os',
+                                 help='Specify whether the Meta element should hold information '
+                                      'about OS ("os", the default), or about the package ("package").')
         swid_parser.add_argument('--schema-location', action='store_true', default=False,
                                  help='Add xsi:schemaLocation attribute with schema URIs to validate the '
                                       'resulting XML documents.')
