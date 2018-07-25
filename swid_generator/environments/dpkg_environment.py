@@ -49,7 +49,7 @@ class DpkgEnvironment(CommonEnvironment):
 
         """
         result = []
-        command_args = [cls.executable_query, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
+        command_args = [cls.executable_query, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${binary:Summary}\\n${conffiles}\\t']
 
         command_output = CM.run_command_check_output(command_args)
 
@@ -58,11 +58,12 @@ class DpkgEnvironment(CommonEnvironment):
         for line in line_list:
             split_line = line.split('\n')
 
-            if len(split_line) >= 4:
+            if len(split_line) >= 5:
                 package_info = PackageInfo()
                 package_info.package = split_line[0]
                 package_info.version = split_line[1]
                 package_info.status = split_line[2]
+                package_info.summary = split_line[3]
 
                 result.append(package_info)
 

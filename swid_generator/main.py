@@ -74,6 +74,7 @@ def main():
             'regid': options.regid,
             'os_string': options.os_string,
             'architecture': options.architecture,
+            'meta_for': options.meta_for,
             'full': options.full,
             'matcher': options.matcher,
             'hash_algorithms': options.hash_algorithms,

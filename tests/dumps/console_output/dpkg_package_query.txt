@@ -1,9 +1,11 @@
 adduser
 3.113+nmu3ubuntu4
 install ok installed
+add and remove users and groups
  /etc/deluser.conf 773fb95e98a27947de4a95abb3d3f2a2	apt
 1.2.19
 install ok installed
+commandline package manager
  /etc/apt/apt.conf.d/01-vendor-ubuntu 5232396660502461fc834c0a1229dbe4
  /etc/apt/apt.conf.d/01autoremove 0b1391c01d75f95fa4ea5ac01219b515
  /etc/cron.daily/apt-compat bc4a71cbcaeed4179f25d798257fa980
@@ -11,6 +13,7 @@ install ok installed
  /etc/logrotate.d/apt 179f2ed4f85cbaca12fa3d69c2a4a1c3	base-files
 9.4ubuntu4.4
  install ok installed
+Debian base system miscellaneous files
   /etc/debian_version e90148aa8aae3eb74ca11dc306b03dcd
  /etc/dpkg/origins/debian 731423fa8ba067262f8ef37882d1e742
  /etc/dpkg/origins/ubuntu ea35901c45553c3451f60476be94d2d8
