@@ -53,6 +53,21 @@ class DpkgEnvironmentTests(unittest.TestCase):
             assert result_package.package == expected_package_list[index].package
             assert result_package.version == expected_package_list[index].version
 
+    def test_get_package_arch_list(self):
+        result_list = self.dpkg_environment.get_package_list({ "dpkg_include_package_arch": True })
+
+        expected_package_list = list()
+
+        expected_package_list.append(PackageInfo(package="adduser", version="3.113+nmu3ubuntu4.all"))
+        expected_package_list.append(PackageInfo(package="apt", version="1.2.19.amd64"))
+        expected_package_list.append(PackageInfo(package="base-files", version="9.4ubuntu4.4.amd64"))
+
+        for index, result_package in enumerate(result_list):
+            print(result_package.package)
+            print(result_package.version)
+            assert result_package.package == expected_package_list[index].package
+            assert result_package.version == expected_package_list[index].version
+
     def test_get_files_for_package(self):
         package_info = PackageInfo(package="docker")
         result_list = self.dpkg_environment.get_files_for_package(package_info)
@@ -82,6 +97,14 @@ class DpkgEnvironmentTests(unittest.TestCase):
 
         assert result_package.package == 'docker'
         assert result_package.version == '1.0-5'
+
+    def test_get_packageinfo_arch_from_packagefile(self):
+        result_package = self.dpkg_environment.get_packageinfo_from_packagefile("/tmp/docker.pkg", { "dpkg_include_package_arch": True })
+
+        print(result_package.package)
+
+        assert result_package.package == 'docker'
+        assert result_package.version == '1.0-5.amd64'
 
     def test_get_files_from_packagefile(self):
         all_files = self.dpkg_environment.get_files_from_packagefile("/tmp/docker.pkg")

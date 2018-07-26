@@ -74,6 +74,7 @@ def main():
             'regid': options.regid,
             'os_string': options.os_string,
             'architecture': options.architecture,
+            'dpkg_include_package_arch': options.dpkg_include_package_arch,
             'full': options.full,
             'matcher': options.matcher,
             'hash_algorithms': options.hash_algorithms,
