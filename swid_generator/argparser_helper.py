@@ -85,6 +85,14 @@ def arch_string(string):
         raise ArgumentTypeError("String '{0}' does not match required format".format(string))
 
 
+def meta_for_string(string):
+    if string is None:
+        return None
+    if string == 'os' or string == 'package':
+        return string
+    raise ArgumentTypeError("String '{0}' is not either 'os' or 'package'".format(string))
+
+
 def package_path(string=None):
     if not os.path.exists(string):
         raise ArgumentTypeError("The file '{0}' does not exist".format(string))

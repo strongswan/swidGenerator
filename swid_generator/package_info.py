@@ -26,10 +26,11 @@ class FileInfo(object):
 
 
 class PackageInfo(object):
-    def __init__(self, package='', version='', files=None, status=None):
+    def __init__(self, package='', version='', files=None, status=None, summary=None):
         if files is None:
             files = []
         self.package = package
         self.version = version
         self.files = files
         self.status = status
+        self.summary = summary

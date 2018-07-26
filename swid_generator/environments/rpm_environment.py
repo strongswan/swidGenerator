@@ -42,18 +42,19 @@ class RpmEnvironment(CommonEnvironment):
         """
 
         command_args_package_list = [cls.executable, '-qa', '--queryformat',
-                                     '\t%{name} %{version}-%{release}']
+                                     '\t%{name} %{version}-%{release} %{summary}']
         package_list_output = CM.run_command_check_output(command_args_package_list)
 
         line_list = package_list_output.split('\t')
         result = []
 
         for line in line_list:
-            split_line = line.replace('\n', " ").split()
-            if len(split_line) >= 2:
+            split_line = line.replace('\n', " ").split(" ", 2)
+            if len(split_line) == 3:
                 package_info = PackageInfo()
                 package_info.package = split_line[0]
                 package_info.version = split_line[1]
+                package_info.summary = split_line[2]
                 result.append(package_info)
         return result
 
@@ -154,12 +155,15 @@ class RpmEnvironment(CommonEnvironment):
         """
         command_args_package_name = [cls.executable, "--query", "--package", "--queryformat", "%{name}", file_path]
         command_args_package_version = [cls.executable, "--query", "--package", "--queryformat", "%{version}-%{release}", file_path]
+        command_args_package_summary = [cls.executable, "--query", "--package", "--queryformat", "%{summary}", file_path]
 
         package_name_output = CM.run_command_check_output(command_args_package_name)
         package_version_output = CM.run_command_check_output(command_args_package_version)
+        package_summary_output = CM.run_command_check_output(command_args_package_summary)
 
         package_info = PackageInfo()
         package_info.package = package_name_output
         package_info.version = package_version_output
+        package_info.summary = package_summary_output
 
         return package_info
