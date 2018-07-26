@@ -32,7 +32,7 @@ class RpmEnvironment(CommonEnvironment):
     ]
 
     @classmethod
-    def get_package_list(cls):
+    def get_package_list(cls, ctx=None):
         """
         Get list of installed packages.
 
@@ -145,11 +145,12 @@ class RpmEnvironment(CommonEnvironment):
         return all_file_info
 
     @classmethod
-    def get_packageinfo_from_packagefile(cls, file_path):
+    def get_packageinfo_from_packagefile(cls, file_path, ctx=None):
         """
         Extract the Package-Name and the Package-Version from the Debian-Package.
 
         :param file_path: Path to the Rpm-Package
+        :param ctx: ignored
         :return: A PackageInfo()-Object with Package-Version and Package-Name.
         """
         command_args_package_name = [cls.executable, "--query", "--package", "--queryformat", "%{name}", file_path]

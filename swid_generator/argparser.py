@@ -54,6 +54,8 @@ class MainArgumentParser(object):
                                  default=None,
                                  help='The HW architecture used in the tagId attribute. '
                                       'Default is derived from the HW architecture of the local host.')
+        swid_parser.add_argument('--dpkg-include-package-arch', action='store_true', default=False,
+                                 help='Include package architecture in tagId and version, for dpkg.')
         swid_parser.add_argument('--schema-location', action='store_true', default=False,
                                  help='Add xsi:schemaLocation attribute with schema URIs to validate the '
                                       'resulting XML documents.')

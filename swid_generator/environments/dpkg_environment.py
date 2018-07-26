@@ -40,7 +40,7 @@ class DpkgEnvironment(CommonEnvironment):
     ]
 
     @classmethod
-    def get_package_list(cls):
+    def get_package_list(cls, ctx=None):
         """
         Get list of installed packages.
 
@@ -49,7 +49,10 @@ class DpkgEnvironment(CommonEnvironment):
 
         """
         result = []
-        command_args = [cls.executable_query, '-W', '-f=${Package}\\n${Version}.${Architecture}\\n${Status}\\n${conffiles}\\t']
+        if ctx and ctx['dpkg_include_package_arch']:
+            command_args = [cls.executable_query, '-W', '-f=${Package}\\n${Version}.${Architecture}\\n${Status}\\n${conffiles}\\t']
+        else:
+            command_args = [cls.executable_query, '-W', '-f=${Package}\\n${Version}\\n${Status}\\n${conffiles}\\t']
 
         command_output = CM.run_command_check_output(command_args)
 
@@ -221,11 +224,12 @@ class DpkgEnvironment(CommonEnvironment):
         return sorted(result, key=lambda f: f.full_pathname)
 
     @classmethod
-    def get_packageinfo_from_packagefile(cls, file_path):
+    def get_packageinfo_from_packagefile(cls, file_path, ctx=None):
         """
         Extract the Package-Name and the Package-Version from the Debian-Package.
 
         :param file_path: Path to the Debian-Package
+        :param ctx: ctx, needed for dpkg_include_package_arch
         :return: A PackageInfo()-Object with Package-Version and Package-Name.
         """
         command_args_packagename = [cls.executable, '-f', file_path, 'Package']
@@ -233,10 +237,14 @@ class DpkgEnvironment(CommonEnvironment):
         command_args_arch = [cls.executable, '-f', file_path, 'Architecture']
         package_name = CM.run_command_check_output(command_args_packagename)
         package_version = CM.run_command_check_output(command_args_version)
-        package_arch = CM.run_command_check_output(command_args_arch)
 
         package_info = PackageInfo()
         package_info.package = package_name.strip()
-        package_info.version = package_version.strip() + '.' + package_arch.strip()
+
+        if ctx and ctx['dpkg_include_package_arch']:
+            package_arch = CM.run_command_check_output(command_args_arch)
+            package_info.version = package_version.strip() + '.' + package_arch.strip()
+        else:
+            package_info.version = package_version.strip()
 
         return package_info
