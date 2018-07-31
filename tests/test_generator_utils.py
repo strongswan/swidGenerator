@@ -17,8 +17,10 @@ class GeneratorUtilsTest(unittest.TestCase):
         pi = PackageInfo(package='swid_generator', version='0.1.2')
         os_string = 'Debian_7.4'
         architecture = 'x86_64'
-        unique_id = utils.create_unique_id(pi, os_string, architecture)
+        unique_id = utils.create_unique_id(pi, os_string, architecture, None)
         assert unique_id == 'Debian_7.4-x86_64-swid_generator-0.1.2'
+        unique_id = utils.create_unique_id(pi, os_string, architecture, 'org.example.')
+        assert unique_id == 'org.example.swid_generator-0.1.2'
 
     @staticmethod
     def test_reserved_unique_id():
@@ -28,7 +30,7 @@ class GeneratorUtilsTest(unittest.TestCase):
         pi = PackageInfo(package='ntp', version="1:4/2?6#p[3]+dfsg-1!ubuntu@3.1$&'()*,;=")
         os_string = 'Debian_7.4'
         architecture = 'i686'
-        unique_id = utils.create_unique_id(pi, os_string, architecture)
+        unique_id = utils.create_unique_id(pi, os_string, architecture, None)
         assert unique_id == 'Debian_7.4-i686-ntp-1~4~2~6~p~3~~dfsg-1~ubuntu~3.1~~~~~~~~~'
 
     @staticmethod
