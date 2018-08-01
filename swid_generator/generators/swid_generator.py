@@ -81,6 +81,9 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
 
     product_meta = ET.SubElement(software_identity, 'Meta')
     product_meta.set('product', create_system_id(ctx['os_string'], ctx['architecture']))
+    product_meta.set('colloquialVersion', "")
+    product_meta.set('revision', "")
+    product_meta.set('edition', "")
 
     if ctx['full']:
 
