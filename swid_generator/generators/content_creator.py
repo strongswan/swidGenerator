@@ -37,7 +37,7 @@ def _sort_files(files):
     return files
 
 
-def create_flat_content_tag(root_element, package_info, hash_algorithms):
+def create_flat_content_tag(root_element, package_info, hash_algorithms, default_file_version):
     last_full_pathname = ""
     last_directory_tag = ""
 
@@ -76,10 +76,13 @@ def create_flat_content_tag(root_element, package_info, hash_algorithms):
 
         _add_hashes(file_info, file_tag, hash_algorithms)
 
+        if default_file_version is not None:
+            file_tag.set('version', default_file_version)
+
     return root_element
 
 
-def create_hierarchic_content_tag(root_element, package_info, hash_algorithms):
+def create_hierarchic_content_tag(root_element, package_info, hash_algorithms, default_file_version):
     root_element.set('n8060:pathSeparator', '/')
     root_element.set('n8060:envVarPrefix', '$')
     root_element.set('n8060:envVarSuffix', '')
@@ -112,6 +115,8 @@ def create_hierarchic_content_tag(root_element, package_info, hash_algorithms):
                     file_tag.set('size', file_info.size)
 
                     _add_hashes(file_info, file_tag, hash_algorithms)
+                    if default_file_version is not None:
+                        file_tag.set('version', default_file_version)
 
                     del file_info
                 else:
