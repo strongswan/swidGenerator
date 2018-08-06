@@ -55,21 +55,21 @@ def main():
     parser = MainArgumentParser(environment_registry)
     options = parser.parse()  # without any parameter it takes arguments passed by command line
 
-    # Get correct environment
-    try:
-        env = environment_registry.get_environment(options.env)
-    except EnvironmentNotInstalledError:
-        print('Error: the given environment is not installed')
-        sys.exit(3)
-    except AutodetectionError:
-        print('Error: Could not autodetect environment.')
-        parser.print_usage()
-        sys.exit(3)
+    def get_environment():
+        try:
+            return environment_registry.get_environment(options.env)
+        except EnvironmentNotInstalledError:
+            print('Error: the given environment is not installed')
+            sys.exit(3)
+        except AutodetectionError:
+            print('Error: Could not autodetect environment.')
+            parser.print_usage()
+            sys.exit(3)
 
     # Handle commands
     if options.command == 'swid':
         swid_args = {
-            'environment': env,
+            'environment': get_environment(),
             'entity_name': options.entity_name,
             'regid': options.regid,
             'os_string': options.os_string,
@@ -142,7 +142,7 @@ def main():
 
     elif options.command == 'software-id':
         sid_args = {
-            'env': env,
+            'env': get_environment(),
             'regid': options.regid,
             'id_prefix': options.id_prefix,
             'dpkg_include_package_arch': options.dpkg_include_package_arch,
