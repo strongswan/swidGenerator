@@ -37,6 +37,8 @@ class MainArgumentParser(object):
                                         'characters. Default is "%s".' % settings.DEFAULT_REGID)
         parent_parser.add_argument('--id-prefix', dest='id_prefix',
                                    help='Override the default {os}-{arch}- tagId prefix.')
+        parent_parser.add_argument('--dpkg-include-package-arch', action='store_true', default=False,
+                                   help='Include package architecture in tagId and version, for dpkg.')
 
         subparsers = self.arg_parser.add_subparsers(help='Commands: ', dest='command')
 
@@ -56,8 +58,6 @@ class MainArgumentParser(object):
                                  default=None,
                                  help='The HW architecture used in the tagId attribute. '
                                       'Default is derived from the HW architecture of the local host.')
-        swid_parser.add_argument('--dpkg-include-package-arch', action='store_true', default=False,
-                                 help='Include package architecture in tagId and version, for dpkg.')
         swid_parser.add_argument('--meta-for', dest='meta_for', type=meta_for_string,
                                  default='os',
                                  help='Specify whether the Meta element should hold information '

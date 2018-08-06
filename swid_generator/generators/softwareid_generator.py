@@ -4,8 +4,8 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 from .utils import create_unique_id, create_software_id
 
 
-def create_software_ids(env, regid, id_prefix):
-    pkg_info = env.get_package_list()
+def create_software_ids(env, regid, id_prefix=None, dpkg_include_package_arch=False):
+    pkg_info = env.get_package_list({'dpkg_include_package_arch': dpkg_include_package_arch})
     os_string = env.get_os_string()
     architecture = env.get_architecture()
 

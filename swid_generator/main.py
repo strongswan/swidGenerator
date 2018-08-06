@@ -141,7 +141,13 @@ def main():
             sys.exit(5)
 
     elif options.command == 'software-id':
-        software_ids = create_software_ids(env=env, regid=options.regid, id_prefix=options.id_prefix)
+        sid_args = {
+            'env': env,
+            'regid': options.regid,
+            'id_prefix': options.id_prefix,
+            'dpkg_include_package_arch': options.dpkg_include_package_arch,
+        }
+        software_ids = create_software_ids(**sid_args)
         print_software_ids(software_ids, separator=options.document_separator)
 
     else:
