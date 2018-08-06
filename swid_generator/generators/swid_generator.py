@@ -116,7 +116,8 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
 
 def create_swid_tags(environment, entity_name, regid, os_string=None, architecture=None, hash_algorithms='sha256',
                      full=False, matcher=all_matcher, hierarchic=False, file_path=None, evidence_path=None,
-                     name=None, version=None, new_root_path=None, pkcs12_file=None, xml_lang=None, schema_location=False):
+                     name=None, version=None, new_root_path=None, pkcs12_file=None, xml_lang=None, schema_location=False,
+                     dpkg_include_package_arch=False):
     """
     Return SWID tags as utf8-encoded xml bytestrings for all available
     packages.
@@ -135,6 +136,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
     :param full: Whether to include file payload. Default is False.
     :param matcher: A function that defines whether to return a tag or not. Default is a function that returns ``True`` for all tags.
     :param xml_lang: xml:lang attribute value. Default en-US.
+    :param dpkg_include_package_arch: Whether to include architecture in tagId and version.
 
     Returns:
         A generator object for all available SWID XML strings. The XML strings
@@ -156,6 +158,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
         'new_root_path': new_root_path,
         'xml_lang': xml_lang,
         'schema_location': schema_location,
+        'dpkg_include_package_arch': dpkg_include_package_arch,
     }
 
     if os_string is None:
@@ -165,7 +168,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
         ctx['architecture'] = ctx['environment'].get_architecture()
 
     if file_path is not None:
-        pi = environment.get_packageinfo_from_packagefile(file_path)
+        pi = environment.get_packageinfo_from_packagefile(file_path, ctx)
 
         ctx['package_info'] = pi
 
@@ -215,7 +218,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
         yield XML_DECLARATION.encode('utf-8') + swidtag
 
     else:
-        pkg_info = environment.get_package_list()
+        pkg_info = environment.get_package_list(ctx)
 
         for pi in pkg_info:
 

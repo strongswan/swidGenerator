@@ -14,6 +14,7 @@ rpm_query_conffile_list = _read_file("tests/dumps/console_output/rpm_conffile_li
 
 # DpkgEnvironment
 dpkg_query_package_list_output = _read_file("tests/dumps/console_output/dpkg_package_query.txt")
+dpkg_query_package_arch_list_output = _read_file("tests/dumps/console_output/dpkg_package_arch_query.txt")
 dpkg_query_file_list = _read_file("tests/dumps/console_output/dpkg_file_list.txt")
 dpkg_query_conffile_list = _read_file("tests/dumps/console_output/dpkg_conffile_list.txt")
 dpkg_query_file_list_package = _read_file("tests/dumps/console_output/dpkg_file_list_package.txt")

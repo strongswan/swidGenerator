@@ -32,7 +32,7 @@ class RpmEnvironment(CommonEnvironment):
     ]
 
     @classmethod
-    def get_package_list(cls):
+    def get_package_list(cls, ctx=None):
         """
         Get list of installed packages.
 
@@ -42,7 +42,7 @@ class RpmEnvironment(CommonEnvironment):
         """
 
         command_args_package_list = [cls.executable, '-qa', '--queryformat',
-                                     '\t%{name} %{version}-%{release}']
+                                     '\t%{name} %{version}-%{release}.%{arch}']
         package_list_output = CM.run_command_check_output(command_args_package_list)
 
         line_list = package_list_output.split('\t')
@@ -145,15 +145,16 @@ class RpmEnvironment(CommonEnvironment):
         return all_file_info
 
     @classmethod
-    def get_packageinfo_from_packagefile(cls, file_path):
+    def get_packageinfo_from_packagefile(cls, file_path, ctx=None):
         """
         Extract the Package-Name and the Package-Version from the Debian-Package.
 
         :param file_path: Path to the Rpm-Package
+        :param ctx: ignored
         :return: A PackageInfo()-Object with Package-Version and Package-Name.
         """
         command_args_package_name = [cls.executable, "--query", "--package", "--queryformat", "%{name}", file_path]
-        command_args_package_version = [cls.executable, "--query", "--package", "--queryformat", "%{version}-%{release}", file_path]
+        command_args_package_version = [cls.executable, "--query", "--package", "--queryformat", "%{version}-%{release}.%{arch}", file_path]
 
         package_name_output = CM.run_command_check_output(command_args_package_name)
         package_version_output = CM.run_command_check_output(command_args_package_version)

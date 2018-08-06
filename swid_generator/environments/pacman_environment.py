@@ -24,7 +24,7 @@ class PacmanEnvironment(CommonEnvironment):
     ]
 
     @classmethod
-    def get_package_list(cls):
+    def get_package_list(cls, ctx=None):
         """
         Get list of installed packages.
 
@@ -118,11 +118,12 @@ class PacmanEnvironment(CommonEnvironment):
         return all_files
 
     @classmethod
-    def get_packageinfo_from_packagefile(cls, file_path):
+    def get_packageinfo_from_packagefile(cls, file_path, ctx=None):
         """
         Extract the Package-Name and the Package-Version from the Pacman-Package.
 
         :param file_path: Path to the Pacman-Package
+        :param ctx: ignored
         :return: A PackageInfo()-Object with Package-Version and Package-Name.
         """
         command_args_packageinfo = [cls.executable, '--query', '--file', file_path]
