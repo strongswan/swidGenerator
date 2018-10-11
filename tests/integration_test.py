@@ -77,6 +77,7 @@ class IntegrationTests(unittest.TestCase):
         certificate = "tests/ca/swidgen.pfx"
         template_path_evidence = "tests/dumps/command_evidence/tmp_folder-Template.xml"
         evidence_path = "/tmp/evidence-test"
+        package_name = "docker"
 
         if isinstance(environment, DpkgEnvironment):
             template_path_full_pretty = "tests/dumps/command_package/docker_deb_SWID-Template.xml"
@@ -94,6 +95,7 @@ class IntegrationTests(unittest.TestCase):
             template_path_full_pretty_signed = "tests/dumps/command_package/docker_rpm_signed_SWID-Template.xml"
             template_path_full_pretty_signed_cmd_package_file = "tests/dumps/command_package-file/docker_rpm_signed_SWID-Template.xml"
             package_path = "/tmp/docker.rpm"
+            package_name = "docker-ce"
         if isinstance(environment, PacmanEnvironment):
             template_path_full_pretty = "tests/dumps/command_package/docker_pacman_SWID-Template.xml"
             template_path_no_payload = "tests/dumps/command_package/docker_pacman_no_payload_SWID-Template.xml"
@@ -111,6 +113,7 @@ class IntegrationTests(unittest.TestCase):
             "template_full_pretty_signed_cmd_package": self.get_template_from_file(template_path_full_pretty_signed),
             "template_full_pretty_signed_cmd_package_file": self.get_template_from_file(template_path_full_pretty_signed_cmd_package_file),
             "package_path": package_path,
+            "package_name": package_name,
             "certificate": certificate,
             "template_evidence": self.get_template_from_file(template_path_evidence),
             "evidence_test_folder": evidence_path
@@ -145,15 +148,23 @@ class IntegrationTests(unittest.TestCase):
 
         test_context = self.get_testcontext(self.env)
 
-        command_package = ["swid_generator", "swid", "--full", "--pretty", "--package", "docker"]
+        command_package = ["swid_generator", "swid", "--full", "--pretty", "--package", test_context['package_name']]
         output_swid_tag = self.get_tree_output_from_cmd(command_package)
         expected_swid_tag = test_context['template_full_pretty_cmd_package']
         self.check_equality(expected_swid_tag, output_swid_tag)
 
-        command_swid = ["swid_generator", "swid", "--pretty", "--package", "docker"]
+        command_swid = ["swid_generator", "swid", "--pretty", "--package", test_context['package_name']]
         output_swid_tag = self.get_tree_output_from_cmd(command_swid)
         expected_swid_tag = test_context['template_no_payload_cmd_package']
         self.check_equality(expected_swid_tag, output_swid_tag)
+
+        command_package = "swid_generator swid --pretty --full --package {PACKAGE} --pkcs12 {CERTIFICATE} --pkcs12-pwd R4onQ7UdCbDoFPeH"
+        command_package = command_package.format(CERTIFICATE=test_context['certificate'], PACKAGE=test_context['package_name'])
+        output_swid_tag = self.get_string_output_from_cmd(command_package.split(' '))
+        expected_swid_tag = test_context['template_full_pretty_signed_cmd_package']
+
+        self.validate_signature(output_swid_tag)
+        self.check_equality(expected_swid_tag, ET.fromstring(output_swid_tag))
 
         command_package_file = "swid_generator swid --full --pretty --package-file {PACKAGE_FILE}"
         command_package_file = command_package_file.format(PACKAGE_FILE=test_context['package_path'])
@@ -167,10 +178,10 @@ class IntegrationTests(unittest.TestCase):
         expected_swid_tag = test_context['template_no_payload_cmd_package_file']
         self.check_equality(expected_swid_tag, output_swid_tag)
 
-        command_package = "swid_generator swid --pretty --full --package-file {PACKAGE_FILE} --pkcs12 {CERTIFICATE} --pkcs12-pwd R4onQ7UdCbDoFPeH"
-        command_package = command_package.format(CERTIFICATE=test_context['certificate'], PACKAGE_FILE=test_context['package_path'])
-        output_swid_tag = self.get_string_output_from_cmd(command_package.split(' '))
-        expected_swid_tag = test_context['template_full_pretty_signed_cmd_package']
+        command_package_file = "swid_generator swid --pretty --full --package-file {PACKAGE_FILE} --pkcs12 {CERTIFICATE} --pkcs12-pwd R4onQ7UdCbDoFPeH"
+        command_package_file = command_package_file.format(CERTIFICATE=test_context['certificate'], PACKAGE_FILE=test_context['package_path'])
+        output_swid_tag = self.get_string_output_from_cmd(command_package_file.split(' '))
+        expected_swid_tag = test_context['template_full_pretty_signed_cmd_package_file']
 
         self.validate_signature(output_swid_tag)
         self.check_equality(expected_swid_tag, ET.fromstring(output_swid_tag))

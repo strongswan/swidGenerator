@@ -1,113 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SoftwareIdentity name="docker" tagId="fedora_25-x86_64-docker-1.12.6" version="1.12.6" versionScheme="alphanumeric" xmlns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" xmlns:SHA256="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:n8060="http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd">
+<SoftwareIdentity name="docker-ce" tagId="Fedora_28-x86_64-docker-ce-17.03.0.ce-1.fc24.x86_64" version="17.03.0.ce-1.fc24.x86_64" versionScheme="alphanumeric" xmlns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" xmlns:SHA256="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:n8060="http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd">
   <Entity name="strongSwan Project" regid="strongswan.org" role="tagCreator"/>
-  <Meta product="fedora 25 x86_64"/>
+  <Meta product="Fedora 28 x86_64"/>
   <Payload>
-    <Directory name="sysconfig" root="/etc">
-      <File SHA256:hash="94a38fe75a290eb85b55af3a0fe2ee912570a653723ba415d09acbe43d35c8d1" n8060:mutable="true" name="docker-network" size="56"/>
-      <File SHA256:hash="0b683f9d6ee2a23de647ba278befbcbe0559e990baa848a55a7f65599d2e4911" n8060:mutable="true" name="docker-storage" size="92"/>
-      <File SHA256:hash="bf3e1056e8df0dd4fc170a89ac2358f872a17509efa70a3bc56733a488a1e4b2" n8060:mutable="true" name="docker-storage-setup" size="179"/>
-    </Directory>
-    <Directory name="bin" root="/usr">
-      <File SHA256:hash="818972010ba58992b12bd939cb41263a48b4bb2c359fcd16438ed5db70fe8106" name="docker-current" size="11055432"/>
-      <File SHA256:hash="a8153e6aa8f9129ef59a1f41da6725fda9fe93cbffef20b27ba652794f350fd6" name="docker-storage-setup" size="28874"/>
-      <File SHA256:hash="b7098817856d9b1c01a742f23688aaf58a1cdb57503e81d2b84fbe100abcd622" name="dockerd-current" size="29955824"/>
-    </Directory>
-    <Directory name="docker-storage-setup" root="/usr/lib">
-      <File SHA256:hash="381066375e9cd55de88d832c7f8dfaa4a1aff6f6c3c038fcd24d858563c57486" name="docker-storage-setup" size="3376"/>
-      <File SHA256:hash="94b1d86f763cde1db43523fd5beba00277d4f0dfa14d5e261fcbf31001c4599e" name="dss-child-read-write" size="772"/>
-      <File SHA256:hash="c722164f949c4b7f182ef43294453a1cf3c7476f0ccf0aba10d2dfbf7d5695f0" name="libdss.sh" size="1332"/>
-    </Directory>
-    <Directory name="system" root="/usr/lib/systemd">
-      <File SHA256:hash="d7b2d0b642d4c1fb37a6b62477d609c74b4230a5f3b456775c4f98b3383447aa" name="docker-containerd.service" size="414"/>
-      <File SHA256:hash="845179727351ffef4d3e05bf285b4e644937d380413aa17928c7de9bb898200c" name="docker-storage-setup.service" size="242"/>
-      <File SHA256:hash="b2fa7fa94764aab5ab6b0118e9ba855b8e8f13dae168828eb5adfdb3ce323869" name="docker.service" size="1107"/>
-    </Directory>
-    <Directory name="rules.d" root="/usr/lib/udev">
+    <Directory name="rules.d" root="/etc/udev">
       <File SHA256:hash="863aa0504a0ce84641e95ea29fae80c14c5a64c62b336149c3b7c5795b90a157" name="80-docker.rules" size="343"/>
     </Directory>
-    <Directory name="docker" root="/usr/libexec">
-      <File SHA256:hash="862c0fd8284d184423264b5304be8b147ccd537257a4176b89495c92ff9f33dd" name="docker-containerd-current" size="7009920"/>
-      <File SHA256:hash="d5fad6f766147feb9202149a8e577ba1f5109bcb777e993a148c33a494ae6f98" name="docker-containerd-shim-current" size="1701872"/>
-      <File SHA256:hash="834a6d6346ec2fa3d8a8b9f9ccc8eaea945d554fc3b2ff209436cfab458769b0" name="docker-ctr-current" size="6498672"/>
-      <File SHA256:hash="553cda1f26750b3741f20af28e665c8da78223349f38da7995c828a8cee58494" name="docker-proxy-current" size="1683576"/>
-      <File SHA256:hash="35a1bfefdbe1bd700aeb9867b76d831b56d419d1f8aabee0c1b8ef06d23dc64d" name="docker-runc-current" size="5041592"/>
+    <Directory name="bin" root="/usr">
+      <File SHA256:hash="450043e565aedbed1cc34a3cba63038882adabb95656097ba33811ece75ce74e" name="docker" size="12052824"/>
+      <File SHA256:hash="8a8ba517922a1707d733cf5e4eb606832921006a5731ccb2ddcadd4a05841a0e" name="docker-containerd" size="7064888"/>
+      <File SHA256:hash="2104035457d3b909007778d549fec8b41f62af800b47969702f36bc917d9c983" name="docker-containerd-ctr" size="6582296"/>
+      <File SHA256:hash="ea3d6daee24a20bec15e7b69cafc214531cebed94b75a87ae079a9c70d96cee9" name="docker-containerd-shim" size="1773256"/>
+      <File SHA256:hash="918eeb2c0295ab302f520885cf0b0450b1c417e8f16cbdbc495642a033367bbe" name="docker-init" size="837848"/>
+      <File SHA256:hash="c4c9c8e50369da854cdfac3218d5a2a6e51afd85bd8439544e37c1bd2f3e2dff" name="docker-proxy" size="1593560"/>
+      <File SHA256:hash="e4d5465401ce7292b2f8d8d060d53706fc1a0c47c7f425fe345ab80a00f02f6c" name="docker-runc" size="5054008"/>
+      <File SHA256:hash="a43059462763e95aed35fb6b4de36e3d712496ec1829c2b45b29c41dd38bdc6d" name="dockerd" size="32203880"/>
+    </Directory>
+    <Directory name="system" root="/usr/lib/systemd">
+      <File SHA256:hash="142fecd67169895414afe3bd5c38cf24436b1cba7fe48b965bf0d8d02c5838fb" name="docker.service" size="992"/>
     </Directory>
     <Directory name="completions" root="/usr/share/bash-completion">
-      <File SHA256:hash="95117fb55006a0a00824a7638bff16435b36b7bd7df442220b6c8fe58c1d399d" name="docker" size="59497"/>
+      <File SHA256:hash="e3a14438455f892e4ad5863d0537ed932186ba844d6751cdee6bc107fec14b27" name="docker" size="84759"/>
     </Directory>
-    <Directory name="docker" root="/usr/share/doc">
-      <File SHA256:hash="146f76f424e79cb1be5d3bcb0f2b279b790e87e21dfe2cf0d14459b28255bc0a" name="AUTHORS" size="56809"/>
-      <File SHA256:hash="9dad227e5783ab3829b4e85f9404ad2fdc6684dec381f10316d94fac9d592c73" name="CHANGELOG.md" size="158919"/>
-      <File SHA256:hash="d4ca88e03c46ee2dc72eff195c984f828a50ccbde605888e85413f8e98a5482b" name="CONTRIBUTING.md" size="18061"/>
-      <File SHA256:hash="962d5b3eb5fedb8742e9037f1bf3d09aba35780d509f1971e3d128f030d136b9" name="MAINTAINERS" size="8762"/>
-      <File SHA256:hash="1f08419ee695a1447980a9aac6d6a139ded43c1fbab9be2269ddca92b2ed5869" name="NOTICE" size="638"/>
-      <File SHA256:hash="0052f2a28d9d232702483c7ca0ab368d178c3c9057080fc6c988c95435cdea27" name="README-novolume-plugin.md" size="3273"/>
-      <File SHA256:hash="fa9a00a685f43b416929988b9e93a9722cce92f579f138c7b5d4f4e27c156ae3" name="README-vim-syntax.md" size="430"/>
-      <File SHA256:hash="2923ba6cc8ec166c9eb045113ee251449fb38f47a017b1e8926c1aa93c4758b4" name="README.md" size="20467"/>
-    </Directory>
-    <Directory name="docker" root="/usr/share/licenses">
+    <Directory name="docker-ce" root="/usr/share/doc">
+      <File SHA256:hash="9f0634c2a43b2b693451b3bf0562aa9f152b281ec78386b4d6af1b2e5ac1d89f" name="AUTHORS" size="64642"/>
+      <File SHA256:hash="917715fc07cfd396ae9ee5b3cf213da2aafa34531d49b4d0bcbb455abf345ceb" name="CHANGELOG.md" size="187827"/>
+      <File SHA256:hash="35212752e8424e7c97b350a0b9829dc243d3423722e8a3253879e07cc79835eb" name="CONTRIBUTING.md" size="18060"/>
       <File SHA256:hash="22ac082c11f13250065aff718a5584c26108d046375dd8809031ad3005f95b66" name="LICENSE" size="10765"/>
-      <File SHA256:hash="cdd435f9d05bb4e2980c32e7ba72df1ae967c069f1b12c393bfd3206637ca2b8" name="LICENSE-novolume-plugin" size="1079"/>
-      <File SHA256:hash="0e69fdebbbec61b7f1d1cb189ee3bbdf87c03e62b356f74968dd520f54053971" name="LICENSE-vim-syntax" size="1298"/>
+      <File SHA256:hash="a31ac9074817753455179d24ba9bbd02945ebd2e184613bee8670debf5a5fdaa" name="MAINTAINERS" size="10488"/>
+      <File SHA256:hash="1f08419ee695a1447980a9aac6d6a139ded43c1fbab9be2269ddca92b2ed5869" name="NOTICE" size="638"/>
+      <File SHA256:hash="ae132ffc74b18d76e5c976f1c99db50bc4eebdc1cce434e63949b23ef5e2140a" name="README.md" size="13759"/>
+    </Directory>
+    <Directory name="vendor_completions.d" root="/usr/share/fish">
+      <File SHA256:hash="9fb7b938846d9d0fc74b0f4f9b5deb5c733c350109325f10762a60d742d9aeee" name="docker.fish" size="35999"/>
     </Directory>
     <Directory name="man1" root="/usr/share/man">
-      <File SHA256:hash="ef18ff596b0e1e5aab63b044468e381ea115ca86ea1d195ec6571a8442def93b" name="docker-attach.1.gz" size="1929"/>
-      <File SHA256:hash="202e5f95b8baa9ddf7fa9d31df01fe692edd06d59cc33dcec0945c0c331893d6" name="docker-build.1.gz" size="5109"/>
-      <File SHA256:hash="2e296d32b10f0d1c735864ced609e1edb308357eb8cc31a8f486f1f0905d23b4" name="docker-commit.1.gz" size="1347"/>
-      <File SHA256:hash="bc5b73125da05139276fa6b4b7ea32b4af347de6d3a3bdbbfb3047a7ccba25c4" name="docker-cp.1.gz" size="2915"/>
-      <File SHA256:hash="869d3e3127826a217a51af5291da7ca42f7668b1f0fa3c3e0a05966063241fc5" name="docker-create.1.gz" size="7394"/>
-      <File SHA256:hash="7f2ea8ac0729df738f4207e6bc67dbe2fe23714f4e642c983699832b4c7a07cf" name="docker-diff.1.gz" size="603"/>
-      <File SHA256:hash="39106b28691ee8d969db0c2fc0b4a7593b6d18c9e84d4ce02636a882e64bb6b8" name="docker-events.1.gz" size="1737"/>
-      <File SHA256:hash="ed1cbdb72b0b23a387e98299c800dfe34a71c2796e862916bbb789f226cc5a8e" name="docker-exec.1.gz" size="1064"/>
-      <File SHA256:hash="49d9be0d0db1468b63207da59ee9f6d6d3b3ca919920b9e3932126b790b6218b" name="docker-export.1.gz" size="718"/>
-      <File SHA256:hash="af4ebd8c28b1a646e39cf5931dfac71ed75faafc9f80e0c905d7598a22b2f109" name="docker-history.1.gz" size="959"/>
-      <File SHA256:hash="147268232b6e3c1b2a1ca6580ac2db8107bdf0535107195fa3dd69e311e65d11" name="docker-images.1.gz" size="2328"/>
-      <File SHA256:hash="948d9816fb9bda244a4f7c4d6a69071f332a32ba437cf9f9890733ab1e818b2a" name="docker-import.1.gz" size="1000"/>
-      <File SHA256:hash="f21bc6c81ad6f52b72e68540aad9ef9e43c63cac196924d1988ecc9c6a2167b0" name="docker-info.1.gz" size="1993"/>
-      <File SHA256:hash="b71cd8f5fe06db84f0d315b443a5ccd18bd2f34ac57fea54f44acdb528b0905a" name="docker-inspect.1.gz" size="3182"/>
-      <File SHA256:hash="5a885fbd8cc41804fb64a22ac677ca6a331521651928acf1244e782095fb0da8" name="docker-kill.1.gz" size="485"/>
-      <File SHA256:hash="8cc596fd7aca039fa2c98e3064e7e78c2506751f857bd533ec903ee013c16f0e" name="docker-load.1.gz" size="923"/>
-      <File SHA256:hash="ad91a5fc1214d5efca84eaf69e42f8dd9f755ba1c819929c68ee752db4254210" name="docker-login.1.gz" size="1070"/>
-      <File SHA256:hash="f465099a102ead8db477ac0ef91003d55390d807ffd708b85d08a1362e2b5d7a" name="docker-logout.1.gz" size="576"/>
-      <File SHA256:hash="e14b8b03106ff88ea6d0c6475e663e369e213f2a797ba5c3686166adec41456a" name="docker-logs.1.gz" size="1429"/>
-      <File SHA256:hash="3438fcca64c3cc06740484c9895fbad22b57072057542b862b24662adfe9906a" name="docker-network-connect.1.gz" size="1029"/>
-      <File SHA256:hash="71a2326a0cda4422755855c68a2caa17c12f08756a431922bdd663e7c2c0989e" name="docker-network-create.1.gz" size="2441"/>
-      <File SHA256:hash="7de4637fa74a356a40dc7e55673a0170f953134f185838300c00c63d030d030d" name="docker-network-disconnect.1.gz" size="373"/>
-      <File SHA256:hash="ff714a70aa85560e09133c31b0d50d4d0daac1e2218340d8ce1859a297e37bc0" name="docker-network-inspect.1.gz" size="1345"/>
-      <File SHA256:hash="980fa063216cdfe3b8d4ebc6630303e1ac2b8a6f91aba787dd8f8f41e2999d28" name="docker-network-ls.1.gz" size="1826"/>
-      <File SHA256:hash="bb35227376dc108bfbc6f6fa47a9bdc618972ed38b0eb9d50de211990630ad8a" name="docker-network-rm.1.gz" size="613"/>
-      <File SHA256:hash="ec7b5147f5d7d4c42ea2870296bf968a07dedc4fc64b6c001b8d69e4139e9091" name="docker-pause.1.gz" size="537"/>
-      <File SHA256:hash="2aca90dea147c5fe85d970f1fec3457f0fc9c013fd3fecc71f9ca16d0e80f7a2" name="docker-port.1.gz" size="689"/>
-      <File SHA256:hash="5d1497bb634c23c5b1d52b8bcc4b89dc0ab25c46849a85db23d73dae411962d4" name="docker-ps.1.gz" size="1928"/>
-      <File SHA256:hash="2a3c5a26cfc1ed27c784e78b7f894a06e93384f6f7e13f97d3e3664d0ac99986" name="docker-pull.1.gz" size="3341"/>
-      <File SHA256:hash="fe1f3a8ef6f7a52ba8b33ec7290ed495761b840ca9fc99c3ee77f317dc2be76e" name="docker-push.1.gz" size="1043"/>
-      <File SHA256:hash="0fe3daed0ce7bc64a0e397775f3205fb64571a2106e6015282d0d79d1757804c" name="docker-rename.1.gz" size="239"/>
-      <File SHA256:hash="cf4dd8585ab66bbed72e6ff63c0b1b2bfa8675fc3c586268a2ff4a35895dbd6a" name="docker-restart.1.gz" size="473"/>
-      <File SHA256:hash="5d6a5da8b2998dbd5b836cb487a990965da3f2da2720796ada7fd4d1019161ed" name="docker-rm.1.gz" size="1047"/>
-      <File SHA256:hash="7a6c4315d9d297741032c32d1f867fca5fefb56dc32baf9fce9c0e3f4e1db6fc" name="docker-rmi.1.gz" size="654"/>
-      <File SHA256:hash="6068941c11a8bc273c256145a7b1269e2992e90ab9927f8e1c49bf7d3ef78309" name="docker-run.1.gz" size="14177"/>
-      <File SHA256:hash="9eb061221e7c702a8c895026140b03188776671c2db29ad885db50e0930ecaff" name="docker-save.1.gz" size="700"/>
-      <File SHA256:hash="890815d68ea895185d7503ba7f9030e6c64d8237e8692705290bbad411899791" name="docker-search.1.gz" size="1173"/>
-      <File SHA256:hash="9e2333705cce6a5c67e8c218ecaa9ae756e2aebd49bc800caa19026fe7c7c44d" name="docker-start.1.gz" size="647"/>
-      <File SHA256:hash="2c89b9dca627fe75548bdeaa451a239bebc925fc628a60875e6a3e61f9e55240" name="docker-stats.1.gz" size="723"/>
-      <File SHA256:hash="4321a9437591180d8acc22c2f3c51e13ff7e5d793f2c62170a3c036a19dee575" name="docker-stop.1.gz" size="521"/>
-      <File SHA256:hash="f11836eade502bead5f53b7203ef01e8e5812f50d169a3ee200d25fb2f2a3654" name="docker-storage-setup.1.gz" size="2494"/>
-      <File SHA256:hash="28b9093f89aba76db8a2c6e38782b8669d1f47077ba04a793b4611e43aa63530" name="docker-tag.1.gz" size="1211"/>
-      <File SHA256:hash="9ba5d32212ccee02eb12f80381453c48be88909de6183d86fd731b24029b3b2c" name="docker-top.1.gz" size="638"/>
-      <File SHA256:hash="1045964375a41644b8a69bcc98d63f44ab52a6bd6ad888bb6630f1d8dabaccfb" name="docker-unpause.1.gz" size="419"/>
-      <File SHA256:hash="b1f28936fd393d712e2037f98a18fb02b58ba2ebd8a10a8c5b9d71c64301e6c9" name="docker-update.1.gz" size="1431"/>
-      <File SHA256:hash="f95aa554f5bcbddb0ba320fd545974253a822620d79cdb2c022323484485109d" name="docker-version.1.gz" size="775"/>
-      <File SHA256:hash="892f0342ed7d92fd1398c132b25dd9088429e70e134dd1f40a7d5c7db389ac7b" name="docker-wait.1.gz" size="484"/>
-      <File SHA256:hash="7e8dff9338bf57686540a0fd2aa5063a52e500ea578f33625d663580dd528869" name="docker.1.gz" size="2312"/>
+      <File SHA256:hash="314d1351f5511432d8a53ec67ab3918b9dac6c7e7f9b036ccd636457c51019f2" name="docker-attach.1.gz" size="1930"/>
+      <File SHA256:hash="eca6f13b0100a57dc68f2395bda30e797d8e8902ca6ca7330a73e54c23d7c1cc" name="docker-build.1.gz" size="5409"/>
+      <File SHA256:hash="8338e52168b4ddf3e0294edbd106ed8649b69511b7aa2f46c18787461eca5b40" name="docker-checkpoint-create.1.gz" size="297"/>
+      <File SHA256:hash="18eac6178447c1da6dc160d0326fa0a079be74d18a6492234d7a3906a7f3307a" name="docker-checkpoint-ls.1.gz" size="249"/>
+      <File SHA256:hash="8bded09522d2ae33f35ed433def441f328cebdad42894fdada2ccc04641d7e01" name="docker-checkpoint-rm.1.gz" size="247"/>
+      <File SHA256:hash="f8190076820a480208ecd74c3695c8e1e6369e4895df327c04c907252f22168e" name="docker-checkpoint.1.gz" size="195"/>
+      <File SHA256:hash="b58d1f68ee8714e53883dbcf24d371dcd1e2f8225c174854f9c9436b9e53860e" name="docker-commit.1.gz" size="1354"/>
+      <File SHA256:hash="2b0140cdbfee4b931c85326fd1ca0d762bb4639d7e920d2761c33d27ca148f31" name="docker-container-attach.1.gz" size="324"/>
+      <File SHA256:hash="390d6e8c1c75de3dd5b3590be5dbfe9029d25af0399abd1a0f3e2306aee3f3b5" name="docker-container-commit.1.gz" size="386"/>
+      <File SHA256:hash="315f8a8bf64d0335589badc6b807678c669fabad1e00c8a8dc527392c7395803" name="docker-container-cp.1.gz" size="410"/>
+      <File SHA256:hash="f136b2e8d8218864ce7c55c8d6d90355e0d9b3c2b0e5285dccfa6722ecfc5037" name="docker-container-create.1.gz" size="2319"/>
+      <File SHA256:hash="01ef4e74862e46760172a0ceef919bc9ec0482c5353e7a67394404d500f57dfb" name="docker-container-diff.1.gz" size="224"/>
+      <File SHA256:hash="8a119bb33538cb5d97eba2c5ca833c7632946df0bf91c37399f497c157f5f4d8" name="docker-container-exec.1.gz" size="482"/>
+      <File SHA256:hash="7b43cd28d39c5174f90af3a0cf6e57279b72e870f8dd2f9c378b7dd0bd50a6f1" name="docker-container-export.1.gz" size="270"/>
+      <File SHA256:hash="3229958b382429ba8b2cbd2e774d0b3761aec6a8c29383d62033b5cd8b37bd5c" name="docker-container-inspect.1.gz" size="311"/>
+      <File SHA256:hash="bde3f0dee965b1540f641ccfe635486db3ece52c2322db6fbb58dfd7d6eb4a1a" name="docker-container-kill.1.gz" size="258"/>
+      <File SHA256:hash="bfc82236ecaf17c718359821c5db25b22d541c7df5f1021e1b1f23c73eabb7b0" name="docker-container-logs.1.gz" size="345"/>
+      <File SHA256:hash="c4e81bf24a8cc59a05e1b9604678c17fc5f3339bee03644d00f2ed64aa1dbedb" name="docker-container-ls.1.gz" size="440"/>
+      <File SHA256:hash="90e64e39b38d37515b13c2dbd1327a54b75354075ab6e1ce903d354a0a982a17" name="docker-container-pause.1.gz" size="220"/>
+      <File SHA256:hash="d209058a578e89739b4ba571edd001c812adacea82d0f6a26b1fee998264738c" name="docker-container-port.1.gz" size="236"/>
+      <File SHA256:hash="3b36a14c457e3377860ccbad3880301490c8b5cbb953307f6137a8da59913d5f" name="docker-container-prune.1.gz" size="250"/>
+      <File SHA256:hash="17c6a65296428484b03a096ffd6a6e9c9b47b157f8a9cc4e147d3d71f9a9eafd" name="docker-container-rename.1.gz" size="195"/>
+      <File SHA256:hash="bde1fdf71b52aa4de4eea43e058ac4bb3a49e4b32f74a0e54b01848300981639" name="docker-container-restart.1.gz" size="266"/>
+      <File SHA256:hash="1d458987085fcdd249deb5d383f3bd9d3bfc016bd7ba16daa0f7ef1a1c952830" name="docker-container-rm.1.gz" size="325"/>
+      <File SHA256:hash="304962c127a77b4105fe3405e41e53330c2949569052b08af1225ecb88f3336c" name="docker-container-run.1.gz" size="2408"/>
+      <File SHA256:hash="a9b719f0935fbe1fa325f22766d753897db46976ae47a54f9d1ae8e59142194c" name="docker-container-start.1.gz" size="392"/>
+      <File SHA256:hash="7233a704cb03d65cdfc3a8914db1a5899b722bb66ef3281c52da55598197574c" name="docker-container-stats.1.gz" size="371"/>
+      <File SHA256:hash="d002a8091078fe6a0ab6be9ef3edd5bd8b544afc99f4b28be090a206cda72d86" name="docker-container-stop.1.gz" size="264"/>
+      <File SHA256:hash="c834a895da70978595cc65947038262efdee10493d9ced246c4f20490088e2a5" name="docker-container-top.1.gz" size="218"/>
+      <File SHA256:hash="e086aeabc88a77b39c3f53490e1938bf4e2e0790a0e4963b92918bb99eb517e6" name="docker-container-unpause.1.gz" size="223"/>
+      <File SHA256:hash="bca9e6f2f20b12f4df4d04830e109d1e43fcb60d53115387176ce56e3f5f3556" name="docker-container-update.1.gz" size="586"/>
+      <File SHA256:hash="3dc1c12b753532ed9abbcd2abe72bb7a2c65e944cebb4d0780c3114b5d6b4930" name="docker-container-wait.1.gz" size="233"/>
+      <File SHA256:hash="10ec6dcdcfc84eb55159baf55231ba69c8e4ed7051b6d2aa4ade5e8f803ad441" name="docker-container.1.gz" size="291"/>
+      <File SHA256:hash="d36d2ee1cc6f0d64ac025c633b4cd9fdb62b85ec9b9f118ff60719abb556e221" name="docker-cp.1.gz" size="2936"/>
+      <File SHA256:hash="68a7d89b5227bd87af7691f9bbb99ba86cd1302f310f63b4ed9d212cc383d8be" name="docker-create.1.gz" size="8090"/>
+      <File SHA256:hash="ce3b637fad0cb5dfff41c07e2eef62b08f64aac23f7bb3d827270d4884c223cf" name="docker-deploy.1.gz" size="330"/>
+      <File SHA256:hash="7be44b31e901aa4acbb08c0d2490b48b039c008ffcc4fdb013b60f480852573c" name="docker-diff.1.gz" size="756"/>
+      <File SHA256:hash="edb15e4d2fb95f89e08174b19b00709fd99e95a22af6b5eef7d6178b4c4b97e6" name="docker-events.1.gz" size="3005"/>
+      <File SHA256:hash="aac86e7ab5067fec3f89acb0cb08d00af8be8214e1bef46d2b7de0c77c20a075" name="docker-exec.1.gz" size="1159"/>
+      <File SHA256:hash="08aa3596f7b7baa14415b015dee43f9b460b6ceaf894c9a6f8d223687015bd1e" name="docker-export.1.gz" size="726"/>
+      <File SHA256:hash="1889a78af4f6046621f0b86f34b2e10ae13f691087d5f9d53afea477a008bbac" name="docker-history.1.gz" size="968"/>
+      <File SHA256:hash="aec935ebd89199d98dbd1a9ef06f2bedf792e1fb9dc53ed57b26112a607e1743" name="docker-image-build.1.gz" size="977"/>
+      <File SHA256:hash="b2e1f9a88497baaaca66e084c9e9b81d57112e5e916bed69ae2fe4f8b4b7afbf" name="docker-image-history.1.gz" size="314"/>
+      <File SHA256:hash="fed2688531e886dbc3c3e74c2055056e585de22a410aee103bbbcb0571a26e7d" name="docker-image-import.1.gz" size="326"/>
+      <File SHA256:hash="b3187c4140536dec4a26ac5dc73c29fdabf2076f880b1b0a2f3bae0bb02f238c" name="docker-image-inspect.1.gz" size="274"/>
+      <File SHA256:hash="14e6ae34558037957a583866cb5d3d2738f25c12bb42a01ce8eb9067df769a5c" name="docker-image-load.1.gz" size="282"/>
+      <File SHA256:hash="4f6981e70906d312cb70455197649b503dfb0b3fec4ffc58b1f668717224ac34" name="docker-image-ls.1.gz" size="393"/>
+      <File SHA256:hash="5ceed494189145e50e3a7a1990f53cbf8e7c95ce568971585e8eeb13e4295fe5" name="docker-image-prune.1.gz" size="274"/>
+      <File SHA256:hash="6ec78767e9b8518a2b7685826ce01d2edff9dd56f41cc8357bd43cd5c572f7ff" name="docker-image-pull.1.gz" size="315"/>
+      <File SHA256:hash="e8ab28c100de41da3963813fb07c69da8354135afd67755da1a3589de6ae6ceb" name="docker-image-push.1.gz" size="264"/>
+      <File SHA256:hash="08cea0b22d2a1672ea349f10fe5f9914f7d552d5add1eb874c5237476e55c643" name="docker-image-rm.1.gz" size="279"/>
+      <File SHA256:hash="325575fe7aa53147da819b9ea5a40dc757d3ad9fd64b0d82b3e2fa4c186937c6" name="docker-image-save.1.gz" size="284"/>
+      <File SHA256:hash="5d38b959e9f23057a2e85fe0cab86b08b12b5b658dbe041543c0149a46b9a3a7" name="docker-image-tag.1.gz" size="224"/>
+      <File SHA256:hash="47236a95b49675e742c4db1a9dc1047e91cb5e9da328ee3f70d7ccb199df462c" name="docker-image.1.gz" size="238"/>
+      <File SHA256:hash="6e3cab8f167d76fdeca4f1afe324ca3378cb0cdaeed66b309295edd5a4ee517d" name="docker-images.1.gz" size="2343"/>
+      <File SHA256:hash="fd6ff9434ee2c3dfc1256fabd67698508ff3d14318e32e5825e21df1f00d1d34" name="docker-import.1.gz" size="1007"/>
+      <File SHA256:hash="9f7ac204fbaf4240c882df2d3bc5fbe89a1a7bb0c43573e7595bce5189eabc5b" name="docker-info.1.gz" size="2672"/>
+      <File SHA256:hash="b957325dcdd16851444ece9e6b5ec0acb2f35e3af276c7644450c768ef087de4" name="docker-inspect.1.gz" size="3257"/>
+      <File SHA256:hash="15bdf8fb4f8a3a9a102bca5263590482e77bd491daf8def323da2d8a90494e67" name="docker-kill.1.gz" size="489"/>
+      <File SHA256:hash="b8e8ea4646eb8cdb15f91122d6118cc1b96b4487b057f84116c2008b48f2571e" name="docker-load.1.gz" size="928"/>
+      <File SHA256:hash="6a4643f8dfca36ef0a6d6263be55a386e4e1daa6979bf37220285392c9e8f5b8" name="docker-login.1.gz" size="1089"/>
+      <File SHA256:hash="6685097c37b2e6ce3f9ba96ac5ee0f0fb66dd110251ca81ff5c190271f802b4e" name="docker-logout.1.gz" size="583"/>
+      <File SHA256:hash="f70f4b473e64ed0191b2e09d7f7121a8c2a6f811f002db44253208654928002b" name="docker-logs.1.gz" size="1440"/>
+      <File SHA256:hash="728a86ed7422863a045a67bd7c2653e5cc4cdd328123968c46bda4135153df7d" name="docker-network-connect.1.gz" size="1034"/>
+      <File SHA256:hash="6d58641db1266d49948a677b82800478fffd0d792a4b9272db9f0245cb22111b" name="docker-network-create.1.gz" size="2483"/>
+      <File SHA256:hash="1eac3c6ed0c04d3685b42f6b16f9d5328dab61da4328e71e3134d3739a4405d8" name="docker-network-disconnect.1.gz" size="378"/>
+      <File SHA256:hash="ae5e07e5d40e00c95599e7560f66005722b7e3c4206da5e847c6a20f1342b515" name="docker-network-inspect.1.gz" size="1347"/>
+      <File SHA256:hash="6c67ae715757272e6aed55213cd4ce53912285a168543bdb994ff719fd7ccdb7" name="docker-network-ls.1.gz" size="2080"/>
+      <File SHA256:hash="30586a243ffdf35e64fec5e4bcecb014a0e00bfd307601a5ec8ee7659c1ee814" name="docker-network-prune.1.gz" size="249"/>
+      <File SHA256:hash="86adb14323f101badf2cc9c9642bb4af49633b0e526571c8ce04470902b0d0ee" name="docker-network-rm.1.gz" size="617"/>
+      <File SHA256:hash="c61f5e6891a24200fbecdb7f15683df083a7f48755f8bb46cb44d79525674f33" name="docker-network.1.gz" size="215"/>
+      <File SHA256:hash="5dfcba9f58a8595ef7c97142dfecc4465fc4e82bde97637efe25b8703ac46541" name="docker-node-demote.1.gz" size="213"/>
+      <File SHA256:hash="f3e0010301bf0e3bc7f40e407d11c2dad9a5b386a151d82fde4ab78f1163c632" name="docker-node-inspect.1.gz" size="321"/>
+      <File SHA256:hash="083962fc291886fb8b187d483f65f70d881acfdab742998c89d46f43c8fd7a3f" name="docker-node-ls.1.gz" size="276"/>
+      <File SHA256:hash="948502a48eda233c6db587c9f4530d565f8895dcc1bebfd54be382763a6598bb" name="docker-node-promote.1.gz" size="213"/>
+      <File SHA256:hash="a939d77c39fe02fa77d3b2bf52b14c826e80e5a420fe4bc432c43be6264388ab" name="docker-node-ps.1.gz" size="329"/>
+      <File SHA256:hash="3cea0a96ea55308c6dd460fca7c10fe6d340e57f3099366ffa70e2081ab0177e" name="docker-node-rm.1.gz" size="251"/>
+      <File SHA256:hash="0744e28a3dcc18882dad7e8cf7de16054c48611e14c099049c936464a8393582" name="docker-node-update.1.gz" size="314"/>
+      <File SHA256:hash="2bdd2886f51a171e7ca68f8abccb99ccf19c0873c301f3e99f49f86a11151fc1" name="docker-node.1.gz" size="214"/>
+      <File SHA256:hash="dee9ffdb816ffc87d0e05b4a6b35a1657ad99b9b3f78191534fd2cb6f48b1aab" name="docker-pause.1.gz" size="602"/>
+      <File SHA256:hash="e5bc8cba1fe35d791a26035b54804658b1b780b608b102a7be63261444a59a8d" name="docker-plugin-create.1.gz" size="305"/>
+      <File SHA256:hash="860c12fee486061cbacf3eff48c2fa66965202e8338093312baf98e6538d7cd9" name="docker-plugin-disable.1.gz" size="243"/>
+      <File SHA256:hash="da90f94f7c3e7befb89039dc4f07645afac2d87bc557aea677c2c894e547fc5d" name="docker-plugin-enable.1.gz" size="235"/>
+      <File SHA256:hash="42f07234b17a9d608841566870c1499109250e89e61eef31e185f6445b3f5713" name="docker-plugin-inspect.1.gz" size="278"/>
+      <File SHA256:hash="fcb0ed33d066812213e112991ac7b4d5b516dc2a9b93f8a340c68033c039bb1a" name="docker-plugin-install.1.gz" size="345"/>
+      <File SHA256:hash="7575a4b92592f51159163a49b2a0fc695e95eb2c27c503fc6057e2d36ea65521" name="docker-plugin-ls.1.gz" size="223"/>
+      <File SHA256:hash="e991a13e7580d671b67811c689f4bf217c82bb88a726083d01b6dcea2b209758" name="docker-plugin-push.1.gz" size="261"/>
+      <File SHA256:hash="9a9033970b57ce4d2c8bf2c5c6bff32d2d2d44faedd782fd67e7b49add900b75" name="docker-plugin-rm.1.gz" size="256"/>
+      <File SHA256:hash="a5d157fb2a638f6d03004954af4e9db8ce1feb0d7cdd6c7c9d66b4836c72a3b9" name="docker-plugin-set.1.gz" size="211"/>
+      <File SHA256:hash="1cd546131466c126c17cd00646a69140bdfee98567647a7cdf8fd4c834088f3e" name="docker-plugin-upgrade.1.gz" size="354"/>
+      <File SHA256:hash="3936ae7020d7ac31b4897905ebb5b58113cc67760f3b1b14a2fe76011100bf60" name="docker-plugin.1.gz" size="229"/>
+      <File SHA256:hash="3bbd946ed566452e40ccff22b5fe19f138a6b6134ea2a806b6191112507164b2" name="docker-port.1.gz" size="694"/>
+      <File SHA256:hash="7677b2d43ac319009085c2dc9f4c6c9e82ae8370ab1a4f558772a3c2ec920acc" name="docker-ps.1.gz" size="2043"/>
+      <File SHA256:hash="d96bc18e82acabebe7229dd92771a1fe9458152b6b8596aca07bc83c147926a7" name="docker-pull.1.gz" size="3373"/>
+      <File SHA256:hash="8b1ad2b3a370d6bc00afad2a7845d7be431a9cac8d0fa5afdc86dda0cd4a55d6" name="docker-push.1.gz" size="1057"/>
+      <File SHA256:hash="54438602a334d5fc05a5bf653b3194d86cb6853178da195a331ff3ae3c85d6b6" name="docker-rename.1.gz" size="244"/>
+      <File SHA256:hash="6b8791420e73ae1698ae56c0a919b20e5b359053708e5e1d8f09ed830b77b66d" name="docker-restart.1.gz" size="477"/>
+      <File SHA256:hash="fe2354cd83ad64b7aa6f95f322501ef902107f33bde2ee422aa519ead217c67b" name="docker-rm.1.gz" size="1055"/>
+      <File SHA256:hash="8bd474067cb5d34142ae8b2edb03472e36cb5dd53af49403ac92a25501c811e1" name="docker-rmi.1.gz" size="661"/>
+      <File SHA256:hash="35f0b46dbb7fbf24f6af81747b2400468bdbd4ea8be131099c068acaff292b1d" name="docker-run.1.gz" size="14848"/>
+      <File SHA256:hash="10cd258c7f7f460d8cd5062344ad14b3a7b3412c6b1c6f40ecc72267c9832369" name="docker-save.1.gz" size="707"/>
+      <File SHA256:hash="3bb9e4d5c4e941c57fb260b86ab5038fc9c8a4e0a2d4218cda176146d8017002" name="docker-search.1.gz" size="1105"/>
+      <File SHA256:hash="f387971b01cee9369628da81ad9dda771c97f4bdec2ab93805bb884417a78f63" name="docker-secret-create.1.gz" size="249"/>
+      <File SHA256:hash="c8f648a24246516ff6498b7e107dd8c88ffc693ca4f144f17230a57cec3ed538" name="docker-secret-inspect.1.gz" size="276"/>
+      <File SHA256:hash="a8d418284b30899a547cfc6e4cdc691f879d4234c49147bb08c601599afebafa" name="docker-secret-ls.1.gz" size="223"/>
+      <File SHA256:hash="28c68dc2b658b411865b85343e61628d81ab0115412cb66ab429cdf72e0e5f1b" name="docker-secret-rm.1.gz" size="196"/>
+      <File SHA256:hash="8e16df0dd20d89162a08c8a16bb320e8a27bd59682eae0c19115b95cf019cfa4" name="docker-secret.1.gz" size="200"/>
+      <File SHA256:hash="9d9b15e61af849a85119da9be3345d2062fd1e9d207a78175f81a1dbc0a392db" name="docker-service-create.1.gz" size="1343"/>
+      <File SHA256:hash="6f56952f1129ed8529bd0708a2cdcdbe20f1f49859aae610915357696f3a2330" name="docker-service-inspect.1.gz" size="322"/>
+      <File SHA256:hash="6d6d4073067e3ee69b94b582238ce3d1d35a39f58367d3ba88de76dfbb25b579" name="docker-service-logs.1.gz" size="369"/>
+      <File SHA256:hash="8157f0661417f8bb6b609f3dce7816f8fb254f0a21bda9f09e429d7fd36eda96" name="docker-service-ls.1.gz" size="269"/>
+      <File SHA256:hash="1df1a35e2575b1b7af8f2586b27d25ed1ff042cbe031921a759fd85a935ef9a1" name="docker-service-ps.1.gz" size="332"/>
+      <File SHA256:hash="782136d46f4c9049eab2b3c18e8facdeaba9fdc582390aea89856fdc418968f5" name="docker-service-rm.1.gz" size="199"/>
+      <File SHA256:hash="570b0857f39a49429e1dbc13dde122eb44e11ace341121c436ca74116cbcdbd1" name="docker-service-scale.1.gz" size="219"/>
+      <File SHA256:hash="d511c24058deb063f1ad97c8e061e952ed14abbfacfb905f0b60b6580c6f9162" name="docker-service-update.1.gz" size="1421"/>
+      <File SHA256:hash="349a702516ebf0bd312202a2951823530bf92507343508e0a7290593abd5300f" name="docker-service.1.gz" size="217"/>
+      <File SHA256:hash="43e728b19db92f473dd292ba2211e8b811d8a4d8d273a4c327b41ee83aefc1a4" name="docker-stack-deploy.1.gz" size="337"/>
+      <File SHA256:hash="f9b23231c82fff74ae84e17a5a1b937ef43f78c9a1165a174a27d03bd877b523" name="docker-stack-ls.1.gz" size="175"/>
+      <File SHA256:hash="99f6cfc61ce36b17315614581e5b4d4fdc9d672f952554377af8b73be1b13715" name="docker-stack-ps.1.gz" size="303"/>
+      <File SHA256:hash="b0a29158ac3c354d6cbb73f9bc7e6b001d158ef429ae168eec94929df04bb063" name="docker-stack-rm.1.gz" size="183"/>
+      <File SHA256:hash="6aad1be0fb0317dd1bd194245d65c954e51bc99cfb21ef7eb5bc3daa758f4014" name="docker-stack-services.1.gz" size="284"/>
+      <File SHA256:hash="c15af6a439062394464a58a6ca27ed4e7aaf8723cb91b8f0bcdc957640bccc54" name="docker-stack.1.gz" size="202"/>
+      <File SHA256:hash="eddb7d057898643d1612743892c26e7a30485abd9fafa5acce625b897ddb9223" name="docker-start.1.gz" size="655"/>
+      <File SHA256:hash="7de33a74f6e9d9b46c1ef3d4e0edea68e3937c38f50971bee5f91b722a6b0add" name="docker-stats.1.gz" size="932"/>
+      <File SHA256:hash="7083c8a6dc2ec51a1d1ae2e3e263b9d67f6c047ddb909dbbbebb341826967aa2" name="docker-stop.1.gz" size="526"/>
+      <File SHA256:hash="180309e76fd2021fbe75916537dc4565e155e327ab0203be2ab0cfe981014b35" name="docker-swarm-init.1.gz" size="607"/>
+      <File SHA256:hash="436fe28d417cb0fd318d4b16ee9821506fdc4b6617120ab2197127b00715b8b2" name="docker-swarm-join-token.1.gz" size="268"/>
+      <File SHA256:hash="37162400bee2af3e194d78ee2312e798f027953747472df906ae8e785efdaa63" name="docker-swarm-join.1.gz" size="319"/>
+      <File SHA256:hash="29901ae23ab929523f752c949d6f2ef6d7060bd53c5d17fd800f5eb4912a4493" name="docker-swarm-leave.1.gz" size="243"/>
+      <File SHA256:hash="b321e6df7e0e6d9e2dcf57db4455e40648e6b15225df8eac353003bec09254f9" name="docker-swarm-unlock-key.1.gz" size="255"/>
+      <File SHA256:hash="50bb7dd5260e1785e60c259cd558d2bdc1e39d1ff2040c0f2f1de08e0c053076" name="docker-swarm-unlock.1.gz" size="176"/>
+      <File SHA256:hash="96c5c2a5bbdbb21c7f6c465bae807b11649a3ddd7d3f4d820fe8299df3eb869b" name="docker-swarm-update.1.gz" size="481"/>
+      <File SHA256:hash="c69112446a03b8b2ec2e1cf817b407b3437a60f814f7287718e15f9a11d6ae35" name="docker-swarm.1.gz" size="218"/>
+      <File SHA256:hash="b6d2bbfac8797ae9797d8b0e0ea8cb812f1725489eb21bef7d60d1f6fbd083d2" name="docker-system-df.1.gz" size="246"/>
+      <File SHA256:hash="1ec68b3cb45f01f553967210497ed732441e46481330ceccaafe9df74f5586ae" name="docker-system-events.1.gz" size="338"/>
+      <File SHA256:hash="42362eebcae898478d1eaae20e8eac634462fb1592cec46eb5d22b21de01a5d4" name="docker-system-info.1.gz" size="250"/>
+      <File SHA256:hash="06a90e68c399e9c11aaef1c1b492b6f008e67b4d012f6d8dc0e35e27a91e2257" name="docker-system-prune.1.gz" size="277"/>
+      <File SHA256:hash="5959e28d6276726be6199a80708fd024695db00d64258ddbeb8bdced6b8cbc44" name="docker-system.1.gz" size="200"/>
+      <File SHA256:hash="9af85cb32d1cd9021c2a5e06f52485349cdf3dc4f57728b66321c0303541da78" name="docker-tag.1.gz" size="1270"/>
+      <File SHA256:hash="a0c9a79bdb5827f32e147a068b7f3f1450b87b369815dab3b398eb29a54345e0" name="docker-top.1.gz" size="643"/>
+      <File SHA256:hash="433b304445c88d681e3d39c5059d800ac2608d6cdd6dc3e552aa9459b099a380" name="docker-unpause.1.gz" size="468"/>
+      <File SHA256:hash="dd9b1e70abbc188fa0aca9e076db9f72e6bd92bbe24e1e64956b1e1d0b9c9a60" name="docker-update.1.gz" size="2236"/>
+      <File SHA256:hash="8db747ddce9040644cc432a15676e84c40228843265dc8de5bfb3e13914313aa" name="docker-version.1.gz" size="781"/>
+      <File SHA256:hash="b81233e8161240380cc0a362c29310ad1196a65acb574d7a350b0838b730ccf5" name="docker-volume-create.1.gz" size="881"/>
+      <File SHA256:hash="90839501619c6f7107d4652300bf9cf75976e65f1a5dc48e69b6f7250fdf53c1" name="docker-volume-inspect.1.gz" size="444"/>
+      <File SHA256:hash="14b0cb545f5f55f5170faf71630a93a1074efd908d524a502bfbf5ef5c8ecec9" name="docker-volume-ls.1.gz" size="543"/>
+      <File SHA256:hash="5ee7a8ad64b26c36585547c4bc2a6af2291a9e3dcf21cb056dee6126fb05d126" name="docker-volume-prune.1.gz" size="247"/>
+      <File SHA256:hash="2bc92596b76874e90a8f3a819473127aef9b62c9bcf50456e59fb5b6ec739380" name="docker-volume-rm.1.gz" size="314"/>
+      <File SHA256:hash="ccbc1d9eb960457ffc06c7355170e2883526d6592a270ac7f0d2f519b72a6794" name="docker-volume.1.gz" size="523"/>
+      <File SHA256:hash="c33e1a07654929b72e48121dfe12e49bd3fc6cf5313516618a39a81cca078d5b" name="docker-wait.1.gz" size="498"/>
+      <File SHA256:hash="1cd77b277897c933fcb9e2d47b8feb439ec14e69217f125c355e924d925ebf8c" name="docker.1.gz" size="2325"/>
     </Directory>
     <Directory name="man5" root="/usr/share/man">
-      <File SHA256:hash="ddc8c164675260c331b352c9710fb15256c1cc074fb87781b0585e03d404650a" name="Dockerfile.5.gz" size="6288"/>
-      <File SHA256:hash="196c1cc024f19afc6e272a16427e8933b92530aec73d331b52508250cd77f385" name="docker-config-json.5.gz" size="1338"/>
+      <File SHA256:hash="99ae697853c125d2339820be1beb7ffa7e8602c60e1a9ca65ba15494d37622fe" name="Dockerfile.5.gz" size="6339"/>
+      <File SHA256:hash="4aacf293a103eae3a76b9f046fb3da065e866a5b720e0bbd1822d58d30e6da3c" name="docker-config-json.5.gz" size="1336"/>
     </Directory>
     <Directory name="man8" root="/usr/share/man">
-      <File SHA256:hash="5459c27eba6b728b761ab4b010ac33d97fd90870b717aaf86481175254e9ceab" name="docker-novolume-plugin.8.gz" size="852"/>
-      <File SHA256:hash="43d912aa28ddb9da73c64cdd091dc9f575a1882934bdd5e14a5dfd50b6529e30" name="dockerd.8.gz" size="8759"/>
+      <File SHA256:hash="56ed849481ef182ab7bbc5f0ea425f2aaa4e42f37460a884c1f957afd46753cb" name="dockerd.8.gz" size="9106"/>
+    </Directory>
+    <Directory name="nano" root="/usr/share">
+      <File SHA256:hash="3b1bd816a4a029ac048be7703a72a69ff44c531ead443d573e04f29d812594f1" name="Dockerfile.nanorc" size="869"/>
+    </Directory>
+    <Directory name="doc" root="/usr/share/vim/vimfiles">
+      <File SHA256:hash="d5b09b41a5afa796f6308b57091f781cc311c4c3e88484f31572810f0bc03330" name="dockerfile.txt" size="437"/>
+    </Directory>
+    <Directory name="ftdetect" root="/usr/share/vim/vimfiles">
+      <File SHA256:hash="a2f400471406858aa4b9fdc8f40ed7a3699e4bc389eea09e3416a360d5a180da" name="dockerfile.vim" size="73"/>
+    </Directory>
+    <Directory name="syntax" root="/usr/share/vim/vimfiles">
+      <File SHA256:hash="ae976d4930fc3c81066447f14ccb9f545eab2d7d3d9b8cf9f595ef02fe7e4860" name="dockerfile.vim" size="1277"/>
+    </Directory>
+    <Directory name="vendor-completions" root="/usr/share/zsh">
+      <File SHA256:hash="ee574877cf0c94e55c9b1fb55301c4b20cf62c46d17fa75a09c7dd8f160c3e77" name="_docker" size="119286"/>
     </Directory>
   </Payload>
 </SoftwareIdentity>

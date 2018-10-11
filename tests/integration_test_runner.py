@@ -94,9 +94,9 @@ if __name__ == '__main__':
 
     # Define environment names and images
     docker_image_names = [
-        {"environment": "dpkg", "image": "davidedegiorgio/swidgenerator-dockerimages:debian"},
-        {"environment": "rpm", "image": "davidedegiorgio/swidgenerator-dockerimages:redhat"},
-        {"environment": "pacman", "image": "davidedegiorgio/swidgenerator-dockerimages:archlinux"}
+        {"environment": "dpkg", "image": "strongswan/swidgenerator-dockerimages:debian"},
+        {"environment": "rpm", "image": "strongswan/swidgenerator-dockerimages:fedora"},
+        {"environment": "pacman", "image": "strongswan/swidgenerator-dockerimages:archlinux"}
     ]
 
     # Relative paths to testing files in 'working_directory_docker'.
