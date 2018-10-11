@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
+import os.path
 import ntpath
 
 from .utils import create_sha256_hash, create_sha384_hash, create_sha512_hash
@@ -84,45 +85,37 @@ def create_hierarchic_content_tag(root_element, package_info, hash_algorithms):
     root_element.set('n8060:envVarPrefix', '$')
     root_element.set('n8060:envVarSuffix', '')
 
-    for file in package_info.files:
-        splitted_location = file.location.split('/')
-        splitted_location.append(file.name)
+    def _file_hierarchy(filelist, depth=0, parent_tag=None):
+        def _keyfunc(obj):
+            return obj.full_pathname_splitted[depth]
 
-        file.fullpathname_splitted = splitted_location[0:len(splitted_location)]
-
-    def _file_hierarchy(filelist, payload_tag=None, last_tag=None):
         filelist.sort(key=_keyfunc)
 
         for head, tail_of_file_iterator in groupby(filelist, _keyfunc):
-            if payload_tag is not None:
-                current_tag = ET.SubElement(payload_tag, 'Directory')
-                current_tag.set('root', head)
-                last_tag = payload_tag
-            else:
-                current_tag = ET.SubElement(last_tag, 'Directory')
-                current_tag.set('name', head)
             sub_files = list()
             for file_info in tail_of_file_iterator:
-
-                if len(file_info.fullpathname_splitted) == 2:
-                    file_tag = ET.SubElement(current_tag, 'File')
-                    file_tag.set('name', file_info.fullpathname_splitted[1])
+                if depth + 1 >= len(file_info.full_pathname_splitted):
+                    file_tag = ET.SubElement(parent_tag, 'File')
+                    file_tag.set('name', file_info.name)
                     if file_info.mutable:
                         file_tag.set('n8060:mutable', "true")
                     file_tag.set('size', file_info.size)
+                    if depth == 0:
+                        if os.path.isabs(file_info.full_pathname):
+                            file_tag.set('root', '/')
 
                     _add_hashes(file_info, file_tag, hash_algorithms)
-
-                    del file_info
                 else:
-                    del file_info.fullpathname_splitted[0]
                     sub_files.append(file_info)
+
             if len(sub_files) > 0:
-                _file_hierarchy(sub_files, last_tag=current_tag)
+                sub_tag = ET.SubElement(parent_tag, 'Directory')
+                sub_tag.set('name', head)
+                if depth == 0:
+                    if os.path.isabs(file_info.full_pathname):
+                        sub_tag.set('root', '/')
+                _file_hierarchy(sub_files, depth=depth + 1, parent_tag=sub_tag)
 
-    def _keyfunc(obj):
-        return obj.fullpathname_splitted[0]
-
-    _file_hierarchy(package_info.files, payload_tag=root_element)
+    _file_hierarchy(list(package_info.files), parent_tag=root_element)
 
     return root_element

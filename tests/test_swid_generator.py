@@ -250,15 +250,15 @@ class SwidGeneratorTests(unittest.TestCase):
         """
         Expected hierarchic-payload-tag:
         <Payload>
-            <Directory root="tests">
+            <Directory name="tests">
               <Directory name="dumps">
                 <Directory name="package_files">
                   <Directory name="cowsay">
                     <File SHA256:hash="320c67b4.." name="cowsay" size="4421" />
-                    <File SHA256:hash="62cca7d1.." n8060:mutable="true" name="pony-smaller.cow" size="305" />
                     <Directory name="etc">
                       <File SHA256:hash="92d4ee.." n8060:mutable="true" name="copyright.txt" size="12854" />
                     </Directory>
+                    <File SHA256:hash="62cca7d1.." n8060:mutable="true" name="pony-smaller.cow" size="305" />
                   </Directory>
                 </Directory>
               </Directory>
@@ -267,11 +267,11 @@ class SwidGeneratorTests(unittest.TestCase):
         """
         payload_tag = _create_hierarchic_payload_tag(self.packages[0], 'sha256')
 
-        assert payload_tag[0].attrib['root'] == 'tests'
+        assert payload_tag[0].attrib['name'] == 'tests'
         assert payload_tag[0][0].attrib['name'] == 'dumps'
         assert payload_tag[0][0][0].attrib['name'] == 'package_files'
         assert payload_tag[0][0][0][0].attrib['name'] == 'cowsay'
         assert payload_tag[0][0][0][0][0].attrib['name'] == 'cowsay'
-        assert payload_tag[0][0][0][0][1].attrib['name'] == 'pony-smaller.cow'
-        assert payload_tag[0][0][0][0][2].attrib['name'] == 'etc'
-        assert payload_tag[0][0][0][0][2][0].attrib['name'] == 'copyright.txt'
+        assert payload_tag[0][0][0][0][1].attrib['name'] == 'etc'
+        assert payload_tag[0][0][0][0][2].attrib['name'] == 'pony-smaller.cow'
+        assert payload_tag[0][0][0][0][1][0].attrib['name'] == 'copyright.txt'
