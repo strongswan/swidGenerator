@@ -105,7 +105,7 @@ def main():
             swid_args['full'] = True
 
             if options.name is None:
-                swid_args['name'] = "_".join((unicode_patch(options.evidence_path), env.get_os_string()))
+                swid_args['name'] = "_".join((unicode_patch(options.evidence_path), swid_args['environment'].get_os_string()))
 
             if options.version is None:
                 swid_args['version'] = "1.0.0"
