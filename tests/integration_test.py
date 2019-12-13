@@ -76,7 +76,9 @@ class IntegrationTests(unittest.TestCase):
 
         certificate = "tests/ca/swidgen.pfx"
         template_path_evidence = "tests/dumps/command_evidence/tmp_folder-Template.xml"
+        template_path_evidence_more = "tests/dumps/command_evidence/tmp_folder_more-Template.xml"
         evidence_path = "/tmp/evidence-test"
+        evidence_more_path = "/tmp/evidence-test-more"
         package_name = "docker"
 
         if isinstance(environment, DpkgEnvironment):
@@ -116,7 +118,9 @@ class IntegrationTests(unittest.TestCase):
             "package_name": package_name,
             "certificate": certificate,
             "template_evidence": self.get_template_from_file(template_path_evidence),
-            "evidence_test_folder": evidence_path
+            "evidence_test_folder": evidence_path,
+            "template_evidence_more": self.get_template_from_file(template_path_evidence_more),
+            "evidence_more_test_folder": evidence_more_path
         }
 
     @staticmethod
@@ -187,18 +191,30 @@ class IntegrationTests(unittest.TestCase):
         self.check_equality(expected_swid_tag, ET.fromstring(output_swid_tag))
 
         # Prepare Folders and Files for evidence
-        self.create_folder("/tmp/evidence-test")
-        self.create_folder("/tmp/evidence-test/sub1")
-        self.create_folder("/tmp/evidence-test/sub2")
-        self.create_folder("/tmp/evidence-test/sub3")
+        self.create_folder("{}".format(test_context['evidence_test_folder']))
+        self.create_folder("{}/sub1".format(test_context['evidence_test_folder']))
+        self.create_folder("{}/sub2".format(test_context['evidence_test_folder']))
+        self.create_folder("{}/sub3".format(test_context['evidence_test_folder']))
 
-        self.touch("/tmp/evidence-test/sub1/testfile1")
-        self.touch("/tmp/evidence-test/sub1/testfile2")
-        self.touch("/tmp/evidence-test/sub2/testfile2")
-        self.touch("/tmp/evidence-test/sub3/testfile3")
+        self.touch("{}/sub1/testfile1".format(test_context['evidence_test_folder']))
+        self.touch("{}/sub1/testfile2".format(test_context['evidence_test_folder']))
+        self.touch("{}/sub2/testfile2".format(test_context['evidence_test_folder']))
+        self.touch("{}/sub3/testfile3".format(test_context['evidence_test_folder']))
 
-        command_evidence = "swid_generator swid --full --pretty --evidence {EVIDENCE_PATH} --name evidence --version-string 1.0"
-        command_evidence = command_evidence.format(EVIDENCE_PATH=test_context['evidence_test_folder'])
+        command_evidence = "swid_generator swid --full --pretty --evidence {PATH} --name evidence --version-string 1.0"
+        command_evidence = command_evidence.format(PATH=test_context['evidence_test_folder'])
         output_swid_tag = self.get_tree_output_from_cmd(command_evidence.split(' '))
         expected_swid_tag = test_context['template_evidence']
+        self.check_equality(expected_swid_tag, output_swid_tag)
+
+        self.create_folder("{}".format(test_context['evidence_more_test_folder']))
+        self.create_folder("{}/sub-more".format(test_context['evidence_more_test_folder']))
+
+        self.touch("{}/testfile-more1".format(test_context['evidence_more_test_folder']))
+        self.touch("{}/sub-more/testfile-more2".format(test_context['evidence_more_test_folder']))
+
+        command_evidence = "swid_generator swid --full --pretty --evidence {PATH1} --evidence {PATH2} --name evidence --version-string 1.0"
+        command_evidence = command_evidence.format(PATH1=test_context['evidence_test_folder'], PATH2=test_context['evidence_more_test_folder'])
+        output_swid_tag = self.get_tree_output_from_cmd(command_evidence.split(' '))
+        expected_swid_tag = test_context['template_evidence_more']
         self.check_equality(expected_swid_tag, output_swid_tag)

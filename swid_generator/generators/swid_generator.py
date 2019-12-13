@@ -102,7 +102,8 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
         if from_package_file:
             ctx['package_info'].files.extend(ctx['environment'].get_files_from_packagefile(ctx['file_path']))
         elif from_folder:
-            ctx['package_info'].files.extend(ctx['environment'].get_files_from_folder(ctx['evidence_path'], ctx['new_root_path']))
+            for folder in ctx['evidence_paths']:
+                ctx['package_info'].files.extend(ctx['environment'].get_files_from_folder(folder, ctx['new_root_path']))
         else:
             ctx['package_info'].files.extend(ctx['environment'].get_files_for_package(ctx['package_info']))
 
@@ -123,7 +124,7 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
 
 
 def create_swid_tags(environment, entity_name, regid, os_string=None, architecture=None, hash_algorithms='sha256',
-                     full=False, matcher=all_matcher, hierarchic=False, file_path=None, evidence_path=None,
+                     full=False, matcher=all_matcher, hierarchic=False, file_path=None, evidence_paths=None,
                      name=None, version=None, new_root_path=None, pkcs12_file=None, xml_lang=None, schema_location=False,
                      meta_for='os', id_prefix=None, dpkg_include_package_arch=False):
     """
@@ -135,7 +136,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
     :param version: Evidence SWID tag version.
     :param name: Evidence SWID tag name.
     :param meta_for: Whether the Meta element should hold information about the distribution or about the package.
-    :param evidence_path: The folder from which the evidence method starts to create SWID tag.
+    :param evidence_paths: List of folders from which the evidence method starts to create SWID tag.
     :param file_path: File-Path to the Package-File.
     :param hierarchic: Optional parameter for the creation of a hierarchical SWID tag.
     :param environment: The package management environment.
@@ -165,7 +166,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
         'hash_algorithms': hash_algorithms,
         'hierarchic': hierarchic,
         'file_path': file_path,
-        'evidence_path': evidence_path,
+        'evidence_paths': evidence_paths,
         'new_root_path': new_root_path,
         'xml_lang': xml_lang,
         'schema_location': schema_location,
@@ -194,7 +195,7 @@ def create_swid_tags(environment, entity_name, regid, os_string=None, architectu
         swidtag = ET.tostring(software_identity, encoding='utf-8').replace(b'\n', b'')
         yield XML_DECLARATION.encode('utf-8') + swidtag
 
-    elif evidence_path is not None:
+    elif evidence_paths is not None and len(evidence_paths) > 0:
         pi = PackageInfo()
         pi.package = name
         pi.version = version

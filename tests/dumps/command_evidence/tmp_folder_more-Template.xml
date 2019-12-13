@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoftwareIdentity name="test" tagId="debian_stretch~sid-x86_64-test-1.0" version="1.0" versionScheme="alphanumeric" xmlns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd" xmlns:SHA256="http://www.w3.org/2001/04/xmlenc#sha256" xmlns:n8060="http://csrc.nist.gov/schema/swid/2015-extensions/swid-2015-extensions-1.0.xsd">
+  <Entity name="strongSwan Project" regid="strongswan.org" role="tagCreator"/>
+  <Meta product="debian stretch/sid x86_64"/>
+  <Evidence>
+    <Directory name="sub1" root="/tmp/evidence-test">
+      <File SHA256:hash="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" name="testfile2" size="0"/>
+      <File SHA256:hash="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" name="testfile1" size="0"/>
+    </Directory>
+    <Directory name="sub2" root="/tmp/evidence-test">
+      <File SHA256:hash="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" name="testfile2" size="0"/>
+    </Directory>
+    <Directory name="sub3" root="/tmp/evidence-test">
+      <File SHA256:hash="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" name="testfile3" size="0"/>
+    </Directory>
+    <Directory name="evidence-test-more" root="/tmp">
+      <File SHA256:hash="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" name="testfile-more1" size="0"/>
+    </Directory>
+    <Directory name="sub-more" root="/tmp/evidence-test-more">
+      <File SHA256:hash="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" name="testfile-more2" size="0"/>
+    </Directory>
+  </Evidence>
+</SoftwareIdentity>

@@ -105,7 +105,16 @@ class SwidGeneratorParserTests(unittest.TestCase):
 
     def test_evidence_valid_arguments(self):
         result = self.parser.parse('swid --evidence /tmp/ --name test --version-string 1.0'.split())
-        assert result.evidence_path == "/tmp/"
+        assert len(result.evidence_paths) == 1
+        assert result.evidence_paths[0] == "/tmp/"
+        assert result.name == "test"
+        assert result.version == "1.0"
+
+    def test_evidence_multi_valid_arguments(self):
+        result = self.parser.parse('swid --evidence /tmp/ --evidence /bin --name test --version-string 1.0'.split())
+        assert len(result.evidence_paths) == 2
+        assert result.evidence_paths[0] == "/tmp/"
+        assert result.evidence_paths[1] == "/bin"
         assert result.name == "test"
         assert result.version == "1.0"
 

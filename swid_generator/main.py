@@ -81,7 +81,7 @@ def main():
             'hash_algorithms': options.hash_algorithms,
             'hierarchic': options.hierarchic,
             'file_path': options.file_path,
-            'evidence_path': options.evidence_path,
+            'evidence_paths': options.evidence_paths,
             'new_root_path': options.new_root,
             'name': options.name,
             'version': options.version,
@@ -96,16 +96,16 @@ def main():
             'pkcs12_password': options.password
         }
 
-        if options.evidence_path is not None:
+        if options.evidence_paths is not None and len(options.evidence_paths) > 0:
             """
             If the parameter 'name' and 'version' are missing, then the following default-arguments are set:
-            name = {evidence_path}_{os_string}
+            name = {first_evidence_path}_{os_string}
             version = 1.0.0
             """
             swid_args['full'] = True
 
             if options.name is None:
-                swid_args['name'] = "_".join((unicode_patch(options.evidence_path), swid_args['environment'].get_os_string()))
+                swid_args['name'] = "_".join((unicode_patch(options.evidence_paths[0]), swid_args['environment'].get_os_string()))
 
             if options.version is None:
                 swid_args['version'] = "1.0.0"

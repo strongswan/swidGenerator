@@ -121,12 +121,12 @@ class MainArgumentParser(object):
                                     help='Create SWID-Tag based on information of a Package-File. '
                                          'Rpm-Environment: *.rpm File, Dpkg-Environment: *.deb File, '
                                          'Pacman-Environment: *.pgk.tar.xz File')
-        targeted_group.add_argument('--evidence', dest='evidence_path', metavar='PATH',
-                                    help='Create a SWID Tag from a directory on the filesystem. '
+        targeted_group.add_argument('--evidence', dest='evidence_paths', action='append', metavar='PATH',
+                                    help='Create a SWID Tag from one or more directories on the filesystem. '
                                          'This changes the payload element to an evidence element.')
         targeted_group.add_argument('--name', dest='name', default=None, type=entity_name_string,
                                     help='Specify a name for a directory based SWID-Tag. '
-                                         'Default is "{evidence-path}_{os-string}"')
+                                         'Default is "{first-evidence-path}_{os-string}"')
         targeted_group.add_argument('--version-string', dest='version', type=entity_name_string, default=None,
                                     help='Specify the version for a directory based SWID-Tag. '
                                          'Default is "1.0.0"')
