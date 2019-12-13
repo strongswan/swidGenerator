@@ -104,6 +104,7 @@ def create_software_identity_element(ctx, from_package_file=False, from_folder=F
         elif from_folder:
             for folder in ctx['evidence_paths']:
                 ctx['package_info'].files.extend(ctx['environment'].get_files_from_folder(folder, ctx['new_root_path']))
+            ctx['package_info'].files.sort(key=lambda file: file.actual_full_pathname)
         else:
             ctx['package_info'].files.extend(ctx['environment'].get_files_for_package(ctx['package_info']))
 
