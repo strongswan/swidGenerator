@@ -81,19 +81,26 @@ class CommonEnvironment(object):
         :param evidence_path: Path on the filesystem
         :return: Lexicographical sorted List of FileInfo()-Objects
         """
-        result_files = []
-        for dirpath, _, files in os.walk(evidence_path):
-            for file in files:
-                actual_path = '/'.join([unicode_patch(dirpath), unicode_patch(file)])
-                if new_root_path is not None:
-                    path_for_tag = actual_path.replace(unicode_patch(evidence_path), unicode_patch(new_root_path), 1)
-                    path_for_tag = path_for_tag.replace('//', '/')
-                    file_info = FileInfo(path_for_tag, actual_path=False)
-                    file_info.set_actual_path(actual_path)
-                else:
-                    file_info = FileInfo(actual_path)
+        def get_fileinfo(path, base):
+            if new_root_path is None:
+                return FileInfo(path)
+            else:
+                path_for_tag = path.replace(unicode_patch(base), unicode_patch(new_root_path), 1)
+                path_for_tag = path_for_tag.replace('//', '/')
+                file_info = FileInfo(path_for_tag, actual_path=False)
+                file_info.set_actual_path(path)
+                return file_info
 
-                result_files.append(file_info)
+        result_files = []
+
+        if os.path.isdir(evidence_path):
+            for dirpath, _, files in os.walk(evidence_path):
+                for file in files:
+                    file_path = '/'.join([unicode_patch(dirpath), unicode_patch(file)])
+                    result_files.append(get_fileinfo(file_path, evidence_path))
+        else:
+            file_path = os.path.realpath(evidence_path)
+            result_files.append(get_fileinfo(unicode_patch(file_path), os.path.dirname(file_path)))
         return result_files
 
     @classmethod
