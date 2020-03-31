@@ -209,9 +209,9 @@ Manual Installation
 
 Get code::
 
-    $ wget https://github.com/strongswan/swidGenerator/archive/v1.0.3.zip
-    $ unzip v1.0.3.zip
-    $ cd swidGenerator-1.0.3
+    $ wget https://github.com/strongswan/swidGenerator/archive/v1.0.4.zip
+    $ unzip v1.0.4.zip
+    $ cd swidGenerator-1.0.4
 
 Install::
 
@@ -322,7 +322,7 @@ You can create an unsigned .deb package using the ``package.sh`` script::
     $ ./package.sh
     ...
     $ ls dist/
-    swid-generator_1.0.3-1_all.deb
+    swid-generator_1.0.4-1_all.deb
 
 Note that this only works on a debian based system. Take a look at the comments
 in the script for more information.

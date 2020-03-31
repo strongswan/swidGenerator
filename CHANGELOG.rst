@@ -1,7 +1,13 @@
 Changelog
 =========
 
-v1.0.2 (2017-09-09)
+v1.0.4 (2020-03-31)
+
+- [add] --evidence: Now multiple paths to directories or single files supported
+- [add] --schema-location: Add xsi:schamaLocation attribute with schema URIs
+- [add] --lang: Set value of xml:lang attribute
+
+v1.0.3 (2017-09-09)
 
 - [add] The parameters --os and --arch generate a SWID tag with this product info
 
