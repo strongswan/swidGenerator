@@ -4,6 +4,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import unittest
 import platform
+import distro
 import os
 import shutil
 
@@ -19,16 +20,14 @@ from .fixtures.mock_data import os_walk_three_tuple
 class CommonEnvironmentTests(unittest.TestCase):
 
     def setUp(self):
-        self.platform_dist_patch = patch.object(platform, 'dist')
-        self.platform_system_patch = patch.object(platform, 'system')
-        self.platform_os_name_patch = patch.object(platform, 'os')
+        self.distro_id_patch = patch.object(distro, 'id')
+        self.distro_version_patch = patch.object(distro, 'version')
         self.os_walk_patch = patch.object(os, 'walk')
         self.os_path_getsize_patch = patch.object(os.path, 'getsize')
         self.package_installed_patch = patch.object(CommonEnvironment, 'check_package_installed')
 
-        self.platform_dis_mock = self.platform_dist_patch.start()
-        self.platform_system_mock = self.platform_system_patch.start()
-        self.platform_os_name_mock = self.platform_os_name_patch.start()
+        self.distro_id_mock = self.distro_id_patch.start()
+        self.distro_version_mock = self.distro_version_patch.start()
         self.os_walk_mock = self.os_walk_patch.start()
         self.os_path_getsize_mock = self.os_path_getsize_patch.start()
         self.os_path_getsize_mock.return_value = 1
@@ -37,9 +36,8 @@ class CommonEnvironmentTests(unittest.TestCase):
         self._collect_garbage()
 
     def tearDown(self):
-        self.platform_dist_patch.stop()
-        self.platform_system_patch.stop()
-        self.platform_os_name_patch.stop()
+        self.distro_id_patch.stop()
+        self.distro_version_patch.stop()
         self.os_walk_patch.stop()
         try:
             self.package_installed_patch.stop()
@@ -48,17 +46,14 @@ class CommonEnvironmentTests(unittest.TestCase):
         self._collect_garbage()
 
     @parameterized.expand([
-        [('Debian', '7.4', ''), 'Linux', 'Posix', 'Debian_7.4'],
-        [('Fedora', '19', 'Schrödinger\'s Cat'), 'Linux', 'Posix', 'Fedora_19'],
-        [('Arch', '', ''), 'Linux', 'Posix', 'Arch'],
-        [('', '', ''), 'Linux', 'Posix', 'Linux'],
-        [('', '', ''), "", 'Posix', 'Posix'],
-        [('', '', ''), "", "", 'unknown']
+        ['debian', '7.4', 'Debian_7.4'],
+        ['fedora', '19', 'Fedora_19'],
+        ['arch', '', 'Arch'],
+        ['', '', 'unknown']
     ])
-    def test_os_string(self, dist, system, os_name, expected_output):
-        self.platform_dis_mock.return_value = dist
-        self.platform_system_mock.return_value = system
-        type(self.platform_os_name_mock).name = PropertyMock(return_value=os_name)
+    def test_os_string(self, distro_id, distro_version, expected_output):
+        self.distro_id_mock.return_value = distro_id
+        self.distro_version_mock.return_value = distro_version
         os_string = CommonEnvironment.get_os_string()
         assert os_string == expected_output
 

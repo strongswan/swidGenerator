@@ -1,14 +1,9 @@
 language:  python
-matrix:
+jobs:
   include:
     - python: 2.7
       env:
       - TOXENV=py27
-      services:
-      - docker
-    - python: 3.4
-      env:
-      - TOXENV=py34
       services:
       - docker
     - python: 3.5
@@ -22,18 +17,21 @@ matrix:
       services:
       - docker
     - python: 3.7
-      sudo: required
-      dist: xenial
       env:
       - TOXENV=py37
       services:
       - docker
-    - python: pypy
+    - python: 3.8
+      env:
+      - TOXENV=py38
+      services:
+      - docker
+    - python: pypy3
       env:
       - TOXENV=pypy
       services:
       - docker
-    - python: 2.7
+    - python: 3.8
       env:
       - TOXENV=cov
   allow_failures:

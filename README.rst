@@ -170,13 +170,11 @@ The following package managers are supported:
 The following Python versions are fully supported:
 
 - Python 2.7
-- Python 3.3
-- Python 3.4
 - Python 3.5
 - Python 3.6
+- Python 3.7
+- Python 3.8
 - PyPy
-
-Important: Python 2.6 no longer supported.
 
 Requirements
 ------------

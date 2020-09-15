@@ -4,6 +4,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import os
 import stat
 import platform
+import distro
 from distutils.spawn import find_executable
 from swid_generator.package_info import FileInfo
 from swid_generator.exceptions import RequirementsNotInstalledError
@@ -32,9 +33,8 @@ class CommonEnvironment(object):
         """
         Return distribution string, e.g. 'Debian_7.4'.
         """
-        dist = '_'.join(filter(None, platform.dist()[:2])).capitalize()
-        system = platform.system().capitalize()
-        return dist or system or platform.os.name or 'unknown'
+        dist = [distro.id().capitalize(), distro.version()]
+        return '_'.join(filter(None, dist)) or 'unknown'
 
     @staticmethod
     def _is_file(path):
