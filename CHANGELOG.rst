@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v1.1.0 (2020-09-18)
+
+- [info] Python 3.4 no longer supported
+- [info] Python 3.8 now supported
+- [change] Python 3.8 dropped support of platform.dist(). Replaced by distro module
+
 v1.0.4 (2020-03-31)
 
 - [add] --evidence: Now multiple paths to directories or single files supported

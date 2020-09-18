@@ -207,9 +207,9 @@ Manual Installation
 
 Get code::
 
-    $ wget https://github.com/strongswan/swidGenerator/archive/v1.0.4.zip
-    $ unzip v1.0.4.zip
-    $ cd swidGenerator-1.0.4
+    $ wget https://github.com/strongswan/swidGenerator/archive/v1.1.0.zip
+    $ unzip v1.1.0.zip
+    $ cd swidGenerator-1.1.0
 
 Install::
 
@@ -265,7 +265,7 @@ default)::
 You can also combine multiple testenvs, just make sure that you have the
 corresponding Python versions installed::
 
-    $ tox -e py27,py34,cov
+    $ tox -e py27,py35,cov
 
 **Integration testing**
 
@@ -320,7 +320,7 @@ You can create an unsigned .deb package using the ``package.sh`` script::
     $ ./package.sh
     ...
     $ ls dist/
-    swid-generator_1.0.4-1_all.deb
+    swid-generator_1.1.0-1_all.deb
 
 Note that this only works on a debian based system. Take a look at the comments
 in the script for more information.
