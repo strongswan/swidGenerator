@@ -5,8 +5,8 @@ swidGenerator
     :target: https://pypi.python.org/pypi/swid_generator/
     :alt: Latest Version
 
-.. image:: https://travis-ci.org/strongswan/swidGenerator.svg?branch=master
-    :target: https://travis-ci.org/strongswan/swidGenerator
+.. image:: https://github.com/strongswan/swidGenerator/actions/workflows/ci.yml/badge.svg
+    :target: https://github.com/strongswan/swidGenerator/actions/workflows/ci.yml
 
 .. image:: https://coveralls.io/repos/github/strongswan/swidGenerator/badge.svg?branch=master
     :target: https://coveralls.io/r/strongswan/swidGenerator
@@ -166,10 +166,10 @@ The following package managers are supported:
 The following Python versions are fully supported:
 
 - Python 2.7
-- Python 3.5
 - Python 3.6
 - Python 3.7
 - Python 3.8
+- Python 3.9
 - PyPy
 
 Requirements
@@ -253,7 +253,7 @@ To test only a single Python version, use the ``-e`` parameter::
 
     $ tox -e py27
 
-To see the coverage, use the ``cov`` testenv (which uses Python 2.7 by
+To see the coverage, use the ``cov`` testenv (which uses Python 3 by
 default)::
 
     $ tox -e cov
@@ -261,7 +261,7 @@ default)::
 You can also combine multiple testenvs, just make sure that you have the
 corresponding Python versions installed::
 
-    $ tox -e py27,py35,cov
+    $ tox -e py27,py39,cov
 
 **Integration testing**
 
