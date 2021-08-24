@@ -11,10 +11,6 @@ swidGenerator
 .. image:: https://coveralls.io/repos/github/strongswan/swidGenerator/badge.svg?branch=master
     :target: https://coveralls.io/r/strongswan/swidGenerator
 
-.. image:: https://landscape.io/github/strongswan/swidGenerator/master/landscape.svg?style=flat
-	:target: https://landscape.io/github/strongswan/swidGenerator/master
-	:alt: Code Health
-
 A small application for Python 2 and 3 which generates `SWID tags
 <http://tagvault.org/swid-tags/>`_ from Linux package managers like dpkg, rpm or
 pacman.
@@ -287,7 +283,6 @@ We use different continuous integration / quality assurance services:
 
 - Travis CI (testing): https://travis-ci.org/strongswan/swidGenerator
 - Coveralls (test coverage): https://coveralls.io/r/strongswan/swidGenerator
-- Landscape (code quality): https://landscape.io/github/strongswan/swidGenerator/
 
 
 Coding Guidelines
