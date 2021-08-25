@@ -7,12 +7,14 @@ swidGenerator
 
 .. image:: https://github.com/strongswan/swidGenerator/actions/workflows/ci.yml/badge.svg
     :target: https://github.com/strongswan/swidGenerator/actions/workflows/ci.yml
+    :alt: Continuous Integration
 
 .. image:: https://coveralls.io/repos/github/strongswan/swidGenerator/badge.svg?branch=master
     :target: https://coveralls.io/r/strongswan/swidGenerator
+    :alt: Coverage
 
 A small application for Python 2 and 3 which generates `SWID tags
-<http://tagvault.org/swid-tags/>`_ from Linux package managers like dpkg, rpm or
+<https://csrc.nist.gov/projects/Software-Identification-SWID>`_ from Linux package managers like dpkg, rpm or
 pacman.
 
 
@@ -160,8 +162,8 @@ Installation
 The following package managers are supported:
 
 - dpkg (Debian, Ubuntu, Linux Mint, ...)
-- pacman (Arch Linux, Manjaro, ...)
 - rpm (Fedora, Red Hat, OpenSUSE, ...)
+- pacman (Arch Linux, Manjaro, ...)
 
 The following Python versions are fully supported:
 
@@ -179,8 +181,8 @@ To take advantage of the generator's whole functionality, following packages mus
 For the function --package-file (Generate SWID-Tag based on Package-File information):
 
 - Debian: tar, ar
-- Redhat: rpm2cpio, cpio
-- Archlinux: tar
+- Fedora: rpm2cpio, cpio
+- Arch: tar
 
 For the function --pkcs12 (Sign SWID-Tag):
 
@@ -189,7 +191,7 @@ For the function --pkcs12 (Sign SWID-Tag):
 Install with pip
 ----------------
 
-The recommended way to install swidGenerator is using `pip <http://pip.readthedocs.org/en/latest/>`_:
+The recommended way to install swidGenerator is using `pip <https://pip.pypa.io/en/latest/>`_:
 
 ::
 
@@ -239,8 +241,8 @@ Testing
 
 **Setup**
 
-Testing for swidGenerator is set up using `Tox <http://tox.readthedocs.org/>`_
-and `pytest <http://pytest.org/>`_. Violations of the coding guidelines (PEP8
+Testing for swidGenerator is set up using `Tox <https://tox.readthedocs.org/>`_
+and `pytest <https://pytest.org/>`_. Violations of the coding guidelines (PEP8
 with a few small tweaks) are counted as test fails.
 
 The only requirement to run the tests is tox::
@@ -265,8 +267,8 @@ corresponding Python versions installed::
 
 **Integration testing**
 
-The support on each distribution-base (Debian, Redhat and Archlinux) is guaranteed by the integration tests, which runs in docker containers.
-The Dockerfiles for these containers are hosted on `Dockerhub <http://hub.docker.com/>`_ and are pulled directly from the Travis-CI Build-server.
+The support on each distribution-base (Debian, Fedora and Arch) is guaranteed by the integration tests, which run in Docker containers.
+The Dockerfiles for these containers are hosted on `Docker Hub <https://hub.docker.com/r/strongswan/swidgenerator-dockerimages>`_ and are pulled directly from the CI build hosts.
 These tests are started by the `integration_test_runner.py` script as follows::
 
     python integration_test_runner.py <path_to_sourcecode_folder> <specific_python_version> <list_of_environments>;
@@ -275,13 +277,13 @@ These tests are started by the `integration_test_runner.py` script as follows::
 - <specific_python_version>:      Specific Python version (e.g: $TOXENV, Format: py27, py33, py36, etc.)
 - <list_of_environments>:         List of the environments. (e.g: dpkg pacman rpm)
 
-Usage of the docker containers are described on `Dockerhub-Repository <https://hub.docker.com/r/davidedegiorgio/swidgenerator-dockerimages/>`_
+The `swidGenerator-dockerimages repository <https://github.com/strongswan/swidGenerator-dockerimages>`_ provides more details on the Docker images.
 
 **CI**
 
 We use different continuous integration / quality assurance services:
 
-- Travis CI (testing): https://travis-ci.org/strongswan/swidGenerator
+- GitHub Actions (testing): https://github.com/strongswan/swidGenerator/actions
 - Coveralls (test coverage): https://coveralls.io/r/strongswan/swidGenerator
 
 
@@ -323,7 +325,7 @@ in the script for more information.
 Building the Manpage
 --------------------
 
-You can build a manpage using `Sphinx <http://sphinx-doc.org/>`_::
+You can build a manpage using `Sphinx <https://www.sphinx-doc.org/>`_::
 
     $ cd docs
     $ make man
