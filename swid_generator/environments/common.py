@@ -26,7 +26,11 @@ class CommonEnvironment(object):
         """
         Return machine type, e.g. 'x86_64 or 'i386'.
         """
-        return platform.machine()
+        arch = platform.machine()
+        if distro.id() == 'raspbian' and arch == 'armv7l':
+            arch = 'armhf'
+
+        return arch
 
     @staticmethod
     def get_os_string():
