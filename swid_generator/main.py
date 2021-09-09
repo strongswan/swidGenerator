@@ -27,6 +27,8 @@ import sys
 
 from glob import glob
 from shutil import rmtree
+
+from swid_generator.environments.opkg_environment import OpkgEnvironment
 from .argparser import MainArgumentParser
 from .environments.environment_registry import EnvironmentRegistry
 from .environments.dpkg_environment import DpkgEnvironment
@@ -50,6 +52,7 @@ def main():
     environment_registry.register('rpm', RpmEnvironment)
     environment_registry.register('dpkg', DpkgEnvironment)
     environment_registry.register('pacman', PacmanEnvironment)
+    environment_registry.register('opkg', OpkgEnvironment)
 
     # Parse arguments
     parser = MainArgumentParser(environment_registry)
