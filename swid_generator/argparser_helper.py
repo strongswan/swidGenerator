@@ -96,7 +96,7 @@ def meta_for_string(string):
 def package_path(string=None):
     if not os.path.exists(string):
         raise ArgumentTypeError("The file '{0}' does not exist".format(string))
-    elif string.endswith('.deb') or string.endswith('.rpm') or string.endswith('.pkg.tar.xz'):
+    elif string.endswith('.deb') or string.endswith('.rpm') or string.endswith('.pkg.tar.xz') or string.endswith('.ipk'):
         return string
     else:
         raise ArgumentTypeError("File '{0}' is not a valid Package.".format(string))
